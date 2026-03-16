@@ -1,0 +1,215 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Arabic (`ar`).
+class AppLocalizationsAr extends AppLocalizations {
+  AppLocalizationsAr([String locale = 'ar']) : super(locale);
+
+  @override
+  String get appTitle => 'Super Fitness';
+
+  @override
+  String get skip => 'تخطي';
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get done => 'تم';
+
+  @override
+  String get onboarding1Title => 'ثمن التميز هو الانضباط';
+
+  @override
+  String get onboarding2Title => 'اللياقة البدنية لم تكن أبداً بهذه المتعة';
+
+  @override
+  String get onboarding3Title => 'لا لمزيد من الأعذار\nابدأ الآن';
+
+  @override
+  String get loremIpsum =>
+      'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى.';
+
+  @override
+  String get welcomeBack => 'مرحباً بعودتك';
+
+  @override
+  String get heyThere => 'أهلاً بك';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get password => 'كلمة المرور';
+
+  @override
+  String get forgetPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get or => 'أو';
+
+  @override
+  String get login => 'تسجيل الدخول';
+
+  @override
+  String get dontHaveAccount => 'ليس لديك حساب بعد؟';
+
+  @override
+  String get registerNow => 'سجل الآن';
+
+  @override
+  String get createAccount => 'إنشاء حساب جديد';
+
+  @override
+  String get firstName => 'الاسم الأول';
+
+  @override
+  String get lastName => 'اسم العائلة';
+
+  @override
+  String get alreadyHaveAccount => 'لديك حساب بالفعل؟';
+
+  @override
+  String get tellUsAboutYourself => 'أخبرنا عن نفسك!';
+
+  @override
+  String get needToKnowGender => 'نحتاج لمعرفة جنسك';
+
+  @override
+  String get male => 'ذكر';
+
+  @override
+  String get female => 'أنثى';
+
+  @override
+  String get howOldAreYou => 'كم عمرك؟';
+
+  @override
+  String get whatIsYourWeight => 'ما هو وزنك؟';
+
+  @override
+  String get whatIsYourHeight => 'ما هو طولك؟';
+
+  @override
+  String get whatIsYourGoal => 'ما هو هدفك؟';
+
+  @override
+  String get personalizedPlanNote => 'هذا يساعدنا في إنشاء خطتك المخصصة';
+
+  @override
+  String get gainWeight => 'زيادة الوزن';
+
+  @override
+  String get loseWeight => 'خسارة الوزن';
+
+  @override
+  String get getFitter => 'تحسين اللياقة';
+
+  @override
+  String get gainMoreFlexible => 'زيادة المرونة';
+
+  @override
+  String get learnTheBasic => 'تعلم الأساسيات';
+
+  @override
+  String get physicalActivityLevel => 'ما هو مستوى نشاطك البدني المعتاد؟';
+
+  @override
+  String get rookie => 'مبتدئ جداً';
+
+  @override
+  String get beginner => 'مبتدئ';
+
+  @override
+  String get intermediate => 'متوسط';
+
+  @override
+  String get advance => 'متقدم';
+
+  @override
+  String get trueBeast => 'محترف (وحش)';
+
+  @override
+  String get enterYourEmail => 'أدخل بريدك الإلكتروني';
+
+  @override
+  String get otpCode => 'رمز التحقق (OTP)';
+
+  @override
+  String get checkYourEmail => 'أدخل رمز التحقق المرسل لبريدك الإلكتروني';
+
+  @override
+  String get didntReceiveCode => 'لم تصلك رسالة التحقق؟';
+
+  @override
+  String get resendCode => 'إعادة إرسال الرمز؟';
+
+  @override
+  String get confirm => 'تأكيد';
+
+  @override
+  String get createNewPassword => 'إنشاء كلمة مرور جديدة';
+
+  @override
+  String get passwordLengthNote => 'تأكد من أنها تتكون من 8 أحرف أو أكثر';
+
+  @override
+  String get emailRequired => 'البريد الإلكتروني مطلوب';
+
+  @override
+  String get emailInvalid => 'يرجى إدخال بريد إلكتروني صحيح';
+
+  @override
+  String get passwordRequired => 'كلمة المرور مطلوبة';
+
+  @override
+  String get passwordTooShort => 'كلمة المرور يجب ألا تقل عن 8 أحرف';
+
+  @override
+  String get passwordWeak => 'كلمة المرور ضعيفة جداً';
+
+  @override
+  String get passwordMismatch => 'كلمات المرور غير متطابقة';
+
+  @override
+  String get phoneRequired => 'رقم الهاتف مطلوب';
+
+  @override
+  String get phoneInvalid => 'يرجى إدخال رقم هاتف صحيح';
+
+  @override
+  String get nationalIdRequired => 'الرقم القومي مطلوب';
+
+  @override
+  String get nationalIdInvalidLength => 'الرقم القومي يجب أن يكون 14 رقماً';
+
+  @override
+  String get nationalIdInvalidChars =>
+      'الرقم القومي يجب أن يحتوي على أرقام فقط';
+
+  @override
+  String get vehicleNumberRequired => 'رقم المركبة مطلوب';
+
+  @override
+  String get vehicleNumberLength => 'رقم المركبة يجب أن يكون بين 3 و 10 أحرف';
+
+  @override
+  String get vehicleNumberInvalidChars =>
+      'رقم المركبة يجب أن يحتوي على حروف وأرقام فقط';
+
+  @override
+  String get sessionExpiredTitle => 'انتهت الجلسة';
+
+  @override
+  String get sessionExpiredMessage =>
+      'لقد انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى.';
+
+  @override
+  String get loginTitle => 'تسجيل الدخول';
+}
