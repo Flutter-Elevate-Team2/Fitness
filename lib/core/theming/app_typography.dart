@@ -5,35 +5,29 @@ class AppTypography {
 
   static const String fontFamily = 'BalooThambi2';
 
-  static const TextStyle displayLarge = TextStyle(
-    fontSize: 31,
-    fontWeight: FontWeight.w700,
-    height: 1.2,
-  );
-
-  static const TextStyle displayMedium = TextStyle(
+  static const TextStyle headlineLarge = TextStyle(
     fontSize: 24,
-    fontWeight: FontWeight.w700,
-    height: 1.2,
-  );
+    fontWeight: FontWeight.w800,
+    height: 1.4,
+    );
 
   static const TextStyle titleLarge = TextStyle(
     fontSize: 20,
-    fontWeight: FontWeight.w600,
-  );
+    fontWeight: FontWeight.w800,
+   );
 
   static const TextStyle bodyLarge = TextStyle(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
   );
 
   static const TextStyle bodyMedium = TextStyle(
-    fontSize: 13,
-    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
   );
 
   static const TextStyle labelLarge = TextStyle(
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: FontWeight.w400,
   );
 

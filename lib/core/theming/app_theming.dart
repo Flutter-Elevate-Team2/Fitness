@@ -10,20 +10,17 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       fontFamily: AppTypography.fontFamily,
-      scaffoldBackgroundColor: AppColors.background,
-
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
         onPrimary: Colors.white,
-        surface: AppColors.surface,
-        onSurface: AppColors.textPrimary,
-        error: AppColors.error,
-        outline: AppColors.border,
+         onSurface: AppColors.primary,
+        error: AppColors.red,
+        outline: AppColors.primary,
       ),
 
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.background,
-        elevation: 0,
+        iconTheme: IconThemeData(color: AppColors.white),
+         elevation: 0,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -34,8 +31,7 @@ class AppTheme {
       ),
 
       textTheme: const TextTheme(
-        displayLarge: AppTypography.displayLarge,
-        displayMedium: AppTypography.displayMedium,
+        headlineLarge: AppTypography.headlineLarge,
         titleLarge: AppTypography.titleLarge,
         bodyLarge: AppTypography.bodyLarge,
         bodyMedium: AppTypography.bodyMedium,
@@ -47,7 +43,7 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.white,
           elevation: 0,
           minimumSize: const Size(double.infinity, 52),
           shape: RoundedRectangleBorder(
@@ -58,15 +54,13 @@ class AppTheme {
       ),
 
       inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: AppColors.surface,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-        hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.textSecondary),
-        prefixIconColor: AppColors.textSecondary,
-        suffixIconColor: AppColors.textSecondary,
+        hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.light400),
+        prefixIconColor: AppColors.light400,
+        suffixIconColor: AppColors.light400,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.border, width: 1),
+          borderSide: const BorderSide(color: AppColors.light400, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -74,11 +68,11 @@ class AppTheme {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.error, width: 1),
+          borderSide: const BorderSide(color: AppColors.red, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.error, width: 1.5),
+          borderSide: const BorderSide(color: AppColors.red, width: 1.5),
         ),
       ),
     );
