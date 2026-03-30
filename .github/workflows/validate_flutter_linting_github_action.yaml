@@ -1,0 +1,32 @@
+name: Flutter Linting
+
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Dummy .env
+        run: touch .env
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate files
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Run Flutter Analyzer
+        run: flutter analyze

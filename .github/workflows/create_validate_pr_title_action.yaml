@@ -1,0 +1,30 @@
+name: Create Validate PR Title
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+jobs:
+  validate-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const titleRegex = /^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)(\([a-zA-Z0-9-]+\))?:\s.+$/;            
+            if (!titleRegex.test(title)) {
+              core.setFailed(
+                `❌ Invalid PR Title: "${title}".\n` +
+                `Expected format: type(scope): {TicketNum}-task name\n` +
+                `Allowed types: fix, release, feat, hotfix, build, test\n` +
+                `Allowed scopes: {PROJECT-123}, JIRA-123\n` +
+                `Example: feat(TEAM2-27): TEAM2-27-initialize project`
+              );
+            } else {
+              console.log(`✅ PR title format is valid: "${title}"`);
+            }
