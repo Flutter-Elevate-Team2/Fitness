@@ -1,8 +1,10 @@
+import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Routes {
   static const String onBoardingPath = '/onBoarding';
@@ -36,15 +38,31 @@ class AppRouter {
     initialLocation: Routes.onBoardingPath,
     redirect: (context, state) async {
       final secureStorage = getIt<FlutterSecureStorage>();
+
+      final prefs = getIt<SharedPreferences>();
+
       final token = await secureStorage.read(key: ApiConstants.tokenKey);
       final isLoggedIn = token != null && token.isNotEmpty;
 
-      final isAuthRoute = state.matchedLocation == Routes.loginPath ||
+      final isFirstTime = prefs.getBool(ApiConstants.onboardingKey) ?? true;
+
+      final isAuthRoute =
+          state.matchedLocation == Routes.loginPath ||
           state.matchedLocation == Routes.signupPath ||
           state.matchedLocation == Routes.onBoardingPath ||
           state.matchedLocation == Routes.forgetPasswordPath ||
           state.matchedLocation == Routes.verifyCodePath ||
           state.matchedLocation == Routes.resetPasswordPath;
+
+      if (isFirstTime && state.matchedLocation != Routes.onBoardingPath) {
+        return Routes.onBoardingPath;
+      }
+
+      if (!isFirstTime &&
+          state.matchedLocation == Routes.onBoardingPath &&
+          !isLoggedIn) {
+        return Routes.loginPath;
+      }
 
       if (!isLoggedIn && !isAuthRoute) {
         return Routes.loginPath;
@@ -60,7 +78,7 @@ class AppRouter {
       GoRoute(
         path: Routes.onBoardingPath,
         name: Routes.onBoardingName,
-        builder: (context, state) => Container(),
+        builder: (context, state) => OnboardingScreen(),
       ),
       GoRoute(
         path: Routes.loginPath,
@@ -92,7 +110,6 @@ class AppRouter {
         name: Routes.homeName,
         builder: (context, state) => Container(),
       ),
-
     ],
   );
 }
