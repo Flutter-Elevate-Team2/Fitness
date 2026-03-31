@@ -8,6 +8,8 @@ class CustomButton extends StatelessWidget {
   final Color? foregroundColor;
   final Color? disabledBackgroundColor;
   final Color? disabledForegroundColor;
+  final bool hasBorder;
+  final Color? borderColor;
 
   const CustomButton({
     required this.title,
@@ -16,6 +18,8 @@ class CustomButton extends StatelessWidget {
     this.foregroundColor,
     this.disabledBackgroundColor,
     this.disabledForegroundColor,
+    this.hasBorder = false,
+    this.borderColor,
     super.key,
   });
 
@@ -27,12 +31,10 @@ class CustomButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: SizedBox(
         width: double.infinity,
-        height: 48,
+        height: 38,
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,
 
@@ -41,9 +43,11 @@ class CustomButton extends StatelessWidget {
             disabledForegroundColor:
                 disabledForegroundColor ?? AppColors.white,
 
-            side: (!isDisabled && backgroundColor == AppColors.white)
+            side: hasBorder
+                ? BorderSide(color: borderColor ?? AppColors.primary, width: 1)
+                : ((!isDisabled && backgroundColor == AppColors.white)
                 ? BorderSide(color: AppColors.light400)
-                : null,
+                : null),
 
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100),
