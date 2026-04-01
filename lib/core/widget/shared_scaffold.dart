@@ -10,6 +10,7 @@ class SharedScaffold extends StatelessWidget {
   final Widget? title;
   final double? foregroundImageHeight;
   final double? foregroundImageTop;
+  final double appBarTopPadding;
 
   const SharedScaffold({
     super.key,
@@ -20,6 +21,7 @@ class SharedScaffold extends StatelessWidget {
     this.title,
     this.foregroundImageHeight,
     this.foregroundImageTop,
+    this.appBarTopPadding = 20.0,
   });
 
   @override
@@ -39,38 +41,46 @@ class SharedScaffold extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.black,
         extendBodyBehindAppBar: true,
+
         appBar: hideAppBar
             ? null
-            : AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                centerTitle: true,
-                title: title,
-                automaticallyImplyLeading: false,
-                leading: showBackButton
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: const BoxDecoration(
-                                color: AppColors.primary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.keyboard_arrow_left_rounded,
-                                size: 16,
-                                color: Colors.white,
+            : PreferredSize(
+                preferredSize: Size.fromHeight(kToolbarHeight + appBarTopPadding),
+                child: Padding(
+                  padding: EdgeInsets.only(top: appBarTopPadding),
+                  child: AppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    centerTitle: true,
+                    title: title, 
+                    automaticallyImplyLeading: false,
+                    leading: showBackButton
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () => Navigator.pop(context),
+                                child: Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.keyboard_arrow_left_rounded,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      )
-                    : null,
+                          )
+                        : null,
+                  ),
+                ),
               ),
+
         body: Stack(
           children: [
             if (backgroundImage != null)

@@ -1,3 +1,5 @@
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/activity_screen.dart';
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/goal_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,12 @@ class Routes {
 
   static const String homePath = '/home';
   static const String homeName = 'home';
+
+  static const String activityPath = '/activity';
+  static const String activityName = 'activity';
+
+  static const String goalPath = '/goal';
+  static const String goalName = 'goal';
 }
 
 class AppRouter {
@@ -33,29 +41,29 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.onBoardingPath,
-    redirect: (context, state) async {
-      final secureStorage = getIt<FlutterSecureStorage>();
-      final token = await secureStorage.read(key: ApiConstants.tokenKey);
-      final isLoggedIn = token != null && token.isNotEmpty;
+    initialLocation: Routes.goalPath,
+    // redirect: (context, state) async {
+    //   final secureStorage = getIt<FlutterSecureStorage>();
+    //   final token = await secureStorage.read(key: ApiConstants.tokenKey);
+    //   final isLoggedIn = token != null && token.isNotEmpty;
 
-      final isAuthRoute = state.matchedLocation == Routes.loginPath ||
-          state.matchedLocation == Routes.signupPath ||
-          state.matchedLocation == Routes.onBoardingPath ||
-          state.matchedLocation == Routes.forgetPasswordPath ||
-          state.matchedLocation == Routes.verifyCodePath ||
-          state.matchedLocation == Routes.resetPasswordPath;
+    //   final isAuthRoute = state.matchedLocation == Routes.loginPath ||
+    //       state.matchedLocation == Routes.signupPath ||
+    //       state.matchedLocation == Routes.onBoardingPath ||
+    //       state.matchedLocation == Routes.forgetPasswordPath ||
+    //       state.matchedLocation == Routes.verifyCodePath ||
+    //       state.matchedLocation == Routes.resetPasswordPath;
 
-      if (!isLoggedIn && !isAuthRoute) {
-        return Routes.loginPath;
-      }
+    //   if (!isLoggedIn && !isAuthRoute) {
+    //     return Routes.loginPath;
+    //   }
 
-      if (isLoggedIn && isAuthRoute) {
-        return Routes.homePath;
-      }
+    //   if (isLoggedIn && isAuthRoute) {
+    //     return Routes.homePath;
+    //   }
 
-      return null;
-    },
+    //   return null;
+    // },
     routes: [
       GoRoute(
         path: Routes.onBoardingPath,
@@ -91,6 +99,16 @@ class AppRouter {
         path: Routes.homePath,
         name: Routes.homeName,
         builder: (context, state) => Container(),
+      ),
+      GoRoute(
+        path: Routes.activityPath,
+        name: Routes.activityName,
+        builder: (context, state) => const ActivityScreen(),
+      ),
+      GoRoute(
+        path: Routes.goalPath,
+        name: Routes.goalName,
+        builder: (context, state) => const GoalScreen(),
       ),
 
     ],
