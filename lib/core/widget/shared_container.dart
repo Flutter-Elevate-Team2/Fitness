@@ -36,9 +36,9 @@ class SharedContainer extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.blackSoft.withValues(alpha: opacity ?? 0.5),
             borderRadius: customRadius,
-            border: Border.all(
-              color: AppColors.light600.withValues(alpha: 0.2),
-            ),
+            // border: Border.all(
+            //   color: AppColors.light600.withValues(alpha: 0.2),
+            // ),
           ),
           child: child,
         ),
