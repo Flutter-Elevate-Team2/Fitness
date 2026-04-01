@@ -1,67 +1,67 @@
-# name: Flutter CI/CD
+name: Flutter CI/CD
 
-# on:
-#   push:
-#     branches:
-#       - main
-#       - development
-#       - release/demo
+on:
+  push:
+    branches:
+      - main
+      - development
+      - release/demo
 
-#   pull_request:
-#     branches:
-#       - main
-#       - development
+  pull_request:
+    branches:
+      - main
+      - development
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-#     steps:
+    steps:
 
-#       - name: Checkout My Code
-#         uses: actions/checkout@v3
+      - name: Checkout My Code
+        uses: actions/checkout@v3
 
-#       # 2️⃣ Setup Java (required for Android build)
-#       - name: Setup Java 17
-#         uses: actions/setup-java@v3
-#         with:
-#           distribution: 'temurin'
-#           java-version: '17'
+      # 2️⃣ Setup Java (required for Android build)
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-#       # 3️⃣ Install Flutter
-#       - name: Install Flutter Version 3.38.6
-#         uses: subosito/flutter-action@v2
-#         with:
-#           flutter-version: '3.38.6'
+      # 3️⃣ Install Flutter
+      - name: Install Flutter Version 3.38.6
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.6'
 
-#       # 4️⃣ Install dependencies
-#       - name: Install Dependencies
-#         run: flutter pub get
+      # 4️⃣ Install dependencies
+      - name: Install Dependencies
+        run: flutter pub get
 
-#       # 5️⃣ Generate code (JSON Serializable, Retrofit, Mockito)
-#       - name: Generate code
-#         run: flutter pub run build_runner build --delete-conflicting-outputs
+      # 5️⃣ Generate code (JSON Serializable, Retrofit, Mockito)
+      - name: Generate code
+        run: flutter pub run build_runner build --delete-conflicting-outputs
 
-#       - name: Create .env file from secrets
-#         run: echo "${{ secrets.ENV_FILE }}" > .env
+      - name: Create .env file from secrets
+        run: echo "${{ secrets.ENV_FILE }}" > .env
 
-#       # # 6️⃣ Run tests
-#       - name: Run Tests
-#         run: flutter test --coverage
+      # # 6️⃣ Run tests
+      - name: Run Tests
+        run: flutter test --coverage
 
-#       # 7️⃣ Build APK release
-#       - name: Build APK
-#         run: flutter build apk --release --no-tree-shake-icons
+      # 7️⃣ Build APK release
+      - name: Build APK
+        run: flutter build apk --release --no-tree-shake-icons
 
-#       # 8️⃣ List APK output (optional, for debug)
-#       - name: List APK
-#         run: ls build/app/outputs/flutter-apk
+      # 8️⃣ List APK output (optional, for debug)
+      - name: List APK
+        run: ls build/app/outputs/flutter-apk
 
-#       # 9️⃣ Upload APK to Firebase App Distribution
-#       - name: Upload artifact to Firebase App Distribution
-#         uses: wzieba/Firebase-Distribution-Github-Action@v1
-#         with:
-#           appId: ${{secrets.APP_ID}}
-#           serviceCredentialsFileContent: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-#           groups: Testers
-#           file: build/app/outputs/flutter-apk/app-release.apk
+      # 9️⃣ Upload APK to Firebase App Distribution
+      - name: Upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.APP_ID}}
+          serviceCredentialsFileContent: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+          groups: Testers
+          file: build/app/outputs/flutter-apk/app-release.apk
