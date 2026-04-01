@@ -44,7 +44,8 @@ class AppRouter {
       final token = await secureStorage.read(key: ApiConstants.tokenKey);
       final isLoggedIn = token != null && token.isNotEmpty;
 
-      final isFirstTime = prefs.getBool(ApiConstants.onboardingKey) ?? true;
+      final hasVisitedOnboarding =
+          prefs.getBool(ApiConstants.onboardingKey) ?? false;
 
       final isAuthRoute =
           state.matchedLocation == Routes.loginPath ||
@@ -54,13 +55,13 @@ class AppRouter {
           state.matchedLocation == Routes.verifyCodePath ||
           state.matchedLocation == Routes.resetPasswordPath;
 
-      if (isFirstTime && state.matchedLocation != Routes.onBoardingPath) {
+      if (!hasVisitedOnboarding &&
+          state.matchedLocation != Routes.onBoardingPath) {
         return Routes.onBoardingPath;
       }
 
-      if (!isFirstTime &&
-          state.matchedLocation == Routes.onBoardingPath &&
-          !isLoggedIn) {
+      if (hasVisitedOnboarding &&
+          state.matchedLocation == Routes.onBoardingPath) {
         return Routes.loginPath;
       }
 

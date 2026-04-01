@@ -1,4 +1,5 @@
 import 'package:fitness_app/Features/onboarding/domain/entities/onboarding_entity.dart';
+import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class OnboardingContentWidget extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: AppTypography.headlineLarge.copyWith(
-              color: Colors.white,
+              color: AppColors.white,
               fontSize: 26,
               height: 1.2,
             ),
@@ -30,7 +31,7 @@ class OnboardingContentWidget extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 16,
-            color: Colors.white70,
+            color: AppColors.light400,
             height: 1.5,
           ),
         ),
