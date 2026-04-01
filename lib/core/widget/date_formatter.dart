@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 String formatDate(String dateStr, {String? locale}) {
