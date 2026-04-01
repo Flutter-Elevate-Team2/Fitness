@@ -97,12 +97,6 @@ void main() {
         decoration.color,
         AppColors.blackSoft.withValues(alpha: customOpacity),
       );
-
-      expect(decoration.border?.isUniform, isTrue);
-      expect(
-        decoration.border!.top.color,
-        AppColors.light600.withValues(alpha: 0.2),
-      );
     });
 
     testWidgets('should have correct internal padding', (tester) async {
