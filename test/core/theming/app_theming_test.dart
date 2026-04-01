@@ -1,6 +1,5 @@
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/theming/app_theming.dart';
-import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
