@@ -93,7 +93,6 @@ class AppRouter {
         name: Routes.homeName,
         builder: (context, state) => Container(),
       ),
-
     ],
   );
 }

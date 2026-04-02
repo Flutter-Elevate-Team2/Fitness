@@ -25,9 +25,6 @@ class PillTextFormField extends StatelessWidget {
     this.onChanged,
   });
 
-  /// Creates a pill-shaped [OutlineInputBorder] with the given [color] and
-  /// [width]. Extracted as a helper to avoid repeating the same border
-  /// construction four times (DRY).
   static OutlineInputBorder _pillBorder(Color color, {double width = 1}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(100),
@@ -60,8 +57,6 @@ class PillTextFormField extends StatelessWidget {
         filled: false,
         contentPadding: themeDecoration.contentPadding,
 
-        /// Only the borders and their colors differ from the global theme
-        /// (pill radius 100 + white enabled border vs. the theme's radius 12).
         enabledBorder: _pillBorder(AppColors.white),
         focusedBorder: _pillBorder(AppColors.primary, width: 1.5),
         errorBorder: _pillBorder(AppColors.red),

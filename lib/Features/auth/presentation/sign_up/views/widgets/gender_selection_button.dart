@@ -31,11 +31,6 @@ class GenderSelectionButton extends StatelessWidget {
             curve: Curves.easeInOut,
             width: 120,
             height: 120,
-            // decoration: BoxDecoration(
-            //   shape: BoxShape.circle,
-            //   color: Colors.transparent,
-            //   border: Border.all(color: activeColor, width: 2),
-            // ),
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Image.asset(

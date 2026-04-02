@@ -9,6 +9,7 @@ class SignupWeightStep extends StatelessWidget {
   final ValueChanged<int> onWeightChanged;
   final VoidCallback onNextStep;
   final int currentStep;
+  final VoidCallback onBackButtonPressed;
 
   const SignupWeightStep({
     super.key,
@@ -16,11 +17,13 @@ class SignupWeightStep extends StatelessWidget {
     required this.onWeightChanged,
     required this.onNextStep,
     required this.currentStep,
+    required this.onBackButtonPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return SharedAuthLayout(
+      onBackPressed: onBackButtonPressed,
       title: context.l10n.whatIsYourWeight,
       subtitle: context.l10n.personalizedPlanNote,
       showBackButton: true,

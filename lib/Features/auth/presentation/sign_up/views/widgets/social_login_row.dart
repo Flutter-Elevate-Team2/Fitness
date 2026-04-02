@@ -1,3 +1,5 @@
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_icon_button.dart';
+import 'package:fitness_app/core/constants/app_assets.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -37,22 +39,22 @@ class SocialLoginRow extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _SocialIconButton(
-              assetPath: 'assets/icons/facebook.png',
+            SocialIconButton(
+              assetPath: AppAssets.facebookIcon,
               onTap: () {
                 // TODO: Facebook login
               },
             ),
             const SizedBox(width: 24),
-            _SocialIconButton(
-              assetPath: 'assets/icons/Google.png',
+            SocialIconButton(
+              assetPath: AppAssets.googleIcon,
               onTap: () {
                 // TODO: Google login
               },
             ),
             const SizedBox(width: 24),
-            _SocialIconButton(
-              assetPath: 'assets/icons/Apple.png',
+            SocialIconButton(
+              assetPath: AppAssets.appleIcon,
               onTap: () {
                 // TODO: Apple login
               },
@@ -64,29 +66,4 @@ class SocialLoginRow extends StatelessWidget {
   }
 }
 
-class _SocialIconButton extends StatelessWidget {
-  final String assetPath;
-  final VoidCallback? onTap;
 
-  const _SocialIconButton({
-    required this.assetPath,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 48,
-        height: 48,
-        
-        padding: const EdgeInsets.all(10),
-        child: Image.asset(
-          assetPath,
-          fit: BoxFit.contain,
-        ),
-      ),
-    );
-  }
-}

@@ -1,3 +1,5 @@
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/activity_screen.dart';
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/goal_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_age_step.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_first_step.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_gender_step.dart';
@@ -59,6 +61,17 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
+  void _goToPreviousPage() {
+    if (_currentStep > 0) {
+      _pageController.previousPage(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
               setState(() => _selectedGender = gender);
             },
             onNextStep: _goToNextPage,
+            onBackButtonPressed: _goToPreviousPage,
           ),
 
           /// ── Step 3: Age ──
@@ -93,6 +107,7 @@ class _SignupScreenState extends State<SignupScreen> {
             currentStep: _currentStep,
             onAgeChanged: (age) => setState(() => _selectedAge = age),
             onNextStep: _goToNextPage,
+            onBackButtonPressed: _goToPreviousPage,
           ),
 
           /// ── Step 4: Weight ──
@@ -101,6 +116,7 @@ class _SignupScreenState extends State<SignupScreen> {
             currentStep: _currentStep,
             onWeightChanged: (w) => setState(() => _selectedWeight = w),
             onNextStep: _goToNextPage,
+            onBackButtonPressed: _goToPreviousPage,
           ),
 
           /// ── Step 5: Height ──
@@ -109,10 +125,25 @@ class _SignupScreenState extends State<SignupScreen> {
             currentStep: _currentStep,
             onHeightChanged: (h) => setState(() => _selectedHeight = h),
             onNextStep: _goToNextPage,
+            onBackButtonPressed: _goToPreviousPage,
           ),
 
-          /// ── Step 6: Placeholder ──
-          Container(color: AppColors.black),
+          /// —— Step 6: Goal
+          GoalScreen(
+            currentStep: _currentStep ,
+            onNextStep: _goToNextPage,
+            onBackButtonPressed: _goToPreviousPage,
+          ),
+
+          /// —— Step 7: Activity Level
+          ActivityScreen(
+            currentStep: _currentStep ,
+            onNextStep: () {
+              // TODO: implement signup
+              print("UI Flow Finished!");
+            },
+            onBackButtonPressed: _goToPreviousPage,
+          ),
         ],
       ),
     );

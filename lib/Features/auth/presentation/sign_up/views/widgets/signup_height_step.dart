@@ -9,6 +9,7 @@ class SignupHeightStep extends StatelessWidget {
   final ValueChanged<int> onHeightChanged;
   final VoidCallback onNextStep;
   final int currentStep;
+  final VoidCallback onBackButtonPressed;
 
   const SignupHeightStep({
     super.key,
@@ -16,11 +17,13 @@ class SignupHeightStep extends StatelessWidget {
     required this.onHeightChanged,
     required this.onNextStep,
     required this.currentStep,
+    required this.onBackButtonPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return SharedAuthLayout(
+      onBackPressed: onBackButtonPressed,
       title: context.l10n.whatIsYourHeight,
       subtitle: context.l10n.personalizedPlanNote,
       showBackButton: true,

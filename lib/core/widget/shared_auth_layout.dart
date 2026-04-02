@@ -15,6 +15,7 @@ class SharedAuthLayout extends StatelessWidget {
   final VoidCallback? onButtonPressed;
   final Widget? stepIndicator;
   final Widget? underButtonWidget;
+  final VoidCallback? onBackPressed;
 
   const SharedAuthLayout({
     super.key,
@@ -26,7 +27,7 @@ class SharedAuthLayout extends StatelessWidget {
     this.onButtonPressed,
     this.stepIndicator,
     this.underButtonWidget,
-    this.isGreeting = false,
+    this.isGreeting = false, this.onBackPressed,
   });
 
   @override
@@ -49,72 +50,69 @@ class SharedAuthLayout extends StatelessWidget {
             fontWeight: FontWeight.normal,
           );
 
-    return SharedScaffold(
+   return SharedScaffold(
       showBackButton: showBackButton,
+      onBackButtonPressed: onBackPressed,
       title: Image.asset(Assets.images.appIcon1.path, height: 38),
       backgroundImage: Assets.images.authBackground.path,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Spacer(flex: 2),
 
-                    /// Indicator for register
-                    if (stepIndicator != null) ...[
-                      Center(child: stepIndicator!),
-                      const SizedBox(height: 20),
+      body: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Spacer(flex: 2),
+
+                if (stepIndicator != null) ...[
+                  Center(child: stepIndicator!),
+                  const SizedBox(height: 20),
+                ],
+
+                /// Head Text
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: topStyle),
+                      Text(subtitle, style: bottomStyle),
                     ],
-
-                    /// Head Text
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(title, style: topStyle),
-                          Text(subtitle, style: bottomStyle),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-
-                    /// Container
-                    SharedContainer(
-                      borderRadius: 50,
-                      blur: 20.6,
-                      opacity: .0001,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          formBody,
-                          const SizedBox(height: 24),
-                          CustomButton(
-                            title: buttonTitle,
-                            onPressed: onButtonPressed,
-                            backgroundColor: AppColors.primary,
-                          ),
-                          if (underButtonWidget != null) ...[
-                            const SizedBox(height: 16),
-                            underButtonWidget!,
-                          ],
-                        ],
-                      ),
-                    ),
-
-                    const Spacer(flex: 3),
-
-                    const SizedBox(height: 20),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 16),
+
+                /// Container
+                SharedContainer(
+                  borderRadius: 50,
+                  blur: 20.6,
+                  opacity: .0001,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      formBody,
+                      const SizedBox(height: 24),
+                      CustomButton(
+                        title: buttonTitle,
+                        onPressed: onButtonPressed,
+                        backgroundColor: AppColors.primary,
+                      ),
+                      if (underButtonWidget != null) ...[
+                        const SizedBox(height: 16),
+                        underButtonWidget!,
+                      ],
+                    ],
+                  ),
+                ),
+
+                const Spacer(flex: 3),
+                const SizedBox(height: 20),
+              ],
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/custom_step_progress.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/gender_selection_button.dart';
+import 'package:fitness_app/core/constants/app_assets.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/widget/shared_auth_layout.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class SignupGenderStep extends StatelessWidget {
   final ValueChanged<String> onGenderSelected;
   final VoidCallback onNextStep;
   final int currentStep;
+  final VoidCallback onBackButtonPressed;
 
   const SignupGenderStep({
     super.key,
@@ -16,11 +18,13 @@ class SignupGenderStep extends StatelessWidget {
     required this.onGenderSelected,
     required this.onNextStep,
     required this.currentStep,
+    required this.onBackButtonPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return SharedAuthLayout(
+      onBackPressed: onBackButtonPressed,
       title: context.l10n.tellUsAboutYourself,
       subtitle: context.l10n.needToKnowGender,
       showBackButton: false,
@@ -38,14 +42,14 @@ class SignupGenderStep extends StatelessWidget {
         children: [
           GenderSelectionButton(
             label: context.l10n.male,
-            imagePath: 'assets/icons/male.png',
+            imagePath: AppAssets.maleIcon,
             isSelected: selectedGender == 'male',
             onTap: () => onGenderSelected('male'),
           ),
           const SizedBox(height: 24),
           GenderSelectionButton(
             label: context.l10n.female,
-            imagePath: 'assets/icons/female.png',
+            imagePath: AppAssets.femaleIcon,
             isSelected: selectedGender == 'female',
             onTap: () => onGenderSelected('female'),
           ),

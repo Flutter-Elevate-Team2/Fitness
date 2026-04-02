@@ -36,9 +36,9 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
   Widget build(BuildContext context) {
     return SharedAuthLayout(
       title: context.l10n.heyThere,
-      
+
       subtitle: context.l10n.createAccount,
-      showBackButton: true,
+      showBackButton: false,
       isGreeting: true,
       buttonTitle: context.l10n.registerNow,
       onButtonPressed: () {
