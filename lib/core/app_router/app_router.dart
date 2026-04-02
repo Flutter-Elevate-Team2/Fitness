@@ -1,3 +1,4 @@
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.onBoardingPath,
+    initialLocation: Routes.signupPath,
     redirect: (context, state) async {
       final secureStorage = getIt<FlutterSecureStorage>();
       final token = await secureStorage.read(key: ApiConstants.tokenKey);
@@ -70,7 +71,7 @@ class AppRouter {
       GoRoute(
         path: Routes.signupPath,
         name: Routes.signupName,
-        builder: (context, state) => Container(),
+        builder: (context, state) => const SignupScreen(),
       ),
       GoRoute(
         path: Routes.forgetPasswordPath,

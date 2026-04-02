@@ -32,7 +32,7 @@ class SharedAuthLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle topStyle = isGreeting
-        ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+        ? Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: AppColors.white,
             fontWeight: FontWeight.normal,
           )
