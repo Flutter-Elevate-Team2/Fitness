@@ -10,6 +10,8 @@ class SharedScaffold extends StatelessWidget {
   final Widget? title;
   final double? foregroundImageHeight;
   final double? foregroundImageTop;
+  final double appBarTopPadding;
+  final VoidCallback? onBackButtonPressed;
 
   const SharedScaffold({
     super.key,
@@ -20,6 +22,8 @@ class SharedScaffold extends StatelessWidget {
     this.title,
     this.foregroundImageHeight,
     this.foregroundImageTop,
+    this.appBarTopPadding = 20.0,
+    this.onBackButtonPressed,
   });
 
   @override
@@ -39,38 +43,6 @@ class SharedScaffold extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.black,
         extendBodyBehindAppBar: true,
-        appBar: hideAppBar
-            ? null
-            : AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                centerTitle: true,
-                title: title,
-                automaticallyImplyLeading: false,
-                leading: showBackButton
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: const BoxDecoration(
-                                color: AppColors.primary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.keyboard_arrow_left_rounded,
-                                size: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    : null,
-              ),
         body: Stack(
           children: [
             if (backgroundImage != null)
@@ -90,7 +62,54 @@ class SharedScaffold extends StatelessWidget {
                 ),
               ),
 
-            SafeArea(child: body),
+            hideAppBar
+                ? SafeArea(child: body)
+                : NestedScrollView(
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        SliverPadding(
+                          padding: EdgeInsets.only(top: appBarTopPadding),
+                          sliver: SliverAppBar(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            centerTitle: true,
+                            title: title,
+                            automaticallyImplyLeading: false,
+
+                            floating: true,
+                            pinned: false,
+                            snap: true,
+
+                            leading: showBackButton
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 16.0),
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: onBackButtonPressed ??
+                                            () => Navigator.pop(context),
+                                        child: Container(
+                                          width: 24,
+                                          height: 24,
+                                          decoration: const BoxDecoration(
+                                            color: AppColors.primary,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(
+                                            Icons.keyboard_arrow_left_rounded,
+                                            size: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ),
+                      ];
+                    },
+                    body: body,
+                  ),
           ],
         ),
       ),
