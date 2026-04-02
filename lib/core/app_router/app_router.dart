@@ -1,3 +1,4 @@
+import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
@@ -35,7 +36,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.onBoardingPath,
+    initialLocation: Routes.loginPath,
     redirect: (context, state) async {
       final secureStorage = getIt<FlutterSecureStorage>();
 
@@ -84,7 +85,7 @@ class AppRouter {
       GoRoute(
         path: Routes.loginPath,
         name: Routes.loginName,
-        builder: (context, state) => Container(),
+        builder: (context, state) => LoginScreen(),
       ),
       GoRoute(
         path: Routes.signupPath,
