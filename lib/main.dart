@@ -5,6 +5,7 @@ import 'package:fitness_app/core/controller/session_expired.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:fitness_app/core/theming/app_theming.dart';
+import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _sessionController = getIt<SessionController>();
   final List<StreamSubscription> _subscriptions = [];
-
+  bool _isSplashRemoved = false;
   @override
   void initState() {
     super.initState();
@@ -43,6 +44,17 @@ class _MyAppState extends State<MyApp> {
         AppRouter.router.goNamed(Routes.onBoardingName);
       })
     );
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_isSplashRemoved) {
+      precacheImage(AssetImage(Assets.images.authBackground.path), context).then((_) {
+        FlutterNativeSplash.remove();
+        _isSplashRemoved = true;
+      });
+    }
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_icon_button.dart';
-import 'package:fitness_app/core/constants/app_assets.dart';
+import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -40,21 +40,21 @@ class SocialLoginRow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SocialIconButton(
-              assetPath: AppAssets.facebookIcon,
+              assetPath: Assets.icons.facebook.path,
               onTap: () {
                 // TODO: Facebook login
               },
             ),
             const SizedBox(width: 24),
             SocialIconButton(
-              assetPath: AppAssets.googleIcon,
+              assetPath: Assets.icons.google.path,
               onTap: () {
                 // TODO: Google login
               },
             ),
             const SizedBox(width: 24),
             SocialIconButton(
-              assetPath: AppAssets.appleIcon,
+              assetPath: Assets.icons.apple.path,
               onTap: () {
                 // TODO: Apple login
               },
