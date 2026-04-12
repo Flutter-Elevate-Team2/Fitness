@@ -4,23 +4,15 @@ import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class LoginForm extends StatelessWidget {
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
-  @override
-  State<LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  const LoginForm({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +28,11 @@ class _LoginFormState extends State<LoginForm> {
         const SizedBox(height: 16),
 
         /// Email Field
-        EmailField(controller: _emailController, onChanged: () {}),
+        EmailField(controller: emailController, onChanged: () {}),
+        const SizedBox(height: 16),
 
         /// Password Field
-        PasswordField(controller: _passwordController, onChanged: () {}),
+        PasswordField(controller: passwordController, onChanged: () {}),
         const SizedBox(height: 16),
 
         /// Forget Password
@@ -56,15 +49,21 @@ class _LoginFormState extends State<LoginForm> {
         const SizedBox(height: 16),
 
         /// OR Row
-        Row(
-          children: [
-            Expanded(child: Divider(color: Colors.white30)),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text(context.l10n.or, style: TextStyle(color: Colors.white)),
-            ),
-            Expanded(child: Divider(color: Colors.white30)),
-          ],
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 42),
+          child: Row(
+            children: [
+              Expanded(child: Divider(color: Colors.white, height: 1)),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  context.l10n.or,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              Expanded(child: Divider(color: Colors.white, height: 1)),
+            ],
+          ),
         ),
         const SizedBox(height: 16),
 
@@ -72,32 +71,29 @@ class _LoginFormState extends State<LoginForm> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _socialIcon(Icons.facebook as String),
+            _socialIcon(Icons.facebook),
             const SizedBox(width: 20),
-            _socialIcon(Icons.g_mobiledata as String),
+            _socialIcon(Icons.g_mobiledata),
             const SizedBox(width: 20),
-            _socialIcon(Icons.apple as String),
+            _socialIcon(Icons.apple),
           ],
         ),
       ],
     );
   }
-  Widget _socialIcon(String assetPath, {VoidCallback? onTap}) {
+
+  Widget _socialIcon(IconData icon, {VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 50,
         height: 50,
-        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.3),
+          color: AppColors.black.withValues(alpha: 0.3),
           shape: BoxShape.circle,
           border: Border.all(color: Colors.white10),
         ),
-        child: Image.asset(
-          assetPath,
-          fit: BoxFit.contain,
-        ),
+        child: Icon(icon, color: Colors.white, size: 28),
       ),
     );
   }

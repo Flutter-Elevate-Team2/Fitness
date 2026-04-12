@@ -13,16 +13,15 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<LoginViewModel>(),
       child: BlocListener<LoginViewModel, LoginState>(
-        listenWhen: (previous, current) => previous.loginState != current.loginState,
+        listenWhen: (previous, current) =>
+            previous.loginState != current.loginState,
         listener: (context, state) {
           if (state.loginState?.errorMessage != null) {
-            // إظهار SnackBar بالخطأ
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.loginState!.errorMessage!)),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text(state.loginState!.errorMessage!)),
+            // );
           }
           if (state.loginState?.data != null) {
-            // التوجه للصفحة الرئيسية بعد النجاح
             // context.pushNamed(Routes.home);
           }
         },
