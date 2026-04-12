@@ -6,21 +6,28 @@ import 'app_typography.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData get lightTheme {
+  static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
       fontFamily: AppTypography.fontFamily,
-      colorScheme: const ColorScheme.light(
+      colorScheme: const ColorScheme.dark(
         primary: AppColors.primary,
         onPrimary: Colors.white,
-         onSurface: AppColors.primary,
+        surface: AppColors.black,
+        onSurface: AppColors.primary,
         error: AppColors.red,
         outline: AppColors.primary,
       ),
 
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: AppColors.primary,
+        selectionColor: AppColors.primary.withValues(alpha: 100),
+        selectionHandleColor: AppColors.primary,
+      ),
+
       appBarTheme: const AppBarTheme(
         iconTheme: IconThemeData(color: AppColors.white),
-         elevation: 0,
+        elevation: 0,
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -55,24 +62,27 @@ class AppTheme {
       ),
 
       inputDecorationTheme: InputDecorationTheme(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 16,
+        ),
         hintStyle: AppTypography.bodyMedium.copyWith(color: AppColors.light400),
         prefixIconColor: AppColors.light400,
         suffixIconColor: AppColors.light400,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(36),
           borderSide: const BorderSide(color: AppColors.light400, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(36),
           borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(36),
           borderSide: const BorderSide(color: AppColors.red, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(36),
           borderSide: const BorderSide(color: AppColors.red, width: 1.5),
         ),
       ),
