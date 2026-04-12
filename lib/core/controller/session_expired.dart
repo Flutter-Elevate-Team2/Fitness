@@ -28,7 +28,7 @@ class SessionExpiredHandler {
             onPressed: _onLoginPressed,
             child: Text(
               context.l10n.loginTitle,
-              style: TextStyle(color: AppTheme.lightTheme.primaryColor),
+              style: TextStyle(color: AppTheme.darkTheme.primaryColor),
             ),
           ),
         ],
