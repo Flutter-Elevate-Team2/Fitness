@@ -143,7 +143,7 @@ void main() {
       expect(find.byType(SharedScaffold), findsOneWidget);
       expect(find.byType(SharedContainer), findsOneWidget);
       expect(find.byKey(const Key('form_body')), findsOneWidget);
-      expect(find.byType(SingleChildScrollView), findsOneWidget);
+      expect(find.byType(CustomScrollView), findsOneWidget);
     });
   });
 }
