@@ -18,7 +18,7 @@ class OnboardingIndicator extends StatelessWidget {
       controller: pageController,
       count: count,
       effect: ExpandingDotsEffect(
-        activeDotColor: Theme.of(context).primaryColor,
+        activeDotColor: AppColors.primary,
         dotColor: AppColors.white,
         dotHeight: 8,
         dotWidth: 8,
