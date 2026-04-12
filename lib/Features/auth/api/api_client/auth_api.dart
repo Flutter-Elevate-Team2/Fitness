@@ -3,8 +3,7 @@ import 'package:fitness_app/Features/auth/data/models/login_models/login_request
 import 'package:fitness_app/Features/auth/data/models/login_models/login_response.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
-import 'package:retrofit/error_logger.dart';
-import 'package:retrofit/http.dart';
+import 'package:retrofit/retrofit.dart';
 part 'auth_api.g.dart';
 
 @lazySingleton
