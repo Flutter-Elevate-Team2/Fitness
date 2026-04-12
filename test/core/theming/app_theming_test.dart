@@ -37,12 +37,12 @@ void main() {
     // });
 
     test('InputDecorationTheme should have correct borders', () {
-      final inputTheme = AppTheme.lightTheme.inputDecorationTheme;
+      final inputTheme = AppTheme.darkTheme.inputDecorationTheme;
 
       // فحص الـ Enabled Border
       final enabledBorder = inputTheme.enabledBorder as OutlineInputBorder;
       expect(enabledBorder.borderSide.color, AppColors.light400);
-      expect(enabledBorder.borderRadius, BorderRadius.circular(12));
+      expect(enabledBorder.borderRadius, BorderRadius.circular(36));
 
       // فحص الـ Focused Border
       final focusedBorder = inputTheme.focusedBorder as OutlineInputBorder;
