@@ -1,5 +1,7 @@
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/helpers/form_validators.dart';
+import 'package:fitness_app/core/theming/app_colors.dart';
+import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
@@ -28,15 +30,25 @@ class _PasswordFieldState extends State<PasswordField> {
       keyboardType: TextInputType.visiblePassword,
       validator: (value) =>
           FormValidators.validateLoginPassword(context, value),
-      style: const TextStyle(color: Colors.white, fontSize: 14),
+      style: const TextStyle(
+        color: AppColors.white,
+        fontSize: 12,
+        fontWeight: FontWeight.normal,
+      ),
       decoration: InputDecoration(
         hintText: context.l10n.password,
-        prefixIcon: const Icon(Icons.lock_outline, size: 20),
+        hintStyle: const TextStyle(
+          color: AppColors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+        ),
+        prefixIcon: Image.asset(Assets.images.lock.path, height: 20),
         suffixIcon: IconButton(
           onPressed: () => setState(() => _isVisible = !_isVisible),
           icon: Icon(
             _isVisible ? Icons.visibility : Icons.visibility_off_outlined,
             size: 20,
+            color: AppColors.white,
           ),
         ),
       ),

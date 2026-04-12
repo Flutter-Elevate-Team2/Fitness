@@ -33,20 +33,27 @@ class LoginForm extends StatelessWidget {
 
         /// Password Field
         PasswordField(controller: passwordController, onChanged: () {}),
-        const SizedBox(height: 16),
 
         /// Forget Password
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              /// Navigate to Forget Password
+            },
             child: Text(
               context.l10n.forgetPassword,
-              style: TextStyle(color: AppColors.primary, fontSize: 12),
+              style: TextStyle(
+                color: AppColors.primary,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.underline,
+                decorationColor: AppColors.primary,
+              ),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
 
         /// OR Row
         Container(
@@ -65,7 +72,7 @@ class LoginForm extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
 
         /// Facebook , google Row
         Row(

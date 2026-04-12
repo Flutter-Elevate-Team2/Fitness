@@ -15,12 +15,33 @@ class LoginScreenBody extends StatefulWidget {
 }
 
 class _LoginScreenBodyState extends State<LoginScreenBody> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  AutovalidateMode _autoValidateMode = AutovalidateMode.disabled;
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      _isButtonEnabled =
+          _emailController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty;
+    });
+  }
+
   @override
   void dispose() {
+    _emailController.removeListener(_updateButtonState);
     _emailController.dispose();
+    _passwordController.removeListener(_updateButtonState);
     _passwordController.dispose();
     super.dispose();
   }
@@ -35,17 +56,29 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
       title: context.l10n.heyThere,
       subtitle: context.l10n.welcomeBack,
       buttonTitle: context.l10n.login,
-      onButtonPressed: () {
-        viewModel.doIntent(
-          LoginButtonClickedEvent(
-            email: _emailController.text,
-            password: _passwordController.text,
-          ),
-        );
-      },
-      formBody: LoginForm(
-        emailController: _emailController,
-        passwordController: _passwordController,
+      onButtonPressed: _isButtonEnabled
+          ? () {
+              if (_formKey.currentState!.validate()) {
+                viewModel.doIntent(
+                  LoginButtonClickedEvent(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  ),
+                );
+              } else {
+                setState(() {
+                  _autoValidateMode = AutovalidateMode.always;
+                });
+              }
+            }
+          : null,
+      formBody: Form(
+        key: _formKey,
+        autovalidateMode: _autoValidateMode,
+        child: LoginForm(
+          emailController: _emailController,
+          passwordController: _passwordController,
+        ),
       ),
       underButtonWidget: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -53,16 +86,20 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           Text(
             context.l10n.dontHaveAccount,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontSize: 14,
               color: AppColors.white,
               fontWeight: FontWeight.normal,
             ),
           ),
           const SizedBox(width: 4),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              /// Navigate to Register
+            },
             child: Text(
               context.l10n.registerNow,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontSize: 14,
                 color: AppColors.primary,
                 fontWeight: FontWeight.bold,
               ),
