@@ -45,6 +45,16 @@ class _ResetPasswordScreenBodyState extends State<ResetPasswordScreenBody> {
         );
         return;
       }
+      if (_newPassword.text.trim() != _confirmPassword.text.trim()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.l10n.passwordMismatch)
+            ,
+            backgroundColor: AppColors.red,
+          ),
+        );
+        return;
+      }
       context.read<ForgetPasswordViewModel>().doIntent(
         ResetPassword(newPassword: _newPassword.text.trim(), email: email),
       );
@@ -134,9 +144,7 @@ class _ResetPasswordScreenBodyState extends State<ResetPasswordScreenBody> {
                   onChanged: () {},
                   key: const Key('new_password_field'),
                 ),
-
                 const SizedBox(height: 24),
-
                 PasswordField(
                   key: const Key('confirm_password_field'),
                   controller: _confirmPassword,
