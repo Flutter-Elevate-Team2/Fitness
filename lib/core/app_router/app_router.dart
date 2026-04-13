@@ -1,3 +1,4 @@
+ import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
@@ -36,7 +37,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.loginPath,
+    initialLocation: Routes.forgetPasswordPath,
     redirect: (context, state) async {
       final secureStorage = getIt<FlutterSecureStorage>();
 
@@ -95,7 +96,7 @@ class AppRouter {
       GoRoute(
         path: Routes.forgetPasswordPath,
         name: Routes.forgetPasswordName,
-        builder: (context, state) => Container(),
+        builder: (context, state) => ForgetPasswordScreen(),
       ),
       GoRoute(
         path: Routes.verifyCodePath,
@@ -105,7 +106,7 @@ class AppRouter {
       GoRoute(
         path: Routes.resetPasswordPath,
         name: Routes.resetPasswordName,
-        builder: (context, state) => Container(),
+          builder: (context, state) => Container(),
       ),
       GoRoute(
         path: Routes.homePath,

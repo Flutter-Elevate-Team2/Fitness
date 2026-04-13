@@ -1,8 +1,10 @@
 import 'package:fitness_app/Features/auth/presentation/login/views/widgets/email_field.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/widgets/password_field.dart';
+import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginForm extends StatelessWidget {
   final TextEditingController emailController;
@@ -41,7 +43,9 @@ class LoginForm extends StatelessWidget {
             onPressed: () {
               /// Navigate to Forget Password
             },
-            child: Text(
+            child:TextButton(onPressed: (){
+              context.pushNamed(Routes.forgetPasswordName);
+    }, child:  Text(
               context.l10n.forgetPassword,
               style: TextStyle(
                 color: AppColors.primary,
@@ -52,7 +56,7 @@ class LoginForm extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        ),),
         const SizedBox(height: 8),
 
         /// OR Row
