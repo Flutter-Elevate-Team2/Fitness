@@ -85,7 +85,9 @@ void main() {
         );
         when(mockRemoteDataSource.register(any))
             .thenAnswer((_) async => tRegisterResponse);
-        when(mockLocalDataSource.saveToken(any)).thenAnswer((_) async {});
+        when(mockLocalDataSource.saveToken(any)).thenAnswer((_) async {
+          return null;
+        });
 
         // ACT
         final result = await authRepoImple.register(tRegisterParams);
@@ -171,7 +173,9 @@ void main() {
         );
         when(mockRemoteDataSource.register(any))
             .thenAnswer((_) async => tRegisterResponse);
-        when(mockLocalDataSource.saveToken(any)).thenAnswer((_) async {});
+        when(mockLocalDataSource.saveToken(any)).thenAnswer((_) async {
+          return null;
+        });
 
         // ACT
         final result = await authRepoImple.register(tRegisterParams);

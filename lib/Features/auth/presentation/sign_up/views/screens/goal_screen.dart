@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class GoalScreen extends StatefulWidget {
   final int currentStep;
-  final VoidCallback onNextStep;
+  final ValueChanged<String> onNextStep;
   final VoidCallback onBackButtonPressed;
 
   const GoalScreen({
@@ -22,6 +22,15 @@ class GoalScreen extends StatefulWidget {
 
 class _GoalScreenState extends State<GoalScreen> {
   int? selectedIndex;
+
+  /// API-friendly goal keys (locale-independent)
+  static const List<String> _goalKeys = [
+    'gain_weight',
+    'lose_weight',
+    'get_fitter',
+    'gain_more_flexible',
+    'learn_the_basic',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,9 @@ class _GoalScreenState extends State<GoalScreen> {
       subtitle: context.l10n.personalizedPlanNote,
       showBackButton: true,
       buttonTitle: context.l10n.next,
-      onButtonPressed: selectedIndex != null ? widget.onNextStep : null,
+      onButtonPressed: selectedIndex != null
+          ? () => widget.onNextStep(_goalKeys[selectedIndex!])
+          : null,
       stepIndicator: CustomStepProgress(currentStep: widget.currentStep),
       formBody: Column(
         mainAxisSize: MainAxisSize.min,

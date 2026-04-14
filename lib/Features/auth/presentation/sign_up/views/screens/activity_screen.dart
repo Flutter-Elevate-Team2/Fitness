@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class ActivityScreen extends StatefulWidget {
   final int currentStep;
-  final VoidCallback onNextStep;
+  final ValueChanged<String> onNextStep;
   final VoidCallback onBackButtonPressed;
 
   const ActivityScreen({
@@ -22,6 +22,15 @@ class ActivityScreen extends StatefulWidget {
 
 class _ActivityScreenState extends State<ActivityScreen> {
   int? selectedIndex;
+
+  /// Maps to API values: level1, level2, level3, level4, level5
+  static const List<String> _activityKeys = [
+    'level1',
+    'level2',
+    'level3',
+    'level4',
+    'level5',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
       subtitle: context.l10n.personalizedPlanNote,
       showBackButton: true,
       buttonTitle: context.l10n.next,
-      onButtonPressed: selectedIndex != null ? widget.onNextStep : null,
+      onButtonPressed: selectedIndex != null
+          ? () => widget.onNextStep(_activityKeys[selectedIndex!])
+          : null,
       stepIndicator: CustomStepProgress(currentStep: widget.currentStep),
       formBody: Column(
         mainAxisSize: MainAxisSize.min,
