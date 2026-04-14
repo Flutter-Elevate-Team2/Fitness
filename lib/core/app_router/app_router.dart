@@ -1,3 +1,4 @@
+import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.onBoardingPath,
+    initialLocation: Routes.homePath  ,
     redirect: (context, state) async {
       final secureStorage = getIt<FlutterSecureStorage>();
       final token = await secureStorage.read(key: ApiConstants.tokenKey);
@@ -90,7 +91,7 @@ class AppRouter {
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
-        builder: (context, state) => Container(),
+        builder: (context, state) => const HomeScreen(),
       ),
 
     ],

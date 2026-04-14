@@ -11,6 +11,26 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/chat ai.png
+  AssetGenImage get chatAi => const AssetGenImage('assets/icons/chat ai.png');
+
+  /// File path: assets/icons/explore.png
+  AssetGenImage get explore => const AssetGenImage('assets/icons/explore.png');
+
+  /// File path: assets/icons/profile.png
+  AssetGenImage get profile => const AssetGenImage('assets/icons/profile.png');
+
+  /// File path: assets/icons/workouts.png
+  AssetGenImage get workouts =>
+      const AssetGenImage('assets/icons/workouts.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [chatAi, explore, profile, workouts];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -28,6 +48,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/auth_background.png
   AssetGenImage get authBackground =>
       const AssetGenImage('assets/images/auth_background.png');
+
+  /// File path: assets/images/home_background.jpg
+  AssetGenImage get homeBackground =>
+      const AssetGenImage('assets/images/home_background.jpg');
 
   /// File path: assets/images/onboarding1.png
   AssetGenImage get onboarding1 =>
@@ -47,6 +71,7 @@ class $AssetsImagesGen {
     appIcon,
     appIcon1,
     authBackground,
+    homeBackground,
     onboarding1,
     onboardingBackground,
     splashLogo,
@@ -57,6 +82,7 @@ class Assets {
   const Assets._();
 
   static const String aEnv = '.env';
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 
   /// List of all assets
