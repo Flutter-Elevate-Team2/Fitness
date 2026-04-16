@@ -42,10 +42,9 @@ class LoginForm extends StatelessWidget {
           child: TextButton(
             onPressed: () {
               /// Navigate to Forget Password
-            },
-            child:TextButton(onPressed: (){
               context.pushNamed(Routes.forgetPasswordName);
-    }, child:  Text(
+            },
+            child: Text(
               context.l10n.forgetPassword,
               style: TextStyle(
                 color: AppColors.primary,
@@ -56,8 +55,8 @@ class LoginForm extends StatelessWidget {
               ),
             ),
           ),
-        ),),
-        const SizedBox(height: 8),
+        ),
+           const SizedBox(height: 8),
 
         /// OR Row
         Container(
