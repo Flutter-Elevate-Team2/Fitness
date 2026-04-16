@@ -1,7 +1,7 @@
 import 'package:fitness_app/Features/auth/data/data_sources/auth_local_data_source_contract.dart';
 import 'package:fitness_app/Features/auth/data/data_sources/auth_remote_data_source_contract.dart';
 import 'package:fitness_app/Features/auth/data/mappers/forget_password_mappers/forget_password_mapper.dart';
- import 'package:fitness_app/Features/auth/data/mappers/forget_password_mappers/reset_password_mapper.dart';
+import 'package:fitness_app/Features/auth/data/mappers/forget_password_mappers/reset_password_mapper.dart';
 import 'package:fitness_app/Features/auth/data/mappers/forget_password_mappers/verify_reset_password_mapper.dart';
 import 'package:fitness_app/Features/auth/data/mappers/login_mapper/login_mapper.dart';
 import 'package:fitness_app/Features/auth/data/models/login_models/login_request.dart';
@@ -16,8 +16,6 @@ import 'package:fitness_app/Features/auth/data/models/forget_password_models/req
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/response/forget_password_response/forget_password_response.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/response/reset_password_response/reset_password_response.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/response/verify_reset_password_response/verify_reset_password_response.dart';
-import 'package:fitness_app/Features/auth/data/data_sources/auth_local_data_source_contract.dart';
-import 'package:fitness_app/Features/auth/data/data_sources/auth_remote_data_source_contract.dart';
 import 'package:fitness_app/Features/auth/data/mappers/register_mappers.dart';
 import 'package:fitness_app/Features/auth/data/models/register_request/register_request.dart';
 import 'package:fitness_app/Features/auth/data/models/register_response/register_response.dart';
@@ -37,6 +35,7 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
 
   AuthRepoImpl(this._remoteDataSource, this._localDataSource);
 
+  /// Register
   @override
   Future<BaseResponse<UserEntity>> register(RegisterParams params) {
     final request = RegisterRequest(
@@ -53,7 +52,7 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
       goal: params.goal,
     );
     return execute<RegisterResponse, UserEntity>(
-      action: () => _authRemoteDataSourceContract.register(request),
+      action: () => _remoteDataSource.register(request),
       mapper: (data) {
         if (data.token != null && data.token!.isNotEmpty) {
           _localDataSource.saveToken(data.token!);
@@ -63,6 +62,7 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
     );
   }
 
+  /// Login
   @override
   Future<BaseResponse<LoginEntity>> login(
     LoginRequest request,
@@ -106,11 +106,12 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
   void clearSession() {
     _isCurrentSessionActive = false;
   }
+
   /// --- Forget Password ---
   @override
   Future<BaseResponse<ForgetPasswordEntity>> forgetPassword(
-      ForgetPasswordRequest request,
-      ) async {
+    ForgetPasswordRequest request,
+  ) async {
     return execute<ForgetPasswordResponse, ForgetPasswordEntity>(
       action: () async => await _remoteDataSource.forgetPassword(request),
       mapper: (response) => response.toEntity(),
@@ -120,8 +121,8 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
   /// --- Verify Reset Password ---
   @override
   Future<BaseResponse<VerifyResetPasswordEntity>> verifyPassword(
-      VerifyResetPasswordRequest request,
-      ) async {
+    VerifyResetPasswordRequest request,
+  ) async {
     return execute<VerifyResetPasswordResponse, VerifyResetPasswordEntity>(
       action: () async => await _remoteDataSource.verifyPassword(request),
       mapper: (response) => response.toEntity(),
@@ -131,8 +132,8 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
   /// --- Reset Password ---
   @override
   Future<BaseResponse<ResetPasswordEntity>> resetPassword(
-      ResetPasswordRequest request,
-      ) async {
+    ResetPasswordRequest request,
+  ) async {
     return execute<ResetPasswordResponse, ResetPasswordEntity>(
       action: () async => await _remoteDataSource.resetPassword(request),
       mapper: (response) => response.toEntity(),

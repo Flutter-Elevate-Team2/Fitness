@@ -1,11 +1,13 @@
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_event.dart';
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/widgets/login_form.dart';
+import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/widget/shared_auth_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreenBody extends StatefulWidget {
   const LoginScreenBody({super.key});
@@ -95,6 +97,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           GestureDetector(
             onTap: () {
               /// Navigate to Register
+              context.pushNamed(Routes.signupPath);
             },
             child: Text(
               context.l10n.registerNow,
