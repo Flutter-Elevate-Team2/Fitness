@@ -7,8 +7,14 @@ import 'package:fitness_app/Features/auth/domain/entities/forget_password_entiti
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/forget_password_request/forget_password_request.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/reset_password_request/reset_password_request.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/verify_reset_password_request/verify_reset_password_request.dart';
+import 'package:fitness_app/Features/auth/domain/entities/register_params.dart';
+import 'package:fitness_app/Features/auth/domain/entities/user_entity.dart';
+import 'package:fitness_app/core/base_response/base_response.dart';
+
 
 abstract class AuthRepoContract {
+  Future<BaseResponse<UserEntity>> register(RegisterParams params);
+
   Future<BaseResponse<LoginEntity>> login(
     LoginRequest request,
     bool isRememberMe,

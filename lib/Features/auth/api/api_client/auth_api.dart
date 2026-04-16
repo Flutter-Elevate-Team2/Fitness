@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:fitness_app/Features/auth/data/models/register_request/register_request.dart';
+import 'package:fitness_app/Features/auth/data/models/register_response/register_response.dart';
+import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/forget_password_request/forget_password_request.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/reset_password_request/reset_password_request.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/verify_reset_password_request/verify_reset_password_request.dart';
@@ -9,6 +12,7 @@ import 'package:fitness_app/Features/auth/data/models/login_models/login_request
 import 'package:fitness_app/Features/auth/data/models/login_models/login_response.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
+import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 part 'auth_api.g.dart';
@@ -39,4 +43,6 @@ abstract class AuthApi {
   Future<ResetPasswordResponse> resetPassword(
       @Body() ResetPasswordRequest resetRequest,
       );
+  @POST(ApiConstants.signup)
+  Future<RegisterResponse> register(@Body() RegisterRequest request);
 }
