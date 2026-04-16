@@ -6,7 +6,6 @@ import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_u
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_states.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
-import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

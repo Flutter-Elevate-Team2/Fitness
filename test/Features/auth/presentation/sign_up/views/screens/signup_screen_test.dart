@@ -7,7 +7,6 @@ import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:fitness_app/core/widget/pill_text_form_field.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 
 import 'signup_screen_test.mocks.dart';
 

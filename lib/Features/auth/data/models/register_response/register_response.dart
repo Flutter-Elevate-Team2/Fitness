@@ -4,7 +4,7 @@ import 'user.dart';
 
 part 'register_response.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class RegisterResponse {
   String? message;
   User? user;

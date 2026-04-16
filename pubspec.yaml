@@ -53,6 +53,7 @@ dev_dependencies:
   network_image_mock: ^2.1.1
   json_serializable: ^6.8.0
   mockito: ^5.4.4
+  mocktail: ^1.0.5
   retrofit_generator: ^10.0.6
   flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0

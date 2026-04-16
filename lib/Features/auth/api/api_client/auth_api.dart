@@ -10,11 +10,8 @@ import 'package:fitness_app/Features/auth/data/models/forget_password_models/res
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/response/verify_reset_password_response/verify_reset_password_response.dart';
 import 'package:fitness_app/Features/auth/data/models/login_models/login_request.dart';
 import 'package:fitness_app/Features/auth/data/models/login_models/login_response.dart';
-import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:retrofit/error_logger.dart';
-import 'package:retrofit/http.dart';
 part 'auth_api.g.dart';
 
 @lazySingleton

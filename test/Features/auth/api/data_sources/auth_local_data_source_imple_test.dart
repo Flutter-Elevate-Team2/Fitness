@@ -31,7 +31,7 @@ void main() {
         const tToken = 'test_token';
         when(
           mockSecureStorage.write(key: ApiConstants.tokenKey, value: tToken),
-        ).thenAnswer((_) async => null);
+        ).thenAnswer((_) async {});
 
         // ACT
         await localDataSource.saveToken(tToken);
@@ -133,7 +133,7 @@ void main() {
       // ARRANGE
       when(
         mockSecureStorage.delete(key: ApiConstants.tokenKey),
-      ).thenAnswer((_) async => null);
+      ).thenAnswer((_) async {});
       when(
         mockSharedPreferences.remove(ApiConstants.rememberMeKey),
       ).thenAnswer((_) async => true);

@@ -9,7 +9,6 @@ import 'package:fitness_app/Features/auth/data/models/forget_password_models/req
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/verify_reset_password_request/verify_reset_password_request.dart';
 import 'package:fitness_app/Features/auth/domain/entities/register_params.dart';
 import 'package:fitness_app/Features/auth/domain/entities/user_entity.dart';
-import 'package:fitness_app/core/base_response/base_response.dart';
 
 
 abstract class AuthRepoContract {
