@@ -97,7 +97,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           GestureDetector(
             onTap: () {
               /// Navigate to Register
-              context.pushNamed(Routes.signupPath);
+              context.pushNamed(Routes.signupName);
             },
             child: Text(
               context.l10n.registerNow,

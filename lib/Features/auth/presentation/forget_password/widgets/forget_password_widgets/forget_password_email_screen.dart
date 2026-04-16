@@ -73,7 +73,7 @@ class _ForgetPasswordEmailScreenBodyState
           key: _formKey,
           autovalidateMode: _autoValidateMode,
           child: SharedAuthLayout(
-            showBackButton: false,
+            showBackButton: true,
             isGreeting: true,
             title: context.l10n.enterYourEmail,
             subtitle: context.l10n.forgetPassword,
