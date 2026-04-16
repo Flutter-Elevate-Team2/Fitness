@@ -2,6 +2,7 @@ import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/sig
  import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
+import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +113,7 @@ class AppRouter {
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
-        builder: (context, state) => Container(),
+        builder: (context, state) => const HomeScreen(),
       ),
     ],
   );
