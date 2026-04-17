@@ -2,7 +2,6 @@ import 'package:fitness_app/Features/auth/data/data_sources/auth_local_data_sour
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @Injectable(as: AuthLocalDataSourceContract)
 class AuthLocalDataSourceImpl implements AuthLocalDataSourceContract {

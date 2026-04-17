@@ -11,11 +11,9 @@ import 'auth_local_data_source_imple_test.mocks.dart';
 @GenerateMocks([SharedPreferences, FlutterSecureStorage])
 void main() {
   late AuthLocalDataSourceImpl dataSource;
-  late MockSharedPreferences mockPrefs;
   late MockFlutterSecureStorage mockSecureStorage;
 
   setUp(() {
-    mockPrefs = MockSharedPreferences();
     mockSecureStorage = MockFlutterSecureStorage();
     dataSource = AuthLocalDataSourceImpl(mockSecureStorage);
   });

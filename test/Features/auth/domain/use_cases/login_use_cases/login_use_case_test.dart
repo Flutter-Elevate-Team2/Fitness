@@ -26,7 +26,6 @@ void main() {
   });
 
   final tRequest = LoginRequest(email: 'test@test.com', password: '123456');
-  final tIsRememberMe = true;
   final tEntity = LoginEntity(message: 'Success', token: 'abc123');
 
   test(
