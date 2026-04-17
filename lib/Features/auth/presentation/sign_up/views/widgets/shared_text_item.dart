@@ -23,7 +23,7 @@ class SharedTextItem extends StatelessWidget {
           children: [
             Text(
               title.toUpperCase(),
-              style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
+              style: AppTheme.darkTheme.textTheme.titleLarge?.copyWith(
                 color: AppColors.white,
                 height: 1.3,
               ),
@@ -35,7 +35,7 @@ class SharedTextItem extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   subTitle!,
-                  style: AppTheme.lightTheme.textTheme.bodyLarge?.copyWith(
+                  style: AppTheme.darkTheme.textTheme.bodyLarge?.copyWith(
                     color: AppColors.white,
                   ),
                 ),

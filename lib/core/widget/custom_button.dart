@@ -31,7 +31,7 @@ class CustomButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: SizedBox(
         width: double.infinity,
-        height: 38,
+        height: 42,
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(

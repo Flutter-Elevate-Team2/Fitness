@@ -104,8 +104,6 @@ class $AssetsImagesGen {
     authBackground,
     authLogo,
     onboarding1,
-    onboardingBackground,
-    splashLogo,
   ];
 }
 
