@@ -22,9 +22,6 @@ class LoginViewModel extends Cubit<LoginState> {
       case LoginInitialEvent():
         _onInit();
         break;
-      case ToggleRememberMeEvent():
-        _toggleRememberMe();
-        break;
       case UserTypingEvent():
         _resetErrorState();
         break;
@@ -36,15 +33,6 @@ class LoginViewModel extends Cubit<LoginState> {
 
   void _onInit() {
     emit(const LoginState());
-  }
-
-  void _toggleRememberMe() {
-    emit(
-      state.copyWith(
-        isRememberMe: !state.isRememberMe,
-        loginState: const BaseState(),
-      ),
-    );
   }
 
   void _resetErrorState() {
@@ -59,7 +47,6 @@ class LoginViewModel extends Cubit<LoginState> {
 
     final response = await _loginUseCase.call(
       LoginRequest(email: event.email, password: event.password),
-      isRememberMe: state.isRememberMe,
     );
 
     switch (response) {

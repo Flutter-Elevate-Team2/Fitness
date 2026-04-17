@@ -36,22 +36,13 @@ void main() {
       expect(viewModel.state, const LoginState());
     });
 
-    blocTest<LoginViewModel, LoginState>(
-      'emits state with updated isRememberMe when ToggleRememberMeEvent is added',
-      build: () => viewModel,
-      act: (bloc) => bloc.doIntent(ToggleRememberMeEvent()),
-      expect: () => [
-        isA<LoginState>().having((s) => s.isRememberMe, 'isRememberMe', true),
-      ],
-    );
-
     final tLoginEntity = LoginEntity(token: 'token123', message: '');
 
     blocTest<LoginViewModel, LoginState>(
       'emits [loading, success] states and notifies session when login succeeds',
       build: () {
         when(
-          mockLoginUseCase.call(any, isRememberMe: anyNamed('isRememberMe')),
+          mockLoginUseCase.call(any),
         ).thenAnswer((_) async => SuccessResponse(data: tLoginEntity));
         return viewModel;
       },
@@ -79,7 +70,7 @@ void main() {
       'emits [loading, error] states when login fails',
       build: () {
         when(
-          mockLoginUseCase.call(any, isRememberMe: anyNamed('isRememberMe')),
+          mockLoginUseCase.call(any),
         ).thenAnswer(
           (_) async => ErrorResponse(errorMessage: 'Invalid Credentials'),
         );

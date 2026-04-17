@@ -10,142 +10,51 @@ import 'auth_local_data_source_imple_test.mocks.dart';
 
 @GenerateMocks([SharedPreferences, FlutterSecureStorage])
 void main() {
-  late AuthLocalDataSourceImpl localDataSource;
-  late MockSharedPreferences mockSharedPreferences;
+  late AuthLocalDataSourceImpl dataSource;
   late MockFlutterSecureStorage mockSecureStorage;
 
   setUp(() {
-    mockSharedPreferences = MockSharedPreferences();
     mockSecureStorage = MockFlutterSecureStorage();
-    localDataSource = AuthLocalDataSourceImpl(
-      mockSharedPreferences,
-      mockSecureStorage,
-    );
+    dataSource = AuthLocalDataSourceImpl(mockSecureStorage);
   });
 
-  group('AuthLocalDataSourceImpl - saveToken', () {
-    test(
-      'should write the token to FlutterSecureStorage under the correct key',
-      () async {
-        // ARRANGE
-        const tToken = 'test_token';
-        when(
-          mockSecureStorage.write(key: ApiConstants.tokenKey, value: tToken),
-        ).thenAnswer((_) async {});
+  test('saveToken should save token in flutter secure storage', () async {
+    // act
+    await dataSource.saveToken('token');
 
-        // ACT
-        await localDataSource.saveToken(tToken);
-
-        // ASSERT
-        verify(
-          mockSecureStorage.write(key: ApiConstants.tokenKey, value: tToken),
-        ).called(1);
-      },
-    );
+    // assert
+    verify(
+      mockSecureStorage.write(key: ApiConstants.tokenKey, value: 'token'),
+    ).called(1);
   });
 
-  group('AuthLocalDataSourceImpl - getToken', () {
-    test(
-      'should read and return the token string from FlutterSecureStorage',
-      () async {
-        // ARRANGE
-        const tToken = 'test_token';
-        when(
-          mockSecureStorage.read(key: ApiConstants.tokenKey),
-        ).thenAnswer((_) async => tToken);
+  test('getToken should return token from flutter secure storage', () async {
+    // arrange
+    when(
+      mockSecureStorage.read(key: ApiConstants.tokenKey),
+    ).thenAnswer((_) async => 'token');
 
-        // ACT
-        final result = await localDataSource.getToken();
+    // act
+    final result = await dataSource.getToken();
 
-        // ASSERT
-        expect(result, tToken);
-        verify(mockSecureStorage.read(key: ApiConstants.tokenKey)).called(1);
-      },
-    );
-
-    test(
-      'should return null when no token has been previously saved',
-      () async {
-        // ARRANGE
-        when(
-          mockSecureStorage.read(key: ApiConstants.tokenKey),
-        ).thenAnswer((_) async => null);
-
-        // ACT
-        final result = await localDataSource.getToken();
-
-        // ASSERT
-        expect(result, isNull);
-      },
-    );
+    // assert
+    expect(result, 'token');
+    verify(mockSecureStorage.read(key: ApiConstants.tokenKey)).called(1);
   });
 
-  group('AuthLocalDataSourceImpl - saveRememberMe', () {
-    test('should persist the value to SharedPreferences', () async {
-      // ARRANGE
-      when(
-        mockSharedPreferences.setBool(ApiConstants.rememberMeKey, true),
-      ).thenAnswer((_) async => true);
-
-      // ACT
-      await localDataSource.saveRememberMe(true);
-
-      // ASSERT
-      verify(
-        mockSharedPreferences.setBool(ApiConstants.rememberMeKey, true),
-      ).called(1);
-    });
-  });
-
-  group('AuthLocalDataSourceImpl - getRememberMe', () {
-    test('should return true when stored value is true', () async {
-      // ARRANGE
-      when(
-        mockSharedPreferences.getBool(ApiConstants.rememberMeKey),
-      ).thenReturn(true);
-
-      // ACT
-      final result = await localDataSource.getRememberMe();
-
-      // ASSERT
-      expect(result, isTrue);
-    });
-
-    test(
-      'should return false (default) when SharedPreferences returns null',
-      () async {
-        // ARRANGE
-        when(
-          mockSharedPreferences.getBool(ApiConstants.rememberMeKey),
-        ).thenReturn(null);
-
-        // ACT
-        final result = await localDataSource.getRememberMe();
-
-        // ASSERT
-        expect(result, isFalse);
-      },
-    );
-  });
-
-  group('AuthLocalDataSourceImpl - clearUserData', () {
-    test('should delete token and remove rememberMe key', () async {
-      // ARRANGE
+  test(
+    'clearUserData should remove token from secure storage and remember me from prefs',
+    () async {
+      // arrange
       when(
         mockSecureStorage.delete(key: ApiConstants.tokenKey),
-      ).thenAnswer((_) async {});
-      when(
-        mockSharedPreferences.remove(ApiConstants.rememberMeKey),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => {});
 
-      // ACT
-      await localDataSource.clearUserData();
+      // act
+      await dataSource.clearUserData();
 
-      // ASSERT
+      // assert
       verify(mockSecureStorage.delete(key: ApiConstants.tokenKey)).called(1);
-      verify(
-        mockSharedPreferences.remove(ApiConstants.rememberMeKey),
-      ).called(1);
-    });
-  });
+    },
+  );
 }

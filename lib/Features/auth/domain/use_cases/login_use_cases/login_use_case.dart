@@ -10,10 +10,7 @@ class LoginUseCase {
 
   LoginUseCase(this._authRepo);
 
-  Future<BaseResponse<LoginEntity>> call(
-      LoginRequest request, {
-        required bool isRememberMe,
-      }) {
-    return _authRepo.login(request, isRememberMe);
+  Future<BaseResponse<LoginEntity>> call(LoginRequest request) {
+    return _authRepo.login(request);
   }
 }

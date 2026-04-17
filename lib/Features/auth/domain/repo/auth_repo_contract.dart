@@ -15,8 +15,7 @@ abstract class AuthRepoContract {
   Future<BaseResponse<UserEntity>> register(RegisterParams params);
 
   Future<BaseResponse<LoginEntity>> login(
-    LoginRequest request,
-    bool isRememberMe,
+    LoginRequest request
   );
   Future<bool> isLoggedIn();
   void clearSession();
