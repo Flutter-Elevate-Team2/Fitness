@@ -4,8 +4,7 @@ import 'package:fitness_app/core/base_response/base_response.dart';
 
 abstract class AuthRepoContract {
   Future<BaseResponse<LoginEntity>> login(
-    LoginRequest request,
-    bool isRememberMe,
+    LoginRequest request
   );
   Future<bool> isLoggedIn();
   void clearSession();

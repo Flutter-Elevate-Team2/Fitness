@@ -17,7 +17,7 @@ void main() {
   setUp(() {
     mockPrefs = MockSharedPreferences();
     mockSecureStorage = MockFlutterSecureStorage();
-    dataSource = AuthLocalDataSourceImpl(mockPrefs, mockSecureStorage);
+    dataSource = AuthLocalDataSourceImpl(mockSecureStorage);
   });
 
   test('saveToken should save token in flutter secure storage', () async {
@@ -44,46 +44,6 @@ void main() {
     verify(mockSecureStorage.read(key: ApiConstants.tokenKey)).called(1);
   });
 
-  test('saveRememberMe should save value in shared preferences', () async {
-    // arrange
-    when(
-      mockPrefs.setBool('is_remember_me', true),
-    ).thenAnswer((_) async => true);
-
-    // act
-    await dataSource.saveRememberMe(true);
-
-    // assert
-    verify(mockPrefs.setBool('is_remember_me', true)).called(1);
-    verifyNoMoreInteractions(mockPrefs);
-  });
-
-  test('getRememberMe should return false when value is null', () async {
-    // arrange
-    when(mockPrefs.getBool('is_remember_me')).thenReturn(null);
-
-    // act
-    final result = await dataSource.getRememberMe();
-
-    // assert
-    expect(result, false);
-    verify(mockPrefs.getBool('is_remember_me')).called(1);
-    verifyNoMoreInteractions(mockPrefs);
-  });
-
-  test('getRememberMe should return stored value when exists', () async {
-    // arrange
-    when(mockPrefs.getBool('is_remember_me')).thenReturn(true);
-
-    // act
-    final result = await dataSource.getRememberMe();
-
-    // assert
-    expect(result, true);
-    verify(mockPrefs.getBool('is_remember_me')).called(1);
-    verifyNoMoreInteractions(mockPrefs);
-  });
-
   test(
     'clearUserData should remove token from secure storage and remember me from prefs',
     () async {
@@ -91,16 +51,12 @@ void main() {
       when(
         mockSecureStorage.delete(key: ApiConstants.tokenKey),
       ).thenAnswer((_) async => {});
-      when(
-        mockPrefs.remove(ApiConstants.rememberMeKey),
-      ).thenAnswer((_) async => true);
 
       // act
       await dataSource.clearUserData();
 
       // assert
       verify(mockSecureStorage.delete(key: ApiConstants.tokenKey)).called(1);
-      verify(mockPrefs.remove(ApiConstants.rememberMeKey)).called(1);
     },
   );
 }

@@ -33,24 +33,24 @@ void main() {
     'should return SuccessResponse<LoginEntity> when repo succeeds',
         () async {
       when(
-        mockRepo.login(any, any),
+        mockRepo.login(any),
       ).thenAnswer((_) async => SuccessResponse(data: tEntity));
 
-      final result = await useCase(tRequest, isRememberMe: tIsRememberMe);
+      final result = await useCase(tRequest);
 
       expect(result, isA<SuccessResponse<LoginEntity>>());
-      verify(mockRepo.login(tRequest, tIsRememberMe)).called(1);
+      verify(mockRepo.login(tRequest)).called(1);
     },
   );
 
   test('should return ErrorResponse when repo fails', () async {
     when(
-      mockRepo.login(any, any),
+      mockRepo.login(any),
     ).thenAnswer((_) async => ErrorResponse(errorMessage: 'Failed'));
 
-    final result = await useCase(tRequest, isRememberMe: tIsRememberMe);
+    final result = await useCase(tRequest);
 
     expect(result, isA<ErrorResponse>());
-    verify(mockRepo.login(tRequest, tIsRememberMe)).called(1);
+    verify(mockRepo.login(tRequest)).called(1);
   });
 }

@@ -4,21 +4,13 @@ import 'package:fitness_app/core/base_state/base_state.dart';
 
 class LoginState extends Equatable {
   final BaseState<LoginEntity>? loginState;
-  final bool isRememberMe;
 
-  const LoginState({this.loginState, this.isRememberMe = false});
+  const LoginState({this.loginState});
 
-  LoginState copyWith({
-    BaseState<LoginEntity>? loginState,
-    bool? isRememberMe,
-    String? activeOrderId,
-  }) {
-    return LoginState(
-      loginState: loginState ?? this.loginState,
-      isRememberMe: isRememberMe ?? this.isRememberMe,
-    );
+  LoginState copyWith({BaseState<LoginEntity>? loginState}) {
+    return LoginState(loginState: loginState ?? this.loginState);
   }
 
   @override
-  List<Object?> get props => [loginState, isRememberMe];
+  List<Object?> get props => [loginState];
 }
