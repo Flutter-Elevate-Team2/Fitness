@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_event.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/widgets/email_field.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/widgets/password_field.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
@@ -5,18 +8,79 @@ import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final Function(String email)? onEmailChanged;
 
   const LoginForm({
     super.key,
     required this.emailController,
     required this.passwordController,
+    this.onEmailChanged,
   });
 
-  @override
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return;
+
+      final googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      final user = userCredential.user;
+      print("EMAIL : ${user?.email}");
+      context.read<LoginViewModel>().doIntent(
+        GoogleLoginEvent(email: user?.email.toString() ?? ""),
+      );
+      if (!context.mounted) return;
+
+       final isNewUser =
+          userCredential.additionalUserInfo?.isNewUser ?? false;
+
+
+      if (isNewUser) {
+        context.goNamed(
+          Routes.signupName,
+          extra: {
+            "step": 1,
+            "user": user,
+           },
+        );
+
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text("Please complete registration first"),
+            backgroundColor: AppColors.primary,
+          ),
+        );
+      } else {
+        if (!context.mounted) return;
+        context.goNamed(
+          Routes.homeName,
+        );
+       }
+
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Google login failed"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -56,7 +120,7 @@ class LoginForm extends StatelessWidget {
             ),
           ),
         ),
-           const SizedBox(height: 8),
+        const SizedBox(height: 8),
 
         /// OR Row
         Container(
@@ -83,7 +147,11 @@ class LoginForm extends StatelessWidget {
           children: [
             _socialIcon(Icons.facebook),
             const SizedBox(width: 20),
-            _socialIcon(Icons.g_mobiledata),
+            _socialIcon(
+              Icons.g_mobiledata,
+              onTap: () => signInWithGoogle(context),
+
+            ),
             const SizedBox(width: 20),
             _socialIcon(Icons.apple),
           ],

@@ -1,11 +1,17 @@
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_icon_button.dart';
+import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SocialLoginRow extends StatelessWidget {
-  const SocialLoginRow({super.key});
+  final void Function(String email, String firstName, String lastName , String password)
+  onGoogleSuccess;
+
+  const SocialLoginRow({super.key, required this.onGoogleSuccess});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +29,9 @@ class SocialLoginRow extends StatelessWidget {
               child: Text(
                 context.l10n.or,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.light600,
-                      fontWeight: FontWeight.normal,
-                    ),
+                  color: AppColors.light600,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
             ),
             const Expanded(
@@ -48,8 +54,32 @@ class SocialLoginRow extends StatelessWidget {
             const SizedBox(width: 24),
             SocialIconButton(
               assetPath: Assets.icons.google.path,
-              onTap: () {
-                // TODO: Google login
+              onTap: () async {
+                final googleUser = await GoogleSignIn().signIn();
+                if (googleUser == null) return;
+
+                final googleAuth = await googleUser.authentication;
+
+                final credential = GoogleAuthProvider.credential(
+                  accessToken: googleAuth.accessToken,
+                  idToken: googleAuth.idToken,
+                );
+
+                final userCredential = await FirebaseAuth.instance
+                    .signInWithCredential(credential);
+
+                final user = userCredential.user;
+
+                final email = user?.email ?? "";
+                final displayName = user?.displayName ?? "";
+
+                final parts = displayName.split(" ");
+                final firstName = parts.isNotEmpty ? parts.first : "";
+                final lastName = parts.length > 1 ? parts.last : "";
+                final password = ApiConstants.defaultPassword;
+
+                // 🔥 send data upward
+                onGoogleSuccess(email, firstName, lastName , password);
               },
             ),
             const SizedBox(width: 24),
@@ -65,5 +95,3 @@ class SocialLoginRow extends StatelessWidget {
     );
   }
 }
-
-

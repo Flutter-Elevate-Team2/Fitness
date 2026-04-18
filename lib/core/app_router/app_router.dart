@@ -85,7 +85,10 @@ class AppRouter {
       GoRoute(
         path: Routes.signupPath,
         name: Routes.signupName,
-        builder: (context, state) => const SignupScreen(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return SignupScreen(step: extra?["step"], user: extra?["user"]);
+        },
       ),
       GoRoute(
         path: Routes.forgetPasswordPath,

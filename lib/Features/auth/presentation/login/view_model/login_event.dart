@@ -10,3 +10,10 @@ class LoginButtonClickedEvent extends LoginEvent {
 }
 
 class UserTypingEvent extends LoginEvent {}
+
+class GoogleLoginEvent extends LoginEvent {
+  final String email;
+
+  GoogleLoginEvent({required this.email});
+
+}

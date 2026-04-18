@@ -9,6 +9,7 @@ import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/sig
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_height_step.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_weight_step.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
+import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final int step;
+  final user;
+  const SignupScreen({super.key , this.step = 0 , this.user});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -47,11 +50,15 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _currentStep = widget.step;
+    _pageController = PageController(initialPage: widget.step);
+    final displayName = widget.user?.displayName ?? "";
+
+    final parts = displayName.split(" ");
+    _firstNameController = TextEditingController(text: parts.isNotEmpty ? parts.first : "");
+    _lastNameController = TextEditingController( text: parts.length > 1 ? parts.last : "");
+    _emailController = TextEditingController(text: widget.user?.email);
+    _passwordController = TextEditingController( text: ApiConstants.defaultPassword);
   }
 
   @override
@@ -65,7 +72,10 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _goToNextPage() {
-    _pageController.nextPage(
+    final nextPage = _currentStep + 1;
+
+    _pageController.animateToPage(
+      nextPage,
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
     );

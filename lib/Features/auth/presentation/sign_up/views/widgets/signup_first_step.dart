@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_login_row.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
@@ -41,9 +42,25 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
       showBackButton: false,
       isGreeting: true,
       buttonTitle: context.l10n.registerNow,
-      onButtonPressed: () {
+      onButtonPressed: () async {
         if (_formKey.currentState!.validate()) {
-          widget.onNextStep();
+
+          final email = widget.emailController.text.trim();
+          final password = widget.passwordController.text.trim();
+
+          try {
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: email,
+              password: password,
+            );
+            print("Signup success");
+
+            // بعد النجاح روحي للخطوة اللي بعدها
+            widget.onNextStep();
+
+          } catch (e) {
+            debugPrint("Signup error: $e");
+          }
         }
       },
       formBody: Column(
@@ -130,7 +147,14 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
           const SizedBox(height: 20),
 
           /// ── Social Login ──
-          const SocialLoginRow(),
+          SocialLoginRow(
+            onGoogleSuccess: (email, firstName, lastName , password) {
+              widget.emailController.text = email;
+              widget.firstNameController.text = firstName;
+              widget.lastNameController.text = lastName;
+              widget.passwordController.text = password;
+            },
+          ),
         ],
       ),
 

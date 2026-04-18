@@ -11,8 +11,16 @@ void main() {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('en'),
-        home: const Scaffold(body: SocialLoginRow()),
-      );
+        home: Scaffold(
+          body: SocialLoginRow(
+            onGoogleSuccess: (email, firstName, lastName , password) {
+              print(email);
+              print(firstName);
+              print(lastName);
+              print(password);
+            },
+          ),
+        ),      );
     }
 
     testWidgets('displays the "Or" divider text',
