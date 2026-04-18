@@ -30,9 +30,9 @@ class OnboardingContentWidget extends StatelessWidget {
           entity.description,
           textAlign: TextAlign.center,
           style: const TextStyle(
-            fontSize: 16,
+            fontSize: 14,
             color: AppColors.light400,
-            height: 1.5,
+            height: 1.2,
           ),
         ),
       ],

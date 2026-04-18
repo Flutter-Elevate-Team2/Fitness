@@ -53,7 +53,7 @@ void main() {
       expect(indicator.effect, isA<ExpandingDotsEffect>());
 
       final effect = indicator.effect as ExpandingDotsEffect;
-      expect(effect.activeDotColor, Colors.blue);
+      expect(effect.activeDotColor, AppColors.primary);
       expect(effect.dotColor, AppColors.white);
       expect(effect.dotHeight, 8);
       expect(effect.dotWidth, 8);

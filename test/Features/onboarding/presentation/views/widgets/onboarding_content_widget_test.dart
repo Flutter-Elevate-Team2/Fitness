@@ -42,7 +42,7 @@ void main() {
 
       final descText = tester.widget<Text>(find.text('Test Description'));
       expect(descText.style?.color, AppColors.light400);
-      expect(descText.style?.fontSize, 16);
+      expect(descText.style?.fontSize, 14);
       expect(descText.textAlign, TextAlign.center);
     });
 

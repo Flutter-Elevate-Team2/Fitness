@@ -22,7 +22,7 @@ class OnboardingActionButtons extends StatelessWidget {
     return Row(
       children: [
         if (currentIndex > 0)
-          Expanded(
+          Flexible(
             child: CustomButton(
               title: context.l10n.back,
               backgroundColor: Colors.transparent,
@@ -34,8 +34,9 @@ class OnboardingActionButtons extends StatelessWidget {
             ),
           ),
         if (currentIndex > 0)
-          SizedBox(width: MediaQuery.sizeOf(context).width * 0.45),
-        Expanded(
+        const Spacer(),
+        //   SizedBox(width: MediaQuery.sizeOf(context).width * 0.45),
+        Flexible(
           child: CustomButton(
             title: isLastPage ? context.l10n.doIt : context.l10n.next,
             onPressed: () {
