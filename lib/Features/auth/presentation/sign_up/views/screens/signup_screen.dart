@@ -58,7 +58,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _firstNameController = TextEditingController(text: parts.isNotEmpty ? parts.first : "");
     _lastNameController = TextEditingController( text: parts.length > 1 ? parts.last : "");
     _emailController = TextEditingController(text: widget.user?.email);
-    _passwordController = TextEditingController( text: ApiConstants.defaultPassword);
+    _passwordController = TextEditingController( text:widget.user != null ? ApiConstants.defaultPassword:"");
   }
 
   @override

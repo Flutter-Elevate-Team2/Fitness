@@ -1,20 +1,32 @@
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_event.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_icon_button.dart';
+import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SocialLoginRow extends StatelessWidget {
-  final void Function(String email, String firstName, String lastName , String password)
+  final void Function(
+    String email,
+    String firstName,
+    String lastName,
+    String password,
+  )
   onGoogleSuccess;
 
   const SocialLoginRow({super.key, required this.onGoogleSuccess});
 
   @override
   Widget build(BuildContext context) {
+        final vm = context.read<LoginViewModel>();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -55,31 +67,47 @@ class SocialLoginRow extends StatelessWidget {
             SocialIconButton(
               assetPath: Assets.icons.google.path,
               onTap: () async {
-                final googleUser = await GoogleSignIn().signIn();
-                if (googleUser == null) return;
+                try {
+                  final googleUser = await GoogleSignIn().signIn();
+                  if (googleUser == null) return;
 
-                final googleAuth = await googleUser.authentication;
+                  final googleAuth = await googleUser.authentication;
 
-                final credential = GoogleAuthProvider.credential(
-                  accessToken: googleAuth.accessToken,
-                  idToken: googleAuth.idToken,
-                );
+                  final credential = GoogleAuthProvider.credential(
+                    accessToken: googleAuth.accessToken,
+                    idToken: googleAuth.idToken,
+                  );
 
-                final userCredential = await FirebaseAuth.instance
-                    .signInWithCredential(credential);
+                  final userCredential = await FirebaseAuth.instance
+                      .signInWithCredential(credential);
 
-                final user = userCredential.user;
+                  final user = userCredential.user;
+                  if (user == null) return;
 
-                final email = user?.email ?? "";
-                final displayName = user?.displayName ?? "";
+                  final isNewUser =
+                      userCredential.additionalUserInfo?.isNewUser ?? false;
 
-                final parts = displayName.split(" ");
-                final firstName = parts.isNotEmpty ? parts.first : "";
-                final lastName = parts.length > 1 ? parts.last : "";
-                final password = ApiConstants.defaultPassword;
+                  if (isNewUser) {
+                    // ✅ مستخدم جديد → كملي Signup
+                    final email = user.email ?? "";
+                    final displayName = user.displayName ?? "";
 
-                // 🔥 send data upward
-                onGoogleSuccess(email, firstName, lastName , password);
+                    final parts = displayName.split(" ");
+                    final firstName = parts.isNotEmpty ? parts.first : "";
+                    final lastName = parts.length > 1 ? parts.last : "";
+                    final password = ApiConstants.defaultPassword;
+
+                    onGoogleSuccess(email, firstName, lastName, password);
+                  } else {
+                    vm.doIntent(
+                      GoogleLoginEvent(email: user.email ?? ""),
+                    );
+
+                    context.goNamed(Routes.homeName);
+                  }
+                } catch (e) {
+                  debugPrint("Google Sign-In Error: $e");
+                }
               },
             ),
             const SizedBox(width: 24),

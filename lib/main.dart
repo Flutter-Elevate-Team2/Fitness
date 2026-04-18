@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/controller/session_expired.dart';
@@ -7,8 +8,10 @@ import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:fitness_app/core/theming/app_theming.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -72,7 +75,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MultiProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => getIt<LoginViewModel>(),
+        )
+      ],
+      child: MaterialApp.router(
       routerConfig: AppRouter.router,
       title: 'Super Fitness',
       debugShowCheckedModeBanner: false,
@@ -80,6 +89,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: AppTheme.darkTheme,
+    )
     );
   }
 }

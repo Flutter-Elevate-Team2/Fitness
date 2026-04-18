@@ -45,9 +45,10 @@ class LoginForm extends StatelessWidget {
       );
       if (!context.mounted) return;
 
-       final isNewUser =
-          userCredential.additionalUserInfo?.isNewUser ?? false;
-
+      final isNewUser =
+          userCredential.additionalUserInfo?.isNewUser == true &&
+              userCredential.user?.metadata.creationTime ==
+                  userCredential.user?.metadata.lastSignInTime;
 
       if (isNewUser) {
         context.goNamed(
@@ -57,7 +58,6 @@ class LoginForm extends StatelessWidget {
             "user": user,
            },
         );
-
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
