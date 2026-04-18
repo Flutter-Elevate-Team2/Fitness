@@ -1,3 +1,4 @@
+import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,10 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = [
-      _NavItem(icon: Assets.icons.explore.path, label: 'Explore'),
-      _NavItem(icon: Assets.icons.chatAi.path, label: 'Chat AI'),
-      _NavItem(icon: Assets.icons.workouts.path, label: 'Workouts'),
-      _NavItem(icon: Assets.icons.profile.path, label: 'Profile'),
+      _NavItem(icon: Assets.icons.explore.path, label: context.l10n.explore),
+      _NavItem(icon: Assets.icons.chatAi.path, label: context.l10n.chatAi),
+      _NavItem(icon: Assets.icons.workouts.path, label: context.l10n.workouts),
+      _NavItem(icon: Assets.icons.profile.path, label: context.l10n.profile),
     ];
 
     return Container(

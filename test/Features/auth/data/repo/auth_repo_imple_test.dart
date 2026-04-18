@@ -131,18 +131,14 @@ void main() {
         // arrange
         when(mockRemote.login(any)).thenAnswer((_) async => tLoginResponse);
         when(mockLocal.saveToken(any)).thenAnswer((_) async => Future.value());
-        when(
-          mockLocal.saveRememberMe(any),
-        ).thenAnswer((_) async => Future.value());
 
         // act
-        final result = await authRepo.login(tRequest, true);
+        final result = await authRepo.login(tRequest);
 
         // assert
         expect(result, isA<SuccessResponse<LoginEntity>>());
         verify(mockRemote.login(tRequest)).called(1);
         verify(mockLocal.saveToken(tToken)).called(1);
-        verify(mockLocal.saveRememberMe(true)).called(1);
       },
     );
 
@@ -156,7 +152,7 @@ void main() {
       );
 
       // act
-      final result = await authRepo.login(tRequest, true);
+      final result = await authRepo.login(tRequest);
 
       // assert
       expect(result, isA<ErrorResponse>());
@@ -170,7 +166,6 @@ void main() {
       () async {
         // arrange
         when(mockLocal.getToken()).thenAnswer((_) async => tToken);
-        when(mockLocal.getRememberMe()).thenAnswer((_) async => true);
 
         // act
         final result = await authRepo.isLoggedIn();
@@ -184,7 +179,6 @@ void main() {
       // act
       authRepo.clearSession();
       when(mockLocal.getToken()).thenAnswer((_) async => null);
-      when(mockLocal.getRememberMe()).thenAnswer((_) async => false);
 
       // assert
       final result = await authRepo.isLoggedIn();

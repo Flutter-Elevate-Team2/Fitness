@@ -1,12 +1,18 @@
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
+import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  Widget createWidgetUnderTest() {
-    return const MaterialApp(home: HomeScreen());
-  }
+    Widget createWidgetUnderTest() {
+      return const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: Locale('en'),
+        home: HomeScreen(),
+      );
+    }
 
   group('HomeScreen Integration Tests', () {
     testWidgets('should show Explore tab as the initial screen', (

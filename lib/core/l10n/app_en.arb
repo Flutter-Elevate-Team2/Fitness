@@ -150,5 +150,17 @@
   "enterYourOtp": "Enter Your OTP Check your email",
   "@enterYourOtp": {
     "description": "Enter Your OTP Check your email"
-  }
+  },
+  "explore": "Explore",
+  "@explore": {
+    "description": "Explore"},
+  "chatAi": "Chat AI",
+  "@chatAi": {
+    "description": "Chat AI"},
+  "workouts": "Workouts",
+  "@workouts": {
+    "description": "Workouts"},
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile"}
 }

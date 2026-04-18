@@ -1,4 +1,5 @@
 import 'package:fitness_app/Features/home/presentation/views/widgets/custom_bottom_nav_bar.dart'; // تأكدي من المسار
+import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -8,6 +9,9 @@ void main() {
     required Function(int) onTap,
   }) {
     return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: const Locale('en'),
       home: Scaffold(
         bottomNavigationBar: CustomBottomNavBar(
           currentIndex: currentIndex,

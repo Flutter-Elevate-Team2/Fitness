@@ -17,7 +17,7 @@ void main() {
   setUp(() {
     mockPrefs = MockSharedPreferences();
     mockSecureStorage = MockFlutterSecureStorage();
-    dataSource = AuthLocalDataSourceImpl(mockPrefs , mockSecureStorage );
+    dataSource = AuthLocalDataSourceImpl(mockSecureStorage);
   });
 
   test('saveToken should save token in shared preferences', () async {
@@ -66,57 +66,16 @@ void main() {
     verifyNoMoreInteractions(mockPrefs);
   });
 
-  test('saveRememberMe should save value in shared preferences', () async {
-    // arrange
-    when(
-      mockPrefs.setBool(ApiConstants.rememberMeKey, true),
-    ).thenAnswer((_) async => true);
-
-    // act
-    await dataSource.saveRememberMe(true);
-
-    // assert
-    verify(mockPrefs.setBool(ApiConstants.rememberMeKey, true)).called(1);
-    verifyNoMoreInteractions(mockPrefs);
-  });
-
-  test('getRememberMe should return false when value is null', () async {
-    // arrange
-    when(mockPrefs.getBool(ApiConstants.rememberMeKey)).thenReturn(null);
-
-    // act
-    final result = await dataSource.getRememberMe();
-
-    // assert
-    expect(result, false);
-    verify(mockPrefs.getBool(ApiConstants.rememberMeKey)).called(1);
-    verifyNoMoreInteractions(mockPrefs);
-  });
-
-  test('getRememberMe should return stored value when exists', () async {
-    // arrange
-    when(mockPrefs.getBool(ApiConstants.rememberMeKey)).thenReturn(true);
-
-    // act
-    final result = await dataSource.getRememberMe();
-
-    // assert
-    expect(result, true);
-    verify(mockPrefs.getBool(ApiConstants.rememberMeKey)).called(1);
-    verifyNoMoreInteractions(mockPrefs);
-  });
 
   test('clearUserData should remove token and remember me keys', () async {
     // arrange
     when(mockSecureStorage.delete(key: ApiConstants.tokenKey))
         .thenAnswer((_) async {});
-    when(mockPrefs.remove('is_remember_me'))
-        .thenAnswer((_) async => true);
+
     // act
     await dataSource.clearUserData();
 
     // assert
     verify(mockSecureStorage.delete(key: ApiConstants.tokenKey)).called(1);
-    verify(mockPrefs.remove('is_remember_me')).called(1);
     verifyNoMoreInteractions(mockPrefs);  });
 }

@@ -1,5 +1,5 @@
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
- import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
+import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
 import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
@@ -25,12 +25,6 @@ class Routes {
   static const String forgetPasswordPath = '/forgetpassword';
   static const String forgetPasswordName = 'forgetPassword';
 
-  static const String verifyCodePath = '/verifycode';
-  static const String verifyCodeName = 'verifyCode';
-
-  static const String resetPasswordPath = '/resetpassword';
-  static const String resetPasswordName = 'resetPassword';
-
   static const String homePath = '/home';
   static const String homeName = 'home';
 }
@@ -43,50 +37,39 @@ class AppRouter {
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.homePath,
     redirect: (context, state) async {
-      // جلب الـ UseCase من GetIt
       final hasValidTokenUseCase = getIt<HasValidTokenUseCase>();
       final prefs = getIt<SharedPreferences>();
 
-      // التحقق من الحالات
       final bool isLoggedIn = await hasValidTokenUseCase.call();
       final bool hasVisitedOnboarding =
           prefs.getBool(ApiConstants.onboardingKey) ?? false;
 
-      // تحديد هل المسار الحالي هو مسار مصادقة (Auth Route)
       final isAuthRoute =
           state.matchedLocation == Routes.loginPath ||
           state.matchedLocation == Routes.signupPath ||
-          state.matchedLocation == Routes.forgetPasswordPath ||
-          state.matchedLocation == Routes.verifyCodePath ||
-          state.matchedLocation == Routes.resetPasswordPath;
+          state.matchedLocation == Routes.forgetPasswordPath;
 
-      // 2. منطق التوجيه (The Logic)
-
-      // أول مرة يفتح التطبيق وما شافش الـ Onboarding
       if (!hasVisitedOnboarding &&
           state.matchedLocation != Routes.onBoardingPath) {
         return Routes.onBoardingPath;
       }
 
-      // لو شاف الـ Onboarding وبيحاول يرجعله.. وديه للوجن
       if (hasVisitedOnboarding &&
           state.matchedLocation == Routes.onBoardingPath) {
         return Routes.loginPath;
       }
 
-      // لو مش مسجل دخول وبيحاول يدخل صفحة محمية (زي الهوم)
       if (!isLoggedIn &&
           !isAuthRoute &&
           state.matchedLocation != Routes.onBoardingPath) {
         return Routes.loginPath;
       }
 
-      // لو مسجل دخول وبيحاول يروح لصفحات اللوجن.. وديه للهوم
       if (isLoggedIn && isAuthRoute) {
         return Routes.homePath;
       }
 
-      return null; // لا يوجد توجيه، استمر في المسار الحالي
+      return null;
     },
     routes: [
       GoRoute(
@@ -108,16 +91,6 @@ class AppRouter {
         path: Routes.forgetPasswordPath,
         name: Routes.forgetPasswordName,
         builder: (context, state) => ForgetPasswordScreen(),
-      ),
-      GoRoute(
-        path: Routes.verifyCodePath,
-        name: Routes.verifyCodeName,
-        builder: (context, state) => Container(),
-      ),
-      GoRoute(
-        path: Routes.resetPasswordPath,
-        name: Routes.resetPasswordName,
-          builder: (context, state) => Container(),
       ),
       GoRoute(
         path: Routes.homePath,

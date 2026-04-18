@@ -35,9 +35,8 @@ void main() {
 
   // ================= isLoggedIn =================
   group('isLoggedIn', () {
-    test('returns true when token exists AND rememberMe is true', () async {
+    test('returns true when token exists', () async {
       when(mockLocal.getToken()).thenAnswer((_) async => 'some_token');
-      when(mockLocal.getRememberMe()).thenAnswer((_) async => true);
 
       final result = await authRepo.isLoggedIn();
 
@@ -46,21 +45,12 @@ void main() {
 
     test('returns false when token is null', () async {
       when(mockLocal.getToken()).thenAnswer((_) async => null);
-      when(mockLocal.getRememberMe()).thenAnswer((_) async => true);
 
       final result = await authRepo.isLoggedIn();
 
       expect(result, false);
     });
 
-    test('returns false when rememberMe is false', () async {
-      when(mockLocal.getToken()).thenAnswer((_) async => 'some_token');
-      when(mockLocal.getRememberMe()).thenAnswer((_) async => false);
-
-      final result = await authRepo.isLoggedIn();
-
-      expect(result, false);
-    });
   });
 
   // ================= Forget Password =================

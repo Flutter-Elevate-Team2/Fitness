@@ -109,5 +109,9 @@
   "confirmPasswordHint": "أكد كلمة المرور",
   "@confirmPasswordHint": { "description": "نص تلميحي لحقل تأكيد كلمة المرور" },
   "sentOtp": "إرسل رمز التحقق",
-  "enterYourOtp": "تفقد بريدك الإلكتروني وأدخل رمز التحقق"
+  "enterYourOtp": "تفقد بريدك الإلكتروني وأدخل رمز التحقق",
+  "explore": "استكشاف",
+  "chatAi": "الدردشة",
+  "workouts": "التمارين",
+  "profile": "الملف الشخصي"
 }
