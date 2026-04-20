@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/controller/session_expired.dart';
+import 'package:fitness_app/core/data_base/isar_database_service.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:fitness_app/core/theming/app_theming.dart';
@@ -11,9 +12,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 Future<void> main() async {
- WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await dotenv.load(fileName: ".env");
+
+  await IsarDatabaseService.init([
+    // Add your collection schemas here as features are built:
+    // e.g. WorkoutIsarModelSchema,
+  ]);
+
   await configureDependencies();
   runApp(const MyApp());
 }

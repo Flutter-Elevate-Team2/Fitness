@@ -11,6 +11,80 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsFontsGen {
+  const $AssetsFontsGen();
+
+  /// File path: assets/fonts/BalooThambi2-Bold.ttf
+  String get balooThambi2Bold => 'assets/fonts/BalooThambi2-Bold.ttf';
+
+  /// File path: assets/fonts/BalooThambi2-ExtraBold.ttf
+  String get balooThambi2ExtraBold => 'assets/fonts/BalooThambi2-ExtraBold.ttf';
+
+  /// File path: assets/fonts/BalooThambi2-Medium.ttf
+  String get balooThambi2Medium => 'assets/fonts/BalooThambi2-Medium.ttf';
+
+  /// File path: assets/fonts/BalooThambi2-Regular.ttf
+  String get balooThambi2Regular => 'assets/fonts/BalooThambi2-Regular.ttf';
+
+  /// File path: assets/fonts/BalooThambi2-SemiBold.ttf
+  String get balooThambi2SemiBold => 'assets/fonts/BalooThambi2-SemiBold.ttf';
+
+  /// List of all assets
+  List<String> get values => [
+    balooThambi2Bold,
+    balooThambi2ExtraBold,
+    balooThambi2Medium,
+    balooThambi2Regular,
+    balooThambi2SemiBold,
+  ];
+}
+
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/Apple.png
+  AssetGenImage get apple => const AssetGenImage('assets/icons/Apple.png');
+
+  /// File path: assets/icons/Google.png
+  AssetGenImage get google => const AssetGenImage('assets/icons/Google.png');
+
+  /// File path: assets/icons/chat ai.png
+  AssetGenImage get chatAi => const AssetGenImage('assets/icons/chat ai.png');
+
+  /// File path: assets/icons/explore.png
+  AssetGenImage get explore => const AssetGenImage('assets/icons/explore.png');
+
+  /// File path: assets/icons/facebook.png
+  AssetGenImage get facebook =>
+      const AssetGenImage('assets/icons/facebook.png');
+
+  /// File path: assets/icons/female.png
+  AssetGenImage get female => const AssetGenImage('assets/icons/female.png');
+
+  /// File path: assets/icons/male.png
+  AssetGenImage get male => const AssetGenImage('assets/icons/male.png');
+
+  /// File path: assets/icons/profile.png
+  AssetGenImage get profile => const AssetGenImage('assets/icons/profile.png');
+
+  /// File path: assets/icons/workouts.png
+  AssetGenImage get workouts =>
+      const AssetGenImage('assets/icons/workouts.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    apple,
+    google,
+    chatAi,
+    explore,
+    facebook,
+    female,
+    male,
+    profile,
+    workouts,
+  ];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -28,6 +102,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/auth_background.png
   AssetGenImage get authBackground =>
       const AssetGenImage('assets/images/auth_background.png');
+
+  /// File path: assets/images/auth_logo.png
+  AssetGenImage get authLogo =>
+      const AssetGenImage('assets/images/auth_logo.png');
+
+  /// File path: assets/images/home_background.jpg
+  AssetGenImage get homeBackground =>
+      const AssetGenImage('assets/images/home_background.jpg');
 
   /// File path: assets/images/lock.png
   AssetGenImage get lock => const AssetGenImage('assets/images/lock.png');
@@ -61,6 +143,8 @@ class $AssetsImagesGen {
     appIcon,
     appIcon1,
     authBackground,
+    authLogo,
+    homeBackground,
     lock,
     mail,
     onboarding1,
@@ -75,6 +159,8 @@ class Assets {
   const Assets._();
 
   static const String aEnv = '.env';
+  static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 
   /// List of all assets

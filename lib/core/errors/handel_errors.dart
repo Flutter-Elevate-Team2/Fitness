@@ -5,6 +5,7 @@ import 'package:fitness_app/core/errors/error_strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:isar/isar.dart';
 
 class ErrorHandler {
   // === Helper Getter to access Localization Globally ===
@@ -44,9 +45,19 @@ class ErrorHandler {
     //   return _handleFirebaseGeneralError(error);
     // }
     // -------------------------------------------------------------------------
-    // SECTION 4: LOCAL STORAGE ERRORS
+    // SECTION 4: LOCAL STORAGE ERRORS (Isar)
     // -------------------------------------------------------------------------
+    else if (error is IsarError) {
+      return ErrorStrings.isarError;
+    }
+    // ── Empty-cache sentinel (string returned by CacheExecutionMixin) ─────────
+    else if (error is String &&
+        error == ErrorStrings.emptyCacheError) {
+      return ErrorStrings.emptyCacheError;
+    }
+    // ── Legacy: HiveError (kept until Hive is fully removed) ─────────────────
     else if (error is HiveError) {
+      // ignore: deprecated_member_use_from_same_package
       return ErrorStrings.hiveError;
     } else if (error is PlatformException) {
       return _handlePlatformError(error);

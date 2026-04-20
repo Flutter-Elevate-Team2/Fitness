@@ -15,7 +15,7 @@ dependencies:
   cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
   dio: ^5.9.0
-  dio_cache_interceptor: ^4.0.5
+  internet_connection_checker: ^3.0.1
   equatable: ^2.0.7
   flutter_bloc: ^9.1.1
   flutter_dotenv: ^6.0.0
@@ -43,6 +43,11 @@ dependencies:
   icons_launcher: ^3.1.0
   http: ^1.6.0
 
+  # ── Isar Database ──────────────────────────────
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  path_provider: ^2.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,6 +62,7 @@ dev_dependencies:
   retrofit_generator: ^10.0.6
   flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
+
 
 flutter:
   generate: true
@@ -91,3 +97,8 @@ icons_launcher:
       adaptive_foreground_image: "assets/images/app_icon.png"
     ios:
       enable: true
+
+dependency_overrides:
+  # Forces dart_style to 3.x, which is what retrofit_generator 10.x requires.
+  # This resolves any accidental dart_style version drift from other generators.
+  dart_style: ^3.1.1
