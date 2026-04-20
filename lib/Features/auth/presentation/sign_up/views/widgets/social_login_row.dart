@@ -25,7 +25,7 @@ class SocialLoginRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final vm = context.read<LoginViewModel>();
+    final vm = context.read<LoginViewModel>();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -88,8 +88,7 @@ class SocialLoginRow extends StatelessWidget {
                       userCredential.additionalUserInfo?.isNewUser ?? false;
 
                   if (isNewUser) {
-                    // ✅ مستخدم جديد → كملي Signup
-                    final email = user.email ?? "";
+                     final email = user.email ?? "";
                     final displayName = user.displayName ?? "";
 
                     final parts = displayName.split(" ");
@@ -99,11 +98,13 @@ class SocialLoginRow extends StatelessWidget {
 
                     onGoogleSuccess(email, firstName, lastName, password);
                   } else {
-                    vm.doIntent(
+                    await vm.doIntent(
                       GoogleLoginEvent(email: user.email ?? ""),
                     );
-
-                    context.goNamed(Routes.homeName);
+                    if (!context.mounted) return;
+                    if (vm.state.loginState?.data != null) {
+                      context.goNamed(Routes.homeName);
+                    }
                   }
                 } catch (e) {
                   debugPrint("Google Sign-In Error: $e");

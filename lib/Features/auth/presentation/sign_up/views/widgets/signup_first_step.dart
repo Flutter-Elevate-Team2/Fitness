@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_login_row.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
@@ -44,8 +45,13 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
       onButtonPressed: () async {
         if (_formKey.currentState!.validate()) {
 
-          // final email = widget.emailController.text.trim();
-          // final password = widget.passwordController.text.trim();
+
+          final email = widget.emailController.text.trim();
+          final password = widget.passwordController.text.trim();
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
           // try {
           //   await FirebaseAuth.instance.signInWithEmailAndPassword(
           //     email: email,

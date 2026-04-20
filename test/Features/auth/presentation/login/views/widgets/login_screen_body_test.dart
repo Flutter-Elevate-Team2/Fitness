@@ -81,7 +81,7 @@ void main() {
       'should call doIntent when form is valid and button is pressed',
       (tester) async {
         // 1. Arrange
-        when(() => mockViewModel.doIntent(any())).thenReturn(null);
+        when(() => mockViewModel.doIntent(any())).thenReturn(any as Future<void>);
 
         await tester.pumpWidget(createTestableWidget());
 

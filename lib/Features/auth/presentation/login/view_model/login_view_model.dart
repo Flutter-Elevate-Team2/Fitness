@@ -16,9 +16,9 @@ class LoginViewModel extends Cubit<LoginState> {
   final SessionController _sessionController;
 
   LoginViewModel(this._loginUseCase, this._sessionController)
-    : super(const LoginState());
+      : super(const LoginState());
 
-  void doIntent(LoginEvent event) {
+  Future<void> doIntent(LoginEvent event)async {
     switch (event) {
       case LoginInitialEvent():
         _onInit();
@@ -27,10 +27,10 @@ class LoginViewModel extends Cubit<LoginState> {
         _resetErrorState();
         break;
       case LoginButtonClickedEvent():
-        _handleLogin(event: event);
+        await _handleLogin(event: event);
         break;
       case GoogleLoginEvent():
-        _handleLogin(email : event.email);
+       await _handleLogin(email : event.email);
 
     }
   }
@@ -56,7 +56,7 @@ class LoginViewModel extends Cubit<LoginState> {
 
     switch (response) {
       case SuccessResponse<LoginEntity>():
-        _sessionController.notifyLogin();
+         _sessionController.notifyLogin();
 
         emit(
           state.copyWith(

@@ -39,16 +39,9 @@ class LoginForm extends StatelessWidget {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       final user = userCredential.user;
-      print("EMAIL : ${user?.email}");
-      context.read<LoginViewModel>().doIntent(
-        GoogleLoginEvent(email: user?.email.toString() ?? ""),
-      );
-      if (!context.mounted) return;
-
-      final isNewUser =
-          userCredential.additionalUserInfo?.isNewUser == true &&
-              userCredential.user?.metadata.creationTime ==
-                  userCredential.user?.metadata.lastSignInTime;
+       if (!context.mounted) return;
+       final isNewUser =
+          userCredential.additionalUserInfo?.isNewUser ?? false;
 
       if (isNewUser) {
         context.goNamed(
@@ -67,8 +60,8 @@ class LoginForm extends StatelessWidget {
         );
       } else {
         if (!context.mounted) return;
-        context.goNamed(
-          Routes.homeName,
+        context.read<LoginViewModel>().doIntent(
+          GoogleLoginEvent(email: user?.email.toString() ?? ""),
         );
        }
 
@@ -81,6 +74,7 @@ class LoginForm extends StatelessWidget {
       );
     }
   }
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
