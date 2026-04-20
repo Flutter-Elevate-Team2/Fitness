@@ -7,6 +7,15 @@ import 'package:fitness_app/core/l10n/app_localizations.dart';
 
 void main() {
   group('SignupGenderStep', () {
+    void setTestScreenSize(WidgetTester tester) {
+      tester.view.physicalSize = const Size(
+        800,
+        1200,
+      );
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+    }
+
     Widget buildWidget({
       String? selectedGender,
       int currentStep = 1,
@@ -42,16 +51,17 @@ void main() {
       expect(find.text('We Need To Know Your Gender'), findsOneWidget);
     });
 
-    testWidgets('displays two GenderSelectionButtons',
-        (WidgetTester tester) async {
+    testWidgets('displays two GenderSelectionButtons', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildWidget());
       await tester.pumpAndSettle();
 
       expect(find.byType(GenderSelectionButton), findsNWidgets(2));
     });
 
-    testWidgets('displays Male and Female labels',
-        (WidgetTester tester) async {
+    testWidgets('displays Male and Female labels', (WidgetTester tester) async {
+      setTestScreenSize(tester);
       await tester.pumpWidget(buildWidget());
       await tester.pumpAndSettle();
 
@@ -66,8 +76,9 @@ void main() {
       expect(find.byType(CustomStepProgress), findsOneWidget);
     });
 
-    testWidgets('calls onGenderSelected with "male" when Male is tapped',
-        (WidgetTester tester) async {
+    testWidgets('calls onGenderSelected with "male" when Male is tapped', (
+      WidgetTester tester,
+    ) async {
       String? selected;
 
       await tester.pumpWidget(
@@ -79,8 +90,9 @@ void main() {
       expect(selected, 'male');
     });
 
-    testWidgets('calls onGenderSelected with "female" when Female is tapped',
-        (WidgetTester tester) async {
+    testWidgets('calls onGenderSelected with "female" when Female is tapped', (
+      WidgetTester tester,
+    ) async {
       String? selected;
 
       await tester.pumpWidget(
@@ -92,15 +104,13 @@ void main() {
       expect(selected, 'female');
     });
 
-    testWidgets('Next button is disabled when no gender is selected',
-        (WidgetTester tester) async {
+    testWidgets('Next button is disabled when no gender is selected', (
+      WidgetTester tester,
+    ) async {
       bool pressed = false;
 
       await tester.pumpWidget(
-        buildWidget(
-          selectedGender: null,
-          onNextStep: () => pressed = true,
-        ),
+        buildWidget(selectedGender: null, onNextStep: () => pressed = true),
       );
       await tester.pumpAndSettle();
 
@@ -114,15 +124,13 @@ void main() {
       expect(pressed, isFalse);
     });
 
-    testWidgets('Next button is enabled when a gender is selected',
-        (WidgetTester tester) async {
+    testWidgets('Next button is enabled when a gender is selected', (
+      WidgetTester tester,
+    ) async {
       bool pressed = false;
 
       await tester.pumpWidget(
-        buildWidget(
-          selectedGender: 'male',
-          onNextStep: () => pressed = true,
-        ),
+        buildWidget(selectedGender: 'male', onNextStep: () => pressed = true),
       );
       await tester.pumpAndSettle();
 

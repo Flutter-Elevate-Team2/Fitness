@@ -10,7 +10,8 @@ import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/sig
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_weight_step.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/di/di.dart';
-import 'package:fitness_app/core/theming/app_colors.dart';
+import 'package:fitness_app/core/widget/shared_scaffold.dart';
+import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -125,8 +126,11 @@ class _SignupScreenState extends State<SignupScreen> {
             }
           }
         },
-        child: Scaffold(
-          backgroundColor: AppColors.black,
+        child: SharedScaffold(
+          showBackButton: _currentStep > 0,
+          onBackButtonPressed: _goToPreviousPage,
+          title: Image.asset(Assets.images.appIcon1.path, height: 38),
+          backgroundImage: Assets.images.authBackground.path,
           body: PageView(
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
@@ -139,6 +143,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 emailController: _emailController,
                 passwordController: _passwordController,
                 onNextStep: _goToNextPage,
+                useScaffold: false,
               ),
 
               /// ── Step 2: Gender Selection ──
@@ -150,6 +155,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 },
                 onNextStep: _goToNextPage,
                 onBackButtonPressed: _goToPreviousPage,
+                useScaffold: false,
               ),
 
               /// ── Step 3: Age ──
@@ -159,6 +165,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 onAgeChanged: (age) => setState(() => _selectedAge = age),
                 onNextStep: _goToNextPage,
                 onBackButtonPressed: _goToPreviousPage,
+                useScaffold: false,
               ),
 
               /// ── Step 4: Weight ──
@@ -168,6 +175,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 onWeightChanged: (w) => setState(() => _selectedWeight = w),
                 onNextStep: _goToNextPage,
                 onBackButtonPressed: _goToPreviousPage,
+                useScaffold: false,
               ),
 
               /// ── Step 5: Height ──
@@ -177,6 +185,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 onHeightChanged: (h) => setState(() => _selectedHeight = h),
                 onNextStep: _goToNextPage,
                 onBackButtonPressed: _goToPreviousPage,
+                useScaffold: false,
               ),
 
               /// —— Step 6: Goal
@@ -187,6 +196,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   _goToNextPage();
                 },
                 onBackButtonPressed: _goToPreviousPage,
+                useScaffold: false,
               ),
 
               /// —— Step 7: Activity Level
@@ -212,6 +222,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           );
                     },
                     onBackButtonPressed: _goToPreviousPage,
+                    useScaffold: false,
                   );
                 },
               ),

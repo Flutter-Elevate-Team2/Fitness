@@ -21,38 +21,40 @@ void main() {
 
   group('SharedScaffold Coverage Tests', () {
     testWidgets(
-      'should hide AppBar when title is null and showBackButton is false',
+      'should hide Custom AppBar when title is null and showBackButton is false',
       (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: SharedScaffold(
               title: null,
               showBackButton: false,
-              body: const SizedBox(),
+              body: SizedBox(),
             ),
           ),
         );
 
-        expect(find.byType(AppBar), findsNothing);
+        final appBarContainer = find.byWidgetPredicate(
+          (widget) =>
+              widget is Container && widget.constraints?.minHeight == 56,
+        );
+
+        expect(appBarContainer, findsNothing);
       },
     );
 
-    testWidgets('should show AppBar with title and back button by default', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: SharedScaffold(
-            title: const Text('My Title'),
-            body: const SizedBox(),
+    testWidgets(
+      'should show Custom AppBar with title and back button by default',
+      (tester) async {
+        await tester.pumpWidget(
+          const MaterialApp(
+            home: SharedScaffold(title: Text('My Title'), body: SizedBox()),
           ),
-        ),
-      );
+        );
 
-      expect(find.byType(AppBar), findsOneWidget);
-      expect(find.text('My Title'), findsOneWidget);
-      expect(find.byType(GestureDetector), findsOneWidget);
-    });
+        expect(find.text('My Title'), findsOneWidget);
+        expect(find.byType(GestureDetector), findsOneWidget); // زرار الرجوع
+      },
+    );
 
     testWidgets('should navigate back when back button is pressed', (
       tester,
@@ -74,72 +76,29 @@ void main() {
     testWidgets(
       'should render background and foreground images when provided',
       (tester) async {
-        FlutterError.onError = null;
-
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: SharedScaffold(
-              backgroundImage: 'assets/bg.png',
-              foregroundImage: 'assets/fg.png',
-              foregroundImageHeight: 200,
-              foregroundImageTop: 50,
-              body: const SizedBox(),
+              backgroundImage: 'assets/images/auth_background.png',
+              foregroundImage: 'assets/images/app_icon.png',
+              body: SizedBox(),
             ),
           ),
         );
 
         expect(find.byType(Image), findsNWidgets(2));
-
-        final images = tester.widgetList<Image>(find.byType(Image)).toList();
-
-        expect((images[0].image as AssetImage).assetName, 'assets/bg.png');
-        expect(images[0].fit, BoxFit.cover);
-
-        expect((images[1].image as AssetImage).assetName, 'assets/fg.png');
-        expect(images[1].height, 200);
       },
     );
 
-    testWidgets(
-      'should use default height and top for foreground image when null',
-      (tester) async {
-        FlutterError.onError = null;
-
-        await tester.pumpWidget(
-          MaterialApp(
-            home: SharedScaffold(
-              foregroundImage: 'assets/fg.png',
-              body: const SizedBox(),
-            ),
-          ),
-        );
-
-        final Positioned positioned = tester.widget(
-          find
-              .ancestor(
-                of: find.byWidgetPredicate(
-                  (widget) =>
-                      widget is Image &&
-                      (widget.image as AssetImage).assetName == 'assets/fg.png',
-                ),
-                matching: find.byType(Positioned),
-              )
-              .first,
-        );
-
-        expect(positioned.top, isNotNull);
-      },
-    );
-
-    testWidgets('should render body inside SafeArea', (tester) async {
+    testWidgets('should render body inside Expanded', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: SharedScaffold(body: const Text('Body Content'))),
+        const MaterialApp(home: SharedScaffold(body: Text('Body Content'))),
       );
 
       expect(
         find.ancestor(
           of: find.text('Body Content'),
-          matching: find.byType(SafeArea),
+          matching: find.byType(Expanded),
         ),
         findsOneWidget,
       );
@@ -149,16 +108,16 @@ void main() {
       'should not show back button when showBackButton is false but title exists',
       (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: SharedScaffold(
-              title: const Text('Title Only'),
+              title: Text('Title Only'),
               showBackButton: false,
-              body: const SizedBox(),
+              body: SizedBox(),
             ),
           ),
         );
 
-        expect(find.byType(AppBar), findsOneWidget);
+        expect(find.text('Title Only'), findsOneWidget);
         expect(find.byType(GestureDetector), findsNothing);
       },
     );

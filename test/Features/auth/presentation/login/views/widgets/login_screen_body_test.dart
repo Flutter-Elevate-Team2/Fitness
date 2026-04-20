@@ -29,6 +29,10 @@ void main() {
 
   Widget createTestableWidget() {
     return MaterialApp(
+      builder: (context, child) => MediaQuery(
+        data: const MediaQueryData(size: Size(800, 1200)),
+        child: child!,
+      ),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -80,12 +84,13 @@ void main() {
     testWidgets(
       'should call doIntent when form is valid and button is pressed',
       (tester) async {
-        // 1. Arrange
+        tester.view.physicalSize = const Size(800, 1200);
+        tester.view.devicePixelRatio = 1.0;
+
         when(() => mockViewModel.doIntent(any())).thenReturn(null);
 
         await tester.pumpWidget(createTestableWidget());
 
-        // 2. Act
         await tester.enterText(
           find.byType(TextFormField).at(0),
           'test@example.com',
@@ -94,23 +99,27 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        final loginButtonFinder = find.text('Login').last;
+        final loginButtonFinder = find.byType(ElevatedButton);
 
+        await tester.ensureVisible(loginButtonFinder);
         await tester.tap(loginButtonFinder);
 
-        await tester.pump();
+        await tester.pumpAndSettle();
 
-        // 3. Assert
         verify(
           () =>
               mockViewModel.doIntent(any(that: isA<LoginButtonClickedEvent>())),
         ).called(1);
+
+        addTearDown(tester.view.resetPhysicalSize);
       },
     );
 
     testWidgets(
       'should change auto validateMode to always when form is invalid',
       (tester) async {
+        tester.view.physicalSize = const Size(800, 1200);
+
         await tester.pumpWidget(createTestableWidget());
 
         await tester.enterText(
@@ -118,15 +127,20 @@ void main() {
           'invalid-email',
         );
         await tester.enterText(find.byType(TextFormField).at(1), '123');
+
         await tester.pumpAndSettle();
 
-        await tester.tap(find.byType(ElevatedButton));
-        await tester.pump();
-        await tester.tap(find.text('Register'));
-        await tester.pump();
+        final loginButton = find.byType(ElevatedButton);
+        await tester.ensureVisible(loginButton);
+        await tester.tap(loginButton);
+
+        await tester.pumpAndSettle();
+
 
         final form = tester.widget<Form>(find.byType(Form));
         expect(form.autovalidateMode, AutovalidateMode.always);
+
+        addTearDown(tester.view.resetPhysicalSize);
       },
     );
 

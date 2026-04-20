@@ -16,6 +16,7 @@ class SharedAuthLayout extends StatelessWidget {
   final Widget? stepIndicator;
   final Widget? underButtonWidget;
   final VoidCallback? onBackPressed;
+  final bool useScaffold;
 
   const SharedAuthLayout({
     super.key,
@@ -27,7 +28,9 @@ class SharedAuthLayout extends StatelessWidget {
     this.onButtonPressed,
     this.stepIndicator,
     this.underButtonWidget,
-    this.isGreeting = false, this.onBackPressed,
+    this.isGreeting = false,
+    this.onBackPressed,
+    this.useScaffold = true,
   });
 
   @override
@@ -50,42 +53,44 @@ class SharedAuthLayout extends StatelessWidget {
             fontWeight: FontWeight.normal,
           );
 
-   return SharedScaffold(
-      showBackButton: showBackButton,
-      onBackButtonPressed: onBackPressed,
-      title: Image.asset(Assets.images.appIcon1.path, height: 38),
-      backgroundImage: Assets.images.authBackground.path,
+    final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
-      body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Spacer(flex: 2),
+    Widget content(BoxConstraints constraints) {
+      return SingleChildScrollView(
+        physics: isKeyboardOpen
+            ? const ClampingScrollPhysics()
+            : const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics(),
+              ),
+        child: Container(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40),
+              if (stepIndicator != null) ...[
+                Center(child: stepIndicator!),
+                const SizedBox(height: 20),
+              ],
 
-                if (stepIndicator != null) ...[
-                  Center(child: stepIndicator!),
-                  const SizedBox(height: 20),
-                ],
-
-                /// Head Text
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title, style: topStyle),
-                      Text(subtitle, style: bottomStyle),
-                    ],
-                  ),
+              /// Head Text
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: topStyle),
+                    Text(subtitle, style: bottomStyle),
+                  ],
                 ),
-                const SizedBox(height: 16),
+              ),
+              const SizedBox(height: 24),
 
-                /// Container
-                SharedContainer(
+              /// Container
+              Center(
+                child: SharedContainer(
                   borderRadius: 50,
                   blur: 20.6,
                   opacity: .0001,
@@ -106,13 +111,27 @@ class SharedAuthLayout extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                const Spacer(flex: 3),
-                const SizedBox(height: 20),
-              ],
-            ),
+              ),
+              const SizedBox(height: 40),
+            ],
           ),
-        ],
+        ),
+      );
+    }
+
+    if (!useScaffold) {
+      return LayoutBuilder(
+        builder: (context, constraints) => content(constraints),
+      );
+    }
+
+    return SharedScaffold(
+      showBackButton: showBackButton,
+      onBackButtonPressed: onBackPressed,
+      title: Image.asset(Assets.images.appIcon1.path, height: 38),
+      backgroundImage: Assets.images.authBackground.path,
+      body: LayoutBuilder(
+        builder: (context, constraints) => content(constraints),
       ),
     );
   }

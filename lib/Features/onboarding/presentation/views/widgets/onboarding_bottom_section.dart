@@ -30,7 +30,7 @@ class OnboardingBottomSection extends StatelessWidget {
         children: [
           OnboardingPageView(pageController: pageController, pages: pages),
 
-          const SizedBox(height: 8,),
+          // const SizedBox(height: 8,),
 
           OnboardingIndicator(
             pageController: pageController,

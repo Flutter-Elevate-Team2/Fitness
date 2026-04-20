@@ -83,10 +83,7 @@ void main() {
       );
 
       Text titleText = tester.widget(find.text('BIG TITLE'));
-      expect(
-        titleText.style!.fontSize,
-        isNot(16),
-      );
+      expect(titleText.style!.fontSize, isNot(16));
 
       // Test when isGreeting is true
       await tester.pumpWidget(
@@ -143,7 +140,28 @@ void main() {
       expect(find.byType(SharedScaffold), findsOneWidget);
       expect(find.byType(SharedContainer), findsOneWidget);
       expect(find.byKey(const Key('form_body')), findsOneWidget);
-      expect(find.byType(CustomScrollView), findsOneWidget);
+
+      expect(find.byType(SingleChildScrollView), findsOneWidget);
+    });
+
+    testWidgets('should not render SharedScaffold when useScaffold is false', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          const SharedAuthLayout(
+            title: 'T',
+            subtitle: 'S',
+            buttonTitle: 'B',
+            showBackButton: true,
+            useScaffold: false,
+            formBody: SizedBox(),
+          ),
+        ),
+      );
+
+      expect(find.byType(SharedScaffold), findsNothing);
+      expect(find.byType(SingleChildScrollView), findsOneWidget);
     });
   });
 }

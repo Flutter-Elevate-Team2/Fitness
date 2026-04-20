@@ -14,6 +14,7 @@ class SignupFirstStep extends StatefulWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final VoidCallback onNextStep;
+  final bool useScaffold;
 
   const SignupFirstStep({
     super.key,
@@ -22,6 +23,7 @@ class SignupFirstStep extends StatefulWidget {
     required this.emailController,
     required this.passwordController,
     required this.onNextStep,
+    this.useScaffold = true,
   });
 
   @override
@@ -35,6 +37,7 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
   @override
   Widget build(BuildContext context) {
     return SharedAuthLayout(
+      useScaffold: widget.useScaffold,
       title: context.l10n.heyThere,
 
       subtitle: context.l10n.createAccount,
