@@ -3,12 +3,9 @@ import 'package:fitness_app/core/errors/error_strings.dart';
 import 'package:fitness_app/core/errors/handel_errors.dart';
 import 'package:fitness_app/core/network/network_info.dart';
 import 'package:flutter/foundation.dart';
-import 'package:isar/isar.dart';
-
 
 mixin CacheExecutionMixin {
   NetworkInfo get networkInfo;
-
 
   Future<BaseResponse<T>> executeWithCache<RemoteData, LocalData, T>({
     required Future<RemoteData> Function() fetchFromRemote,
@@ -19,84 +16,72 @@ mixin CacheExecutionMixin {
   }) async {
     final isOnline = await networkInfo.isConnected;
 
-    if (isOnline) {
-      return _executeOnline(
-        fetchFromRemote: fetchFromRemote,
-        fetchFromCache: fetchFromCache,
-        saveToCache: saveToCache,
-        remoteMapper: remoteMapper,
-        cacheMapper: cacheMapper,
-      );
-    } else {
-      return _executeOffline(
-        fetchFromCache: fetchFromCache,
-        cacheMapper: cacheMapper,
-      );
-    }
-  }
+    final cachedData = await fetchFromCache();
+    final bool hasCache = !_isCacheEmpty(cachedData);
 
+    if (hasCache) {
 
-  Future<BaseResponse<T>> _executeOnline<RemoteData, LocalData, T>({
-    required Future<RemoteData> Function() fetchFromRemote,
-    required Future<LocalData> Function() fetchFromCache,
-    required Future<void> Function(RemoteData data) saveToCache,
-    required T Function(RemoteData data) remoteMapper,
-    required T Function(LocalData data) cacheMapper,
-  }) async {
-    try {
-      // 1. Fetch from network
-      final remoteData = await fetchFromRemote();
+      if (isOnline) {
 
-      // 2. Persist to Isar in the background — never block the UI on a write
-      unawaited(_persistToCache(remoteData, saveToCache));
-
-      // 3. Return fresh data
-      return SuccessResponse(data: remoteMapper(remoteData));
-    } catch (e) {
-      // 4. Remote failed → try stale cache as fallback
-      debugPrint(
-        '⚠️  CacheExecutionMixin: remote failed, falling back to cache. Error: $e',
-      );
-      return _executeOffline(
-        fetchFromCache: fetchFromCache,
-        cacheMapper: cacheMapper,
-      );
-    }
-  }
-
-  Future<BaseResponse<T>> _executeOffline<LocalData, T>({
-    required Future<LocalData> Function() fetchFromCache,
-    required T Function(LocalData data) cacheMapper,
-  }) async {
-    try {
-      final cachedData = await fetchFromCache();
-
-      if (_isCacheEmpty(cachedData)) {
-        return const ErrorResponse(errorMessage: ErrorStrings.emptyCacheError);
+        unawaited(_syncWithServer(fetchFromRemote, saveToCache));
       }
 
       return SuccessResponse(data: cacheMapper(cachedData));
-    } on IsarError catch (e) {
-      debugPrint('🚨 CacheExecutionMixin: IsarError reading cache: $e');
-      return const ErrorResponse(errorMessage: ErrorStrings.isarError);
-    } catch (e) {
-      final message = ErrorHandler.handleError(e);
-      return ErrorResponse(errorMessage: message);
+
+    } else {
+      if (isOnline) {
+        return _executeOnlineOnly(
+          fetchFromRemote: fetchFromRemote,
+          saveToCache: saveToCache,
+          remoteMapper: remoteMapper,
+        );
+      } else {
+        return const ErrorResponse(errorMessage: ErrorStrings.emptyCacheError);
+      }
     }
   }
+
+
+
+  /// دالة لجلب الداتا من السيرفر والانتظار (تُستخدم فقط لو الكاش فاضي)
+  Future<BaseResponse<T>> _executeOnlineOnly<RemoteData, T>({
+    required Future<RemoteData> Function() fetchFromRemote,
+    required Future<void> Function(RemoteData data) saveToCache,
+    required T Function(RemoteData data) remoteMapper,
+  }) async {
+    try {
+      final remoteData = await fetchFromRemote();
+      unawaited(_persistToCache(remoteData, saveToCache));
+      return SuccessResponse(data: remoteMapper(remoteData));
+    } catch (e) {
+      return ErrorResponse(errorMessage: ErrorHandler.handleError(e));
+    }
+  }
+
+  /// دالة تحديث الكاش في الخلفية (Silent Sync)
+  Future<void> _syncWithServer<RemoteData>(
+    Future<RemoteData> Function() fetchFromRemote,
+    Future<void> Function(RemoteData data) saveToCache,
+  ) async {
+    try {
+      final remoteData = await fetchFromRemote();
+      await _persistToCache(remoteData, saveToCache);
+      debugPrint('Background Sync Complete: Isar is updated with fresh data.');
+    } catch (e) {
+      debugPrint(' Background Sync Failed (Ignored): $e');
+    }
+  }
+
   Future<void> _persistToCache<RemoteData>(
     RemoteData data,
     Future<void> Function(RemoteData data) saveToCache,
   ) async {
     try {
       await saveToCache(data);
-    } on IsarError catch (e) {
-      debugPrint('⚠️  CacheExecutionMixin: Isar write failed (non-fatal): $e');
     } catch (e) {
-      debugPrint('⚠️  CacheExecutionMixin: cache write failed (non-fatal): $e');
+      debugPrint(' Isar write failed: $e');
     }
   }
-
 
   bool _isCacheEmpty(dynamic data) {
     if (data == null) return true;
@@ -105,6 +90,4 @@ mixin CacheExecutionMixin {
   }
 }
 
-
-void unawaited(Future<void> future) {
-}
+void unawaited(Future<void> future) {}
