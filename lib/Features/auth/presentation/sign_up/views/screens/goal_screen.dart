@@ -8,12 +8,14 @@ class GoalScreen extends StatefulWidget {
   final int currentStep;
   final ValueChanged<String> onNextStep;
   final VoidCallback onBackButtonPressed;
+  final bool useScaffold;
 
   const GoalScreen({
     super.key,
     required this.currentStep,
     required this.onNextStep,
     required this.onBackButtonPressed,
+    this.useScaffold = true,
   });
 
   @override
@@ -43,6 +45,7 @@ class _GoalScreenState extends State<GoalScreen> {
     ];
 
     return SharedAuthLayout(
+      useScaffold: widget.useScaffold,
       onBackPressed: widget.onBackButtonPressed,
       title: context.l10n.whatIsYourGoal,
       subtitle: context.l10n.personalizedPlanNote,

@@ -295,4 +295,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterYourOtp => 'Enter Your OTP Check your email';
+
+  @override
+  String get explore => 'Explore';
+
+  @override
+  String get chatAi => 'Chat AI';
+
+  @override
+  String get workouts => 'Workouts';
+
+  @override
+  String get profile => 'Profile';
 }

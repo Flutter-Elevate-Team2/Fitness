@@ -29,11 +29,6 @@ class SharedScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool hideAppBar = (title == null && !showBackButton);
-    final double finalForegroundHeight =
-        foregroundImageHeight ?? MediaQuery.of(context).size.height * 0.7;
-    final double finalTop =
-        foregroundImageTop ?? MediaQuery.of(context).size.height * 0.02;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -43,73 +38,78 @@ class SharedScaffold extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.black,
         extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: true,
         body: Stack(
           children: [
+            // 1. Background Image
             if (backgroundImage != null)
               Positioned.fill(
                 child: Image.asset(backgroundImage!, fit: BoxFit.cover),
               ),
 
+            // 2. Foreground Image
             if (foregroundImage != null)
               Positioned(
-                top: finalTop,
+                top:
+                    foregroundImageTop ??
+                    MediaQuery.of(context).size.height * 0.02,
                 left: 0,
                 right: 0,
                 child: Image.asset(
                   foregroundImage!,
-                  height: finalForegroundHeight,
+                  height:
+                      foregroundImageHeight ??
+                      MediaQuery.of(context).size.height * 0.7,
                   fit: BoxFit.contain,
                 ),
               ),
 
-            hideAppBar
-                ? SafeArea(child: body)
-                : NestedScrollView(
-                    headerSliverBuilder: (context, innerBoxIsScrolled) {
-                      return [
-                        SliverPadding(
-                          padding: EdgeInsets.only(top: appBarTopPadding),
-                          sliver: SliverAppBar(
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                            centerTitle: true,
-                            title: title,
-                            automaticallyImplyLeading: false,
-
-                            floating: true,
-                            pinned: false,
-                            snap: true,
-
-                            leading: showBackButton
-                                ? Padding(
-                                    padding: const EdgeInsets.only(left: 16.0),
-                                    child: Center(
-                                      child: GestureDetector(
-                                        onTap: onBackButtonPressed ??
-                                            () => Navigator.pop(context),
-                                        child: Container(
-                                          width: 24,
-                                          height: 24,
-                                          decoration: const BoxDecoration(
-                                            color: AppColors.primary,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: const Icon(
-                                            Icons.keyboard_arrow_left_rounded,
-                                            size: 16,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : null,
-                          ),
-                        ),
-                      ];
-                    },
-                    body: SafeArea(child: body),
+            // 3. Main Content & Custom AppBar
+            Column(
+              children: [
+                if (!hideAppBar)
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top + 10,
+                    ),
+                    child: Container(
+                      height: 56,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Stack(
+                        children: [
+                          if (showBackButton)
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: GestureDetector(
+                                onTap:
+                                    onBackButtonPressed ??
+                                    () => Navigator.pop(context),
+                                child: Container(
+                                  width: 28,
+                                  height: 28,
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.keyboard_arrow_left_rounded,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (title != null) Center(child: title),
+                        ],
+                      ),
+                    ),
                   ),
+
+                Expanded(
+                  child: body,
+                ),
+              ],
+            ),
           ],
         ),
       ),

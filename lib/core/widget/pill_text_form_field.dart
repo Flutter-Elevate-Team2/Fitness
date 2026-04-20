@@ -43,13 +43,19 @@ class PillTextFormField extends StatelessWidget {
       textInputAction: textInputAction,
       validator: validator,
       onChanged: onChanged,
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.white,
-          ),
+      style: const TextStyle(
+        color: AppColors.white,
+        fontSize: 12,
+        fontWeight: FontWeight.normal,
+      ),
       cursorColor: AppColors.primary,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: themeDecoration.hintStyle,
+        hintStyle: const TextStyle(
+          color: AppColors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+        ),
         prefixIcon: prefixIcon,
         prefixIconColor: themeDecoration.prefixIconColor,
         suffixIcon: suffixIcon,

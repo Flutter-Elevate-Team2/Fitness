@@ -10,6 +10,7 @@ class SignupAgeStep extends StatelessWidget {
   final VoidCallback onNextStep;
   final int currentStep;
   final VoidCallback onBackButtonPressed;
+  final bool useScaffold;
 
   const SignupAgeStep({
     super.key,
@@ -18,11 +19,13 @@ class SignupAgeStep extends StatelessWidget {
     required this.onNextStep,
     required this.currentStep,
     required this.onBackButtonPressed,
+    this.useScaffold = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return SharedAuthLayout(
+      useScaffold: useScaffold,
       onBackPressed: onBackButtonPressed,
       title: context.l10n.howOldAreYou,
       subtitle: context.l10n.personalizedPlanNote,

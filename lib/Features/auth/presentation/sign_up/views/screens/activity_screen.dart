@@ -8,12 +8,14 @@ class ActivityScreen extends StatefulWidget {
   final int currentStep;
   final ValueChanged<String> onNextStep;
   final VoidCallback onBackButtonPressed;
+  final bool useScaffold;
 
   const ActivityScreen({
     super.key,
     required this.currentStep,
     required this.onNextStep,
     required this.onBackButtonPressed,
+    this.useScaffold = true,
   });
 
   @override
@@ -43,6 +45,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
     ];
 
     return SharedAuthLayout(
+      useScaffold: widget.useScaffold,
       onBackPressed: widget.onBackButtonPressed,
       title: context.l10n.physicalActivityLevel,
       subtitle: context.l10n.personalizedPlanNote,
