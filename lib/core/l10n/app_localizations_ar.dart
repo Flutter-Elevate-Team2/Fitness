@@ -293,4 +293,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterYourOtp => 'تفقد بريدك الإلكتروني وأدخل رمز التحقق';
+
+  @override
+  String get explore => 'استكشاف';
+
+  @override
+  String get chatAi => 'الدردشة';
+
+  @override
+  String get workouts => 'التمارين';
+
+  @override
+  String get profile => 'الملف الشخصي';
 }

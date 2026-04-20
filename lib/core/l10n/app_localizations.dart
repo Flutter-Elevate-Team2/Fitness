@@ -643,6 +643,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter Your OTP Check your email'**
   String get enterYourOtp;
+
+  /// Explore
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get explore;
+
+  /// Chat AI
+  ///
+  /// In en, this message translates to:
+  /// **'Chat AI'**
+  String get chatAi;
+
+  /// Workouts
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get workouts;
+
+  /// Profile
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
 }
 
 class _AppLocalizationsDelegate

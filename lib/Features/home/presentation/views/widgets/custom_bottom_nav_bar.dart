@@ -1,3 +1,4 @@
+import 'package:fitness_app/Features/home/presentation/views/widgets/custom_nav_item_widget.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
@@ -16,10 +17,10 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = [
-      _NavItem(icon: Assets.icons.explore.path, label: context.l10n.explore),
-      _NavItem(icon: Assets.icons.chatAi.path, label: context.l10n.chatAi),
-      _NavItem(icon: Assets.icons.workouts.path, label: context.l10n.workouts),
-      _NavItem(icon: Assets.icons.profile.path, label: context.l10n.profile),
+      NavItem(icon: Assets.icons.explore.path, label: context.l10n.explore),
+      NavItem(icon: Assets.icons.chatAi.path, label: context.l10n.chatAi),
+      NavItem(icon: Assets.icons.workouts.path, label: context.l10n.workouts),
+      NavItem(icon: Assets.icons.profile.path, label: context.l10n.profile),
     ];
 
     return Container(
@@ -37,7 +38,7 @@ class CustomBottomNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(items.length, (index) {
           final isSelected = currentIndex == index;
-          return _buildNavItem(
+          return CustomNavItemWidget(
             item: items[index],
             isSelected: isSelected,
             onTap: () => onTap(index),
@@ -47,48 +48,15 @@ class CustomBottomNavBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem({
-    required _NavItem item,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOut,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              item.icon,
-              width: 24,
-              height: 24,
-              color: isSelected ? AppColors.primary : AppColors.light500,
-            ),
-            if (isSelected) ...[
-              const SizedBox(height: 4),
-              Text(
-                item.label,
-                style: const TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
+
 }
 
-class _NavItem {
+class NavItem {
   final String icon;
   final String label;
 
-  const _NavItem({required this.icon, required this.label});
+  const NavItem({required this.icon, required this.label});
 }
+
+
+
