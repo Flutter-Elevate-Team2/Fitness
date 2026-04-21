@@ -21,4 +21,9 @@ class ApiConstants {
   static const String mealsCategories = "categories.php";
   static const String mealsByCategory = "filter.php";
   static const String mealDetails = "lookup.php";
+  //================ Workouts Endpoints ===========================
+  static const String difficultyLevelsByPrimeMover =
+      'levels/difficulty-levels/by-prime-mover';
+  static const String exercisesByMuscleDifficulty =
+      'exercises/by-muscle-difficulty';
 }

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_hive_model.dart';
+import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/controller/session_expired.dart';
@@ -10,13 +12,19 @@ import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:hive_ce/hive.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await dotenv.load(fileName: ".env");
 
-  await HiveDatabaseService.init();
+  await HiveDatabaseService.init(
+    registerAdapters: () {
+      Hive.registerAdapter(DifficultyLevelHiveModelAdapter()); // typeId: 1
+      Hive.registerAdapter(ExerciseHiveModelAdapter()); // typeId: 2
+    },
+  );
 
   await configureDependencies();
   runApp(const MyApp());
@@ -40,21 +48,25 @@ class _MyAppState extends State<MyApp> {
     _subscriptions.add(
       _sessionController.onSessionExpired.listen((_) {
         SessionExpiredHandler.handle();
-      })
+      }),
     );
 
     _subscriptions.add(
       _sessionController.onLogout.listen((_) {
         AppRouter.router.goNamed(Routes.onBoardingName);
-      })
+      }),
     );
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     if (!_isSplashRemoved) {
-      precacheImage(AssetImage(Assets.images.authBackground.path), context).then((_) {
+      precacheImage(
+        AssetImage(Assets.images.authBackground.path),
+        context,
+      ).then((_) {
         FlutterNativeSplash.remove();
         _isSplashRemoved = true;
       });
