@@ -1,3 +1,6 @@
+import 'dart:ui';
+import 'package:fitness_app/core/widget/shared_scaffold.dart';
+import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_model/workouts_events.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_model/workouts_states.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_model/workouts_view_model.dart';
@@ -33,10 +36,20 @@ class _WorkoutsScreenBodyState extends State<_WorkoutsScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.blackSoft,
-      body: SafeArea(
-        child: BlocConsumer<WorkoutsViewModel, WorkoutsStates>(
+    return SharedScaffold(
+      backgroundImage: Assets.images.homeBackground.path,
+      showBackButton: false,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 12.5, sigmaY: 12.5),
+              child: Container(color: const Color(0x801A1A1A)),
+            ),
+          ),
+          Positioned.fill(
+            child: SafeArea(
+              child: BlocConsumer<WorkoutsViewModel, WorkoutsStates>(
           listenWhen: (previous, current) =>
               previous.muscleGroupsState != current.muscleGroupsState,
           listener: (context, state) {
@@ -95,6 +108,9 @@ class _WorkoutsScreenBodyState extends State<_WorkoutsScreenBody> {
             );
           },
         ),
+            ),
+          ),
+        ],
       ),
     );
   }

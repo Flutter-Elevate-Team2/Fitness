@@ -5,20 +5,20 @@ import 'package:fitness_app/core/network/network_info.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'cache_execution_mixin_test.mocks.dart';
- 
+import '../../Features/workouts/data/repo/workouts_repo_impl_test.dart';
+
 class FakeCacheRepo with CacheExecutionMixin {
   @override
   final NetworkInfo networkInfo;
   FakeCacheRepo(this.networkInfo);
 }
- 
+
 @GenerateMocks([NetworkInfo])
 void main() {
   late FakeCacheRepo sut;
   late MockNetworkInfo mockNetworkInfo;
- 
- 
+
+
   Future<BaseResponse<String>> runMixin({
     required bool isOnline,
     required String? cachedData,
@@ -27,7 +27,7 @@ void main() {
     bool remoteThrows = false,
   }) {
     when(mockNetworkInfo.isConnected).thenAnswer((_) async => isOnline);
- 
+
     return sut.executeWithCache<String, String?, String>(
       fetchFromRemote: () async {
         if (remoteThrows) throw Exception('API error');
@@ -40,12 +40,12 @@ void main() {
       isExpired: () async => isExpired,
     );
   }
- 
+
   setUp(() {
     mockNetworkInfo = MockNetworkInfo();
     sut = FakeCacheRepo(mockNetworkInfo);
   });
- 
+
   // ── 1. Cache valid (not expired) ──────────────────────────────────────────────
   group('when cache is valid and not expired', () {
     test('returns cached data without calling API', () async {
@@ -54,23 +54,23 @@ void main() {
         cachedData: 'local_data',
         isExpired: false,
       );
- 
+
       expect(result, isA<SuccessResponse<String>>());
       expect((result as SuccessResponse).data, 'cached_local_data');
     });
- 
+
     test('returns cached data even when offline', () async {
       final result = await runMixin(
         isOnline: false,
         cachedData: 'local_data',
         isExpired: false,
       );
- 
+
       expect(result, isA<SuccessResponse<String>>());
       expect((result as SuccessResponse).data, 'cached_local_data');
     });
   });
- 
+
   // ── 2. Cache expired + online ─────────────────────────────────────────────────
   group('when cache is expired and online', () {
     test('fetches from API and returns fresh data', () async {
@@ -80,12 +80,12 @@ void main() {
         isExpired: true,
         remoteResult: 'fresh_data',
       );
- 
+
       expect(result, isA<SuccessResponse<String>>());
       expect((result as SuccessResponse).data, 'mapped_fresh_data');
     });
   });
- 
+
   // ── 3. No cache + online ──────────────────────────────────────────────────────
   group('when no cache and online', () {
     test('fetches from API and returns remote data', () async {
@@ -95,12 +95,12 @@ void main() {
         isExpired: true,
         remoteResult: 'new_data',
       );
- 
+
       expect(result, isA<SuccessResponse<String>>());
       expect((result as SuccessResponse).data, 'mapped_new_data');
     });
   });
- 
+
   // ── 4. API fails + has stale cache ────────────────────────────────────────────
   group('when API fails', () {
     test('returns stale cache as fallback when cache exists', () async {
@@ -110,11 +110,11 @@ void main() {
         isExpired: true,
         remoteThrows: true,
       );
- 
+
       expect(result, isA<SuccessResponse<String>>());
       expect((result as SuccessResponse).data, 'cached_stale_data');
     });
- 
+
     test('returns error when API fails and no cache exists', () async {
       final result = await runMixin(
         isOnline: true,
@@ -122,11 +122,11 @@ void main() {
         isExpired: true,
         remoteThrows: true,
       );
- 
+
       expect(result, isA<ErrorResponse<String>>());
     });
   });
- 
+
   // ── 5. Offline ────────────────────────────────────────────────────────────────
   group('when offline', () {
     test('returns cached data when cache exists', () async {
@@ -135,18 +135,18 @@ void main() {
         cachedData: 'offline_data',
         isExpired: true,
       );
- 
+
       expect(result, isA<SuccessResponse<String>>());
       expect((result as SuccessResponse).data, 'cached_offline_data');
     });
- 
+
     test('returns error when offline and no cache', () async {
       final result = await runMixin(
         isOnline: false,
         cachedData: null,
         isExpired: true,
       );
- 
+
       expect(result, isA<ErrorResponse<String>>());
       expect(
         (result as ErrorResponse).errorMessage,
@@ -154,13 +154,13 @@ void main() {
       );
     });
   });
- 
+
   // ── 6. Empty list cache ───────────────────────────────────────────────────────
   group('empty list cache', () {
     test('treats empty list as valid cache (not null)', () async {
       // الـ mixin المفروض يشوف [] كـ valid cache مش null
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
- 
+
       final result = await sut.executeWithCache<String, List<String>?, List<String>>(
         fetchFromRemote: () async => 'remote',
         fetchFromCache: () async => [],
@@ -169,7 +169,7 @@ void main() {
         cacheMapper: (data) => data ?? [],
         isExpired: () async => false,
       );
- 
+
       expect(result, isA<SuccessResponse<List<String>>>());
       expect((result as SuccessResponse).data, isEmpty);
     });

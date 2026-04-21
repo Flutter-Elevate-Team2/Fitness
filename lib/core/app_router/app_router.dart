@@ -4,6 +4,7 @@ import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/screens/workouts_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,9 @@ class Routes {
 
   static const String homePath = '/home';
   static const String homeName = 'home';
+
+  static const String workoutPath = '/workout';
+  static const String workoutName = 'workout';
 }
 
 class AppRouter {
@@ -96,6 +100,11 @@ class AppRouter {
         path: Routes.homePath,
         name: Routes.homeName,
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: Routes.workoutPath,
+        name: Routes.workoutName,
+        builder: (context, state) => const WorkoutsScreen(),
       ),
     ],
   );

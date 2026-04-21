@@ -24,16 +24,21 @@ class MuscleCard extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           // Background Image
-          CachedNetworkImage(
-            imageUrl: muscle.image,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => Shimmer.fromColors(
-              baseColor: AppColors.grayMid,
-              highlightColor: AppColors.grayLight,
-              child: Container(color: Colors.white),
+          if (muscle.image != null && muscle.image!.isNotEmpty)
+            CachedNetworkImage(
+              imageUrl: muscle.image!,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Shimmer.fromColors(
+                baseColor: AppColors.grayMid,
+                highlightColor: AppColors.grayLight,
+                child: Container(color: Colors.white),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.image_not_supported, color: AppColors.grayLight),
+            )
+          else
+            const Center(
+              child: Icon(Icons.fitness_center, color: AppColors.grayLight, size: 50),
             ),
-            errorWidget: (context, url, error) => const Icon(Icons.error, color: AppColors.red),
-          ),
           
           // Gradient Overlay to ensure text readability
           Container(

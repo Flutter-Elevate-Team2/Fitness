@@ -31,6 +31,7 @@ class WorkoutsRepoImpl with CacheExecutionMixin implements WorkoutsRepoContract 
   @override
   Future<BaseResponse<List<MuscleGroupEntity>>> getMuscleGroups() async {
     return executeWithCache<MuscleGroupsResponse, List<MuscleGroupModel>?, List<MuscleGroupEntity>>(
+      isExpired: () async => false,
       fetchFromRemote: () => _remoteDataSource.getMuscleGroups(),
       fetchFromCache: () => _localDataSource.getMuscleGroups(),
       saveToCache: (data) async {
@@ -46,6 +47,7 @@ class WorkoutsRepoImpl with CacheExecutionMixin implements WorkoutsRepoContract 
   @override
   Future<BaseResponse<List<MuscleEntity>>> getMusclesByGroupId(String id) async {
     return executeWithCache<MusclesByGroupResponse, List<MuscleModel>?, List<MuscleEntity>>(
+      isExpired: () async => false,
       fetchFromRemote: () => _remoteDataSource.getMusclesByGroupId(id),
       fetchFromCache: () => _localDataSource.getMuscles(id),
       saveToCache: (data) async {

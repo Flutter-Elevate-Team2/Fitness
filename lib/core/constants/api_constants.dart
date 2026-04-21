@@ -23,6 +23,6 @@ class ApiConstants {
   static const String mealDetails = "lookup.php";
 
   //================ Workouts Endpoints ===========================
-  static const String muscles = "/api/v1/muscles";
-  static const String musclesByGroup = "/api/v1/musclesGroup/{id}";
+  static const String muscles = "muscles";
+  static const String musclesByGroup = "musclesGroup/{id}";
 }

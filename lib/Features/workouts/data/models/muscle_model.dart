@@ -1,9 +1,10 @@
 import 'package:hive_ce/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fitness_app/core/data_base/constants.dart';
 
 part 'muscle_model.g.dart';
 
-@HiveType(typeId: 2)
+@HiveType(typeId: HiveTypes.muscle)
 @JsonSerializable()
 class MuscleModel extends HiveObject {
   @HiveField(0)
@@ -14,12 +15,12 @@ class MuscleModel extends HiveObject {
   final String name;
 
   @HiveField(2)
-  final String image;
+  final String? image;
 
   MuscleModel({
     required this.id,
     required this.name,
-    required this.image,
+    this.image,
   });
 
   factory MuscleModel.fromJson(Map<String, dynamic> json) => _$MuscleModelFromJson(json);

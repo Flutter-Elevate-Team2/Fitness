@@ -3,12 +3,12 @@ import 'package:equatable/equatable.dart';
 class MuscleEntity extends Equatable {
   final String id;
   final String name;
-  final String image;
+  final String? image;
 
   const MuscleEntity({
     required this.id,
     required this.name,
-    required this.image,
+    this.image,
   });
 
   @override

@@ -51,11 +51,9 @@ void main() {
       verify(() => mockLocal.saveMuscleGroups(tModels)).called(1);
     });
 
-    test('2. Device Online + Cache Has Data: Returns cache data instantly, then fetches from remote in the background', () async {
+    test('2. Device Online + Cache Has Data: Returns cache data instantly, no remote call', () async {
       when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       when(() => mockLocal.getMuscleGroups()).thenAnswer((_) async => tModels); // Has Cache
-      when(() => mockRemote.getMuscleGroups()).thenAnswer((_) async => tResponse);
-      when(() => mockLocal.saveMuscleGroups(any())).thenAnswer((_) async {});
 
       final result = await repository.getMuscleGroups();
 
@@ -64,12 +62,8 @@ void main() {
       expect(data.length, 1);
 
       verify(() => mockLocal.getMuscleGroups()).called(1);
-
-      // Allow the unawaited _syncWithServer to execute
-      await Future.delayed(const Duration(milliseconds: 100));
-
-      verify(() => mockRemote.getMuscleGroups()).called(1);
-      verify(() => mockLocal.saveMuscleGroups(tModels)).called(1);
+      verifyNever(() => mockRemote.getMuscleGroups());
+      verifyNever(() => mockLocal.saveMuscleGroups(any()));
     });
 
     test('3. Device Offline + Cache Has Data: Returns cache data, no remote call', () async {
