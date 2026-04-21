@@ -13,7 +13,8 @@ class AuthInterceptor extends Interceptor {
 
   AuthInterceptor(this._secureStorage);
 
-  SessionController get _sessionController => GetIt.instance<SessionController>();
+  SessionController get _sessionController =>
+      GetIt.instance<SessionController>();
 
   final _publicPaths = [
     ApiConstants.login,
@@ -24,13 +25,18 @@ class AuthInterceptor extends Interceptor {
   ];
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-   bool isPublicPath = _publicPaths.any((path) => options.path.contains(path));
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    final String currentLanguage =
+        await _secureStorage.read(key: 'language_code') ?? 'en';
+    options.headers["Accept-Language"] = currentLanguage;
+    bool isPublicPath = _publicPaths.any((path) => options.path.contains(path));
     if (!isPublicPath) {
       final token = await _secureStorage.read(key: ApiConstants.tokenKey);
 
-      if (kDebugMode && token != null) {
-       }
+      if (kDebugMode && token != null) {}
 
       if (token != null && token.isNotEmpty) {
         options.headers["Authorization"] = "Bearer $token";
@@ -42,7 +48,9 @@ class AuthInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401 && !_isLoggingOut) {
-      bool isPublicPath = _publicPaths.any((path) => err.requestOptions.path.endsWith(path));
+      bool isPublicPath = _publicPaths.any(
+        (path) => err.requestOptions.path.endsWith(path),
+      );
 
       if (!isPublicPath) {
         _isLoggingOut = true;

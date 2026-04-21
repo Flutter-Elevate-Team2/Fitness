@@ -39,11 +39,9 @@ abstract class DioModule {
       InternetConnectionChecker.createInstance();
 
   // ── Dio (pure transport — no caching) ──────────────────────────────────────
+  @Named("PrimaryDio")
   @singleton
-  Dio dio(
-    AuthInterceptor authInterceptor,
-    PrettyDioLogger dioLogger,
-  ) {
+  Dio dio(AuthInterceptor authInterceptor, PrettyDioLogger dioLogger) {
     final dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.apiBaseUrl,
@@ -58,6 +56,23 @@ abstract class DioModule {
     );
 
     dio.interceptors.add(authInterceptor);
+
+    if (kDebugMode) {
+      dio.interceptors.add(dioLogger);
+    }
+
+    return dio;
+  }
+
+  @Named("MealsDio")
+  @singleton
+  Dio dioMeals(PrettyDioLogger dioLogger) {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: ApiConstants.mealsBaseUrl,
+        connectTimeout: const Duration(seconds: 30),
+      ),
+    );
 
     if (kDebugMode) {
       dio.interceptors.add(dioLogger);
