@@ -1,5 +1,5 @@
-import 'package:fitness_app/Features/workouts/data/data_sources/workouts_local_data_source_contract.dart';
-import 'package:fitness_app/Features/workouts/data/data_sources/workouts_remote_data_source_contract.dart';
+import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_local_data_source_contract.dart';
+import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_remote_data_source_contract.dart';
 import 'package:fitness_app/Features/workouts/data/mapper/workouts_mappers.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';

@@ -1,5 +1,5 @@
 import 'package:fitness_app/core/data_base/hive_database_service.dart';
-import 'package:fitness_app/Features/workouts/data/data_sources/workouts_local_data_source_contract.dart';
+import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_local_data_source_contract.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';
 import 'package:hive_ce/hive.dart';
