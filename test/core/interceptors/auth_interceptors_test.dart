@@ -32,6 +32,8 @@ void main() {
     }
 
     authInterceptor = AuthInterceptor(mockStorage);
+
+    when(mockStorage.read(key: 'language_code')).thenAnswer((_) async => 'en');
   });
 
   tearDown(() async {
@@ -45,6 +47,9 @@ void main() {
 
       authInterceptor.onRequest(options, handler);
 
+      await untilCalled(handler.next(options));
+
+      expect(options.headers["Accept-Language"], "en");
       expect(options.headers["Authorization"], isNull);
       verify(handler.next(options)).called(1);
     });
