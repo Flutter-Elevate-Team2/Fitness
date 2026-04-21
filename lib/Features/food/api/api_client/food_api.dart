@@ -8,5 +8,5 @@ part 'food_api.g.dart';
 @injectable
 abstract class FoodApi {
   @factoryMethod
-  factory FoodApi(Dio dio) = _FoodApi;
+  factory FoodApi(@Named("MealsDio") Dio dio) = _FoodApi;
 }
