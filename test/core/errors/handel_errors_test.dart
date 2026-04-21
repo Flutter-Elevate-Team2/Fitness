@@ -5,7 +5,7 @@ import 'package:fitness_app/core/errors/error_strings.dart';
 import 'package:fitness_app/core/errors/handel_errors.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 void main() {
   group('ErrorHandler Tests', () {

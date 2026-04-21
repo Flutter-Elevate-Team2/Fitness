@@ -1,4 +1,4 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 
 /// Central Hive database service — singleton that provides a simple
 /// init / openBox / close API for the entire app.

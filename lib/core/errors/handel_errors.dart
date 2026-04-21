@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:fitness_app/core/errors/error_strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 class ErrorHandler {
   // === Helper Getter to access Localization Globally ===
