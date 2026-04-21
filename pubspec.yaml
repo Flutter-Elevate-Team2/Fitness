@@ -43,9 +43,8 @@ dependencies:
   icons_launcher: ^3.1.0
   http: ^1.6.0
 
-  # ── Isar Database ──────────────────────────────
-  isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
+  # ── Hive Database ───────────────────────────────
+  hive_flutter: ^1.1.0
   path_provider: ^2.1.4
 
 dev_dependencies:

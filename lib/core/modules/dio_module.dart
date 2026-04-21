@@ -12,7 +12,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 ///
 /// ⚠️  All dio_cache_interceptor / MemCacheStore / CacheOptions entries have
 ///     been intentionally removed. Dio is now a pure network transport —
-///     caching is handled exclusively by the Isar-backed offline-first mixin,
+///     caching is handled exclusively by the Hive-backed offline-first mixin,
 ///     preventing the double-caching bug that occurred when both layers ran.
 @module
 abstract class DioModule {

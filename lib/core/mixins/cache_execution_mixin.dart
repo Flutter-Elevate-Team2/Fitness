@@ -66,7 +66,7 @@ mixin CacheExecutionMixin {
     try {
       final remoteData = await fetchFromRemote();
       await _persistToCache(remoteData, saveToCache);
-      debugPrint('Background Sync Complete: Isar is updated with fresh data.');
+      debugPrint('Background Sync Complete: Hive is updated with fresh data.');
     } catch (e) {
       debugPrint(' Background Sync Failed (Ignored): $e');
     }
@@ -79,7 +79,7 @@ mixin CacheExecutionMixin {
     try {
       await saveToCache(data);
     } catch (e) {
-      debugPrint(' Isar write failed: $e');
+      debugPrint(' Hive write failed: $e');
     }
   }
 

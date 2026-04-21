@@ -1,9 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:isar/isar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data_base/isar_database_service.dart';
+import '../data_base/hive_database_service.dart';
 
 
 @module
@@ -20,5 +19,5 @@ abstract class RegisterModule {
 
 
   @singleton
-  Isar get isar => IsarDatabaseService.instance.db;
+  HiveDatabaseService get hiveDb => HiveDatabaseService.instance;
 }

@@ -40,16 +40,13 @@ class ErrorStrings {
   static const String firebasePermissionDenied = "FIREBASE_PERMISSION_DENIED";
   static const String firebaseUnavailable = "FIREBASE_UNAVAILABLE";
 
-  // --- Local Storage (Isar) ---
-  /// Thrown when an [IsarError] surfaces reading from or opening the database.
-  static const String isarError = "ISAR_ERROR";
+  // --- Local Storage (Hive) ---
+  /// Thrown when a [HiveError] surfaces reading from or opening the database.
+  static const String hiveError = "HIVE_ERROR";
 
-  /// Thrown when the Isar cache is empty and the device is offline.
+  /// Thrown when the Hive cache is empty and the device is offline.
   static const String emptyCacheError = "EMPTY_CACHE_ERROR";
 
-  // --- Local Storage (Legacy / Hive) ---
-  @Deprecated('Use isarError instead. Hive is being replaced by Isar.')
-  static const String hiveError = "HIVE_ERROR";
   static const String platformError = "PLATFORM_ERROR";
 
   // --- Fallback ---
