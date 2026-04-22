@@ -6,9 +6,9 @@ import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entit
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/use_cases/get_muscle_groups_use_case.dart';
 import 'package:fitness_app/Features/workouts/domain/use_cases/get_muscles_by_group_id_use_case.dart';
-import 'package:fitness_app/Features/workouts/presentation/view_model/workouts_events.dart';
-import 'package:fitness_app/Features/workouts/presentation/view_model/workouts_states.dart';
-import 'package:fitness_app/Features/workouts/presentation/view_model/workouts_view_model.dart';
+import 'package:fitness_app/Features/workouts/presentation/view_models/workouts_events.dart';
+import 'package:fitness_app/Features/workouts/presentation/view_models/workouts_states.dart';
+import 'package:fitness_app/Features/workouts/presentation/view_models/workouts_view_model.dart';
 
 class MockGetMuscleGroupsUseCase extends Mock implements GetMuscleGroupsUseCase {}
 class MockGetMusclesByGroupIdUseCase extends Mock implements GetMusclesByGroupIdUseCase {}
