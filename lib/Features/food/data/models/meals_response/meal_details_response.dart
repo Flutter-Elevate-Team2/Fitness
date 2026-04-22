@@ -7,9 +7,7 @@ class MealDetailsResponse {
   @JsonKey(name: "meals")
   final List<Meals>? meals;
 
-  MealDetailsResponse ({
-    this.meals,
-  });
+  MealDetailsResponse({this.meals});
 
   factory MealDetailsResponse.fromJson(Map<String, dynamic> json) {
     return _$MealDetailsResponseFromJson(json);
@@ -129,7 +127,7 @@ class Meals {
   @JsonKey(name: "dateModified")
   final String? dateModified;
 
-  Meals ({
+  Meals({
     this.idMeal,
     this.strMeal,
     this.strMealAlternate,
@@ -193,5 +191,3 @@ class Meals {
     return _$MealsToJson(this);
   }
 }
-
-

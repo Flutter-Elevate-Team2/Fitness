@@ -2,14 +2,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'categories_response.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CategoriesResponse {
   @JsonKey(name: "categories")
   final List<Categories>? categories;
 
-  CategoriesResponse ({
-    this.categories,
-  });
+  CategoriesResponse({this.categories});
 
   factory CategoriesResponse.fromJson(Map<String, dynamic> json) {
     return _$CategoriesResponseFromJson(json);
@@ -31,7 +29,7 @@ class Categories {
   @JsonKey(name: "strCategoryDescription")
   final String? strCategoryDescription;
 
-  Categories ({
+  Categories({
     this.idCategory,
     this.strCategory,
     this.strCategoryThumb,
@@ -46,5 +44,3 @@ class Categories {
     return _$CategoriesToJson(this);
   }
 }
-
-

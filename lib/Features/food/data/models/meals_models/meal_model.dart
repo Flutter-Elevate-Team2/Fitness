@@ -15,6 +15,7 @@ class MealModel {
 
   MealModel({this.strMeal, this.strMealThumb, this.idMeal});
 
-  factory MealModel.fromJson(Map<String, dynamic> json) => _$MealModelFromJson(json);
+  factory MealModel.fromJson(Map<String, dynamic> json) =>
+      _$MealModelFromJson(json);
   Map<String, dynamic> toJson() => _$MealModelToJson(this);
 }
