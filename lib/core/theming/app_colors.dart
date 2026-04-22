@@ -40,6 +40,7 @@ class AppColors {
   static const Color grayDark = Color(0xFF242424);
   static const Color grayMid = Color(0xFF3A3A3A);
   static const Color grayLight = Color(0xFF505050);
+  static const Color playIconColor = Color(0xFF1F1F1F);
 
   static const Color red = Color(0xFFE53935);
 
