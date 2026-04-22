@@ -305,4 +305,36 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profile => 'الملف الشخصي';
+
+  @override
+  String get buildYourMusclesWorkout =>
+      'قم ببناء عضلاتك من خلال هذا التمرين السريع والفعال.';
+
+  @override
+  String get thirtyMin => '30 دقيقة';
+
+  @override
+  String get oneHundredThirtyCal => '130 سعرة حرارية';
+
+  @override
+  String get noExercisesFoundForThisLevel =>
+      'لا توجد تمارين متاحة لهذا المستوى.';
+
+  @override
+  String get invalidVideoUrl => 'رابط الفيديو غير صالح';
+
+  @override
+  String get noInternetConnection => 'لا يوجد اتصال بالإنترنت';
+
+  @override
+  String get pleaseCheckNetworkToWatch => 'يرجى التحقق من الشبكة للمشاهدة';
+
+  @override
+  String get retryButton => 'إعادة المحاولة';
+
+  @override
+  String get groups => 'مجموعات';
+
+  @override
+  String get times => 'مرات';
 }

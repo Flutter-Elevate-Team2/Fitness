@@ -1,16 +1,20 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:injectable/injectable.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-
 
 abstract class NetworkInfo {
   Future<bool> get isConnected;
 }
+
 @LazySingleton(as: NetworkInfo)
 class NetworkInfoImpl implements NetworkInfo {
-  NetworkInfoImpl(this._connectionChecker);
+  final Connectivity _connectivity;
 
-  final InternetConnectionChecker _connectionChecker;
+  NetworkInfoImpl(this._connectivity);
 
   @override
-  Future<bool> get isConnected => _connectionChecker.hasConnection;
+  Future<bool> get isConnected async {
+    final results = await _connectivity.checkConnectivity();
+
+    return !results.contains(ConnectivityResult.none);
+  }
 }

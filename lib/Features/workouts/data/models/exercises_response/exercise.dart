@@ -10,7 +10,7 @@ class Exercise {
   @JsonKey(name: 'short_youtube_demonstration')
   String? shortYoutubeDemonstration;
   @JsonKey(name: 'in_depth_youtube_explanation')
-  dynamic inDepthYoutubeExplanation;
+  String? inDepthYoutubeExplanation;
   @JsonKey(name: 'difficulty_level')
   String? difficultyLevel;
   @JsonKey(name: 'target_muscle_group')
@@ -18,9 +18,9 @@ class Exercise {
   @JsonKey(name: 'prime_mover_muscle')
   String? primeMoverMuscle;
   @JsonKey(name: 'secondary_muscle')
-  dynamic secondaryMuscle;
+  String? secondaryMuscle;
   @JsonKey(name: 'tertiary_muscle')
-  dynamic tertiaryMuscle;
+  String? tertiaryMuscle;
   @JsonKey(name: 'primary_equipment')
   String? primaryEquipment;
   @JsonKey(name: '_primary_items')
@@ -66,7 +66,7 @@ class Exercise {
   @JsonKey(name: 'short_youtube_demonstration_link')
   String? shortYoutubeDemonstrationLink;
   @JsonKey(name: 'in_depth_youtube_explanation_link')
-  dynamic inDepthYoutubeExplanationLink;
+ String? inDepthYoutubeExplanationLink;
 
   Exercise({
     this.id,

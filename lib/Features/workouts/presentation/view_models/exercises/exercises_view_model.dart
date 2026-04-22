@@ -1,9 +1,9 @@
+import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_events.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/difficulty_level_entity.dart';
-import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/use_cases/get_difficulty_level_use_case.dart';
 import 'package:fitness_app/Features/workouts/domain/use_cases/get_exercises_by_level_prime_mover_muscle.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
@@ -30,26 +30,50 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
       case LoadMoreExercises():
         await _handleLoadMore(event);
         break;
+      case LoadPreloadedExercises():
+        _handleLoadPreloaded(event);
+        break;
     }
   }
 
-  Future<void> _handleGetLevels(GetLevels intent) async {
+  // ─────────────────────────────────────────────
+  // LoadPreloadedExercises
+  // ─────────────────────────────────────────────
+  void _handleLoadPreloaded(LoadPreloadedExercises intent) {
+    if (isClosed) return;
     emit(
       state.copyWith(
-        levelsState: const BaseState<List<DifficultyLevelEntity>>(isLoading: true),
+        exercisesState: BaseState(
+          isLoading: false,
+          data: intent.exercises,
+        ),
+        hasMore: false,
+        currentPage: 1,
+      ),
+    );
+  }
+
+  // ─────────────────────────────────────────────
+  // GetLevels
+  // ─────────────────────────────────────────────
+  Future<void> _handleGetLevels(GetLevels intent) async {
+    if (isClosed) return;
+    emit(
+      state.copyWith(
+        levelsState: const BaseState<List<DifficultyLevelEntity>>(
+          isLoading: true,
+        ),
       ),
     );
 
     final response = await _getLevelsUseCase.call(intent.primeMoverMuscleId);
+    if (isClosed) return;
 
     switch (response) {
       case SuccessResponse<List<DifficultyLevelEntity>>():
         final levels = response.data;
-        String? initialSelectedId;
-
-        if (levels.isNotEmpty) {
-          initialSelectedId = levels.first.id;
-        }
+        final initialSelectedId =
+            intent.fixedLevelId ?? (levels.isNotEmpty ? levels.first.id : null);
 
         emit(
           state.copyWith(
@@ -59,8 +83,13 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
         );
 
         if (initialSelectedId != null) {
-          await _fetchExercises(intent.primeMoverMuscleId, initialSelectedId, page: 1);
+          await _fetchExercises(
+            intent.primeMoverMuscleId,
+            initialSelectedId,
+            page: 1,
+          );
         } else {
+          if (isClosed) return;
           emit(
             state.copyWith(
               exercisesState: const BaseState<List<ExerciseEntity>>(
@@ -70,9 +99,9 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
             ),
           );
         }
-        break;
 
       case ErrorResponse<List<DifficultyLevelEntity>>():
+        if (isClosed) return;
         emit(
           state.copyWith(
             levelsState: BaseState(
@@ -81,25 +110,38 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
             ),
           ),
         );
-        break;
     }
   }
 
+  // ─────────────────────────────────────────────
+  // ChangeLevel
+  // ─────────────────────────────────────────────
   Future<void> _handleChangeLevel(ChangeLevel intent) async {
+    if (isClosed) return;
     if (state.selectedLevelId == intent.newDifficultyLevelId) return;
 
-    // reset الـ pagination عند تغيير الـ level
-    emit(state.copyWith(
-      selectedLevelId: intent.newDifficultyLevelId,
-      currentPage: 1,
-      hasMore: true,
-    ));
+    emit(
+      state.copyWith(
+        selectedLevelId: intent.newDifficultyLevelId,
+        currentPage: 1,
+        hasMore: true,
+        isLoadingMore: false,
+      ),
+    );
 
-    await _fetchExercises(intent.primeMoverMuscleId, intent.newDifficultyLevelId, page: 1);
+    await _fetchExercises(
+      intent.primeMoverMuscleId,
+      intent.newDifficultyLevelId,
+      page: 1,
+    );
   }
 
+  // ─────────────────────────────────────────────
+  // LoadMore (Pagination)
+  // ─────────────────────────────────────────────
   Future<void> _handleLoadMore(LoadMoreExercises intent) async {
-    // لو مفيش more أو بنحمل دلوقتي، مترجعش
+    if (isClosed) return;
+    if (state.selectedLevelId != intent.difficultyLevelId) return;
     if (!state.hasMore || state.isLoadingMore) return;
 
     final nextPage = state.currentPage + 1;
@@ -112,56 +154,75 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
       nextPage,
     );
 
+    if (isClosed) return;
+
     switch (response) {
       case SuccessResponse<List<ExerciseEntity>>():
         final newExercises = response.data;
         final existingExercises = state.exercisesState?.data ?? [];
 
-        emit(state.copyWith(
-          exercisesState: BaseState(
-            isLoading: false,
-            // append الجديد على القديم
-            data: [...existingExercises, ...newExercises],
+        emit(
+          state.copyWith(
+            exercisesState: BaseState(
+              isLoading: false,
+              data: [...existingExercises, ...newExercises],
+            ),
+            currentPage: nextPage,
+            hasMore: newExercises.isNotEmpty,
+            isLoadingMore: false,
           ),
-          currentPage: nextPage,
-          // لو رجع أقل من المتوقع، معناه وصلنا للآخر
-          hasMore: newExercises.isNotEmpty,
-          isLoadingMore: false,
-        ));
-        break;
+        );
 
       case ErrorResponse<List<ExerciseEntity>>():
-        emit(state.copyWith(
-          isLoadingMore: false,
-          exercisesState: BaseState(
-            isLoading: false,
-            errorMessage: response.errorMessage,
+        emit(
+          state.copyWith(
+            isLoadingMore: false,
+            exercisesState: state.exercisesState?.copyWith(
+              isLoading: false,
+              errorMessage: response.errorMessage,
+            ),
           ),
-        ));
-        break;
+        );
     }
   }
 
-  Future<void> _fetchExercises(String primeMoverMuscleId, String levelId, {required int page}) async {
+  // ─────────────────────────────────────────────
+  // Private: Fetch First Page
+  // ─────────────────────────────────────────────
+  Future<void> _fetchExercises(
+    String primeMoverMuscleId,
+    String levelId, {
+    required int page,
+  }) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         exercisesState: const BaseState<List<ExerciseEntity>>(isLoading: true),
         currentPage: page,
         hasMore: true,
+        isLoadingMore: false,
       ),
     );
 
-    final response = await _getExercisesUseCase.call(primeMoverMuscleId, levelId, page);
+    final response = await _getExercisesUseCase.call(
+      primeMoverMuscleId,
+      levelId,
+      page,
+    );
+
+    if (isClosed) return;
 
     switch (response) {
       case SuccessResponse<List<ExerciseEntity>>():
         emit(
           state.copyWith(
-            exercisesState: BaseState(isLoading: false, data: response.data),
+            exercisesState: BaseState(
+              isLoading: false,
+              data: response.data,
+            ),
             hasMore: response.data.isNotEmpty,
           ),
         );
-        break;
 
       case ErrorResponse<List<ExerciseEntity>>():
         emit(
@@ -172,7 +233,6 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
             ),
           ),
         );
-        break;
     }
   }
 }

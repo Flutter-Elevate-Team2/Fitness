@@ -667,6 +667,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile'**
   String get profile;
+
+  /// No description provided for @buildYourMusclesWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Build your muscles with this quick and effective workout.'**
+  String get buildYourMusclesWorkout;
+
+  /// No description provided for @thirtyMin.
+  ///
+  /// In en, this message translates to:
+  /// **'30 MIN'**
+  String get thirtyMin;
+
+  /// No description provided for @oneHundredThirtyCal.
+  ///
+  /// In en, this message translates to:
+  /// **'130 Cal'**
+  String get oneHundredThirtyCal;
+
+  /// No description provided for @noExercisesFoundForThisLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'No exercises found for this level.'**
+  String get noExercisesFoundForThisLevel;
+
+  /// No description provided for @invalidVideoUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Video URL'**
+  String get invalidVideoUrl;
+
+  /// No description provided for @noInternetConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get noInternetConnection;
+
+  /// No description provided for @pleaseCheckNetworkToWatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your network to watch'**
+  String get pleaseCheckNetworkToWatch;
+
+  /// No description provided for @retryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryButton;
+
+  /// No description provided for @groups.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups'**
+  String get groups;
+
+  /// No description provided for @times.
+  ///
+  /// In en, this message translates to:
+  /// **'Times'**
+  String get times;
 }
 
 class _AppLocalizationsDelegate

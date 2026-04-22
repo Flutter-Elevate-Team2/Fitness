@@ -162,5 +162,16 @@
     "description": "Workouts"},
   "profile": "Profile",
   "@profile": {
-    "description": "Profile"}
+    "description": "Profile"
+  },
+  "buildYourMusclesWorkout": "Build your muscles with this quick and effective workout.",
+  "thirtyMin": "30 MIN",
+  "oneHundredThirtyCal": "130 Cal",
+  "noExercisesFoundForThisLevel": "No exercises found for this level.",
+  "invalidVideoUrl": "Invalid Video URL",
+  "noInternetConnection": "No internet connection",
+  "pleaseCheckNetworkToWatch": "Please check your network to watch",
+  "retryButton": "Retry",
+  "groups": "Groups",
+  "times": "Times"
 }

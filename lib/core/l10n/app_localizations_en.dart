@@ -307,4 +307,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile => 'Profile';
+
+  @override
+  String get buildYourMusclesWorkout =>
+      'Build your muscles with this quick and effective workout.';
+
+  @override
+  String get thirtyMin => '30 MIN';
+
+  @override
+  String get oneHundredThirtyCal => '130 Cal';
+
+  @override
+  String get noExercisesFoundForThisLevel =>
+      'No exercises found for this level.';
+
+  @override
+  String get invalidVideoUrl => 'Invalid Video URL';
+
+  @override
+  String get noInternetConnection => 'No internet connection';
+
+  @override
+  String get pleaseCheckNetworkToWatch => 'Please check your network to watch';
+
+  @override
+  String get retryButton => 'Retry';
+
+  @override
+  String get groups => 'Groups';
+
+  @override
+  String get times => 'Times';
 }

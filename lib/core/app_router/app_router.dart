@@ -4,9 +4,13 @@ import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
+import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/screens/exercises_screen.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/screens/video_player_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,6 +31,11 @@ class Routes {
 
   static const String homePath = '/home';
   static const String homeName = 'home';
+
+  static const String exercisesPath = '/exercises';
+  static const String exercisesName = 'exercises';
+  static const String videoPlayerPath = '/video-player';
+static const String videoPlayerName = 'videoPlayer';
 }
 
 class AppRouter {
@@ -97,6 +106,32 @@ class AppRouter {
         name: Routes.homeName,
         builder: (context, state) => const HomeScreen(),
       ),
+      GoRoute(
+  path: Routes.exercisesPath,
+  name: Routes.exercisesName,
+  builder: (context, state) {
+   final extra = state.extra as Map<String, String>?;
+if (extra == null) return const HomeScreen();
+    return BlocProvider(
+      create: (context) => getIt<ExercisesViewModel>(),
+      child: ExercisesScreen(
+        primeMoverMuscleId: extra['primeMoverMuscleId']!,
+        muscleTitle: extra['title']!,
+      ),
+    );
+  },
+),
+GoRoute(
+  path: Routes.videoPlayerPath,
+  name: Routes.videoPlayerName,
+  builder: (context, state) {
+    final extra = state.extra as Map<String, String>;
+    return VideoPlayerScreen(
+      videoUrl: extra['videoUrl']!,
+      title: extra['title']!,
+    );
+  },
+),
     ],
   );
 }
