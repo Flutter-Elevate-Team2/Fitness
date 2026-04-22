@@ -36,6 +36,7 @@ class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
           ),
           Positioned.fill(
             child: SafeArea(
+              bottom: false,
               child: BlocConsumer<WorkoutsViewModel, WorkoutsStates>(
                 listenWhen: (previous, current) =>
                     previous.muscleGroupsState != current.muscleGroupsState,
@@ -99,10 +100,10 @@ class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
 
                       // Grid Section
                       SliverPadding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                           left: 20.0,
                           right: 20.0,
-                          bottom: 100.0, // Floating nav bar padding
+                          bottom: 100.0 + MediaQuery.of(context).padding.bottom, // Floating nav bar padding
                         ),
                         sliver: WorkoutsGrid(
                           musclesState: state.musclesState,
