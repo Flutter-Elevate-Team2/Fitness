@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/controller/session_expired.dart';
@@ -8,6 +9,7 @@ import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:fitness_app/core/theming/app_theming.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_ce/hive.dart';
@@ -18,6 +20,7 @@ import 'Features/food/data/models/meals_models/meal_model.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await dotenv.load(fileName: ".env");
 
@@ -49,21 +52,25 @@ class _MyAppState extends State<MyApp> {
     _subscriptions.add(
       _sessionController.onSessionExpired.listen((_) {
         SessionExpiredHandler.handle();
-      })
+      }),
     );
 
     _subscriptions.add(
       _sessionController.onLogout.listen((_) {
         AppRouter.router.goNamed(Routes.onBoardingName);
-      })
+      }),
     );
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     if (!_isSplashRemoved) {
-      precacheImage(AssetImage(Assets.images.authBackground.path), context).then((_) {
+      precacheImage(
+        AssetImage(Assets.images.authBackground.path),
+        context,
+      ).then((_) {
         FlutterNativeSplash.remove();
         _isSplashRemoved = true;
       });
