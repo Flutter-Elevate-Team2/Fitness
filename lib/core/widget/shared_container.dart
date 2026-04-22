@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,8 @@ class SharedContainer extends StatelessWidget {
   final double? blur;
   final double? opacity;
   final bool isTopOnly;
+  final EdgeInsetsGeometry? padding;
+  final Color? color;
 
   const SharedContainer({
     super.key,
@@ -16,6 +19,8 @@ class SharedContainer extends StatelessWidget {
     this.blur,
     this.opacity,
     this.isTopOnly = false,
+    this.padding,
+    this.color,
   });
 
   @override
@@ -32,9 +37,9 @@ class SharedContainer extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur ?? 15, sigmaY: blur ?? 15),
         child: Container(
-          padding: const EdgeInsets.all(24),
+          padding: padding ?? const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: AppColors.blackSoft.withValues(alpha: opacity ?? 0.5),
+            color: color?.withValues(alpha: opacity ?? 0.5) ?? AppColors.blackSoft.withValues(alpha: opacity ?? 0.5),
             borderRadius: customRadius,
             // border: Border.all(
             //   color: AppColors.light600.withValues(alpha: 0.2),
