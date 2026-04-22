@@ -1,12 +1,15 @@
+import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
-import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
+import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
+import 'package:fitness_app/Features/food/presentation/views/screens/meals_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,6 +30,9 @@ class Routes {
 
   static const String homePath = '/home';
   static const String homeName = 'home';
+
+  static const String mealsPath = '/meals';
+  static const String mealsName = 'meals';
 }
 
 class AppRouter {
@@ -96,6 +102,15 @@ class AppRouter {
         path: Routes.homePath,
         name: Routes.homeName,
         builder: (context, state) => const HomeScreen(),
+      ),
+
+      GoRoute(
+        path: Routes.mealsPath,
+        name: Routes.mealsName,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<MealsViewModel>(),
+          child: const MealsScreen(),
+        ),
       ),
     ],
   );

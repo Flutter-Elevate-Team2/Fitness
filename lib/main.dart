@@ -10,13 +10,22 @@ import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:hive_ce/hive.dart';
+
+import 'Features/food/data/models/meals_models/category_model.dart';
+import 'Features/food/data/models/meals_models/meal_details_model.dart';
+import 'Features/food/data/models/meals_models/meal_model.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await dotenv.load(fileName: ".env");
 
-  await HiveDatabaseService.init();
+  await HiveDatabaseService.init(registerAdapters: () {
+    Hive.registerAdapter(CategoryModelAdapter());
+    Hive.registerAdapter(MealModelAdapter());
+    Hive.registerAdapter(MealDetailsModelAdapter());
+  },);
 
   await configureDependencies();
   runApp(const MyApp());
