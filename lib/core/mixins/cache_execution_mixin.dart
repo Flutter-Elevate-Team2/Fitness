@@ -60,8 +60,7 @@ mixin CacheExecutionMixin {
   }
 
   bool _isCacheEmpty(dynamic data) {
-  if (data == null) return true;
-  if (data is List) return data.isEmpty; // ✅
-  return false;
-}
+    if (data == null) return true;
+    return false;
+  }
 }

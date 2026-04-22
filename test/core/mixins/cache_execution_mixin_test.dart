@@ -5,7 +5,7 @@ import 'package:fitness_app/core/network/network_info.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import '../../Features/workouts/data/repo/workouts_repo_impl_test.dart';
+import 'cache_execution_mixin_test.mocks.dart';
 
 class FakeCacheRepo with CacheExecutionMixin {
   @override
@@ -158,7 +158,6 @@ void main() {
   // ── 6. Empty list cache ───────────────────────────────────────────────────────
   group('empty list cache', () {
     test('treats empty list as valid cache (not null)', () async {
-      // الـ mixin المفروض يشوف [] كـ valid cache مش null
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
 
       final result = await sut.executeWithCache<String, List<String>?, List<String>>(
