@@ -48,43 +48,26 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
       onButtonPressed: () async {
         if (_formKey.currentState!.validate()) {
 
-
           final email = widget.emailController.text.trim();
           final password = widget.passwordController.text.trim();
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email,
-            password: password,
-          );
-          // try {
-          //   await FirebaseAuth.instance.signInWithEmailAndPassword(
-          //     email: email,
-          //     password: password,
-          //   );
-          //   context.read<LoginViewModel>().doIntent(
-          //     GoogleLoginEvent(email: email.toString() ?? ""),
-          //   );
-          //   print("User already exists → Logged in");
-          // } on FirebaseAuthException catch (e) {
-          //   if (e.code == 'user-not-found') {
-          //     await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          //       email: email,
-          //       password: password,
-          //     );
-          //
-          //     print("New user created");
-          //   } else {
-          //     debugPrint("Error: ${e.message}");
-          //     return;
-          //   }
-          // }
-          //
-          // final user = FirebaseAuth.instance.currentUser;
-          //
-          // final idToken = await user!.getIdToken();
-          //
-          // print("ID TOKEN: $idToken");
+          try {
+            final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: email,
+              password: password,
+            );
 
-          widget.onNextStep();
+            final user = credential.user;
+
+            if (user == null) return;
+
+             await user.updateDisplayName("incomplete");
+
+            widget.onNextStep();
+
+          } catch (e) {
+            debugPrint("Signup error: $e");
+          }
         }
       },
       formBody: Column(

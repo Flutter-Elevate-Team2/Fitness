@@ -19,7 +19,7 @@ import 'package:go_router/go_router.dart';
 
 class SignupScreen extends StatefulWidget {
   final int step;
-  final user;
+  final  user;
   const SignupScreen({super.key , this.step = 0 , this.user});
 
   @override
@@ -137,7 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
           }
         },
         child: SharedScaffold(
-          showBackButton: _currentStep > 0,
+          showBackButton: _currentStep > 1,
           onBackButtonPressed: _goToPreviousPage,
           title: Image.asset(Assets.images.appIcon1.path, height: 38),
           backgroundImage: Assets.images.authBackground.path,

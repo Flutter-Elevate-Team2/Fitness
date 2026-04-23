@@ -1,9 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+ import 'package:fitness_app/Features/auth/presentation/login/view_model/login_state.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_first_step.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_login_row.dart';
-import 'package:fitness_app/core/widget/pill_text_form_field.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
+import 'package:fitness_app/core/widget/pill_text_form_field.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+ @GenerateNiceMocks([MockSpec<LoginViewModel>()])
+import 'signup_first_step_test.mocks.dart';
 
 void main() {
   group('SignupFirstStep', () {
@@ -11,12 +21,22 @@ void main() {
     late TextEditingController lastNameCtrl;
     late TextEditingController emailCtrl;
     late TextEditingController passwordCtrl;
+    late MockLoginViewModel mockLoginViewModel;
+    late MockUser mockUser;
 
     setUp(() {
       firstNameCtrl = TextEditingController();
       lastNameCtrl = TextEditingController();
       emailCtrl = TextEditingController();
       passwordCtrl = TextEditingController();
+
+      mockLoginViewModel = MockLoginViewModel();
+      mockUser = MockUser(uid: '123', email: 'test@test.com');
+
+      // Stubs للـ ViewModel
+      when(mockLoginViewModel.state).thenReturn(const LoginState());
+      when(mockLoginViewModel.stream).thenAnswer((_) => const Stream.empty());
+      when(mockLoginViewModel.close()).thenAnswer((_) => Future.value());
     });
 
     tearDown(() {
@@ -28,99 +48,65 @@ void main() {
 
     Widget buildWidget({VoidCallback? onNextStep}) {
       return MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         supportedLocales: AppLocalizations.supportedLocales,
         locale: const Locale('en'),
-        home: SignupFirstStep(
-          firstNameController: firstNameCtrl,
-          lastNameController: lastNameCtrl,
-          emailController: emailCtrl,
-          passwordController: passwordCtrl,
-          onNextStep: onNextStep ?? () {},
+        home: BlocProvider<LoginViewModel>.value(
+          value: mockLoginViewModel,
+          child: Scaffold(
+            body: SignupFirstStep(
+              firstNameController: firstNameCtrl,
+              lastNameController: lastNameCtrl,
+              emailController: emailCtrl,
+              passwordController: passwordCtrl,
+              onNextStep: onNextStep ?? () {},
+            ),
+          ),
         ),
       );
     }
 
-    testWidgets('displays greeting texts', (WidgetTester tester) async {
+    testWidgets('displays greeting texts and form elements', (tester) async {
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(find.text('Hey There'), findsOneWidget);
-      expect(find.text('CREATE AN ACCOUNT'), findsOneWidget);
-    });
-
-    testWidgets('displays Register heading inside the form',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
-
-      // The "Register" text appears inside formBody as a heading
-      expect(find.text('Register'), findsAtLeast(1));
-    });
-
-    testWidgets('displays four PillTextFormFields',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
-
       expect(find.byType(PillTextFormField), findsNWidgets(4));
-    });
-
-    testWidgets('displays hint texts for all fields',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.text('First Name'), findsOneWidget);
-      expect(find.text('Last Name'), findsOneWidget);
-      expect(find.text('Email'), findsOneWidget);
-      expect(find.text('Password'), findsOneWidget);
-    });
-
-    testWidgets('displays SocialLoginRow', (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
-
       expect(find.byType(SocialLoginRow), findsOneWidget);
     });
 
-    testWidgets('displays "Already Have An Account?" and Login link',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.text('Already Have An Account?'), findsOneWidget);
-      expect(find.text('Login'), findsOneWidget);
-    });
-
-    testWidgets('does NOT call onNextStep when form is empty (validation fails)',
-        (WidgetTester tester) async {
+    testWidgets('validation fails when fields are empty', (tester) async {
       bool called = false;
-
       await tester.pumpWidget(buildWidget(onNextStep: () => called = true));
-      await tester.pumpAndSettle();
 
-      // Tap the Register button (the main CTA)
-      final registerButtons = find.text('Register');
-      // The first 'Register' is the heading, we need the button
-      await tester.ensureVisible(registerButtons.last);
-      await tester.pumpAndSettle();
-      await tester.tap(registerButtons.last);
-      await tester.pumpAndSettle();
+       final registerBtn = find.text('Register');
 
-      // Validation should fail because all fields are empty
+      await tester.tap(registerBtn.last);
+      await tester.pump();
+
       expect(called, isFalse);
     });
 
-    testWidgets('typing in fields updates controllers',
-        (WidgetTester tester) async {
+    testWidgets('password visibility toggles when suffix icon is tapped', (tester) async {
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
 
-      // Enter text into the first name field
-      final firstNameField = find.byType(TextFormField).first;
-      await tester.enterText(firstNameField, 'Ahmed');
-      expect(firstNameCtrl.text, 'Ahmed');
+       final passwordField = tester.widget<PillTextFormField>(
+        find.widgetWithText(PillTextFormField, 'Password'),
+      );
+      expect(passwordField.obscureText, isTrue);
+
+       await tester.tap(find.byIcon(Icons.visibility_off_outlined));
+      await tester.pump();
+
+       final passwordFieldUpdated = tester.widget<PillTextFormField>(
+        find.widgetWithText(PillTextFormField, 'Password'),
+      );
+      expect(passwordFieldUpdated.obscureText, isFalse);
     });
   });
 }

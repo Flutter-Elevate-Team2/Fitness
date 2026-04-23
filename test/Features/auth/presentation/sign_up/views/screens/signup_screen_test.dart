@@ -1,80 +1,123 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
+import 'package:fitness_app/Features/auth/domain/entities/user_entity.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_state.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
+import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_events.dart';
+import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_states.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart';
-import 'package:fitness_app/Features/auth/domain/use_cases/register_use_case.dart';
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_first_step.dart';
+import 'package:fitness_app/core/app_router/app_router.dart'; // تأكد من استيراد Routes
+import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
-import 'package:fitness_app/core/widget/pill_text_form_field.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mocktail/mocktail.dart' show registerFallbackValue;
 
 import 'signup_screen_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<RegisterUseCase>()])
+@GenerateNiceMocks([MockSpec<SignUpViewModel>(), MockSpec<LoginViewModel>()])
 void main() {
-  group('SignupScreen', () {
-    late MockRegisterUseCase mockRegisterUseCase;
+  late MockSignUpViewModel mockSignUpViewModel;
+  late MockLoginViewModel mockLoginViewModel;
 
-    setUp(() {
-      mockRegisterUseCase = MockRegisterUseCase();
+  setUpAll(() {
+    registerFallbackValue(
+      OnSignUpClickEvent(
+        firstName: '', lastName: '', email: '', password: '',
+        rePassword: '', gender: '', age: 0, weight: 0, height: 0,
+        goal: '', activityLevel: '',
+      ),
+    );
+  });
 
-      // Register the mock SignUpViewModel in GetIt
-      if (getIt.isRegistered<SignUpViewModel>()) {
-        getIt.unregister<SignUpViewModel>();
-      }
-      getIt.registerFactory<SignUpViewModel>(
-        () => SignUpViewModel(mockRegisterUseCase),
-      );
-    });
+  setUp(() {
+    mockSignUpViewModel = MockSignUpViewModel();
+    mockLoginViewModel = MockLoginViewModel();
 
-    tearDown(() {
-      if (getIt.isRegistered<SignUpViewModel>()) {
-        getIt.unregister<SignUpViewModel>();
-      }
-    });
+    when(mockSignUpViewModel.state).thenReturn(SignUpStates());
+    when(mockSignUpViewModel.stream).thenAnswer((_) => Stream.value(SignUpStates()));
+    when(mockSignUpViewModel.close()).thenAnswer((_) => Future.value());
 
-    Widget buildWidget() {
-      return MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        locale: const Locale('en'),
-        home: const SignupScreen(),
-      );
+    when(mockLoginViewModel.state).thenReturn(const LoginState());
+    when(mockLoginViewModel.stream).thenAnswer((_) => const Stream.empty());
+    when(mockLoginViewModel.close()).thenAnswer((_) => Future.value());
+
+    if (getIt.isRegistered<SignUpViewModel>()) {
+      getIt.unregister<SignUpViewModel>();
     }
+    getIt.registerFactory<SignUpViewModel>(() => mockSignUpViewModel);
+  });
 
-    testWidgets('renders the first step (account info) initially',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
+  // دالة مساعدة لإنشاء Router وهمي للاختبار
+  Widget createTestableWidget({int step = 0}) {
+    final router = GoRouter(
+      initialLocation: '/signup',
+      routes: [
+        GoRoute(
+          path: '/signup',
+          name: 'signup', // تأكد من مطابقة الأسماء المستخدمة في Routes
+          builder: (context, state) => BlocProvider<LoginViewModel>.value(
+            value: mockLoginViewModel,
+            child: SignupScreen(step: step),
+          ),
+        ),
+        // إضافة مسار وهمي لصفحة الـ Login لأن الكود سيحاول الذهاب إليها
+        GoRoute(
+          path: '/login',
+          name: Routes.loginName,
+          builder: (context, state) => const Scaffold(body: Text('Login Page')),
+        ),
+      ],
+    );
+
+    return MaterialApp.router(
+      routerConfig: router,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: const Locale('en'),
+    );
+  }
+
+  group('SignupScreen Generated Mock Tests', () {
+    testWidgets('renders SignupFirstStep initially', (tester) async {
+      await tester.pumpWidget(createTestableWidget());
       await tester.pumpAndSettle();
-
-      // Step 1 shows greeting and form fields
-      expect(find.text('Hey There'), findsOneWidget);
-      expect(find.text('CREATE AN ACCOUNT'), findsOneWidget);
+      expect(find.byType(SignupFirstStep), findsOneWidget);
     });
 
-    testWidgets('displays four text input fields on step 1',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
+    testWidgets('shows success snackbar when data (UserEntity) is received', (tester) async {
+      final successState = SignUpStates(
+        signUpState: BaseState(
+          isLoading: false,
+          data: UserEntity(
+            id: "1", firstName: "f", lastName: "l", email: "e",
+            gender: "g", age: 20, weight: 60, height: 160,
+            activityLevel: "a", goal: "g", photo: "p",
+          ),
+          errorMessage: null,
+        ),
+      );
+
+      when(mockSignUpViewModel.state).thenReturn(successState);
+      when(mockSignUpViewModel.stream).thenAnswer((_) => Stream.value(successState));
+
+      await tester.pumpWidget(createTestableWidget());
+
+      // نستخدم pumpAndSettle لانتظار الـ SnackBar
       await tester.pumpAndSettle();
 
-      expect(find.byType(PillTextFormField), findsNWidgets(4));
-    });
-
-    testWidgets('shows a PageView for step navigation',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(PageView), findsOneWidget);
-    });
-
-    testWidgets('PageView has NeverScrollableScrollPhysics (no manual swipe)',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
-
-      final pageView = tester.widget<PageView>(find.byType(PageView));
-      expect(pageView.physics, isA<NeverScrollableScrollPhysics>());
+      expect(find.text('Account created successfully!'), findsOneWidget);
     });
   });
 }

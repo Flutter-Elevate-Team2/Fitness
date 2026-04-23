@@ -29,7 +29,7 @@ class LoginViewModel extends Cubit<LoginState> {
       case LoginButtonClickedEvent():
         await _handleLogin(event: event);
         break;
-      case GoogleLoginEvent():
+      case SocialLoginEvent():
        await _handleLogin(email : event.email);
 
     }

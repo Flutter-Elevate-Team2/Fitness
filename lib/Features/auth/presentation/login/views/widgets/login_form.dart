@@ -1,15 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitness_app/Features/auth/presentation/login/view_model/login_event.dart';
-import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
+ import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/widgets/email_field.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/widgets/password_field.dart';
+import 'package:fitness_app/Features/auth/presentation/login/views/widgets/social_login_auth/auth_services.dart';
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_auth/social_auth_handler.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+ import 'package:go_router/go_router.dart';
+  import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
- import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   final TextEditingController emailController;
@@ -38,32 +39,39 @@ class LoginForm extends StatelessWidget {
       final userCredential =
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      final user = userCredential.user;
-       if (!context.mounted) return;
-       final isNewUser =
-          userCredential.additionalUserInfo?.isNewUser ?? false;
 
-      if (isNewUser) {
-        context.goNamed(
-          Routes.signupName,
-          extra: {
-            "step": 1,
-            "user": user,
-           },
-        );
+      await SocialAuthHandler.handle(
+        context: context,
+        userCredential: userCredential,
+        viewModel: context.read<LoginViewModel>(),
+      );
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("Please complete registration first"),
-            backgroundColor: AppColors.primary,
-          ),
-        );
-      } else {
-        if (!context.mounted) return;
-        context.read<LoginViewModel>().doIntent(
-          GoogleLoginEvent(email: user?.email.toString() ?? ""),
-        );
-       }
+      // final user = userCredential.user;
+      //  if (!context.mounted) return;
+       // final isNewUser =
+       //    userCredential.additionalUserInfo?.isNewUser ?? false;
+
+      // if (isNewUser) {
+      //   context.goNamed(
+      //     Routes.signupName,
+      //     extra: {
+      //       "step": 1,
+      //       "user": user,
+      //      },
+      //   );
+      //
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: const Text("Please complete registration first"),
+      //       backgroundColor: AppColors.primary,
+      //     ),
+      //   );
+      // } else {
+      //   if (!context.mounted) return;
+      //   context.read<LoginViewModel>().doIntent(
+      //     SocialLoginEvent(email: user?.email.toString() ?? ""),
+      //   );
+      //  }
 
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -74,6 +82,8 @@ class LoginForm extends StatelessWidget {
       );
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -139,7 +149,16 @@ class LoginForm extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _socialIcon(Icons.facebook),
+            _socialIcon(Icons.facebook , onTap: () async{
+              final userCredential = await  AuthServices.signInWithFacebook();
+
+              await SocialAuthHandler.handle(
+                viewModel: context.read<LoginViewModel>(),
+                userCredential: userCredential,
+                context: context,
+              );
+
+            }),
             const SizedBox(width: 20),
             _socialIcon(
               Icons.g_mobiledata,

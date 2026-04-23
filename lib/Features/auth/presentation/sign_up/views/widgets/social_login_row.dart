@@ -1,16 +1,12 @@
-import 'package:fitness_app/Features/auth/presentation/login/view_model/login_event.dart';
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
+import 'package:fitness_app/Features/auth/presentation/login/views/widgets/social_login_auth/auth_services.dart';
+import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_auth/social_auth_handler.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_icon_button.dart';
-import 'package:fitness_app/core/app_router/app_router.dart';
-import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SocialLoginRow extends StatelessWidget {
   final void Function(
@@ -59,8 +55,16 @@ class SocialLoginRow extends StatelessWidget {
           children: [
             SocialIconButton(
               assetPath: Assets.icons.facebook.path,
-              onTap: () {
-                // TODO: Facebook login
+              onTap: () async {
+                final userCredential = await AuthServices.signInWithFacebook();
+
+                if (!context.mounted) return;
+
+                await SocialAuthHandler.handle(
+                  context: context,
+                  userCredential: userCredential,
+                  viewModel: vm,
+                );
               },
             ),
             const SizedBox(width: 24),
@@ -68,43 +72,26 @@ class SocialLoginRow extends StatelessWidget {
               assetPath: Assets.icons.google.path,
               onTap: () async {
                 try {
-                  final googleUser = await GoogleSignIn().signIn();
-                  if (googleUser == null) return;
+                  // final googleUser = await GoogleSignIn().signIn();
+                  // if (googleUser == null) return;
+                  //
+                  // final googleAuth = await googleUser.authentication;
+                  //
+                  // final credential = GoogleAuthProvider.credential(
+                  //   accessToken: googleAuth.accessToken,
+                  //   idToken: googleAuth.idToken,
+                  // );
+                  //
+                  // final userCredential = await FirebaseAuth.instance
+                  //     .signInWithCredential(credential);
+                  final userCredential = await AuthServices.signInWithGoogle();
 
-                  final googleAuth = await googleUser.authentication;
-
-                  final credential = GoogleAuthProvider.credential(
-                    accessToken: googleAuth.accessToken,
-                    idToken: googleAuth.idToken,
-                  );
-
-                  final userCredential = await FirebaseAuth.instance
-                      .signInWithCredential(credential);
-
-                  final user = userCredential.user;
-                  if (user == null) return;
-
-                  final isNewUser =
-                      userCredential.additionalUserInfo?.isNewUser ?? false;
-
-                  if (isNewUser) {
-                     final email = user.email ?? "";
-                    final displayName = user.displayName ?? "";
-
-                    final parts = displayName.split(" ");
-                    final firstName = parts.isNotEmpty ? parts.first : "";
-                    final lastName = parts.length > 1 ? parts.last : "";
-                    final password = ApiConstants.defaultPassword;
-
-                    onGoogleSuccess(email, firstName, lastName, password);
-                  } else {
-                    await vm.doIntent(
-                      GoogleLoginEvent(email: user.email ?? ""),
-                    );
-                    if (!context.mounted) return;
-                    if (vm.state.loginState?.data != null) {
-                      context.goNamed(Routes.homeName);
-                    }
+                  if (context.mounted) {
+                    await SocialAuthHandler.handle(
+                      context: context,
+                      userCredential: userCredential,
+                      viewModel: vm,
+                     );
                   }
                 } catch (e) {
                   debugPrint("Google Sign-In Error: $e");

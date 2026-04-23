@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
@@ -12,8 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'firebase_options.dart';
+ import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> main() async {
  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,18 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   await configureDependencies();
   runApp(const MyApp());
+}
+
+Future<void> printFacebookHashKey() async {
+  try {
+    // هذا الكود سيعمل فقط على أندرويد
+    if (Platform.isAndroid) {
+      // ملاحظة: ستحتاج لإضافة package_info_plus في pubspec.yaml
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String packageName = packageInfo.packageName;
+
+      }
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -45,6 +59,7 @@ class _MyAppState extends State<MyApp> {
       _sessionController.onSessionExpired.listen((_) {
         SessionExpiredHandler.handle();
       })
+
     );
 
     _subscriptions.add(
@@ -75,6 +90,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    printFacebookHashKey();
     return MultiProvider(
       providers: [
         BlocProvider(
