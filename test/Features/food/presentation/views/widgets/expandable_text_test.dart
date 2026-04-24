@@ -15,8 +15,8 @@ void main() {
        home: Scaffold(
         body: Builder(
           builder: (context) {
-             showMoreLabel = AppLocalizations.of(context)!.readMore;
-            showLessLabel = AppLocalizations.of(context)!.readLess;
+             showMoreLabel = AppLocalizations.of(context)!.showMore;
+            showLessLabel = AppLocalizations.of(context)!.showLess;
             return ExpandableText(text: text);
           },
         ),
