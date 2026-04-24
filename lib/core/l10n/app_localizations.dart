@@ -727,6 +727,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Times'**
   String get times;
+
+  /// Food Recommendation
+  ///
+  /// In en, this message translates to:
+  /// **'Food Recommendation'**
+  String get foodRecommendation;
+
+  /// Recommendation For You
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendation For You'**
+  String get recommendationForYou;
+
+  /// See All
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get seeAll;
+
+  /// Show more
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get showMore;
+
+  /// Show less
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get showLess;
+
+  /// Ingredients
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredients'**
+  String get ingredients;
+
+  /// Instructions
+  ///
+  /// In en, this message translates to:
+  /// **'Instructions'**
+  String get instructions;
+
+  /// View
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get view;
+
+  /// Could not open video, please try again
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open video, please try again'**
+  String get couldNotOpenVideo;
 }
 
 class _AppLocalizationsDelegate

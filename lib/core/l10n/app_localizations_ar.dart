@@ -337,4 +337,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get times => 'مرات';
+
+  @override
+  String get foodRecommendation => 'اقتراحات الطعام';
+
+  @override
+  String get recommendationForYou => 'مقترحات لك';
+
+  @override
+  String get seeAll => 'عرض الكل';
+
+  @override
+  String get showMore => 'عرض المزيد';
+
+  @override
+  String get showLess => 'عرض أقل';
+
+  @override
+  String get ingredients => 'المكونات';
+
+  @override
+  String get instructions => 'طريقة التحضير';
+
+  @override
+  String get view => 'عرض';
+
+  @override
+  String get couldNotOpenVideo => 'تعذر فتح الفيديو، حاول مرة أخرى';
 }

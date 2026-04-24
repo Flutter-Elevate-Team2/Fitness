@@ -9,7 +9,8 @@ class HiveTypes {
   static const int exercise = 2;
 
   static const int mealCategory = 3;
-  static const int mealDetails = 4;
+  static const int mealModel = 4;
+  static const int mealDetailsModel = 8;
 
   // Feature: Auth
   static const int userProfile = 5;

@@ -1,8 +1,13 @@
+import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
-import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
+import 'package:fitness_app/Features/food/presentation/view_models/meals_event.dart';
+import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
+import 'package:fitness_app/Features/food/presentation/views/screens/meals/home_meal_test.dart';
+import 'package:fitness_app/Features/food/presentation/views/screens/meals/meals_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
+import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/exercises_screen.dart';
@@ -38,6 +43,14 @@ class Routes {
 static const String videoPlayerName = 'videoPlayer';
   static const String workoutPath = '/workout';
   static const String workoutName = 'workout';
+  static const String mealsPath = '/meals';
+  static const String mealsName = 'meals';
+
+  static const String mealDetailsPath = '/mealdetails';
+  static const String mealDetailsName = 'mealdetails';
+
+  static const String homeMealTestPath = '/homeMealTest';
+  static const String homeMealTestName = 'homeMealTest';
 }
 
 class AppRouter {
@@ -126,6 +139,23 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: Routes.mealsPath,
+        name: Routes.mealsName,
+        builder: (context, state) {
+          final args =
+              state.extra as MealsNavArgs? ??
+              MealsNavArgs(selectedCategory: 'Beef', categories: const []);
+
+          return BlocProvider(
+            create: (context) => getIt<MealsViewModel>(),
+            child: MealsScreen(
+              selectedCategory: args.selectedCategory,
+              categories: args.categories,
+            ),
+          );
+        },
+      ),
 GoRoute(
   path: Routes.videoPlayerPath,
   name: Routes.videoPlayerName,
@@ -139,6 +169,26 @@ GoRoute(
 ),
 
 
+      GoRoute(
+        path: Routes.homeMealTestPath,
+        name: Routes.homeMealTestName,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<MealsViewModel>(),
+          child: const HomeMealTest(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.mealDetailsPath,
+        name: Routes.mealDetailsName,
+        builder: (context, state) {
+          final mealId = state.extra as String;
+
+          return BlocProvider(
+            create: (context) => getIt<MealsViewModel>(),
+            child: MealDetailsScreen(mealId),
+          );
+        },
+      ),
     ],
   );
 }

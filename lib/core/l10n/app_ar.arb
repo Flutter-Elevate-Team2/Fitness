@@ -123,5 +123,18 @@
   "pleaseCheckNetworkToWatch": "يرجى التحقق من الشبكة للمشاهدة",
   "retryButton": "إعادة المحاولة",
   "groups": "مجموعات",
-  "times": "مرات"
+  "times": "مرات",
+  "showMore": "عرض المزيد",
+  "showLess": "عرض أقل",
+  "ingredients": "المكونات",
+  "instructions": "طريقة التحضير",
+  "foodRecommendation": "اقتراحات الطعام",
+  "view": "عرض",
+  "couldNotOpenVideo": "تعذر فتح الفيديو، حاول مرة أخرى",
+  "recommendationForYou": "مقترحات لك",
+  "seeAll": "عرض الكل",
+  "buildYourArmWorkout": "قم ببناء عضلات ذراعيك من خلال هذا التمرين السريع والفعال.",
+  "bicepsAndTricepsWorkout": "تمرين عضلات البايسبس والترايسبس",
+  "bicepsAndTriceps": "عضلات البايسبس والترايسبس",
+  "tricepsWorkout": "تمرين عضلات الترايسبس"
 }

@@ -1,5 +1,6 @@
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/widgets/exercise_card.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/widgets/play_back_button.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

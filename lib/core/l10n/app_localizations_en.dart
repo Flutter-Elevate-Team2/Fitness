@@ -339,4 +339,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get times => 'Times';
+
+  @override
+  String get foodRecommendation => 'Food Recommendation';
+
+  @override
+  String get recommendationForYou => 'Recommendation For You';
+
+  @override
+  String get seeAll => 'See All';
+
+  @override
+  String get showMore => 'Show more';
+
+  @override
+  String get showLess => 'Show less';
+
+  @override
+  String get ingredients => 'Ingredients';
+
+  @override
+  String get instructions => 'Instructions';
+
+  @override
+  String get view => 'View';
+
+  @override
+  String get couldNotOpenVideo => 'Could not open video, please try again';
 }

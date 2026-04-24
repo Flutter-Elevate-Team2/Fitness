@@ -115,6 +115,9 @@ class $AssetsImagesGen {
   AssetGenImage get exercisesBackground =>
       const AssetGenImage('assets/images/exercises_background.png');
 
+  /// File path: assets/images/food.png
+  AssetGenImage get food => const AssetGenImage('assets/images/food.png');
+
   /// File path: assets/images/home_background.jpg
   AssetGenImage get homeBackground =>
       const AssetGenImage('assets/images/home_background.jpg');
@@ -154,6 +157,7 @@ class $AssetsImagesGen {
     authLogo,
     exercies,
     exercisesBackground,
+    food,
     homeBackground,
     lock,
     mail,

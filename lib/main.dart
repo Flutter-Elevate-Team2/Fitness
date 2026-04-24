@@ -17,6 +17,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_ce/hive.dart';
 
+import 'Features/food/data/models/meals_models/category_model.dart';
+import 'Features/food/data/models/meals_models/meal_details_model.dart';
+import 'Features/food/data/models/meals_models/meal_model.dart';
+
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -27,7 +31,9 @@ Future<void> main() async {
     registerAdapters: () {
       Hive.registerAdapter(DifficultyLevelHiveModelAdapter()); // typeId: 1
       Hive.registerAdapter(ExerciseHiveModelAdapter()); // typeId: 2
-
+      Hive.registerAdapter(CategoryModelAdapter());
+      Hive.registerAdapter(MealModelAdapter());
+      Hive.registerAdapter(MealDetailsModelAdapter());
       Hive.registerAdapter(MuscleGroupModelAdapter());
       Hive.registerAdapter(MuscleModelAdapter());
     },
