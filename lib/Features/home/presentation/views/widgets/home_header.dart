@@ -20,10 +20,9 @@ class HomeHeader extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
-              padding: const EdgeInsets.all(20),
-               child: Row(
+                child: Row(
                 children: [
                   /// TEXTS
                   Expanded(

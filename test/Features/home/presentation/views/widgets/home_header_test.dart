@@ -1,7 +1,7 @@
 import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile_states.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile_view_model.dart';
-import 'package:fitness_app/Features/profile/presentation/views/widgets/home_header.dart';
+import 'package:fitness_app/Features/home/presentation/views/widgets/home_header.dart';
 import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +10,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import 'home_header_test.mocks.dart';
+
 // Generate the mock class
 @GenerateMocks([ProfileViewModel])
-import 'home_header_test.mocks.dart';
 
 void main() {
   late MockProfileViewModel mockProfileViewModel;
