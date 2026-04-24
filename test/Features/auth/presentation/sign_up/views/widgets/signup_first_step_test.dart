@@ -22,6 +22,7 @@ void main() {
     late TextEditingController emailCtrl;
     late TextEditingController passwordCtrl;
     late MockLoginViewModel mockLoginViewModel;
+    // ignore: unused_local_variable
     late MockUser mockUser;
 
     setUp(() {

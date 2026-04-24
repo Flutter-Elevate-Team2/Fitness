@@ -19,6 +19,7 @@ import 'package:go_router/go_router.dart';
 
 class SignupScreen extends StatefulWidget {
   final int step;
+  // ignore: prefer_typing_uninitialized_variables, strict_top_level_inference
   final  user;
   const SignupScreen({super.key , this.step = 0 , this.user});
 
