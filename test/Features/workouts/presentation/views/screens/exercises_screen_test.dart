@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/widgets/exercises_shimmer.dart';
 
 class MockExercisesViewModel extends MockCubit<ExercisesState>
     implements ExercisesViewModel {}
@@ -77,7 +78,7 @@ void main() {
 
   group('ExercisesScreen Widget Tests', () {
     testWidgets(
-      'should show loading indicator when levelsState is loading',
+      'should show shimmer when levelsState is loading',
       (tester) async {
         when(() => mockViewModel.state).thenReturn(
           const ExercisesState(
@@ -94,7 +95,8 @@ void main() {
           await tester.pump();
         });
 
-        expect(find.byType(CircularProgressIndicator), findsWidgets);
+        expect(find.byType(DifficultyTabsShimmer), findsOneWidget);
+        expect(find.byType(ExercisesListShimmer), findsOneWidget);
       },
     );
 

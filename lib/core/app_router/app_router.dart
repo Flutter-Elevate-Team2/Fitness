@@ -36,6 +36,8 @@ class Routes {
   static const String exercisesName = 'exercises';
   static const String videoPlayerPath = '/video-player';
 static const String videoPlayerName = 'videoPlayer';
+  static const String workoutPath = '/workout';
+  static const String workoutName = 'workout';
 }
 
 class AppRouter {
@@ -107,20 +109,23 @@ class AppRouter {
         builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
-  path: Routes.exercisesPath,
-  name: Routes.exercisesName,
-  builder: (context, state) {
-   final extra = state.extra as Map<String, String>?;
-if (extra == null) return const HomeScreen();
-    return BlocProvider(
-      create: (context) => getIt<ExercisesViewModel>(),
-      child: ExercisesScreen(
-        primeMoverMuscleId: extra['primeMoverMuscleId']!,
-        muscleTitle: extra['title']!,
+        path: Routes.exercisesPath,
+        name: Routes.exercisesName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+
+          if (extra == null) return const HomeScreen();
+
+          return BlocProvider(
+            create: (context) => getIt<ExercisesViewModel>(),
+            child: ExercisesScreen(
+              primeMoverMuscleId: extra['primeMoverMuscleId'] as String,
+              muscleTitle: extra['title'] as String,
+              muscleImage: extra['image'] as String?,
+            ),
+          );
+        },
       ),
-    );
-  },
-),
 GoRoute(
   path: Routes.videoPlayerPath,
   name: Routes.videoPlayerName,
@@ -132,6 +137,8 @@ GoRoute(
     );
   },
 ),
+
+
     ],
   );
 }

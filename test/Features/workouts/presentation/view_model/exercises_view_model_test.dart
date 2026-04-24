@@ -200,19 +200,19 @@ void main() {
         ),
       ),
       expect: () => [
-        // 1st: selectedLevelId changes
-        isA<ExercisesState>().having(
-          (s) => s.selectedLevelId,
-          'selectedLevelId',
-          'lvl_2',
-        ),
-        // 2nd: exercises loading
-        isA<ExercisesState>().having(
-          (s) => s.exercisesState?.isLoading,
-          'exercisesLoading',
-          true,
-        ),
-        // 3rd: exercises loaded
+        // 1st: selectedLevelId changes + exercisesState loading (combined)
+        isA<ExercisesState>()
+            .having(
+              (s) => s.selectedLevelId,
+              'selectedLevelId',
+              'lvl_2',
+            )
+            .having(
+              (s) => s.exercisesState?.isLoading,
+              'exercisesLoading',
+              true,
+            ),
+        // 2nd: exercises loaded
         isA<ExercisesState>().having(
           (s) => s.exercisesState?.data,
           'exercisesData',

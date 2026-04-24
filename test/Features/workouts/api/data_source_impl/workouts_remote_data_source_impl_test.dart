@@ -4,6 +4,8 @@ import 'package:fitness_app/Features/workouts/data/models/difficulty_level_respo
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_response.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercises_response.dart';
+import 'package:fitness_app/Features/workouts/data/models/responses/muscle_groups_response.dart';
+import 'package:fitness_app/Features/workouts/data/models/responses/muscles_by_group_response.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -144,6 +146,85 @@ void main() {
             tDifficultyLevelId,
             tPage,
           ),
+          throwsException,
+        );
+      },
+    );
+  });
+
+  // ================= getMuscleGroups =================
+  group('getMuscleGroups', () {
+    final tResponse = MuscleGroupsResponse(
+      message: 'success',
+      musclesGroup: [],
+    );
+
+    test(
+      'should return MuscleGroupsResponse when WorkoutsApi.getMuscleGroups succeeds',
+      () async {
+        // arrange
+        when(mockWorkoutsApi.getMuscleGroups())
+            .thenAnswer((_) async => tResponse);
+
+        // act
+        final result = await dataSource.getMuscleGroups();
+
+        // assert
+        expect(result, tResponse);
+        verify(mockWorkoutsApi.getMuscleGroups()).called(1);
+      },
+    );
+
+    test(
+      'should throw Exception when WorkoutsApi.getMuscleGroups fails',
+      () async {
+        // arrange
+        when(mockWorkoutsApi.getMuscleGroups())
+            .thenThrow(Exception('Failed to fetch muscle groups'));
+
+        // act & assert
+        expect(
+          () => dataSource.getMuscleGroups(),
+          throwsException,
+        );
+      },
+    );
+  });
+
+  // ================= getMusclesByGroupId =================
+  group('getMusclesByGroupId', () {
+    const tGroupId = '1';
+    final tResponse = MusclesByGroupResponse(
+      message: 'success',
+      muscles: [],
+    );
+
+    test(
+      'should return MusclesByGroupResponse when WorkoutsApi.getMusclesByGroupId succeeds',
+      () async {
+        // arrange
+        when(mockWorkoutsApi.getMusclesByGroupId(tGroupId))
+            .thenAnswer((_) async => tResponse);
+
+        // act
+        final result = await dataSource.getMusclesByGroupId(tGroupId);
+
+        // assert
+        expect(result, tResponse);
+        verify(mockWorkoutsApi.getMusclesByGroupId(tGroupId)).called(1);
+      },
+    );
+
+    test(
+      'should throw Exception when WorkoutsApi.getMusclesByGroupId fails',
+      () async {
+        // arrange
+        when(mockWorkoutsApi.getMusclesByGroupId(any))
+            .thenThrow(Exception('Failed to fetch muscles'));
+
+        // act & assert
+        expect(
+          () => dataSource.getMusclesByGroupId(tGroupId),
           throwsException,
         );
       },

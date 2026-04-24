@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/widgets/play_back_button.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/widgets/thumbanil_widget.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
@@ -68,10 +69,7 @@ class ExerciseCardWidget extends StatelessWidget {
               ],
             ),
           ),
-
           const SizedBox(width: 16),
-
-
           PlayButton(onTap: onPlayTapped),
         ],
       ),
@@ -79,91 +77,3 @@ class ExerciseCardWidget extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────
-// Thumbnail Widget
-// ─────────────────────────────────────────────
-class ThumbnailWidget extends StatelessWidget {
-  final String thumbnailUrl;
-
-  const ThumbnailWidget({required this.thumbnailUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    if (!thumbnailUrl.startsWith('http')) {
-      return Image.asset(
-        thumbnailUrl,
-        width: 80,
-        height: 80,
-        fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => _placeholder(),
-      );
-    }
-
-    return CachedNetworkImage(
-      imageUrl: thumbnailUrl,
-      width: 80,
-      height: 80,
-      fit: BoxFit.cover,
-      placeholder: (_, __) => const SizedBox(
-        width: 80,
-        height: 80,
-        child: Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primary,
-            strokeWidth: 2,
-          ),
-        ),
-      ),
-
-      errorWidget: (_, __, ___) => _placeholder(),
-    );
-  }
-
-  Widget _placeholder() {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-        color: AppColors.grayDark,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Icon(
-        Icons.videocam_outlined,
-        color: AppColors.primary,
-        size: 28,
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// Play Button Widget
-// ─────────────────────────────────────────────
-class PlayButton extends StatelessWidget {
-  final VoidCallback? onTap;
-
-  const PlayButton({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final bool isEnabled = onTap != null;
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32,
-        height: 32,
-        padding: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          color: isEnabled ? AppColors.primary : AppColors.grayMid,
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          Icons.play_arrow_rounded,
-          color: isEnabled ? AppColors.playIconColor : AppColors.light400,
-          size: 20,
-        ),
-      ),
-    );
-  }
-}

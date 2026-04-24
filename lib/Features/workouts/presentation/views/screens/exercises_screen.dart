@@ -2,17 +2,19 @@ import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.da
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_states.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/video_player_screen.dart';
+import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/widget/shared_container.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fitness_app/core/extension/context_extention.dart';
+
 import '../../../../../../core/widget/shared_scaffold.dart';
 import '../../view_models/exercises/exercises_events.dart';
 import '../widgets/difficulty_tabs.dart';
 import '../widgets/exercise_card.dart';
 import '../widgets/exercise_header.dart';
+import '../widgets/exercises_shimmer.dart';
 
 class ExercisesScreen extends StatefulWidget {
   final String primeMoverMuscleId;
@@ -99,7 +101,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
         controller: _scrollController,
         slivers: [
           // ─────────────────────────────────────────────
-          // 1. Header
+          // 1. Header (SliverAppBar)
           // ─────────────────────────────────────────────
           SliverAppBar(
             expandedHeight: 350,
@@ -113,7 +115,9 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                 description: context.l10n.buildYourMusclesWorkout,
                 timeInMinutes: context.l10n.thirtyMin,
                 calories: context.l10n.oneHundredThirtyCal,
-                imageUrl: widget.muscleImage ?? Assets.images.exercisesBackground.path,
+                imageUrl:
+                    widget.muscleImage ??
+                    Assets.images.exercisesBackground.path,
                 onBackTapped: () {
                   if (Navigator.canPop(context)) Navigator.pop(context);
                 },
@@ -122,7 +126,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
           ),
 
           // ─────────────────────────────────────────────
-          // 2. Difficulty Tabs (showTabs = false)
+          // 2. Difficulty Tabs Section
           // ─────────────────────────────────────────────
           if (widget.showTabs)
             SliverToBoxAdapter(
@@ -134,21 +138,17 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                       previous.selectedLevelId != current.selectedLevelId,
                   builder: (context, state) {
                     if (state.levelsState?.isLoading == true) {
-                      return const SizedBox(
-                        height: 40,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      );
+                      return const DifficultyTabsShimmer();
                     }
 
                     if (state.levelsState?.errorMessage != null) {
                       return Center(
-                        child: Text(
-                          state.levelsState!.errorMessage!,
-                          style: const TextStyle(color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            state.levelsState!.errorMessage!,
+                            style: const TextStyle(color: Colors.white),
+                          ),
                         ),
                       );
                     }
@@ -157,18 +157,20 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                     if (levels.isEmpty) return const SizedBox.shrink();
                     final selectedId = state.selectedLevelId ?? levels.first.id;
 
-
-                    return DifficultyTabsWidget(
-                      levels: levels,
-                      selectedLevelId: selectedId,
-                      onTabChanged: (id) {
-                        context.read<ExercisesViewModel>().doIntent(
-                          ChangeLevel(
-                            newDifficultyLevelId: id,
-                            primeMoverMuscleId: widget.primeMoverMuscleId,
-                          ),
-                        );
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: DifficultyTabsWidget(
+                        levels: levels,
+                        selectedLevelId: selectedId,
+                        onTabChanged: (id) {
+                          context.read<ExercisesViewModel>().doIntent(
+                            ChangeLevel(
+                              newDifficultyLevelId: id,
+                              primeMoverMuscleId: widget.primeMoverMuscleId,
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                 ),
@@ -176,7 +178,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
             ),
 
           // ─────────────────────────────────────────────
-          // 3. Exercises List
+          // 3. Exercises List Section
           // ─────────────────────────────────────────────
           SliverToBoxAdapter(
             child: Padding(
@@ -192,35 +194,17 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                           previous.levelsState != current.levelsState ||
                           previous.selectedLevelId != current.selectedLevelId,
                       builder: (context, state) {
-                        if (widget.showTabs &&
-                            (state.levelsState?.isLoading == true ||
-                                state.selectedLevelId == null)) {
-                          return const Padding(
-                            padding: EdgeInsets.all(40.0),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.primary,
-                              ),
-                            ),
-                          );
+                        final exerciseData = state.exercisesState?.data;
+
+                        if (state.exercisesState == null ||
+                            (state.exercisesState?.isLoading == true &&
+                                (exerciseData == null ||
+                                    exerciseData.isEmpty))) {
+                          return const ExercisesListShimmer();
                         }
 
-                        final exerciseData = state.exercisesState?.data;
                         if (state.exercisesState?.errorMessage != null &&
                             (exerciseData == null || exerciseData.isEmpty)) {
-                          return const Padding(
-                            padding: EdgeInsets.all(40.0),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.primary,
-                              ),
-                            ),
-                          );
-                        }
-
-                        if (state.exercisesState?.errorMessage != null &&
-                            (state.exercisesState?.data == null ||
-                                state.exercisesState!.data!.isEmpty)) {
                           return Padding(
                             padding: const EdgeInsets.all(40.0),
                             child: Center(
@@ -232,7 +216,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                           );
                         }
 
-                        final exercises = state.exercisesState?.data ?? [];
+                        final exercises = exerciseData ?? [];
                         if (exercises.isEmpty) {
                           return Padding(
                             padding: const EdgeInsets.all(40.0),

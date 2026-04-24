@@ -26,4 +26,8 @@ class ApiConstants {
       'levels/difficulty-levels/by-prime-mover';
   static const String exercisesByMuscleDifficulty =
       'exercises/by-muscle-difficulty';
+
+  //================ Workouts Endpoints ===========================
+  static const String muscles = "muscles";
+  static const String musclesByGroup = "musclesGroup/{id}";
 }

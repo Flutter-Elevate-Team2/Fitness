@@ -1,7 +1,10 @@
 class HiveTypes {
-  HiveTypes._(); 
+  HiveTypes._();
+
 
   // Feature: Workouts
+  static const int muscleGroup = 6;
+  static const int muscle = 7;
   static const int difficultyLevel = 1;
   static const int exercise = 2;
 
@@ -10,5 +13,7 @@ class HiveTypes {
 
   // Feature: Auth
   static const int userProfile = 5;
-  
+
 }
+
+

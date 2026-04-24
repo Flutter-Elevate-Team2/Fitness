@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:fitness_app/Features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/screens/workouts_screen.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<Widget> pages = [
       _PlaceholderTab(title: context.l10n.explore),
       _PlaceholderTab(title: context.l10n.chatAi),
-      _PlaceholderTab(title: context.l10n.workouts),
+      const WorkoutsScreen(),
       _PlaceholderTab(title: context.l10n.profile),
     ];
 

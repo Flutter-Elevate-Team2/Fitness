@@ -1,14 +1,15 @@
 import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_local_data_source_contract.dart';
 import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_remote_data_source_contract.dart';
 import 'package:fitness_app/Features/workouts/data/repo/workouts_repo_imple.dart';
-import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level.dart';
-import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_response.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercises_response.dart';
-import 'package:fitness_app/Features/workouts/domain/entities/difficulty_level_entity.dart';
+import 'package:fitness_app/Features/workouts/data/models/responses/muscle_groups_response.dart';
+import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
+import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
+import 'package:fitness_app/core/errors/error_strings.dart';
 import 'package:fitness_app/core/network/network_info.dart';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -25,7 +26,6 @@ import 'workouts_repo_impl_test.mocks.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late WorkoutsRepoImple repo;
   late MockWorkoutsRemoteDataSourceContract mockRemote;
   late MockWorkoutsLocalDataSourceContract mockLocal;
   late MockNetworkInfo mockNetworkInfo;
@@ -34,11 +34,18 @@ void main() {
     mockRemote = MockWorkoutsRemoteDataSourceContract();
     mockLocal = MockWorkoutsLocalDataSourceContract();
     mockNetworkInfo = MockNetworkInfo();
-    repo = WorkoutsRepoImple(mockRemote, mockLocal, mockNetworkInfo);
   });
 
-  // ================= getExercisesByMuscleDifficulty =================
-  group('getExercisesByMuscleDifficulty', () {
+  // ═══════════════════════════════════════════════════════════════════
+  // WorkoutsRepoImple – getExercisesByMuscleDifficulty
+  // ═══════════════════════════════════════════════════════════════════
+  group('WorkoutsRepoImple - getExercisesByMuscleDifficulty', () {
+    late WorkoutsRepoImple repo;
+
+    setUp(() {
+      repo = WorkoutsRepoImple(mockRemote, mockLocal, mockNetworkInfo);
+    });
+
     const tPrimeMoverMuscleId = 'muscle_123';
     const tDifficultyLevelId = 'level_1';
 
@@ -219,5 +226,109 @@ void main() {
         },
       );
     });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // WorkoutsRepoImple – getMuscleGroups (via CacheExecutionMixin)
+  // ═══════════════════════════════════════════════════════════════════
+  group('WorkoutsRepoImple - getMuscleGroups via CacheExecutionMixin', () {
+    late WorkoutsRepoImple repository;
+
+    setUp(() {
+      repository = WorkoutsRepoImple(mockRemote, mockLocal, mockNetworkInfo);
+    });
+
+    final tModel = MuscleGroupModel(id: '1', name: 'Chest');
+    final tModels = [tModel];
+    final tResponse = MuscleGroupsResponse(musclesGroup: tModels);
+
+    test(
+      'Device Online + Cache Empty: Fetches from remote, saves to local, returns remote data',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockLocal.getMuscleGroups()).thenAnswer((_) async => null);
+        when(mockRemote.getMuscleGroups()).thenAnswer((_) async => tResponse);
+        when(mockLocal.saveMuscleGroups(any)).thenAnswer((_) async {});
+
+        // act
+        final result = await repository.getMuscleGroups();
+
+        // assert
+        expect(result, isA<SuccessResponse<List<MuscleGroupEntity>>>());
+        final data = (result as SuccessResponse<List<MuscleGroupEntity>>).data;
+        expect(data.length, 1);
+        expect(data.first.id, '1');
+
+        verify(mockNetworkInfo.isConnected).called(1);
+        verify(mockLocal.getMuscleGroups()).called(1);
+        verify(mockRemote.getMuscleGroups()).called(1);
+        verify(mockLocal.saveMuscleGroups(tModels)).called(1);
+      },
+    );
+
+    test(
+      'Device Online + Cache Has Data: Returns cache data instantly, no remote call',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockLocal.getMuscleGroups()).thenAnswer((_) async => tModels);
+
+        // act
+        final result = await repository.getMuscleGroups();
+
+        // assert
+        expect(result, isA<SuccessResponse<List<MuscleGroupEntity>>>());
+        final data = (result as SuccessResponse<List<MuscleGroupEntity>>).data;
+        expect(data.length, 1);
+
+        verify(mockLocal.getMuscleGroups()).called(1);
+        verifyNever(mockRemote.getMuscleGroups());
+        verifyNever(mockLocal.saveMuscleGroups(any));
+      },
+    );
+
+    test(
+      'Device Offline + Cache Has Data: Returns cache data, no remote call',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+        when(mockLocal.getMuscleGroups()).thenAnswer((_) async => tModels);
+
+        // act
+        final result = await repository.getMuscleGroups();
+
+        // assert
+        expect(result, isA<SuccessResponse<List<MuscleGroupEntity>>>());
+        final data = (result as SuccessResponse<List<MuscleGroupEntity>>).data;
+        expect(data.length, 1);
+
+        verify(mockLocal.getMuscleGroups()).called(1);
+        verifyNever(mockRemote.getMuscleGroups());
+        verifyNever(mockLocal.saveMuscleGroups(any));
+      },
+    );
+
+    test(
+      'Device Offline + Cache Empty: Returns ErrorResponse',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+        when(mockLocal.getMuscleGroups()).thenAnswer((_) async => null);
+
+        // act
+        final result = await repository.getMuscleGroups();
+
+        // assert
+        expect(result, isA<ErrorResponse<List<MuscleGroupEntity>>>());
+        expect(
+          (result as ErrorResponse).errorMessage,
+          ErrorStrings.emptyCacheError,
+        );
+
+        verify(mockLocal.getMuscleGroups()).called(1);
+        verifyNever(mockRemote.getMuscleGroups());
+      },
+    );
   });
 }

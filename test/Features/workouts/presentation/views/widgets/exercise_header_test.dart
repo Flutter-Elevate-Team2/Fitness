@@ -43,25 +43,8 @@ void main() {
       });
     });
 
-    testWidgets('should render time and calories pills', (tester) async {
-      await mockNetworkImagesFor(() async {
-        await tester.pumpWidget(
-          createWidget(
-            ExerciseHeaderWidget(
-              title: tTitle,
-              description: tDescription,
-              timeInMinutes: tTime,
-              calories: tCalories,
-              imageUrl: tLocalImage,
-              onBackTapped: () {},
-            ),
-          ),
-        );
-
-        expect(find.text(tTime), findsOneWidget);
-        expect(find.text(tCalories), findsOneWidget);
-      });
-    });
+    // Note: Time/Calories pills were removed from ExerciseHeaderWidget.
+    // The props still exist for data passing but are no longer rendered.
 
     testWidgets('should call onBackTapped when back button is tapped', (
       tester,

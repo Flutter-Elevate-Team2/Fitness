@@ -126,6 +126,7 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
         currentPage: 1,
         hasMore: true,
         isLoadingMore: false,
+        exercisesState: const BaseState<List<ExerciseEntity>>(isLoading: true),
       ),
     );
 

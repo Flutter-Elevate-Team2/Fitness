@@ -21,8 +21,8 @@ class DifficultyTabsWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.grayDark.withOpacity(1.0),
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.zero,
-          topRight: Radius.zero,
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(25),
         ),

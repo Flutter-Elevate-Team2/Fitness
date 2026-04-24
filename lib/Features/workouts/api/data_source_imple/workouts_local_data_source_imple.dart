@@ -1,6 +1,8 @@
 import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_local_data_source_contract.dart';
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
+import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
+import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';
 import 'package:fitness_app/core/data_base/hive_database_service.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:injectable/injectable.dart';
@@ -8,7 +10,8 @@ import 'package:injectable/injectable.dart';
 @Injectable(as: WorkoutsLocalDataSourceContract)
 class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
   final HiveDatabaseService _hiveDb;
-
+  static const String _boxName = "workouts_box";
+  static const String _muscleGroupsKey = "muscle_groups";
   static const String _metadataBoxName = 'cache_metadata_box';
   static const String _difficultyLevelsBoxName = 'difficulty_levels_box';
   static const String _exercisesBoxName = 'exercises_box';
@@ -122,6 +125,41 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
   Future<void> _saveTimestamp(String key) async {
     final meta = await _metaBox;
     await meta.put('ts_$key', DateTime.now().millisecondsSinceEpoch);
+  }
+   Future<Box> _getBox() async {
+    return await _hiveDb.openBox(_boxName);
+  }
+
+  @override
+  Future<void> saveMuscleGroups(List<MuscleGroupModel> groups) async {
+    final box = await _getBox();
+    await box.put(_muscleGroupsKey, groups);
+  }
+
+  @override
+  Future<List<MuscleGroupModel>?> getMuscleGroups() async {
+    final box = await _getBox();
+    final data = box.get(_muscleGroupsKey);
+    if (data != null) {
+      return List<MuscleGroupModel>.from(data);
+    }
+    return null;
+  }
+
+  @override
+  Future<void> saveMuscles(String groupId, List<MuscleModel> muscles) async {
+    final box = await _getBox();
+    await box.put("muscles_$groupId", muscles);
+  }
+
+  @override
+  Future<List<MuscleModel>?> getMuscles(String groupId) async {
+    final box = await _getBox();
+    final data = box.get("muscles_$groupId");
+    if (data != null) {
+      return List<MuscleModel>.from(data);
+    }
+    return null;
   }
 
   String _sanitize(String input) =>
