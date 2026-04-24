@@ -113,5 +113,8 @@
   "explore": "استكشاف",
   "chatAi": "الدردشة",
   "workouts": "التمارين",
-  "profile": "الملف الشخصي"
+  "profile": "الملف الشخصي",
+  "foodRecommendation": "مقترحات الوجبات",
+  "recommendationForYou": "مقترحات لك",
+  "seeAll": "عرض الكل"
 }

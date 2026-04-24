@@ -162,5 +162,14 @@
     "description": "Workouts"},
   "profile": "Profile",
   "@profile": {
-    "description": "Profile"}
+    "description": "Profile"},
+  "foodRecommendation": "Food Recommendation",
+  "@foodRecommendation": {
+    "description": "Food Recommendation"},
+  "recommendationForYou": "Recommendation For You",
+  "@recommendationForYou": {
+    "description": "Recommendation For You"},
+  "seeAll": "See All",
+  "@seeAll": {
+    "description": "See All"}
 }
