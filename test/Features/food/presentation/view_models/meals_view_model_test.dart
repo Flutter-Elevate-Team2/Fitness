@@ -157,35 +157,47 @@ void main() {
     );
 
     blocTest<MealsViewModel, MealsState>(
-      'emits [loading, success] when FetchMealDetailsEvent is added',
+      'emits [loading details, success details, loading similar, success similar] when FetchMealDetailsEvent succeeds',
       build: () {
         final tEntity = MealDetailEntity(
           id: '1',
           name: 'Test',
-          category: '',
+          category: 'Beef',
           area: '',
           instructions: '',
           image: '',
           ingredients: [],
         );
+
         when(mockMealDetailsUseCase(any)).thenAnswer(
-          (_) async => SuccessResponse<MealDetailEntity>(data: tEntity),
+              (_) async => SuccessResponse<MealDetailEntity>(data: tEntity),
         );
+
+        when(mockMealsByCategoryUseCase('Beef')).thenAnswer(
+              (_) async => SuccessResponse<List<MealsByCategoryEntity>>(data: []),
+        );
+
         return viewModel;
       },
       act: (cubit) => cubit.doIntent(FetchMealDetailsEvent('52772')),
       expect: () => [
-        isA<MealsState>().having(
-          (s) => s.mealDetailsState.isLoading,
-          'loading',
-          true,
-        ),
-        isA<MealsState>().having(
-          (s) => s.mealDetailsState.data,
-          'data',
-          isA<MealDetailEntity>(),
-        ),
+         isA<MealsState>().having((s) => s.mealDetailsState.isLoading, 'meal loading', true),
+
+         isA<MealsState>()
+            .having((s) => s.mealDetailsState.isLoading, 'meal success', false)
+            .having((s) => s.mealDetailsState.data?.id, 'meal id', '1'),
+
+         isA<MealsState>()
+            .having((s) => s.mealsByCategoryState.isLoading, 'similar loading', true),
+
+         isA<MealsState>()
+            .having((s) => s.mealsByCategoryState.isLoading, 'similar success', false)
+            .having((s) => s.mealsByCategoryState.data, 'similar data', []),
       ],
+      verify: (_) {
+        verify(mockMealDetailsUseCase('52772')).called(1);
+        verify(mockMealsByCategoryUseCase('Beef')).called(1);
+      },
     );
 
     blocTest<MealsViewModel, MealsState>(

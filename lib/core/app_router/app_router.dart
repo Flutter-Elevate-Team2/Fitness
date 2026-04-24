@@ -3,8 +3,8 @@ import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/sig
 import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
-import 'package:fitness_app/Features/food/presentation/views/screens/meals_screen.dart';
-import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
+import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
+ import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
@@ -33,6 +33,9 @@ class Routes {
 
   static const String mealsPath = '/meals';
   static const String mealsName = 'meals';
+
+  static const String mealDetailsPath = '/mealdetails';
+  static const String mealDetailsName = 'mealdetails';
 }
 
 class AppRouter {
@@ -41,7 +44,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.homePath,
+    initialLocation: Routes.mealDetailsPath,
     redirect: (context, state) async {
       final hasValidTokenUseCase = getIt<HasValidTokenUseCase>();
       final prefs = getIt<SharedPreferences>();
@@ -109,7 +112,15 @@ class AppRouter {
         name: Routes.mealsName,
         builder: (context, state) => BlocProvider(
           create: (context) => getIt<MealsViewModel>(),
-          child: const MealsScreen(),
+          child:   Container(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.mealDetailsPath,
+        name: Routes.mealDetailsName,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<MealsViewModel>(),
+          child:   MealDetailsScreen("52959"),
         ),
       ),
     ],

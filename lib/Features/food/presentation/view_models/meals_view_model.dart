@@ -95,7 +95,10 @@ class MealsViewModel extends Cubit<MealsState> {
         state.copyWith(
           mealDetailsState: BaseState(isLoading: false, data: result.data),
         ),
+
       );
+      doIntent(FetchMealsByCategoryEvent(result.data.category));
+
     } else if (result is ErrorResponse<MealDetailEntity>) {
       emit(
         state.copyWith(
