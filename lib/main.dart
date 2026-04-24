@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile_events.dart';
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
@@ -14,6 +15,7 @@ import 'package:fitness_app/core/theming/app_theming.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_ce/hive.dart';
@@ -21,6 +23,7 @@ import 'package:hive_ce/hive.dart';
 import 'Features/food/data/models/meals_models/category_model.dart';
 import 'Features/food/data/models/meals_models/meal_details_model.dart';
 import 'Features/food/data/models/meals_models/meal_model.dart';
+import 'Features/profile/presentation/view_model/profile_view_model.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -97,7 +100,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MultiBlocProvider(
+        providers: [
+           BlocProvider(
+            create: (_) =>
+            getIt<ProfileViewModel>()..doIntent(GetUserProfileEvent()),
+          ),
+        ],
+        child:  MaterialApp.router(
       routerConfig: AppRouter.router,
       title: 'Super Fitness',
       debugShowCheckedModeBanner: false,
@@ -105,6 +115,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: AppTheme.darkTheme,
+    )
     );
   }
 }

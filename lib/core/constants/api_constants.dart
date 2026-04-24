@@ -31,4 +31,7 @@ class ApiConstants {
   static const String musclesRandom = 'muscles/random';
   static const String muscles = "muscles";
   static const String musclesByGroup = "musclesGroup/{id}";
+
+  //================ Profile Endpoints ===========================
+  static const String getUserProfile = "auth/profile-data";
 }

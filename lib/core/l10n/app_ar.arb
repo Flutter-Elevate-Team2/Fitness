@@ -136,5 +136,13 @@
   "buildYourArmWorkout": "قم ببناء عضلات ذراعيك من خلال هذا التمرين السريع والفعال.",
   "bicepsAndTricepsWorkout": "تمرين عضلات البايسبس والترايسبس",
   "bicepsAndTriceps": "عضلات البايسبس والترايسبس",
-  "tricepsWorkout": "تمرين عضلات الترايسبس"
+  "tricepsWorkout": "تمرين عضلات الترايسبس",
+  "hi": "مرحبًا",
+  "lets_start": "لنبدأ يومك",
+  "category": "الفئات",
+  "gym": "جيم",
+  "fitness": "لياقة",
+  "yoga": "يوجا",
+  "aerobics": "أيروبيكس",
+  "trainer": "مدرب"
 }

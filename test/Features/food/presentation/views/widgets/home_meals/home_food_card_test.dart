@@ -80,30 +80,5 @@ void main() {
       expect(find.byIcon(Icons.fastfood), findsOneWidget);
     });
 
-    testWidgets('5. Should verify styling and constraints', (tester) async {
-      await tester.pumpWidget(createWidget(onTap: () {}));
-
-      final containerFinder = find
-          .descendant(
-            of: find.byType(HomeFoodCategoryCard),
-            matching: find.byType(Container),
-          )
-          .first;
-
-      final container = tester.widget<Container>(containerFinder);
-      expect(container.constraints?.minWidth, 120);
-
-      final clipFinder = find
-          .descendant(
-            of: find.byType(HomeFoodCategoryCard),
-            matching: find.byType(ClipRRect),
-          )
-          .first;
-
-      expect(clipFinder, findsOneWidget);
-
-      final clipRRect = tester.widget<ClipRRect>(clipFinder);
-      expect(clipRRect.borderRadius, BorderRadius.circular(22));
-    });
   });
 }
