@@ -28,6 +28,7 @@ class ApiConstants {
       'exercises/by-muscle-difficulty';
 
   //================ Workouts Endpoints ===========================
+  static const String musclesRandom = 'muscles/random';
   static const String muscles = "muscles";
   static const String musclesByGroup = "musclesGroup/{id}";
 }

@@ -2,6 +2,7 @@ import 'package:fitness_app/Features/workouts/data/models/difficulty_level_respo
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';
+import 'package:fitness_app/Features/workouts/data/models/random_muscle_model.dart';
 
 abstract class WorkoutsLocalDataSourceContract {
   Future<void> cacheDifficultyLevels(String primeMoverMuscleId, List<DifficultyLevelHiveModel> levels);
@@ -21,4 +22,7 @@ abstract class WorkoutsLocalDataSourceContract {
 
   Future<void> saveMuscles(String groupId, List<MuscleModel> muscles);
   Future<List<MuscleModel>?> getMuscles(String groupId);
+
+  Future<void> cacheRandomMuscles(List<RandomMuscleModel> muscles);
+  Future<List<RandomMuscleModel>?> getCachedRandomMuscles();
 }

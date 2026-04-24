@@ -2,6 +2,7 @@ import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts
 import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_remote_data_source_contract.dart';
 import 'package:fitness_app/Features/workouts/data/mapper/difficulty_level_mapper.dart';
 import 'package:fitness_app/Features/workouts/data/mapper/exercise_mapper.dart';
+import 'package:fitness_app/Features/workouts/data/mapper/random_muscles_mapper.dart';
 import 'package:fitness_app/Features/workouts/data/mapper/workouts_mappers.dart';
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_response.dart';
@@ -9,12 +10,15 @@ import 'package:fitness_app/Features/workouts/data/models/exercises_response/exe
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';
+import 'package:fitness_app/Features/workouts/data/models/random_muscle_model.dart';
+import 'package:fitness_app/Features/workouts/data/models/random_muscles/response/random_muscles.dart';
 import 'package:fitness_app/Features/workouts/data/models/responses/muscle_groups_response.dart';
 import 'package:fitness_app/Features/workouts/data/models/responses/muscles_by_group_response.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/difficulty_level_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
+import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/repo/workouts_repo_contract.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/errors/error_strings.dart';
@@ -45,9 +49,12 @@ class WorkoutsRepoImple
   // ─────────────────────────────────────────────
   @override
   Future<BaseResponse<List<DifficultyLevelEntity>>>
-      getDifficultyLevelsByPrimeMover(String primeMoverMuscleId) {
-    return executeWithCache<DifficultyLevelResponse,
-        List<DifficultyLevelHiveModel>?, List<DifficultyLevelEntity>>(
+  getDifficultyLevelsByPrimeMover(String primeMoverMuscleId) {
+    return executeWithCache<
+      DifficultyLevelResponse,
+      List<DifficultyLevelHiveModel>?,
+      List<DifficultyLevelEntity>
+    >(
       fetchFromRemote: () =>
           _remoteDataSource.getDifficultyLevelsByPrimeMover(primeMoverMuscleId),
       fetchFromCache: () =>
@@ -58,10 +65,14 @@ class WorkoutsRepoImple
       ),
       saveToCache: (remoteModel) async {
         final hiveList =
-            remoteModel.difficultyLevels?.map((e) => e.toHiveModel()).toList() ??
-                [];
+            remoteModel.difficultyLevels
+                ?.map((e) => e.toHiveModel())
+                .toList() ??
+            [];
         await _localDataSource.cacheDifficultyLevels(
-            primeMoverMuscleId, hiveList);
+          primeMoverMuscleId,
+          hiveList,
+        );
       },
       remoteMapper: (remoteModel) =>
           remoteModel.difficultyLevels
@@ -82,19 +93,26 @@ class WorkoutsRepoImple
     String difficultyLevelId,
     int page,
   ) async {
-    final safeMuscleid =
-        primeMoverMuscleId.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
-    final safeLevelId =
-        difficultyLevelId.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
+    final safeMuscleid = primeMoverMuscleId.replaceAll(
+      RegExp(r'[^a-zA-Z0-9]'),
+      '_',
+    );
+    final safeLevelId = difficultyLevelId.replaceAll(
+      RegExp(r'[^a-zA-Z0-9]'),
+      '_',
+    );
     final cacheKey = 'exercises_${safeMuscleid}_$safeLevelId';
 
     if (page == 1) {
-      final isExpired =
-          await _localDataSource.isCacheExpired(cacheKey, const Duration(hours: 24));
+      final isExpired = await _localDataSource.isCacheExpired(
+        cacheKey,
+        const Duration(hours: 24),
+      );
       final cachedData = await _localDataSource.getCachedExercises(
-          primeMoverMuscleId, difficultyLevelId);
+        primeMoverMuscleId,
+        difficultyLevelId,
+      );
       final hasCache = cachedData != null && cachedData.isNotEmpty;
-
 
       if (hasCache && !isExpired) {
         return SuccessResponse(
@@ -103,14 +121,18 @@ class WorkoutsRepoImple
       }
 
       await _localDataSource.clearCachedExercises(
-          primeMoverMuscleId, difficultyLevelId);
+        primeMoverMuscleId,
+        difficultyLevelId,
+      );
     }
 
     final isOnline = await networkInfo.isConnected;
 
     if (!isOnline) {
       final cachedData = await _localDataSource.getCachedExercises(
-          primeMoverMuscleId, difficultyLevelId);
+        primeMoverMuscleId,
+        difficultyLevelId,
+      );
       if (cachedData != null && cachedData.isNotEmpty) {
         return SuccessResponse(
           data: cachedData.map((e) => e.toEntity()).toList(),
@@ -120,7 +142,6 @@ class WorkoutsRepoImple
     }
 
     try {
-
       final remoteData = await _remoteDataSource.getExercisesByMuscleDifficulty(
         primeMoverMuscleId,
         difficultyLevelId,
@@ -140,12 +161,12 @@ class WorkoutsRepoImple
         );
       }
 
-      return SuccessResponse(
-        data: hiveList.map((e) => e.toEntity()).toList(),
-      );
+      return SuccessResponse(data: hiveList.map((e) => e.toEntity()).toList());
     } catch (e) {
       final cachedData = await _localDataSource.getCachedExercises(
-          primeMoverMuscleId, difficultyLevelId);
+        primeMoverMuscleId,
+        difficultyLevelId,
+      );
       if (cachedData != null && cachedData.isNotEmpty) {
         return SuccessResponse(
           data: cachedData.map((e) => e.toEntity()).toList(),
@@ -154,9 +175,14 @@ class WorkoutsRepoImple
       return ErrorResponse(errorMessage: ErrorHandler.handleError(e));
     }
   }
-   @override
+
+  @override
   Future<BaseResponse<List<MuscleGroupEntity>>> getMuscleGroups() async {
-    return executeWithCache<MuscleGroupsResponse, List<MuscleGroupModel>?, List<MuscleGroupEntity>>(
+    return executeWithCache<
+      MuscleGroupsResponse,
+      List<MuscleGroupModel>?,
+      List<MuscleGroupEntity>
+    >(
       isExpired: () async => false,
       fetchFromRemote: () => _remoteDataSource.getMuscleGroups(),
       fetchFromCache: () => _localDataSource.getMuscleGroups(),
@@ -171,8 +197,14 @@ class WorkoutsRepoImple
   }
 
   @override
-  Future<BaseResponse<List<MuscleEntity>>> getMusclesByGroupId(String id) async {
-    return executeWithCache<MusclesByGroupResponse, List<MuscleModel>?, List<MuscleEntity>>(
+  Future<BaseResponse<List<MuscleEntity>>> getMusclesByGroupId(
+    String id,
+  ) async {
+    return executeWithCache<
+      MusclesByGroupResponse,
+      List<MuscleModel>?,
+      List<MuscleEntity>
+    >(
       isExpired: () async => false,
       fetchFromRemote: () => _remoteDataSource.getMusclesByGroupId(id),
       fetchFromCache: () => _localDataSource.getMuscles(id),
@@ -183,6 +215,39 @@ class WorkoutsRepoImple
       },
       remoteMapper: (data) => data.muscles.toEntityList(),
       cacheMapper: (data) => data.toEntityList(),
+    );
+  }
+
+  @override
+  Future<BaseResponse<List<RandomMusclesEntity>>> getRandomMuscles() {
+    return executeWithCache<
+      RandomMuscles,
+      List<RandomMuscleModel>?,
+      List<RandomMusclesEntity>
+    >(
+      isExpired: () => _localDataSource.isCacheExpired(
+        'random_muscles_key',
+        const Duration(hours: 24),
+      ),
+
+      fetchFromRemote: () => _remoteDataSource.getRandomMuscles(),
+
+      fetchFromCache: () => _localDataSource.getCachedRandomMuscles(),
+
+      saveToCache: (remoteModel) async {
+        final hiveList =
+            remoteModel.muscles?.map((e) => e.toHiveModel()).toList() ?? [];
+        await _localDataSource.cacheRandomMuscles(hiveList);
+      },
+
+      remoteMapper: (remoteModel) =>
+          remoteModel.muscles
+              ?.map((e) => e.toHiveModel().toEntity())
+              .toList() ??
+          [],
+
+      cacheMapper: (localList) =>
+          localList?.map((e) => e.toEntity()).toList() ?? [],
     );
   }
 }

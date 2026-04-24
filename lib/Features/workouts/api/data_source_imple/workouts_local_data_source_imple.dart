@@ -3,6 +3,7 @@ import 'package:fitness_app/Features/workouts/data/models/difficulty_level_respo
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';
+import 'package:fitness_app/Features/workouts/data/models/random_muscle_model.dart';
 import 'package:fitness_app/core/data_base/hive_database_service.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:injectable/injectable.dart';
@@ -15,6 +16,8 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
   static const String _metadataBoxName = 'cache_metadata_box';
   static const String _difficultyLevelsBoxName = 'difficulty_levels_box';
   static const String _exercisesBoxName = 'exercises_box';
+  static const String _randomMusclesBoxName = 'random_muscles_box';
+  static const String _randomMusclesKey = 'random_muscles_list';
 
   WorkoutsLocalDataSourceImple(this._hiveDb);
 
@@ -29,6 +32,9 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
 
   Future<Box<dynamic>> get _metaBox =>
       _hiveDb.openBox<dynamic>(_metadataBoxName);
+
+  Future<Box<List<dynamic>>> get _randomBox =>
+      _hiveDb.openBox<List<dynamic>>(_randomMusclesBoxName);
 
   // ─────────────────────────────────────────────
   // Difficulty Levels
@@ -161,6 +167,7 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
     }
     return null;
   }
+  
 
   String _sanitize(String input) =>
       input.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
@@ -170,4 +177,20 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
 
   String _exercisesKey(String primeMoverMuscleId, String difficultyLevelId) =>
       'exercises_${_sanitize(primeMoverMuscleId)}_${_sanitize(difficultyLevelId)}';
+
+  @override
+  Future<void> cacheRandomMuscles(List<RandomMuscleModel> muscles) async {
+    final box = await _randomBox;
+    await box.put(_randomMusclesKey, muscles);
+    await _saveTimestamp(_randomMusclesKey);
+  }
+
+  @override
+  Future<List<RandomMuscleModel>?> getCachedRandomMuscles() async {
+    final box = await _randomBox;
+    final raw = box.get(_randomMusclesKey);
+    if (raw == null) return null;
+
+    return raw.whereType<RandomMuscleModel>().toList();
+  }
 }

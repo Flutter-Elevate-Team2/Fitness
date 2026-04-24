@@ -3,6 +3,7 @@ import 'package:fitness_app/Features/workouts/data/models/difficulty_level_respo
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';
+import 'package:fitness_app/Features/workouts/data/models/random_muscle_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/controller/session_expired.dart';
@@ -36,6 +37,7 @@ Future<void> main() async {
       Hive.registerAdapter(MealDetailsModelAdapter());
       Hive.registerAdapter(MuscleGroupModelAdapter());
       Hive.registerAdapter(MuscleModelAdapter());
+      Hive.registerAdapter(RandomMuscleModelAdapter());
     },
   );
   await configureDependencies();

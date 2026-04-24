@@ -3,6 +3,7 @@ import 'package:fitness_app/Features/workouts/domain/entities/difficulty_level_e
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
+import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 
 abstract class WorkoutsRepoContract {
@@ -11,4 +12,6 @@ abstract class WorkoutsRepoContract {
 
   Future<BaseResponse<List<MuscleGroupEntity>>> getMuscleGroups();
   Future<BaseResponse<List<MuscleEntity>>> getMusclesByGroupId(String id);
+
+  Future<BaseResponse<List<RandomMusclesEntity>>> getRandomMuscles();
 }

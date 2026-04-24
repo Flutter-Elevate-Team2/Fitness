@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_response.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercises_response.dart';
+import 'package:fitness_app/Features/workouts/data/models/random_muscles/response/random_muscles.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/Features/workouts/data/models/responses/muscle_groups_response.dart';
 import 'package:fitness_app/Features/workouts/data/models/responses/muscles_by_group_response.dart';
@@ -33,4 +34,7 @@ abstract class WorkoutsApi {
 
   @GET(ApiConstants.musclesByGroup)
   Future<MusclesByGroupResponse> getMusclesByGroupId(@Path("id") String id);
+
+  @GET(ApiConstants.musclesRandom)
+  Future<RandomMuscles> getRandomMuscles();
 }

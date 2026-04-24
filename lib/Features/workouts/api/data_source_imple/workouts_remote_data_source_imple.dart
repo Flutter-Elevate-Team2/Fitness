@@ -2,6 +2,7 @@ import 'package:fitness_app/Features/workouts/api/api_client/workouts_api.dart';
 import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_remote_data_source_contract.dart';
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_response.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercises_response.dart';
+import 'package:fitness_app/Features/workouts/data/models/random_muscles/response/random_muscles.dart';
 import 'package:fitness_app/Features/workouts/data/models/responses/muscle_groups_response.dart';
 import 'package:fitness_app/Features/workouts/data/models/responses/muscles_by_group_response.dart';
 import 'package:injectable/injectable.dart';
@@ -31,5 +32,8 @@ class WorkoutsRemoteDataSourceImple implements WorkoutsRemoteDataSourceContract 
     return _workoutsApi.getMusclesByGroupId(id);
   }
 
-
+  @override
+  Future<RandomMuscles> getRandomMuscles() {
+    return _workoutsApi.getRandomMuscles();
+  }
 }
