@@ -200,5 +200,7 @@
     "description": "View"},
   "couldNotOpenVideo": "Could not open video, please try again",
   "@couldNotOpenVideo": {
-    "description": "Could not open video, please try again"}
+    "description": "Could not open video, please try again"},
+  "hi":"Hi",
+  "letsStart":"Let’s Start Your Day"
 }

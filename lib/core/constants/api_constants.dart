@@ -30,4 +30,7 @@ class ApiConstants {
   //================ Workouts Endpoints ===========================
   static const String muscles = "muscles";
   static const String musclesByGroup = "musclesGroup/{id}";
+
+  //================ Profile Endpoints ===========================
+  static const String getUserProfile = "auth/profile-data";
 }

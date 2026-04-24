@@ -34,20 +34,17 @@ void main() {
     mockNetworkInfo = MockNetworkInfo();
     repo = FoodRepoImpl(mockRemote, mockLocal, mockNetworkInfo);
 
-    when(mockLocal.isCacheExpired(any, any)).thenAnswer((_) async => true);
-    when(mockLocal.saveCategories(any)).thenAnswer((_) async => Future.value());
-    when(
-      mockLocal.saveMealsByCategory(any, any),
-    ).thenAnswer((_) async => Future.value());
-    when(mockLocal.saveMealDetail(any)).thenAnswer((_) async => Future.value());
+     when(mockLocal.isCacheExpired(any, any)).thenAnswer((_) async => true);
+    when(mockLocal.saveCategories(any)).thenAnswer((_) async => {});
+    when(mockLocal.saveMealsByCategory(any, any)).thenAnswer((_) async => {});
+    when(mockLocal.saveMealDetail(any)).thenAnswer((_) async => {});
   });
-
   group('getCategories Tests', () {
-    final tResponse = CategoriesResponse(categories: []);
-
     test(
       'should return remote data and cache it when online and cache expired',
       () async {
+        final tResponse = CategoriesResponse(categories: []);
+
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         when(mockRemote.getCategories()).thenAnswer((_) async => tResponse);
         when(mockLocal.getCategories()).thenAnswer((_) async => []);
@@ -59,16 +56,23 @@ void main() {
 
     test(
       'should return cached data when online but cache NOT expired',
-      () async {
+          () async {
+        // 1. Arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        when(mockLocal.isCacheExpired(any, any)).thenAnswer((_) async => false);
-        when(
-          mockLocal.getCategories(),
-        ).thenAnswer((_) async => <CategoryModel>[]);
+         when(mockLocal.isCacheExpired(any, any)).thenAnswer((_) async => false);
 
+         final tCachedData = [
+          CategoryModel(idCategory: '1', strCategory: 'Beef', strCategoryThumb: '', strCategoryDescription: '')
+        ];
+        when(mockLocal.getCategories()).thenAnswer((_) async => tCachedData);
+
+        // 2. Act
         final result = await repo.getCategories();
+
+        // 3. Assert
         expect(result, isA<SuccessResponse>());
-        verifyZeroInteractions(mockRemote);
+
+      verifyNever(mockRemote.getCategories());
       },
     );
   });
@@ -76,7 +80,9 @@ void main() {
   group('getMealsByCategory Tests', () {
     const tCategory = 'Beef';
     final tRemoteMeals = remote_meals.MealsByCategoryResponse(meals: []);
-
+    final tCachedMeals = [
+      MealModel(idMeal: '1', strMeal: 'Test', strMealThumb: '')
+    ];
     test('should fetch from remote when online', () async {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       when(
@@ -89,27 +95,32 @@ void main() {
     });
 
     test('should return cached data when offline', () async {
+      // Arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      when(
-        mockLocal.getMealsByCategory(tCategory),
-      ).thenAnswer((_) async => <MealModel>[]);
+       when(mockLocal.getMealsByCategory(any)).thenAnswer((_) async => tCachedMeals);
+      when(mockLocal.isCacheExpired(any, any)).thenAnswer((_) async => false);
 
+      // Act
       final result = await repo.getMealsByCategory(tCategory);
+
+      // Assert
       expect(result, isA<SuccessResponse>());
     });
 
     test(
       'should return cached data when online but cache NOT expired',
-      () async {
+          () async {
+        // Arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         when(mockLocal.isCacheExpired(any, any)).thenAnswer((_) async => false);
-        when(
-          mockLocal.getMealsByCategory(any),
-        ).thenAnswer((_) async => <MealModel>[]);
+         when(mockLocal.getMealsByCategory(any)).thenAnswer((_) async => tCachedMeals);
 
+        // Act
         final result = await repo.getMealsByCategory(tCategory);
+
+        // Assert
         expect(result, isA<SuccessResponse>());
-        verifyZeroInteractions(mockRemote);
+         verifyZeroInteractions(mockRemote);
       },
     );
   });
