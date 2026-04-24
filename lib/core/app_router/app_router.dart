@@ -7,6 +7,8 @@ import 'package:fitness_app/Features/food/presentation/view_models/meals_view_mo
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/home_meal_test.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/meals_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
+import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
+ import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
@@ -36,6 +38,9 @@ class Routes {
   static const String mealsPath = '/meals';
   static const String mealsName = 'meals';
 
+  static const String mealDetailsPath = '/mealdetails';
+  static const String mealDetailsName = 'mealdetails';
+
   static const String homeMealTestPath = '/homeMealTest';
   static const String homeMealTestName = 'homeMealTest';
 }
@@ -46,7 +51,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.homePath,
+    initialLocation: Routes.mealDetailsPath,
     redirect: (context, state) async {
       final hasValidTokenUseCase = getIt<HasValidTokenUseCase>();
       final prefs = getIt<SharedPreferences>();
@@ -132,6 +137,15 @@ class AppRouter {
         builder: (context, state) => BlocProvider(
           create: (context) => getIt<MealsViewModel>(),
           child: const HomeMealTest(),
+          child:   Container(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.mealDetailsPath,
+        name: Routes.mealDetailsName,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<MealsViewModel>(),
+          child:   MealDetailsScreen("52959"),
         ),
       ),
     ],
