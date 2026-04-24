@@ -173,4 +173,51 @@ void main() {
       expect((result as SuccessResponse).data, isEmpty);
     });
   });
+
+  // ── 5. Offline ────────────────────────────────────────────────────────────────
+  group('when offline', () {
+    test('returns cached data when cache exists', () async {
+      final result = await runMixin(
+        isOnline: false,
+        cachedData: 'offline_data',
+        isExpired: true,
+      );
+
+      expect(result, isA<SuccessResponse<String>>());
+      expect((result as SuccessResponse).data, 'cached_offline_data');
+    });
+
+    test('returns error when offline and no cache', () async {
+      final result = await runMixin(
+        isOnline: false,
+        cachedData: null,
+        isExpired: true,
+      );
+
+      expect(result, isA<ErrorResponse<String>>());
+      expect(
+        (result as ErrorResponse).errorMessage,
+        ErrorStrings.emptyCacheError,
+      );
+    });
+  });
+
+  // ── 6. Empty list cache ───────────────────────────────────────────────────────
+  group('empty list cache', () {
+    test('treats empty list as valid cache (not null)', () async {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+
+      final result = await sut.executeWithCache<String, List<String>?, List<String>>(
+        fetchFromRemote: () async => 'remote',
+        fetchFromCache: () async => [],
+        saveToCache: (_) async {},
+        remoteMapper: (_) => ['remote_item'],
+        cacheMapper: (data) => data ?? [],
+        isExpired: () async => false,
+      );
+
+      expect(result, isA<SuccessResponse<List<String>>>());
+      expect((result as SuccessResponse).data, isEmpty);
+    });
+  });
 }
