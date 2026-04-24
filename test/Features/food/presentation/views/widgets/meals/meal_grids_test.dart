@@ -3,30 +3,35 @@ import 'package:fitness_app/Features/food/presentation/view_models/meals_state.d
 import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
 import 'package:fitness_app/Features/food/presentation/views/widgets/meals/meal_card.dart';
 import 'package:fitness_app/Features/food/presentation/views/widgets/meals/meal_grids.dart';
+import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'meal_grids_test.mocks.dart';
 
-@GenerateMocks([MealsViewModel])
+@GenerateNiceMocks([MockSpec<MealsViewModel>(), MockSpec<GoRouter>()])
 void main() {
   late MockMealsViewModel mockViewModel;
+  late MockGoRouter mockRouter;
 
   setUp(() {
     mockViewModel = MockMealsViewModel();
+    mockRouter = MockGoRouter();
     when(mockViewModel.stream).thenAnswer((_) => const Stream.empty());
   });
 
   Widget createWidgetUnderTest() {
     return MaterialApp(
-      home: Scaffold(
-        body: BlocProvider<MealsViewModel>.value(
+      home: InheritedGoRouter(
+        goRouter: mockRouter,
+        child: BlocProvider<MealsViewModel>.value(
           value: mockViewModel,
-          child: const MealsGridWidget(),
+          child: const Scaffold(body: MealsGridWidget()),
         ),
       ),
     );
@@ -100,24 +105,30 @@ void main() {
       expect(find.byType(MealCard), findsNothing);
     });
 
-    testWidgets('5. Should execute onTap code when a MealCard is pressed', (
-      tester,
-    ) async {
-      final testMeals = [
-        MealsByCategoryEntity(id: '1', name: 'Meal 1', image: 'url1'),
-      ];
+    testWidgets(
+      '5. Should navigate to details with correct ID when a MealCard is pressed',
+      (tester) async {
+        final testMeals = [
+          MealsByCategoryEntity(id: '52959', name: 'Meal 1', image: 'url1'),
+        ];
 
-      when(mockViewModel.state).thenReturn(
-        MealsState().copyWith(mealsByCategoryState: BaseState(data: testMeals)),
-      );
+        when(mockViewModel.state).thenReturn(
+          MealsState().copyWith(
+            mealsByCategoryState: BaseState(data: testMeals),
+          ),
+        );
 
-      await tester.pumpWidget(createWidgetUnderTest());
+        await tester.pumpWidget(createWidgetUnderTest());
+        await tester.pump();
 
-      await tester.tap(find.byType(MealCard));
-      await tester.pump();
+        await tester.tap(find.byType(MealCard));
+        await tester.pump();
 
-      expect(find.byType(MealCard), findsOneWidget);
-    });
+        verify(
+          mockRouter.pushNamed(Routes.mealDetailsName, extra: '52959'),
+        ).called(1);
+      },
+    );
 
     testWidgets('6. Should have correct GridView styling and configuration', (
       tester,

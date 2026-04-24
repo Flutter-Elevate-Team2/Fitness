@@ -8,7 +8,6 @@ import 'package:fitness_app/Features/food/presentation/views/screens/meals/home_
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/meals_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
- import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
@@ -51,7 +50,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.mealDetailsPath,
+    initialLocation: Routes.homeMealTestPath,
     redirect: (context, state) async {
       final hasValidTokenUseCase = getIt<HasValidTokenUseCase>();
       final prefs = getIt<SharedPreferences>();
@@ -137,16 +136,19 @@ class AppRouter {
         builder: (context, state) => BlocProvider(
           create: (context) => getIt<MealsViewModel>(),
           child: const HomeMealTest(),
-          child:   Container(),
         ),
       ),
       GoRoute(
         path: Routes.mealDetailsPath,
         name: Routes.mealDetailsName,
-        builder: (context, state) => BlocProvider(
-          create: (context) => getIt<MealsViewModel>(),
-          child:   MealDetailsScreen("52959"),
-        ),
+        builder: (context, state) {
+          final mealId = state.extra as String;
+
+          return BlocProvider(
+            create: (context) => getIt<MealsViewModel>(),
+            child: MealDetailsScreen(mealId),
+          );
+        },
       ),
     ],
   );

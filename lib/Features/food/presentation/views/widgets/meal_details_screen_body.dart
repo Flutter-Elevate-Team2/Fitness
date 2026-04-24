@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_state.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
 import 'package:fitness_app/Features/food/presentation/views/widgets/expandable_text.dart';
@@ -44,17 +43,8 @@ class MealDetailsScreenBodyState extends State<MealDetailsScreenBody> {
         }
 
         return SharedScaffold(
-          backgroundImage: Assets.images.homeBackground.path,
-           body: Stack(
-            children: [
-              // Blur + dark overlay
-              Positioned.fill(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Container(color: const Color(0x801A1A1A)),
-                ),
-              ),
-              SafeArea(
+          backgroundImage: Assets.images.food.path,
+           body: SafeArea(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -104,8 +94,6 @@ class MealDetailsScreenBodyState extends State<MealDetailsScreenBody> {
                   ),
                 ),
               ),
-            ],
-          ),
         );
       },
     );

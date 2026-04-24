@@ -1,9 +1,11 @@
 import 'package:fitness_app/Features/food/presentation/view_models/meals_state.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
 import 'package:fitness_app/Features/food/presentation/views/widgets/meals/meal_card.dart';
+import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class MealsGridWidget extends StatelessWidget {
   const MealsGridWidget({super.key});
@@ -36,11 +38,12 @@ class MealsGridWidget extends StatelessWidget {
           ),
           itemCount: meals.length,
           itemBuilder: (context, index) {
+            final meal = meals[index];
             return MealCard(
-              imageUrl: meals[index].image,
-              title: meals[index].name,
+              imageUrl: meal.image,
+              title: meal.name,
               onTap: () {
-                // TODO: Handle meal tap
+                context.pushNamed(Routes.mealDetailsName, extra: meal.id);
               },
             );
           },
