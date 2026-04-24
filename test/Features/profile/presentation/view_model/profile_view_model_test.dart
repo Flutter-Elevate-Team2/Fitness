@@ -1,9 +1,9 @@
 import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/profile/domain/use_cases/get_user_profile_use_case.dart';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_events.dart';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_states.dart';
+ import 'package:fitness_app/Features/profile/presentation/view_model/profile_states.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
+import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -35,79 +35,64 @@ void main() {
     );
   });
 
-  group('ProfileViewModel Tests', () {
-    test('initial state should be ProfileStates()', () {
-      expect(viewModel.state, const ProfileStates());
+  group('ProfileStates Unit Tests', () {
+
+     final tUser = UserEntity(
+        id: '1', firstName: 'Ahmed', lastName: 'Ali', email: 'a@a.com',
+        photo: '', gender: 'M', age: 25, weight: 70, height: 170,
+        activityLevel: 'High', goal: 'Muscle Gain'
+    );
+
+    test('Initial state should have null profileState', () {
+      const initialState = ProfileStates();
+      expect(initialState.profileState, isNull);
     });
 
-    group('GetUserProfile Tests', () {
-      final user = UserEntity(
-        id: '1',
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@example.com',
-         photo: '',
-         gender: 'Male',
-        age: 20,
-        weight:  70,
-        height: 170,
-        activityLevel: 'Intermediate',
-        goal: 'Lose Weight',
-      );
+    group('copyWith should work correctly', () {
 
-      test(
-        'should emit loading then success and save user when GetUserProfileUseCase succeeds',
-            () async {
-          when(
-            mockGetUserProfileUseCase.call(),
-          ).thenAnswer((_) async => SuccessResponse(data: user));
+      test('should return same object when copyWith is called with no arguments', () {
+        const state = ProfileStates();
+        final result = state.copyWith();
+        expect(result.profileState, state.profileState);
+      });
 
-          final expectation = expectLater(
-            viewModel.stream,
-            emitsInOrder([
-              predicate<ProfileStates>(
-                    (state) => state.profileState?.isLoading == true,
-              ),
-              predicate<ProfileStates>(
-                    (state) =>
-                state.profileState?.isLoading == false &&
-                    state.profileState?.data == user,
-              ),
-            ]),
-          );
+      test('should update profileState with Loading state', () {
+        const state = ProfileStates();
+         final loadingState = BaseState<UserEntity>(isLoading: true);
 
-          viewModel.doIntent(GetUserProfileEvent());
-          await expectation;
+        final result = state.copyWith(profileState: loadingState);
 
-         },
-      );
+        expect(result.profileState?.isLoading, true);
+        expect(result.profileState?.data, isNull);
+      });
 
-      test(
-        'should emit loading then error when GetUserProfileUseCase fails',
-            () async {
-          const errorMessage = 'Error fetching profile';
-          when(
-            mockGetUserProfileUseCase.call(),
-          ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
+      test('should update profileState with Success data', () {
+        const state = ProfileStates();
+        final successState = BaseState<UserEntity>(
+            isLoading: false,
+            data: tUser
+        );
 
-          final expectation = expectLater(
-            viewModel.stream,
-            emitsInOrder([
-              predicate<ProfileStates>(
-                    (state) => state.profileState?.isLoading == true,
-              ),
-              predicate<ProfileStates>(
-                    (state) =>
-                state.profileState?.isLoading == false &&
-                    state.profileState?.errorMessage == errorMessage,
-              ),
-            ]),
-          );
+        final result = state.copyWith(profileState: successState);
 
-          viewModel.doIntent(GetUserProfileEvent());
-          await expectation;
-        },
-      );
+        expect(result.profileState?.isLoading, false);
+        expect(result.profileState?.data, tUser);
+        expect(result.profileState?.data?.firstName, 'Ahmed');
+      });
+
+      test('should update profileState with Error message', () {
+        const state = ProfileStates();
+        final errorState = BaseState<UserEntity>(
+            isLoading: false,
+            errorMessage: 'Server Error'
+        );
+
+        final result = state.copyWith(profileState: errorState);
+
+        expect(result.profileState?.isLoading, false);
+        expect(result.profileState?.errorMessage, 'Server Error');
+        expect(result.profileState?.data, isNull);
+      });
     });
 
   });

@@ -1,11 +1,10 @@
 import 'package:fitness_app/Features/food/presentation/view_models/meals_event.dart';
+import 'package:fitness_app/Features/food/presentation/view_models/meals_state.dart';
+import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
-import 'package:fitness_app/core/theming/app_colors.dart';
-import 'package:fitness_app/core/widget/shared_container.dart';
+import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../view_models/meals_view_model.dart';
-import '../../view_models/meals_state.dart';
 
 class SimilarMealsSection extends StatelessWidget {
   const SimilarMealsSection({super.key});
@@ -15,8 +14,9 @@ class SimilarMealsSection extends StatelessWidget {
     return BlocBuilder<MealsViewModel, MealsState>(
       builder: (context, state) {
         final meals = List.of(
-          state.mealsByCategoryState.data!
-              .where((m) => m.id != state.mealDetailsState.data?.id),
+          state.mealsByCategoryState.data!.where(
+            (m) => m.id != state.mealDetailsState.data?.id,
+          ),
         )..shuffle();
         if (meals.isEmpty) {
           return const SizedBox();
@@ -60,54 +60,15 @@ class _SimilarMealCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return SharedCard(
+      title: meal.name,
+      imageUrl: meal.image,
       onTap: () {
         context.read<MealsViewModel>().doIntent(FetchMealDetailsEvent(meal.id));
       },
-      child: Container(
-        width: 150,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          color: AppColors.white.withAlpha(8),
-        ),
-        child:
-            Stack(
-              alignment: AlignmentGeometry.bottomCenter,
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(18),
-                  ),
-                  child: Image.network(
-                    meal.image,
-                    width: double.infinity,
-                    height: 200,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                /// Name
-                SharedContainer(
-                  borderRadius: 18,
-                  blur: 20.6,
-                  opacity: .0001,
-                  padding: EdgeInsetsGeometry.symmetric(vertical: 15 , horizontal: 20),
-                  child:SizedBox(
-                    width: double.infinity,
-                    child:  Text(
-                      textAlign: TextAlign.center,
-                    meal.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.white,
-                    ),
-                  ),)
-                ),
-              ],
-            ),
-
-      ),
+      width: 150,
+      height: 190,
+      useCachedImage: false,
     );
   }
 }

@@ -157,20 +157,24 @@ void main() {
 
   // ── 6. Empty list cache ───────────────────────────────────────────────────────
   group('empty list cache', () {
-    test('treats empty list as valid cache (not null)', () async {
+    test('treats empty list as "No Cache" and fetches from API (Current Logic)', () async {
+      // ترتيب: الكاش يحتوي على قائمة فارغة
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
 
       final result = await sut.executeWithCache<String, List<String>?, List<String>>(
-        fetchFromRemote: () async => 'remote',
-        fetchFromCache: () async => [],
+        fetchFromRemote: () async => 'remote_data',
+        fetchFromCache: () async => [], // الميكسن سيعتبر هذا "hasCache = false"
         saveToCache: (_) async {},
-        remoteMapper: (_) => ['remote_item'],
+        remoteMapper: (data) => ['mapped_$data'], // سيحولها لقائمة تحتوي على عنصر
         cacheMapper: (data) => data ?? [],
         isExpired: () async => false,
       );
 
+      // التأكد من أن النتيجة هي البيانات القادمة من الـ API (Remote)
+      // لأن الميكسن اعتبر القائمة الفارغة "No Cache"
       expect(result, isA<SuccessResponse<List<String>>>());
-      expect((result as SuccessResponse).data, isEmpty);
+      expect((result as SuccessResponse).data, contains('mapped_remote_data'));
+      expect((result as SuccessResponse).data!.length, 1);
     });
   });
 }

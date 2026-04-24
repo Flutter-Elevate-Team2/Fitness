@@ -1,10 +1,10 @@
 import 'package:fitness_app/Features/food/presentation/view_models/meals_event.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_state.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
-import 'package:fitness_app/Features/food/presentation/views/widgets/home_meals/home_food_card.dart';
-import 'package:fitness_app/core/app_router/app_router.dart';
+ import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
+import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -66,7 +66,7 @@ class RecommendationForYouSection extends StatelessWidget {
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
                     final category = categories[index];
-                    return HomeFoodCategoryCard(
+                    return SharedCard(
                       title: category.name,
                       imageUrl: category.image,
                       onTap: () {
@@ -78,6 +78,8 @@ class RecommendationForYouSection extends StatelessWidget {
                           ),
                         );
                       },
+                      width: 120,
+                      margin: const EdgeInsets.only(right: 15),
                     );
                   },
                 ),
