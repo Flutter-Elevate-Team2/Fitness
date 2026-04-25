@@ -31,4 +31,5 @@ class ApiConstants {
   static const String musclesRandom = 'muscles/random';
   static const String muscles = "muscles";
   static const String musclesByGroup = "musclesGroup/{id}";
+  static const String levels = "levels";
 }

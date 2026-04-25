@@ -7,6 +7,7 @@ class HiveTypes {
   static const int muscle = 7;
   static const int difficultyLevel = 1;
   static const int exercise = 2;
+  static const int randomMuscle = 9;
 
   static const int mealCategory = 3;
   static const int mealModel = 4;
