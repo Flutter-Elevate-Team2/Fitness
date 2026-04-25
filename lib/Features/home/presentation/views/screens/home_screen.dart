@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:fitness_app/Features/home/presentation/views/screens/explore_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_category.dart';
