@@ -17,11 +17,9 @@ import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
- import 'firebase_options.dart';
+import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_ce/hive.dart';
 
@@ -116,16 +114,12 @@ class _MyAppState extends State<MyApp> {
             create: (_) =>
             getIt<ProfileViewModel>()..doIntent(GetUserProfileEvent()),
           ),
+          BlocProvider(
+            create: (_) => getIt<LoginViewModel>(),
+          )
         ],
         child:  MaterialApp.router(
-     return MultiProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => getIt<LoginViewModel>(),
-        )
-      ],
-      child: MaterialApp.router(
-      routerConfig: AppRouter.router,
+       routerConfig: AppRouter.router,
       title: 'Super Fitness',
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,

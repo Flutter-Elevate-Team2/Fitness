@@ -17,7 +17,6 @@ class SocialAuthHandler {
     final isNewUser =
         userCredential.additionalUserInfo?.isNewUser ?? false;
   
-    print("User: $user , isNewUser: $isNewUser , email: ${user.email} , name: ${user.displayName} , NAGHAM");
      if (!context.mounted) return;
     
     if (isNewUser) {
@@ -35,7 +34,7 @@ class SocialAuthHandler {
     } else {
       await viewModel.doIntent(
         SocialLoginEvent(
-          email: user.email??"" ,
+          email: user.providerData.first.email??"" ,
          ),
       );
 

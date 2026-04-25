@@ -13,11 +13,18 @@ class SimilarMealsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MealsViewModel, MealsState>(
       builder: (context, state) {
+        final rawData = state.mealsByCategoryState.data;
+
+        if (rawData == null) {
+          return const Center(child: CircularProgressIndicator()); // أو أي ويدجت تحميل
+        }
+
         final meals = List.of(
-          state.mealsByCategoryState.data!.where(
-            (m) => m.id != state.mealDetailsState.data?.id,
+          rawData.where(
+                (m) => m.id != state.mealDetailsState.data?.id,
           ),
         )..shuffle();
+
         if (meals.isEmpty) {
           return const SizedBox();
         }

@@ -15,6 +15,7 @@ import 'profile_view_model_test.mocks.dart';
   SessionController,
 ])
 void main() {
+  // ignore: unused_local_variable
   late ProfileViewModel viewModel;
   late MockGetUserProfileUseCase mockGetUserProfileUseCase;
   late MockSessionController mockSessionController;

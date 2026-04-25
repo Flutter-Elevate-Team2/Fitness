@@ -19,6 +19,7 @@ class DifficultyTabsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        // ignore: deprecated_member_use
         color: AppColors.grayDark.withOpacity(1.0),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(25),

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_states.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';

@@ -25,12 +25,12 @@ class IngredientsList extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              Expanded(child: Text(
                 item.name,
                 style: const TextStyle(
                   color: AppColors.white,
                 ),
-              ),
+              ),),
               Text(item.measure.toString()),
             ],
           );
