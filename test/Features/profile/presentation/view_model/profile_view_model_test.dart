@@ -1,6 +1,7 @@
 import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/profile/domain/use_cases/get_user_profile_use_case.dart';
- import 'package:fitness_app/Features/profile/presentation/view_model/profile_states.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile_events.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile_states.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/base_state/base_state.dart';
@@ -36,9 +37,85 @@ void main() {
     );
   });
 
+  group('ProfileViewModel Tests', () {
+    test('initial state should be ProfileStates()', () {
+      expect(viewModel.state, const ProfileStates());
+    });
+
+    group('GetUserProfile Tests', () {
+      final user = UserEntity(
+        id: '1',
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@example.com',
+         photo: '',
+         gender: 'Male',
+        age: 20,
+        weight:  70,
+        height: 170,
+        activityLevel: 'Intermediate',
+        goal: 'Lose Weight',
+      );
+
+      test(
+        'should emit loading then success and save user when GetUserProfileUseCase succeeds',
+            () async {
+          when(
+            mockGetUserProfileUseCase.call(),
+          ).thenAnswer((_) async => SuccessResponse(data: user));
+
+          final expectation = expectLater(
+            viewModel.stream,
+            emitsInOrder([
+              predicate<ProfileStates>(
+                    (state) => state.profileState?.isLoading == true,
+              ),
+              predicate<ProfileStates>(
+                    (state) =>
+                state.profileState?.isLoading == false &&
+                    state.profileState?.data == user,
+              ),
+            ]),
+          );
+
+          viewModel.doIntent(GetUserProfileEvent());
+          await expectation;
+
+         },
+      );
+
+      test(
+        'should emit loading then error when GetUserProfileUseCase fails',
+            () async {
+          const errorMessage = 'Error fetching profile';
+          when(
+            mockGetUserProfileUseCase.call(),
+          ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
+
+          final expectation = expectLater(
+            viewModel.stream,
+            emitsInOrder([
+              predicate<ProfileStates>(
+                    (state) => state.profileState?.isLoading == true,
+              ),
+              predicate<ProfileStates>(
+                    (state) =>
+                state.profileState?.isLoading == false &&
+                    state.profileState?.errorMessage == errorMessage,
+              ),
+            ]),
+          );
+
+          viewModel.doIntent(GetUserProfileEvent());
+          await expectation;
+        },
+      );
+    });
+
+  });
   group('ProfileStates Unit Tests', () {
 
-     final tUser = UserEntity(
+    final tUser = UserEntity(
         id: '1', firstName: 'Ahmed', lastName: 'Ali', email: 'a@a.com',
         photo: '', gender: 'M', age: 25, weight: 70, height: 170,
         activityLevel: 'High', goal: 'Muscle Gain'
@@ -59,7 +136,7 @@ void main() {
 
       test('should update profileState with Loading state', () {
         const state = ProfileStates();
-         final loadingState = BaseState<UserEntity>(isLoading: true);
+        final loadingState = BaseState<UserEntity>(isLoading: true);
 
         final result = state.copyWith(profileState: loadingState);
 
