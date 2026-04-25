@@ -1,6 +1,8 @@
 import 'package:fitness_app/Features/food/domain/entities/category_entity.dart';
 import 'package:fitness_app/Features/food/domain/use_cases/categories_use_case.dart';
+import 'package:fitness_app/Features/home/domain/entities/popular_tranning_entity.dart';
 import 'package:fitness_app/Features/home/domain/factory/home_factory.dart';
+import 'package:fitness_app/Features/home/domain/use_cases/get_popular_workouts_use_case.dart';
 import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/profile/domain/use_cases/get_user_profile_use_case.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart';
@@ -19,6 +21,7 @@ class HomeFactoryImpl implements HomeFactory {
   final GetCategoriesUseCase _foodUC;
   final GetMusclesByGroupIdUseCase _musclesByGroupIdUC;
   final GetUserProfileUseCase _profileUC;
+  final GetPopularWorkoutsUseCase _popularWorkoutsUC;
 
   HomeFactoryImpl(
     this._muscleGroupsUC,
@@ -26,6 +29,7 @@ class HomeFactoryImpl implements HomeFactory {
     this._foodUC,
     this._musclesByGroupIdUC,
     this._profileUC,
+    this._popularWorkoutsUC,
   );
 
   @override
@@ -53,5 +57,10 @@ class HomeFactoryImpl implements HomeFactory {
   Stream<BaseResponse<UserEntity>> getUserData() async* {
     final result = await _profileUC();
     yield result;
+  }
+
+  @override
+  Future<BaseResponse<List<PopularWorkoutEntity>>> getPopularWorkouts() {
+    return _popularWorkoutsUC();
   }
 }

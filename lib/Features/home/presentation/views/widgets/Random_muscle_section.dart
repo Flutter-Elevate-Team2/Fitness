@@ -33,13 +33,7 @@ class RandomMusclesSection extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "See All",
-                    style: TextStyle(color: AppColors.primary),
-                  ),
-                ),
+                
               ],
             ),
             const SizedBox(height: 10),

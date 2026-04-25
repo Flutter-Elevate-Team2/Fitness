@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart'; // 👈 ضيف الامبورت ده
 import 'package:fitness_app/Features/food/domain/entities/category_entity.dart';
+import 'package:fitness_app/Features/home/domain/entities/popular_tranning_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
+import 'package:fitness_app/core/base_state/base_state.dart';
 import '../../../profile/domain/entities/user_entity.dart';
 
 class HomeState extends Equatable {
@@ -13,6 +15,7 @@ class HomeState extends Equatable {
   final List<CategoryEntity> foodCategories;
   final String? selectedGroupId;
   final bool isLoading;
+  final BaseState<List<PopularWorkoutEntity>> popularWorkoutsState;
 
   const HomeState({
     this.user,
@@ -22,6 +25,7 @@ class HomeState extends Equatable {
     this.foodCategories = const [],
     this.selectedGroupId,
     this.isLoading = false,
+    this.popularWorkoutsState = const BaseState(),
   });
 
   HomeState copyWith({
@@ -32,6 +36,7 @@ class HomeState extends Equatable {
     List<CategoryEntity>? foodCategories,
     String? selectedGroupId,
     bool? isLoading,
+    BaseState<List<PopularWorkoutEntity>>? popularWorkoutsState,
   }) {
     return HomeState(
       user: user ?? this.user,
@@ -41,6 +46,7 @@ class HomeState extends Equatable {
       foodCategories: foodCategories ?? this.foodCategories,
       selectedGroupId: selectedGroupId ?? this.selectedGroupId,
       isLoading: isLoading ?? this.isLoading,
+      popularWorkoutsState: popularWorkoutsState ?? this.popularWorkoutsState,
     );
   }
 
@@ -53,5 +59,6 @@ class HomeState extends Equatable {
         foodCategories,
         selectedGroupId,
         isLoading,
+        popularWorkoutsState,
       ];
 }

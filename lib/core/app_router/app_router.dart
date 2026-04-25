@@ -11,6 +11,7 @@ import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboa
 import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';
+import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/exercises_screen.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/video_player_screen.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
@@ -139,6 +140,8 @@ class AppRouter {
               primeMoverMuscleId: extra['primeMoverMuscleId'] as String,
               muscleTitle: extra['title'] as String,
               muscleImage: extra['image'] as String?,
+              preloadedExercises: extra['preloadedExercises'] as List<ExerciseEntity>?,
+              fixedLevelId: extra['fixedLevelId'] as String?,
             ),
           );
         },
