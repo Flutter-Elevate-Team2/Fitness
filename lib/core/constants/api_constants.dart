@@ -16,6 +16,7 @@ class ApiConstants {
   static const String tokenKey = "token";
   static const String rememberMeKey = "is_remember_me";
   static const String onboardingKey = "onboarding_visited";
+  static const String defaultPassword = "Test@123";
 
   //================ Meals Endpoints ===========================
   static const String mealsCategories = "categories.php";

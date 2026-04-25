@@ -208,6 +208,13 @@
   "fitness": "Fitness",
   "yoga": "Yoga",
   "aerobics": "Aerobics",
-  "trainer": "Trainer"
+  "trainer": "Trainer",
+    "description": "Profile",
+  "completeRegister": "Please complete your registration",
+  "@completeRegister": {
+    "description": "Please complete your registration"},
+  "googleLoginFailed": "Google login failed",
+  "@googleLoginFailed": {
+    "description": "Google login failed"}
 }
 

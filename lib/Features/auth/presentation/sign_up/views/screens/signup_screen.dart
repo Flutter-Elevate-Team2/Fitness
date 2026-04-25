@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_events.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_states.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart';
@@ -9,6 +10,7 @@ import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/sig
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_height_step.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_weight_step.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
+import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
@@ -17,7 +19,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final int step;
+  // ignore: prefer_typing_uninitialized_variables, strict_top_level_inference
+  final  user;
+  const SignupScreen({super.key , this.step = 0 , this.user});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -48,11 +53,30 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    print("FB USER DATA: email: ${widget.user.providerData.first.email}, name: ${widget.user.displayName}");
+    _currentStep = widget.step;
+    _pageController = PageController(initialPage: widget.step);
+    final displayName = widget.user?.displayName ?? "";
+
+    final parts = displayName.split(" ");
+    _firstNameController = TextEditingController(text: parts.isNotEmpty ? parts.first : "");
+    _lastNameController = TextEditingController( text: parts.length > 1 ? parts.last : "");
+    _emailController = TextEditingController(text: widget.user.providerData.first.email);
+    _passwordController = TextEditingController( text:widget.user != null ? ApiConstants.defaultPassword:"");
+    _cleanupFirebaseSocialAuth();
+   }
+
+  Future<void> _cleanupFirebaseSocialAuth() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+         await user.delete();
+        await FirebaseAuth.instance.signOut();
+        print("Firebase User Deleted & Signed Out Successfully");
+      }
+    } catch (e) {
+      print("Firebase cleanup error: $e");
+     }
   }
 
   @override
@@ -66,7 +90,10 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _goToNextPage() {
-    _pageController.nextPage(
+    final nextPage = _currentStep + 1;
+
+    _pageController.animateToPage(
+      nextPage,
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
     );
@@ -127,7 +154,7 @@ class _SignupScreenState extends State<SignupScreen> {
           }
         },
         child: SharedScaffold(
-          showBackButton: _currentStep > 0,
+          showBackButton: _currentStep > 1,
           onBackButtonPressed: _goToPreviousPage,
           title: Image.asset(Assets.images.appIcon1.path, height: 38),
           backgroundImage: Assets.images.authBackground.path,

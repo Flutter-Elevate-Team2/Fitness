@@ -1,6 +1,8 @@
 import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
+ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
+import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_event.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
@@ -8,6 +10,7 @@ import 'package:fitness_app/Features/food/presentation/views/screens/meals/home_
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/meals_screen.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
+ import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';
@@ -65,10 +68,14 @@ class AppRouter {
     redirect: (context, state) async {
       final hasValidTokenUseCase = getIt<HasValidTokenUseCase>();
       final prefs = getIt<SharedPreferences>();
+      final firebaseUser = FirebaseAuth.instance.currentUser;
+
+      final bool firebaseLoggedIn = firebaseUser != null;
 
       final bool isLoggedIn = await hasValidTokenUseCase.call();
-      final bool hasVisitedOnboarding =
+       final bool hasVisitedOnboarding =
           prefs.getBool(ApiConstants.onboardingKey) ?? false;
+
 
       final isAuthRoute =
           state.matchedLocation == Routes.loginPath ||
@@ -87,11 +94,11 @@ class AppRouter {
 
       if (!isLoggedIn &&
           !isAuthRoute &&
-          state.matchedLocation != Routes.onBoardingPath) {
+           state.matchedLocation != Routes.onBoardingPath) {
         return Routes.loginPath;
       }
 
-      if (isLoggedIn && isAuthRoute) {
+      if (isLoggedIn && isAuthRoute && firebaseLoggedIn) {
         return Routes.homePath;
       }
 
@@ -111,7 +118,10 @@ class AppRouter {
       GoRoute(
         path: Routes.signupPath,
         name: Routes.signupName,
-        builder: (context, state) => const SignupScreen(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return SignupScreen(step: extra?["step"], user: extra?["user"]);
+        },
       ),
       GoRoute(
         path: Routes.forgetPasswordPath,
@@ -195,6 +205,11 @@ class AppRouter {
           );
         },
       ),
+      // GoRoute(
+      //   path: Routes.homePath,
+      //   name: Routes.homeName,
+      //   builder: (context, state) => const HomeScreen(),
+      // ),
     ],
   );
 }
