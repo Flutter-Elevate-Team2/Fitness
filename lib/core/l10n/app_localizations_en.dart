@@ -366,4 +366,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get couldNotOpenVideo => 'Could not open video, please try again';
+
+  @override
+  String get hi => 'Hi';
+
+  @override
+  String get letsStart => 'Let’s Start Your Day';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get gym => 'Gym';
+
+  @override
+  String get fitness => 'Fitness';
+
+  @override
+  String get yoga => 'Yoga';
+
+  @override
+  String get aerobics => 'Aerobics';
+
+  @override
+  String get trainer => 'Trainer';
 }

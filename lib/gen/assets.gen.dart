@@ -91,6 +91,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/Splash.png
   AssetGenImage get splash => const AssetGenImage('assets/images/Splash.png');
 
+  /// File path: assets/images/aerobics.png
+  AssetGenImage get aerobics =>
+      const AssetGenImage('assets/images/aerobics.png');
+
   /// File path: assets/images/app_icon.png
   AssetGenImage get appIcon =>
       const AssetGenImage('assets/images/app_icon.png');
@@ -115,8 +119,14 @@ class $AssetsImagesGen {
   AssetGenImage get exercisesBackground =>
       const AssetGenImage('assets/images/exercises_background.png');
 
+  /// File path: assets/images/fitness.png
+  AssetGenImage get fitness => const AssetGenImage('assets/images/fitness.png');
+
   /// File path: assets/images/food.png
   AssetGenImage get food => const AssetGenImage('assets/images/food.png');
+
+  /// File path: assets/images/gym.png
+  AssetGenImage get gym => const AssetGenImage('assets/images/gym.png');
 
   /// File path: assets/images/home_background.jpg
   AssetGenImage get homeBackground =>
@@ -148,16 +158,25 @@ class $AssetsImagesGen {
   AssetGenImage get splashLogo =>
       const AssetGenImage('assets/images/splash_logo.png');
 
+  /// File path: assets/images/trainer.png
+  AssetGenImage get trainer => const AssetGenImage('assets/images/trainer.png');
+
+  /// File path: assets/images/yoga.png
+  AssetGenImage get yoga => const AssetGenImage('assets/images/yoga.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     splash,
+    aerobics,
     appIcon,
     appIcon1,
     authBackground,
     authLogo,
     exercies,
     exercisesBackground,
+    fitness,
     food,
+    gym,
     homeBackground,
     lock,
     mail,
@@ -166,6 +185,8 @@ class $AssetsImagesGen {
     onboarding3,
     onboardingBackground,
     splashLogo,
+    trainer,
+    yoga,
   ];
 }
 

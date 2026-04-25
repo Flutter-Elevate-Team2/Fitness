@@ -364,4 +364,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get couldNotOpenVideo => 'تعذر فتح الفيديو، حاول مرة أخرى';
+
+  @override
+  String get hi => 'مرحبًا';
+
+  @override
+  String get letsStart => 'Let’s Start Your Day';
+
+  @override
+  String get category => 'الفئات';
+
+  @override
+  String get gym => 'جيم';
+
+  @override
+  String get fitness => 'لياقة';
+
+  @override
+  String get yoga => 'يوجا';
+
+  @override
+  String get aerobics => 'أيروبيكس';
+
+  @override
+  String get trainer => 'مدرب';
 }
