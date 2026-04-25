@@ -32,8 +32,7 @@ class AuthServices {
       );
 
       if (result.status == LoginStatus.success) {
-       // print("تم الدخول: ${result.accessToken?.tokenString}");
-        final AccessToken accessToken = result.accessToken!;
+         final AccessToken accessToken = result.accessToken!;
 
         final OAuthCredential credential = FacebookAuthProvider.credential(
           accessToken.tokenString,
@@ -41,14 +40,12 @@ class AuthServices {
 
         return await _auth.signInWithCredential(credential);
       } else {
-        // print("الحالة: ${result.status}");
-        // print("الرسالة: ${result.message}");
+
         throw Exception("Facebook login failed: ${result.message}");
 
       }
     } catch (e) {
-      // print("حدث خطأ غير متوقع: $e");
-      return null;
+       return null;
     }
   }
 }

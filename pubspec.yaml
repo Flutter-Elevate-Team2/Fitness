@@ -44,8 +44,8 @@ dependencies:
   http: ^1.6.0
   firebase_core: ^4.7.0
   firebase_auth: ^6.4.0
-  google_sign_in: 6.3.0
-  connectivity_plus: ^6.0.3
+  google_sign_in: ^6.3.0
+  connectivity_plus: ^7.1.1
   provider: ^6.1.5+1
   firebase_auth_mocks: ^0.15.1
   flutter_facebook_auth: ^7.1.6
@@ -61,7 +61,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   mockito: ^5.4.4
   mocktail: ^1.0.5
-  retrofit_generator: ^10.1.0
+  retrofit_generator: ^10.2.5
   flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
 

@@ -1,12 +1,12 @@
 import 'package:fitness_app/Features/auth/domain/entities/user_entity.dart';
-import 'package:fitness_app/Features/auth/presentation/login/view_model/login_state.dart';
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_state.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_events.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_states.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_first_step.dart';
-import 'package:fitness_app/core/app_router/app_router.dart'; // تأكد من استيراد Routes
+import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
@@ -18,13 +18,22 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mocktail/mocktail.dart' show registerFallbackValue;
+import 'package:firebase_auth/firebase_auth.dart'; // مهم جداً
 
 import 'signup_screen_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<SignUpViewModel>(), MockSpec<LoginViewModel>()])
+// ضيفنا MockUser و MockUserInfo عشان كود الـ initState بتاعك بيستخدمهم
+@GenerateNiceMocks([
+  MockSpec<SignUpViewModel>(),
+  MockSpec<LoginViewModel>(),
+  MockSpec<User>(),
+  MockSpec<UserInfo>(),
+])
 void main() {
   late MockSignUpViewModel mockSignUpViewModel;
   late MockLoginViewModel mockLoginViewModel;
+  late MockUser mockFirebaseUser;
+  late MockUserInfo mockUserInfo;
 
   setUpAll(() {
     registerFallbackValue(
@@ -39,6 +48,13 @@ void main() {
   setUp(() {
     mockSignUpViewModel = MockSignUpViewModel();
     mockLoginViewModel = MockLoginViewModel();
+    mockFirebaseUser = MockUser();
+    mockUserInfo = MockUserInfo();
+
+    // تجهيز بيانات اليوزر الوهمي عشان initState ما تضربش
+    when(mockUserInfo.email).thenReturn('test@example.com');
+    when(mockFirebaseUser.displayName).thenReturn('Arafa Naim');
+    when(mockFirebaseUser.providerData).thenReturn([mockUserInfo]);
 
     when(mockSignUpViewModel.state).thenReturn(SignUpStates());
     when(mockSignUpViewModel.stream).thenAnswer((_) => Stream.value(SignUpStates()));
@@ -46,7 +62,6 @@ void main() {
 
     when(mockLoginViewModel.state).thenReturn(const LoginState());
     when(mockLoginViewModel.stream).thenAnswer((_) => const Stream.empty());
-    when(mockLoginViewModel.close()).thenAnswer((_) => Future.value());
 
     if (getIt.isRegistered<SignUpViewModel>()) {
       getIt.unregister<SignUpViewModel>();
@@ -54,20 +69,21 @@ void main() {
     getIt.registerFactory<SignUpViewModel>(() => mockSignUpViewModel);
   });
 
-  // دالة مساعدة لإنشاء Router وهمي للاختبار
   Widget createTestableWidget({int step = 0}) {
     final router = GoRouter(
       initialLocation: '/signup',
       routes: [
         GoRoute(
           path: '/signup',
-          name: 'signup', // تأكد من مطابقة الأسماء المستخدمة في Routes
+          name: 'signup',
           builder: (context, state) => BlocProvider<LoginViewModel>.value(
             value: mockLoginViewModel,
-            child: SignupScreen(step: step),
+            child: SignupScreen(
+              step: step,
+              user: mockFirebaseUser, // تمرير اليوزر الوهمي هنا
+            ),
           ),
         ),
-        // إضافة مسار وهمي لصفحة الـ Login لأن الكود سيحاول الذهاب إليها
         GoRoute(
           path: '/login',
           name: Routes.loginName,
@@ -89,23 +105,27 @@ void main() {
     );
   }
 
-  group('SignupScreen Generated Mock Tests', () {
-    testWidgets('renders SignupFirstStep initially', (tester) async {
+  group('SignupScreen Tests with Firebase User Mock', () {
+    testWidgets('renders SignupFirstStep and populates fields from Social User', (tester) async {
       await tester.pumpWidget(createTestableWidget());
       await tester.pumpAndSettle();
+
       expect(find.byType(SignupFirstStep), findsOneWidget);
+
+      // التأكد أن البيانات اتسحبت صح من اليوزر وظهرت في الـ TextFields
+      expect(find.text('Arafa'), findsOneWidget);
+      expect(find.text('test@example.com'), findsOneWidget);
     });
 
-    testWidgets('shows success snackbar when data (UserEntity) is received', (tester) async {
+    testWidgets('shows success snackbar and navigates on success', (tester) async {
       final successState = SignUpStates(
         signUpState: BaseState(
           isLoading: false,
           data: UserEntity(
-            id: "1", firstName: "f", lastName: "l", email: "e",
-            gender: "g", age: 20, weight: 60, height: 160,
-            activityLevel: "a", goal: "g", photo: "p",
+            id: "1", firstName: "Arafa", lastName: "Naim", email: "test@example.com",
+            gender: "male", age: 25, weight: 70, height: 170,
+            activityLevel: "level2", goal: "get_fitter", photo: "",
           ),
-          errorMessage: null,
         ),
       );
 
@@ -113,8 +133,6 @@ void main() {
       when(mockSignUpViewModel.stream).thenAnswer((_) => Stream.value(successState));
 
       await tester.pumpWidget(createTestableWidget());
-
-      // نستخدم pumpAndSettle لانتظار الـ SnackBar
       await tester.pumpAndSettle();
 
       expect(find.text('Account created successfully!'), findsOneWidget);

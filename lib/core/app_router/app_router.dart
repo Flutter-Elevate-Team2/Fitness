@@ -4,8 +4,7 @@ import 'package:fitness_app/Features/auth/presentation/forget_password/views/scr
 import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
 import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
-import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
-import 'package:fitness_app/core/constants/api_constants.dart';
+ import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -100,11 +99,11 @@ class AppRouter {
         name: Routes.forgetPasswordName,
         builder: (context, state) => ForgetPasswordScreen(),
       ),
-      GoRoute(
-        path: Routes.homePath,
-        name: Routes.homeName,
-        builder: (context, state) => const HomeScreen(),
-      ),
+      // GoRoute(
+      //   path: Routes.homePath,
+      //   name: Routes.homeName,
+      //   builder: (context, state) => const HomeScreen(),
+      // ),
     ],
   );
 }

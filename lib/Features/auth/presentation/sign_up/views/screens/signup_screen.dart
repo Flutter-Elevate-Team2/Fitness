@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_events.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_states.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart';
@@ -52,6 +53,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     super.initState();
+    print("FB USER DATA: email: ${widget.user.providerData.first.email}, name: ${widget.user.displayName}");
     _currentStep = widget.step;
     _pageController = PageController(initialPage: widget.step);
     final displayName = widget.user?.displayName ?? "";
@@ -59,8 +61,22 @@ class _SignupScreenState extends State<SignupScreen> {
     final parts = displayName.split(" ");
     _firstNameController = TextEditingController(text: parts.isNotEmpty ? parts.first : "");
     _lastNameController = TextEditingController( text: parts.length > 1 ? parts.last : "");
-    _emailController = TextEditingController(text: widget.user?.email);
+    _emailController = TextEditingController(text: widget.user.providerData.first.email);
     _passwordController = TextEditingController( text:widget.user != null ? ApiConstants.defaultPassword:"");
+    _cleanupFirebaseSocialAuth();
+   }
+
+  Future<void> _cleanupFirebaseSocialAuth() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+         await user.delete();
+        await FirebaseAuth.instance.signOut();
+        print("Firebase User Deleted & Signed Out Successfully");
+      }
+    } catch (e) {
+      print("Firebase cleanup error: $e");
+     }
   }
 
   @override

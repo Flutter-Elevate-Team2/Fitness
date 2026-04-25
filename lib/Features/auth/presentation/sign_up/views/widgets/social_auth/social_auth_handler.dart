@@ -11,16 +11,17 @@ class SocialAuthHandler {
     required UserCredential? userCredential,
     required LoginViewModel viewModel,
   }) async {
-    if (userCredential?.user == null) return;
+    if (userCredential == null || userCredential.user == null) return;
 
-    final user = userCredential!.user!;
+    final user = userCredential.user!;
     final isNewUser =
         userCredential.additionalUserInfo?.isNewUser ?? false;
-
-    if (!context.mounted) return;
-
+  
+    print("User: $user , isNewUser: $isNewUser , email: ${user.email} , name: ${user.displayName} , NAGHAM");
+     if (!context.mounted) return;
+    
     if (isNewUser) {
-      ScaffoldMessenger.of(context).showSnackBar(
+       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Please complete registration"),
         ),
@@ -30,10 +31,11 @@ class SocialAuthHandler {
         Routes.signupName,
         extra: {"user": user , "step":1},
       );
+
     } else {
       await viewModel.doIntent(
         SocialLoginEvent(
-          email: user.email ?? "",
+          email: user.email??"" ,
          ),
       );
 
@@ -41,4 +43,5 @@ class SocialAuthHandler {
       context.goNamed(Routes.homeName);
     }
   }
+
 }
