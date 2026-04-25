@@ -1,7 +1,6 @@
 import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
-import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +32,7 @@ class RandomMusclesSection extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                
+
               ],
             ),
             const SizedBox(height: 10),

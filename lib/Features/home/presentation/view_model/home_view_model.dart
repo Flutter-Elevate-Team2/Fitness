@@ -35,7 +35,6 @@ class HomeViewModel extends Cubit<HomeState> {
       }
     });
 
-
     _factory.getRandomMuscles().listen((res) {
       if (res is SuccessResponse<List<RandomMusclesEntity>>) {
         emit(state.copyWith(randomMuscles: res.data));
@@ -49,7 +48,6 @@ class HomeViewModel extends Cubit<HomeState> {
         if (groupsData.isNotEmpty) {
           final firstId = groupsData[0].id;
 
-
           _factory.getMusclesByGroupId(firstId).then((musclesRes) {
             if (musclesRes is SuccessResponse<List<MuscleEntity>>) {
               emit(state.copyWith(
@@ -59,11 +57,11 @@ class HomeViewModel extends Cubit<HomeState> {
                 isLoading: false,
               ));
             } else {
-               emit(state.copyWith(isLoading: false));
+              emit(state.copyWith(isLoading: false));
             }
           });
         } else {
-           emit(state.copyWith(isLoading: false));
+          emit(state.copyWith(isLoading: false));
         }
       } else {
         emit(state.copyWith(isLoading: false));
@@ -72,22 +70,36 @@ class HomeViewModel extends Cubit<HomeState> {
       emit(state.copyWith(isLoading: false));
     });
 
-    // Fetch popular workouts asynchronously alongside other calls
-    _factory.getPopularWorkouts().then((res) {
-      if (res is SuccessResponse<List<PopularWorkoutEntity>>) {
+    _factory.getPopularWorkouts().listen(
+      (res) {
+        if (res is SuccessResponse<List<PopularWorkoutEntity>>) {
+          emit(state.copyWith(
+            popularWorkoutsState: BaseState(
+              data: res.data,
+              isLoading: true,
+            ),
+          ));
+        } else if (res is ErrorResponse) {
+          emit(state.copyWith(
+            popularWorkoutsState: BaseState(
+              errorMessage: (res as ErrorResponse).errorMessage,
+            ),
+          ));
+        }
+      },
+      onDone: () {
         emit(state.copyWith(
-          popularWorkoutsState: BaseState(data: res.data),
+          popularWorkoutsState: state.popularWorkoutsState.copyWith(
+            isLoading: false,
+          ),
         ));
-      } else if (res is ErrorResponse<List<PopularWorkoutEntity>>) {
+      },
+      onError: (error) {
         emit(state.copyWith(
-          popularWorkoutsState: BaseState(errorMessage: res.errorMessage),
+          popularWorkoutsState: BaseState(errorMessage: error.toString()),
         ));
-      }
-    }).catchError((error) {
-      emit(state.copyWith(
-        popularWorkoutsState: BaseState(errorMessage: error.toString()),
-      ));
-    });
+      },
+    );
   }
 
   void changeMuscleGroup(String id) async {

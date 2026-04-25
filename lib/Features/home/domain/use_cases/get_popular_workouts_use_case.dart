@@ -13,13 +13,13 @@ class GetPopularWorkoutsUseCase {
   final HomeRepoContract _homeRepo;
   final WorkoutsRepoContract _workoutsRepo;
 
-  static const int _targetCount = 5;
-  static const int _candidatesCount = 15;
+  static const int _targetCount = 4;
+  static const int _batchSize = 4;
 
   GetPopularWorkoutsUseCase(this._homeRepo, this._workoutsRepo);
 
-  Future<BaseResponse<List<PopularWorkoutEntity>>> call() async {
-    // PHASE 1: Parallel fetch for Levels and Muscles
+  Stream<BaseResponse<List<PopularWorkoutEntity>>> call() async* {
+    // PHASE 1: جلب البيانات الأساسية بالتوازي
     final foundationResults = await Future.wait([
       _homeRepo.getLevels(),
       _workoutsRepo.getRandomMuscles(),
@@ -29,129 +29,134 @@ class GetPopularWorkoutsUseCase {
     final musclesResult = foundationResults[1];
 
     if (levelsResult is ErrorResponse) {
-     return ErrorResponse(
-    errorMessage: (levelsResult as ErrorResponse).errorMessage,
-  );
+      yield ErrorResponse(
+          errorMessage: (levelsResult as ErrorResponse).errorMessage);
+      return;
     }
     if (musclesResult is ErrorResponse) {
-      return ErrorResponse(errorMessage: (musclesResult as ErrorResponse).errorMessage);
+      yield ErrorResponse(
+          errorMessage: (musclesResult as ErrorResponse).errorMessage);
+      return;
     }
 
-    final levels = (levelsResult as SuccessResponse<List<DifficultyLevelEntity>>).data;
-    final muscles = (musclesResult as SuccessResponse<List<RandomMusclesEntity>>).data;
+    final levels =
+        (levelsResult as SuccessResponse<List<DifficultyLevelEntity>>).data;
+    final muscles =
+        (musclesResult as SuccessResponse<List<RandomMusclesEntity>>).data;
 
     if (levels.isEmpty || muscles.isEmpty) {
-      return const ErrorResponse(errorMessage: 'لا توجد بيانات متاحة');
+      yield const ErrorResponse(errorMessage: 'لا توجد بيانات متاحة');
+      return;
     }
 
-    // ═══════════════════════════════════════════
-    // PHASE 2: generate 15 random pairs
-    // ═══════════════════════════════════════════
-    final pairs = _generateUniquePairs(
-      muscles: muscles,
-      levels: levels,
-      count: _candidatesCount,
-    );
+    // PHASE 2: Round-Robin Queue
+    // الترتيب: عضلة1+level1، عضلة2+level1، عضلة3+level1 ...
+    //          عضلة1+level2، عضلة2+level2 ...
+    // كده كل العضلات بتاخد فرصة في كل لفة قبل ما نجرب level تاني
+    final queue = _buildRoundRobinQueue(muscles: muscles, levels: levels);
 
-    // PHASE 3: Parallel fetch for 15 pairs
-    final exerciseResults = await Future.wait(
-      pairs.map(
-        (pair) => _workoutsRepo.getExercisesByMuscleDifficulty(
-          pair.muscleId,
-          pair.levelId,
-          1,
-        ),
-      ),
-      eagerError: false,
-    );
-
-    // PHASE 4: build final workout Entities
-    final popularWorkouts = _buildPopularWorkouts(
-      results: exerciseResults,
-      pairs: pairs,
-      muscles: muscles,
-      levels: levels,
-    );
-
-    if (popularWorkouts.isEmpty) {
-      return const ErrorResponse(errorMessage: 'لا توجد تمارين متاحة حالياً');
-    }
-
-    return SuccessResponse(data: popularWorkouts);
-  }
-
-  // Helper: generate random pairs
-  List<MuscleLevelPair> _generateUniquePairs({
-    required List<RandomMusclesEntity> muscles,
-    required List<DifficultyLevelEntity> levels,
-    required int count,
-  }) {
-    final random = Random();
-    final seen = <String>{};
-    final pairs = <MuscleLevelPair>[];
-
-    final shuffledMuscles = List<RandomMusclesEntity>.from(muscles)
-      ..shuffle(random);
-    final shuffledLevels = List<DifficultyLevelEntity>.from(levels)
-      ..shuffle(random);
-
-    for (final muscle in shuffledMuscles) {
-      for (final level in shuffledLevels) {
-        final key = '${muscle.id}_${level.id}';
-        if (!seen.contains(key)) {
-          seen.add(key);
-          pairs.add(
-            MuscleLevelPair(
-              muscleId: muscle.id,
-              levelId: level.id,
-            ),
-          );
-          if (pairs.length >= count) return pairs;
-        }
-      }
-    }
-
-    return pairs;
-  }
-
-  // Helper: build final popular entities
-  List<PopularWorkoutEntity> _buildPopularWorkouts({
-    required List<BaseResponse<List<ExerciseEntity>>> results,
-    required List<MuscleLevelPair> pairs,
-    required List<RandomMusclesEntity> muscles,
-    required List<DifficultyLevelEntity> levels,
-  }) {
     final selected = <PopularWorkoutEntity>[];
+    final usedMuscleIds = <String>{};
+    int queueIndex = 0;
 
-    for (int i = 0; i < results.length; i++) {
-      if (selected.length >= _targetCount) break;
+    // PHASE 3: Batching - نبعت دفعات متوازية
+    while (selected.length < _targetCount && queueIndex < queue.length) {
 
-      final result = results[i];
+      // ✅ الفرق عن Gemini: بنضمن إن كل الـ batch فيها muscles مختلفة
+      // عن بعض AND مختلفة عن اللي اتضافوا قبل كده
+      final batchPairs = <MuscleLevelPair>[];
+      final batchMuscleIds = <String>{}; // ✅ tracking داخل الـ batch نفسه
 
-      if (result is! SuccessResponse<List<ExerciseEntity>>) continue;
-      if (result.data.isEmpty) continue;
+      while (batchPairs.length < _batchSize && queueIndex < queue.length) {
+        final pair = queue[queueIndex];
+        queueIndex++;
 
-      final pair = pairs[i];
+        // تجاهل لو الـ muscle اتضافت في selected قبل كده
+        if (usedMuscleIds.contains(pair.muscleId)) continue;
 
-      final muscle = muscles.firstWhere((m) => m.id == pair.muscleId);
-      final level = levels.firstWhere((l) => l.id == pair.levelId);
+        // ✅ تجاهل لو الـ muscle موجودة في نفس الـ batch الحالية
+        if (batchMuscleIds.contains(pair.muscleId)) continue;
 
-      selected.add(
-        PopularWorkoutEntity(
+        batchPairs.add(pair);
+        batchMuscleIds.add(pair.muscleId); // ✅ سجّل في الـ batch tracker
+      }
+
+      if (batchPairs.isEmpty) break;
+
+      // بنبعت الـ batch كلها مع بعض 🚀
+      final batchResults = await Future.wait(
+        batchPairs.map(
+          (pair) => _workoutsRepo.getExercisesByMuscleDifficulty(
+            pair.muscleId,
+            pair.levelId,
+            1,
+          ),
+        ),
+        eagerError: false,
+      );
+
+      bool hasNewItems = false;
+
+      for (int i = 0; i < batchResults.length; i++) {
+        if (selected.length >= _targetCount) break;
+
+        final result = batchResults[i];
+        final pair = batchPairs[i];
+
+        if (result is! SuccessResponse<List<ExerciseEntity>>) continue;
+        if (result.data.isEmpty) continue;
+
+        final muscle = muscles.firstWhere((m) => m.id == pair.muscleId);
+        final level = levels.firstWhere((l) => l.id == pair.levelId);
+
+        selected.add(PopularWorkoutEntity(
           muscleId: muscle.id,
           muscleName: muscle.name,
           muscleImage: muscle.image,
           levelId: level.id,
           levelName: level.name,
           exercises: result.data,
-        ),
-      );
+        ));
+
+        usedMuscleIds.add(pair.muscleId);
+        hasNewItems = true;
+      }
+
+      // بنـ yield بس لو في جديد عشان ما نحرقش rebuild من غير سبب
+      if (hasNewItems) {
+        yield SuccessResponse(data: List.from(selected));
+      }
     }
 
-    return selected;
+    if (selected.isEmpty) {
+      yield const ErrorResponse(errorMessage: 'لا توجد تمارين متاحة حالياً');
+    }
+  }
+
+  List<MuscleLevelPair> _buildRoundRobinQueue({
+    required List<RandomMusclesEntity> muscles,
+    required List<DifficultyLevelEntity> levels,
+  }) {
+    final random = Random();
+    final shuffledMuscles = List<RandomMusclesEntity>.from(muscles)
+      ..shuffle(random);
+    final shuffledLevels = List<DifficultyLevelEntity>.from(levels)
+      ..shuffle(random);
+
+    final queue = <MuscleLevelPair>[];
+
+    // اللوب الخارجية على الـ Levels
+    // يعني: كل العضلات مع level1 الأول، وبعدين كل العضلات مع level2
+    // ده بيضمن إن كل عضلة تاخد فرصة مع كل الـ levels تدريجياً
+    for (final level in shuffledLevels) {
+      for (final muscle in shuffledMuscles) {
+        queue.add(MuscleLevelPair(muscleId: muscle.id, levelId: level.id));
+      }
+    }
+
+    return queue;
   }
 }
-
 
 class MuscleLevelPair {
   final String muscleId;

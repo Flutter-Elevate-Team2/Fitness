@@ -60,7 +60,7 @@ class HomeFactoryImpl implements HomeFactory {
   }
 
   @override
-  Future<BaseResponse<List<PopularWorkoutEntity>>> getPopularWorkouts() {
+  Stream<BaseResponse<List<PopularWorkoutEntity>>> getPopularWorkouts() {
     return _popularWorkoutsUC();
   }
 }

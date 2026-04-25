@@ -11,7 +11,8 @@ abstract class HomeFactory {
   Stream<BaseResponse<UserEntity>> getUserData();
   Stream<BaseResponse<List<RandomMusclesEntity>>> getRandomMuscles();
   Future<BaseResponse<List<MuscleGroupEntity>>> getMuscleGroups();
-  Future <BaseResponse<List<MuscleEntity>>> getMusclesByGroupId(String id);
+  Future<BaseResponse<List<MuscleEntity>>> getMusclesByGroupId(String id);
   Stream<BaseResponse<List<CategoryEntity>>> getFoodCategories();
-  Future<BaseResponse<List<PopularWorkoutEntity>>> getPopularWorkouts();
+
+  Stream<BaseResponse<List<PopularWorkoutEntity>>> getPopularWorkouts();
 }
