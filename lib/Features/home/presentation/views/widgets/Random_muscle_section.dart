@@ -1,7 +1,7 @@
 import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
-import 'package:fitness_app/Features/food/presentation/views/widgets/home_meals/home_food_card.dart'; // هنستخدم نفس الكارد حالياً
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
+import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +13,7 @@ class RandomMusclesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeViewModel, HomeState>(
       buildWhen: (previous, current) =>
-      previous.randomMuscles != current.randomMuscles ||
+          previous.randomMuscles != current.randomMuscles ||
           previous.isLoading != current.isLoading,
       builder: (context, state) {
         final muscles = state.randomMuscles;
@@ -49,7 +49,7 @@ class RandomMusclesSection extends StatelessWidget {
                   itemCount: muscles.length,
                   itemBuilder: (context, index) {
                     final muscle = muscles[index];
-                    return HomeFoodCategoryCard(
+                    return SharedCard(
                       title: muscle.name,
                       imageUrl: muscle.image,
                       onTap: () {
@@ -62,6 +62,9 @@ class RandomMusclesSection extends StatelessWidget {
                           },
                         );
                       },
+                      width: 140,
+                      height: 180,
+                      margin: const EdgeInsets.only(right: 12),
                     );
                   },
                 ),

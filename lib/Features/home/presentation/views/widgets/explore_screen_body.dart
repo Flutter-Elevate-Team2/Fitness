@@ -3,6 +3,7 @@ import 'package:fitness_app/Features/home/presentation/view_model/home_view_mode
 import 'package:fitness_app/Features/home/presentation/views/widgets/Random_muscle_section.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_category.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_header.dart';
+import 'package:fitness_app/Features/home/presentation/views/widgets/upcoming_worksout_section.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
@@ -36,12 +37,19 @@ class _ExploreScreenBodyState extends State<ExploreScreenBody> {
               child: Column(
                 children: [
                   HomeHeader(),
-                  SizedBox(height: 16,),
+                  SizedBox(height: 20),
+
                   CategorySection(),
-                  SizedBox(height: 16,),
+                  SizedBox(height: 24),
+
                   RandomMusclesSection(),
-                  SizedBox(height: 16,),
+                  SizedBox(height: 24),
+
+                  UpcomingWorkoutsSection(),
+                  SizedBox(height: 24),
+
                   RecommendationForYouSection(),
+                  SizedBox(height: 24),
                 ],
               ),
             ),
