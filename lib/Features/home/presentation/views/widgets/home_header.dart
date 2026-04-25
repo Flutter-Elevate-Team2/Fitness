@@ -11,7 +11,7 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeViewModel, HomeState>(
-      buildWhen: (previous, current) => previous.user != current.user,
+     buildWhen: (previous, current) => previous.user != current.user,
       builder: (context, state) {
         final user = state.user;
 
@@ -32,24 +32,27 @@ class HomeHeader extends StatelessWidget {
                       children: [
                         Text(
                           "${context.l10n.hi} $userName ,",
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          style: const TextStyle(
                             color: AppColors.white,
-                            fontWeight: FontWeight.w500,
-                          )
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                         const SizedBox(height: 8),
                           Text(
                            context.l10n.letsStart,
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          style: const TextStyle(
                             color: AppColors.white,
-                           )
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   /// IMAGE
                   CircleAvatar(
-                    radius: 28,
+                    radius: 24,
                     backgroundImage: imageUrl.isNotEmpty
                         ? NetworkImage(imageUrl)
                         : null,

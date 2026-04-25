@@ -1,6 +1,5 @@
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
-import 'package:fitness_app/core/widget/shared_container.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +12,6 @@ class CategoryItem {
 
 class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -35,54 +33,56 @@ class CategorySection extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height:7),
+        const SizedBox(height: 7),
 
-        SharedContainer(
-          child: SizedBox(
-            height: 90,
-            child: Row(
-              children: List.generate(categories.length, (index) {
-                final item = categories[index];
+        Container(
+          height: 80,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: List.generate(categories.length, (index) {
+              final item = categories[index];
 
-                return Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {},
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                item.image,
-                                height: 56,
-                                fit: BoxFit.contain,
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                item.title,
-                                style: Theme.of(context).textTheme.labelLarge!
-                                    .copyWith(
-                                      color: AppColors.white,
-                                      fontSize: 14,
-                                    ),
-                              ),
-                            ],
-                          ),
+              return Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              item.image,
+                              height: 40,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              item.title,
+                              style: Theme.of(context).textTheme.labelLarge!
+                                  .copyWith(
+                                    color: AppColors.white,
+                                    fontSize: 11,
+                                  ),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
 
-                      if (index != categories.length - 1)
-                        Container(
-                          width: 1,
-                          height: 80,
-                          color: AppColors.grayLight,
-                        ),
-                    ],
-                  ),
-                );
-              }),
-            ),
+                    if (index != categories.length - 1)
+                      Container(
+                        width: 1,
+                        height: 50,
+                        color: AppColors.grayLight,
+                      ),
+                  ],
+                ),
+              );
+            }),
           ),
         ),
       ],

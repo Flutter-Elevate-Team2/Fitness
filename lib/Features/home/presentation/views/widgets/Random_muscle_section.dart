@@ -1,6 +1,7 @@
 import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
+import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +13,9 @@ class RandomMusclesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeViewModel, HomeState>(
-      buildWhen: (previous, current) =>
-          previous.randomMuscles != current.randomMuscles ||
-          previous.isLoading != current.isLoading,
+     buildWhen: (previous, current) =>
+      previous.randomMuscles != current.randomMuscles ||
+      previous.isLoading != current.isLoading,
       builder: (context, state) {
         final muscles = state.randomMuscles;
 
@@ -24,12 +25,19 @@ class RandomMusclesSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Workouts For You",
-                  style: const TextStyle(
+                const Text(
+                  "Recommendation To Day",
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "See All",
+                    style: TextStyle(color: AppColors.primary),
                   ),
                 ),
               ],
@@ -62,8 +70,9 @@ class RandomMusclesSection extends StatelessWidget {
                           },
                         );
                       },
-                      width: 140,
-                      height: 180,
+                      width: 130,
+                      height: 150,
+                      borderRadius: 16,
                       margin: const EdgeInsets.only(right: 12),
                     );
                   },

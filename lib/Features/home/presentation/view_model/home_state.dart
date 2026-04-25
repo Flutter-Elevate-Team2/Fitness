@@ -1,11 +1,11 @@
+import 'package:equatable/equatable.dart'; // 👈 ضيف الامبورت ده
 import 'package:fitness_app/Features/food/domain/entities/category_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
-
 import '../../../profile/domain/entities/user_entity.dart';
 
-class HomeState {
+class HomeState extends Equatable {
   final UserEntity? user;
   final List<RandomMusclesEntity> randomMuscles;
   final List<MuscleGroupEntity> muscleGroups;
@@ -14,7 +14,7 @@ class HomeState {
   final String? selectedGroupId;
   final bool isLoading;
 
-  HomeState({
+  const HomeState({
     this.user,
     this.randomMuscles = const [],
     this.muscleGroups = const [],
@@ -43,4 +43,15 @@ class HomeState {
       isLoading: isLoading ?? this.isLoading,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        user,
+        randomMuscles,
+        muscleGroups,
+        currentGroupMuscles,
+        foodCategories,
+        selectedGroupId,
+        isLoading,
+      ];
 }

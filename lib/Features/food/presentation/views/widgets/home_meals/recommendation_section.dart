@@ -79,7 +79,9 @@ class RecommendationForYouSection extends StatelessWidget {
                           ),
                         );
                       },
-                      width: 120,
+                      width: 130,
+                      height: 120,
+                      borderRadius: 16,
                       margin: const EdgeInsets.only(right: 15),
                     );
                   },

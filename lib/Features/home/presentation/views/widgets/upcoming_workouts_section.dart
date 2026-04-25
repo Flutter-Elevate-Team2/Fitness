@@ -12,6 +12,10 @@ class UpcomingWorkoutsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeViewModel, HomeState>(
+      buildWhen: (previous, current) =>
+      previous.muscleGroups != current.muscleGroups ||
+      previous.currentGroupMuscles != current.currentGroupMuscles ||
+      previous.selectedGroupId != current.selectedGroupId,
       builder: (context, state) {
         return Column(
           children: [
@@ -23,15 +27,15 @@ class UpcomingWorkoutsSection extends StatelessWidget {
                   "Upcoming Workouts",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 TextButton(
                   onPressed: () {},
                   child: Text(
                     context.l10n.seeAll,
-                    style: TextStyle(color: AppColors.primary),
+                    style: const TextStyle(color: AppColors.primary),
                   ),
                 ),
               ],
@@ -59,12 +63,18 @@ class UpcomingWorkoutsSection extends StatelessWidget {
                             ? AppColors.primary
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(20),
+                        border: isSelected
+                            ? null
+                            : Border.all(
+                                color: Colors.white.withValues(alpha: 0.3),
+                                width: 1,
+                              ),
                       ),
                       child: Text(
                         group.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.white,
-                          fontSize: 16,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -91,6 +101,7 @@ class UpcomingWorkoutsSection extends StatelessWidget {
                       /* Navigate to Details */
                     },
                     width: 130,
+                    height: 160,
                     margin: const EdgeInsets.only(right: 12),
                   );
                 },
