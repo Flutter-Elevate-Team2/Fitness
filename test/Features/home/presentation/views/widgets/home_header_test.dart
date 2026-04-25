@@ -1,87 +1,89 @@
-import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_states.dart';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
+import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart'; // تأكد من المسار الصحيح للـ Entity
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_header.dart';
-import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart'; // يفضل استخدام mocktail مع Bloc لسهولة التعامل
 
-import 'home_header_test.mocks.dart';
-
-// Generate the mock class
-@GenerateMocks([ProfileViewModel])
+// إنشاء Mock باستخدام mocktail أو استبدله بـ Mockito إذا كنت تفضلها
+class MockHomeViewModel extends Mock implements HomeViewModel {}
 
 void main() {
-  late MockProfileViewModel mockProfileViewModel;
+  late MockHomeViewModel mockHomeViewModel;
 
   setUp(() {
-    mockProfileViewModel = MockProfileViewModel();
+    mockHomeViewModel = MockHomeViewModel();
 
-    // Default stubbing for Bloc/Cubit requirements
-    when(mockProfileViewModel.stream).thenAnswer((_) => const Stream.empty());
+    // إعدادات افتراضية للـ Stream والـ State لتجنب أخطاء البناء
+    when(() => mockHomeViewModel.stream).thenAnswer((_) => const Stream.empty());
   });
 
-  /// Helper to wrap the widget with necessary providers and localization
   Widget createWidgetUnderTest() {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      locale: const Locale('en'),
       home: Scaffold(
-        body: BlocProvider<ProfileViewModel>.value(
-          value: mockProfileViewModel,
+        body: BlocProvider<HomeViewModel>.value(
+          value: mockHomeViewModel,
           child: const HomeHeader(),
         ),
       ),
     );
   }
 
-  testWidgets('Should display user first name when profile data is available', (WidgetTester tester) async {
+  testWidgets('Should display user first name when user data is available', (tester) async {
     // Arrange
-    final user = UserEntity(firstName: "John", photo: "", id: '', lastName: '', email: '', gender: '', age: 20, weight: 70, height: 170, activityLevel: '', goal: '');
-    final successState = ProfileStates(
-      profileState: BaseState(isLoading: false, data: user),
+    final user = UserEntity(
+        firstName: "John",
+        photo: "",
+        id: '1',
+        lastName: 'Doe',
+        email: 'test@test.com',
+        gender: 'male',
+        age: 25,
+        weight: 80,
+        height: 180,
+        activityLevel: 'high',
+        goal: 'muscle'
     );
 
-    when(mockProfileViewModel.state).thenReturn(successState);
+    // إرسال State تحتوي على المستخدم
+    when(() => mockHomeViewModel.state).thenReturn(HomeState(user: user));
 
     // Act
     await tester.pumpWidget(createWidgetUnderTest());
-    await tester.pump(); // Trigger a frame to settle the UI
+    await tester.pump();
 
     // Assert
     expect(find.textContaining('John'), findsOneWidget);
-    expect(find.byIcon(Icons.person), findsOneWidget); // Icon shows because photo is empty
+    expect(find.byIcon(Icons.person), findsOneWidget);
   });
 
-  testWidgets('Should display "User" as default when state data is null', (WidgetTester tester) async {
+  testWidgets('Should display "User" as default when user is null', (tester) async {
     // Arrange
-    const emptyState = ProfileStates(
-      profileState: BaseState(isLoading: false, data: null),
-    );
-
-    when(mockProfileViewModel.state).thenReturn(emptyState);
+    when(() => mockHomeViewModel.state).thenReturn(const HomeState(user: null));
 
     // Act
     await tester.pumpWidget(createWidgetUnderTest());
+    await tester.pump();
 
     // Assert
     expect(find.textContaining('User'), findsOneWidget);
   });
 
-  testWidgets('Should show CircleAvatar with person icon when imageUrl is empty', (WidgetTester tester) async {
+  testWidgets('Should show CircleAvatar with person icon when imageUrl is empty', (tester) async {
     // Arrange
-    when(mockProfileViewModel.state).thenReturn(const ProfileStates());
+    when(() => mockHomeViewModel.state).thenReturn(const HomeState(user: null));
 
     // Act
     await tester.pumpWidget(createWidgetUnderTest());
 
     // Assert
-    final circleAvatar = find.byType(CircleAvatar);
-    expect(circleAvatar, findsOneWidget);
+    expect(find.byType(CircleAvatar), findsOneWidget);
     expect(find.byIcon(Icons.person), findsOneWidget);
   });
 }

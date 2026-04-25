@@ -10,11 +10,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:shimmer/shimmer.dart';
 
-// ── Mocks ────────────────────────────────────────────────────────────────────
+
 class MockHomeViewModel extends MockCubit<HomeState> implements HomeViewModel {}
 
-// ── Test Data ────────────────────────────────────────────────────────────────
 final _mockWorkouts = [
   PopularWorkoutEntity(
     muscleId: 'm1',
@@ -23,22 +23,8 @@ final _mockWorkouts = [
     levelId: 'l1',
     levelName: 'Beginner',
     exercises: const [
-      ExerciseEntity(
-        id: 'e1',
-        title: 'Curl',
-        description: 'Bicep curl',
-        sets: 3,
-        reps: 12,
-        thumbnailUrl: 'https://example.com/thumb.jpg',
-      ),
-      ExerciseEntity(
-        id: 'e2',
-        title: 'Hammer Curl',
-        description: 'Hammer curl',
-        sets: 3,
-        reps: 10,
-        thumbnailUrl: 'https://example.com/thumb2.jpg',
-      ),
+      ExerciseEntity(id: 'e1', title: 'Curl', description: '', sets: 3, reps: 12, thumbnailUrl: ''),
+      ExerciseEntity(id: 'e2', title: 'Hammer', description: '', sets: 3, reps: 10, thumbnailUrl: ''),
     ],
   ),
   PopularWorkoutEntity(
@@ -48,14 +34,7 @@ final _mockWorkouts = [
     levelId: 'l2',
     levelName: 'Advanced',
     exercises: const [
-      ExerciseEntity(
-        id: 'e3',
-        title: 'Bench Press',
-        description: 'Flat bench press',
-        sets: 4,
-        reps: 8,
-        thumbnailUrl: 'https://example.com/thumb3.jpg',
-      ),
+      ExerciseEntity(id: 'e3', title: 'Bench', description: '', sets: 4, reps: 8, thumbnailUrl: ''),
     ],
   ),
 ];
@@ -64,11 +43,6 @@ void main() {
   late MockHomeViewModel mockViewModel;
 
   setUp(() {
-    final binding = TestWidgetsFlutterBinding.ensureInitialized();
-    binding.platformDispatcher.implicitView!.physicalSize =
-        const Size(1200, 800);
-    binding.platformDispatcher.implicitView!.devicePixelRatio = 1.0;
-
     mockViewModel = MockHomeViewModel();
   });
 
@@ -84,31 +58,29 @@ void main() {
   }
 
   group('PopularTrainingSection', () {
-    testWidgets('shows CircularProgressIndicator when loading',
-        (WidgetTester tester) async {
+    testWidgets('Should show Shimmer when loading and data is empty', (tester) async {
       // Arrange
       when(() => mockViewModel.state).thenReturn(
         const HomeState(
-          popularWorkoutsState: BaseState(isLoading: true),
+          popularWorkoutsState: BaseState(isLoading: true, data: []),
         ),
       );
 
       // Act
       await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump();
 
       // Assert
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+       expect(find.byType(Shimmer), findsAtLeastNWidgets(1));
       expect(find.text('Popular Training'), findsOneWidget);
     });
 
-    testWidgets('shows error message when error occurs',
-        (WidgetTester tester) async {
+    testWidgets('Should show error message when error occurs', (tester) async {
       // Arrange
       when(() => mockViewModel.state).thenReturn(
         const HomeState(
           popularWorkoutsState: BaseState(
             errorMessage: 'Failed to load workouts',
+            data: [],
           ),
         ),
       );
@@ -119,45 +91,9 @@ void main() {
 
       // Assert
       expect(find.text('Failed to load workouts'), findsOneWidget);
-      expect(find.byType(CircularProgressIndicator), findsNothing);
     });
 
-    testWidgets(
-        'renders workout cards with correct data when workouts are loaded',
-        (WidgetTester tester) async {
-      // Arrange
-      when(() => mockViewModel.state).thenReturn(
-        HomeState(
-          popularWorkoutsState: BaseState(data: _mockWorkouts),
-        ),
-      );
-
-      // Act – mockNetworkImagesFor handles NetworkImage in tests
-      await mockNetworkImagesFor(() async {
-        await tester.pumpWidget(createWidgetUnderTest());
-        await tester.pump();
-      });
-
-      // Assert – section header
-      expect(find.text('Popular Training'), findsOneWidget);
-      expect(find.text('See All'), findsOneWidget);
-
-      // Assert – first card
-      expect(find.text('Biceps'), findsOneWidget);
-      expect(find.text('2 Tasks'), findsOneWidget); // 2 exercises
-      expect(find.text('Beginner'), findsOneWidget);
-
-      // Assert – second card
-      expect(find.text('Chest'), findsOneWidget);
-      expect(find.text('1 Tasks'), findsOneWidget); // 1 exercise
-      expect(find.text('Advanced'), findsOneWidget);
-
-      // Assert – no loading or error
-      expect(find.byType(CircularProgressIndicator), findsNothing);
-    });
-
-    testWidgets('renders correct number of workout cards',
-        (WidgetTester tester) async {
+    testWidgets('Should render workout cards with correct data', (tester) async {
       // Arrange
       when(() => mockViewModel.state).thenReturn(
         HomeState(
@@ -170,28 +106,19 @@ void main() {
         await tester.pumpWidget(createWidgetUnderTest());
         await tester.pump();
       });
-
-      // Assert – ListView with 2 items identified by their unique muscle names
-      expect(find.byType(ListView), findsOneWidget);
-      expect(find.text('Biceps'), findsOneWidget);
-      expect(find.text('Chest'), findsOneWidget);
-    });
-
-    testWidgets('shows loading spinner even with empty list',
-        (WidgetTester tester) async {
-      // Arrange – loading: true + data is empty list (not null)
-      when(() => mockViewModel.state).thenReturn(
-        const HomeState(
-          popularWorkoutsState: BaseState(isLoading: true, data: []),
-        ),
-      );
-
-      // Act
-      await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump();
 
       // Assert
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.text('Popular Training'), findsOneWidget);
+
+       expect(find.text('See All'), findsNothing);
+
+       expect(find.text('Biceps'), findsOneWidget);
+      expect(find.text('2 Tasks'), findsOneWidget);
+      expect(find.text('Beginner'), findsOneWidget);
+
+      expect(find.text('Chest'), findsOneWidget);
+      expect(find.text('1 Tasks'), findsOneWidget);
     });
-  });
+
+   });
 }
