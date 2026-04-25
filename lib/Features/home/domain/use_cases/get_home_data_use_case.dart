@@ -7,6 +7,8 @@ import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_ent
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../profile/domain/entities/user_entity.dart';
+
 @injectable
 class GetHomeDataUseCase {
   final HomeFactory _factory;
@@ -17,6 +19,13 @@ class GetHomeDataUseCase {
     yield state;
 
     try {
+      await for (final res in _factory.getUserData()) {
+        if (res is SuccessResponse<UserEntity>) {
+          state = state.copyWith(user: res.data);
+          yield state;
+        }
+      }
+
       final groupsRes = await _factory.getMuscleGroups();
 
       if (groupsRes is SuccessResponse<List<MuscleGroupEntity>>) {
@@ -48,10 +57,13 @@ class GetHomeDataUseCase {
       // Food Categories (Stream)
       await for (final res in _factory.getFoodCategories()) {
         if (res is SuccessResponse<List<CategoryEntity>>) {
-          state = state.copyWith(foodCategories: res.data, isLoading: false);
+          state = state.copyWith(foodCategories: res.data);
           yield state;
         }
       }
+      state = state.copyWith(isLoading: false);
+      yield state;
+
     } catch (e) {
       yield state.copyWith(isLoading: false);
     }

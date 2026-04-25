@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:fitness_app/Features/home/presentation/views/screens/explore_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_category.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_header.dart';
@@ -23,24 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     /// Placeholder pages for each tab
     final List<Widget> pages = [
-      _PlaceholderTab(title: context.l10n.explore),
+      const ExploreScreen(),
       _PlaceholderTab(title: context.l10n.chatAi),
       const WorkoutsScreen(),
       _PlaceholderTab(title: context.l10n.profile),
     ];
 
     return SharedScaffold(
-      backgroundImage: Assets.images.homeBackground.path,
+      backgroundImage: Assets.images.food.path,
       showBackButton: false,
       body: Stack(
         children: [
-          /// ── Blur overlay on the background image ──
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 12.5, sigmaY: 12.5),
-              child: Container(color: const Color(0x801A1A1A)),
-            ),
-          ),
 
           /// ── Page content ──
           Positioned.fill(child: pages[_currentIndex]),

@@ -1,6 +1,6 @@
 import 'package:fitness_app/Features/food/presentation/view_models/meals_event.dart';
-import 'package:fitness_app/Features/food/presentation/view_models/meals_state.dart';
-import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
  import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
@@ -14,11 +14,12 @@ class RecommendationForYouSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MealsViewModel, MealsState>(
+    return BlocBuilder<HomeViewModel, HomeState>(
       buildWhen: (previous, current) =>
-          previous.categoriesState != current.categoriesState,
+      previous.foodCategories != current.foodCategories ||
+          previous.isLoading != current.isLoading,
       builder: (context, state) {
-        final categories = state.categoriesState.data ?? [];
+        final categories = state.foodCategories;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +54,7 @@ class RecommendationForYouSection extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            if (state.categoriesState.isLoading)
+            if (state.isLoading)
               const SizedBox(
                 height: 120,
                 child: Center(child: CircularProgressIndicator()),

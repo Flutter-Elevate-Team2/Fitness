@@ -3,7 +3,10 @@ import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
 
+import '../../../profile/domain/entities/user_entity.dart';
+
 class HomeState {
+  final UserEntity? user;
   final List<RandomMusclesEntity> randomMuscles;
   final List<MuscleGroupEntity> muscleGroups;
   final List<MuscleEntity> currentGroupMuscles;
@@ -12,6 +15,7 @@ class HomeState {
   final bool isLoading;
 
   HomeState({
+    this.user,
     this.randomMuscles = const [],
     this.muscleGroups = const [],
     this.currentGroupMuscles = const [],
@@ -21,6 +25,7 @@ class HomeState {
   });
 
   HomeState copyWith({
+    UserEntity? user,
     List<RandomMusclesEntity>? randomMuscles,
     List<MuscleGroupEntity>? muscleGroups,
     List<MuscleEntity>? currentGroupMuscles,
@@ -29,6 +34,7 @@ class HomeState {
     bool? isLoading,
   }) {
     return HomeState(
+      user: user ?? this.user,
       randomMuscles: randomMuscles ?? this.randomMuscles,
       muscleGroups: muscleGroups ?? this.muscleGroups,
       currentGroupMuscles: currentGroupMuscles ?? this.currentGroupMuscles,

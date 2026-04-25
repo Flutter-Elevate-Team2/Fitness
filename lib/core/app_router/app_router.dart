@@ -6,6 +6,7 @@ import 'package:fitness_app/Features/food/presentation/view_models/meals_event.d
 import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/home_meal_test.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/meals_screen.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
@@ -40,7 +41,7 @@ class Routes {
   static const String exercisesPath = '/exercises';
   static const String exercisesName = 'exercises';
   static const String videoPlayerPath = '/video-player';
-static const String videoPlayerName = 'videoPlayer';
+  static const String videoPlayerName = 'videoPlayer';
   static const String workoutPath = '/workout';
   static const String workoutName = 'workout';
   static const String mealsPath = '/meals';
@@ -119,7 +120,10 @@ class AppRouter {
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<HomeViewModel>(),
+          child: const HomeScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.exercisesPath,
@@ -156,24 +160,23 @@ class AppRouter {
           );
         },
       ),
-GoRoute(
-  path: Routes.videoPlayerPath,
-  name: Routes.videoPlayerName,
-  builder: (context, state) {
-    final extra = state.extra as Map<String, String>;
-    return VideoPlayerScreen(
-      videoUrl: extra['videoUrl']!,
-      title: extra['title']!,
-    );
-  },
-),
-
+      GoRoute(
+        path: Routes.videoPlayerPath,
+        name: Routes.videoPlayerName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, String>;
+          return VideoPlayerScreen(
+            videoUrl: extra['videoUrl']!,
+            title: extra['title']!,
+          );
+        },
+      ),
 
       GoRoute(
         path: Routes.homeMealTestPath,
         name: Routes.homeMealTestName,
         builder: (context, state) => BlocProvider(
-          create: (context) => getIt<MealsViewModel>(),
+          create: (context) => getIt<HomeViewModel>(),
           child: const HomeMealTest(),
         ),
       ),

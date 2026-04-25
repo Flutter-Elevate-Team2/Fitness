@@ -1,5 +1,5 @@
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_states.dart';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +10,10 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileViewModel, ProfileStates>(
+    return BlocBuilder<HomeViewModel, HomeState>(
+      buildWhen: (previous, current) => previous.user != current.user,
       builder: (context, state) {
-        final user = state.profileState?.data;
+        final user = state.user;
 
         final userName = user?.firstName ?? "User";
         final imageUrl = user?.photo ?? "";
