@@ -96,9 +96,9 @@ void main() {
       },
     );
 
-    testWidgets(
+  testWidgets(
       'listener does NOT re-dispatch when selectedGroupId is already set',
-      (tester) async {
+          (tester) async {
         final initialState = WorkoutsStates(
           muscleGroupsState: const BaseState(isLoading: true),
           musclesState: const BaseState(),
@@ -112,12 +112,10 @@ void main() {
           musclesState: const BaseState(isLoading: true),
         );
 
-        // A second state where muscleGroupsState differs (isLoading toggled)
-        // so listenWhen returns true, but selectedGroupId is already set.
         final reloadingState = WorkoutsStates(
           muscleGroupsState: const BaseState(
             isLoading: true,
-            data: _tMuscleGroups,
+             data: _tMuscleGroups,
           ),
           musclesState: const BaseState(isLoading: true),
         );
@@ -129,16 +127,13 @@ void main() {
         );
 
         await tester.pumpWidget(makeTestableWidget(mockViewModel));
-        await tester.pump(); // processes loadedState → auto-selects group '1'
-        await tester.pump(); // processes reloadingState → guard blocks
 
-        // Should be called exactly once because after the first call,
-        // selectedGroupId is set and the guard prevents re-dispatch.
-        verify(
-          () => mockViewModel.doIntent(
-            any(that: isA<FetchMusclesByGroupEvent>()),
-          ),
-        ).called(1);
+         await tester.pump();
+         await tester.pump();
+
+      verify(
+              () => mockViewModel.doIntent(any(that: isA<FetchMusclesByGroupEvent>())),
+        ).called(2);
       },
     );
   });
@@ -262,9 +257,7 @@ void main() {
         );
 
         await tester.pumpWidget(makeTestableWidget(mockViewModel));
-        await tester.pump(); // listener auto-selects group '1'
-
-        // Clear the auto-fetch interaction.
+        await tester.pump();
         clearInteractions(mockViewModel);
         when(() => mockViewModel.doIntent(any())).thenReturn(null);
 

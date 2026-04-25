@@ -1,9 +1,8 @@
 import 'package:fitness_app/Features/food/domain/entities/category_entity.dart';
-import 'package:fitness_app/Features/food/presentation/view_models/meals_state.dart';
-import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart'; // الحالة الصحيحة
+import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart'; // الـ ViewModel الصحيح
 import 'package:fitness_app/Features/food/presentation/views/widgets/home_meals/recommendation_section.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
-import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,19 +11,21 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:go_router/go_router.dart';
 
-@GenerateNiceMocks([MockSpec<MealsViewModel>(), MockSpec<GoRouter>()])
+ @GenerateNiceMocks([MockSpec<HomeViewModel>(), MockSpec<GoRouter>()])
 import 'recommendation_section_test.mocks.dart';
 
 void main() {
-  late MockMealsViewModel mockViewModel;
+  late MockHomeViewModel mockHomeViewModel;
   late MockGoRouter mockRouter;
 
   setUp(() {
-    mockViewModel = MockMealsViewModel();
+    mockHomeViewModel = MockHomeViewModel();
     mockRouter = MockGoRouter();
 
-    when(mockViewModel.stream).thenAnswer((_) => const Stream.empty());
+    // إعداد الـ Stream الافتراضي لمنع أخطاء الـ Bloc
+    when(mockHomeViewModel.stream).thenAnswer((_) => const Stream.empty());
 
+    // إعداد تزييف الملاحة (Navigation)
     when(
       mockRouter.pushNamed(
         any,
@@ -42,8 +43,8 @@ void main() {
       home: InheritedGoRouter(
         goRouter: mockRouter,
         child: Scaffold(
-          body: BlocProvider<MealsViewModel>.value(
-            value: mockViewModel,
+          body: BlocProvider<HomeViewModel>.value( // استخدام HomeViewModel هنا
+            value: mockHomeViewModel,
             child: const RecommendationForYouSection(),
           ),
         ),
@@ -52,13 +53,9 @@ void main() {
   }
 
   group('RecommendationForYouSection Absolute Coverage', () {
-    testWidgets('1. Should show Loading Indicator when isLoading is true', (
-      tester,
-    ) async {
-      when(mockViewModel.state).thenReturn(
-        MealsState().copyWith(
-          categoriesState: const BaseState(isLoading: true),
-        ),
+    testWidgets('1. Should show Loading Indicator when isLoading is true', (tester) async {
+      when(mockHomeViewModel.state).thenReturn(
+        HomeState(isLoading: true, foodCategories: []), // الحالة المطابقة لكود الـ UI
       );
 
       await tester.pumpWidget(createWidgetUnderTest());
@@ -67,46 +64,32 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('2. Should render list of categories when data is available', (
-      tester,
-    ) async {
+    testWidgets('2. Should render list of categories when data is available', (tester) async {
       final testCategories = [
-        CategoryEntity(
-          name: 'Breakfast',
-          image: 'url1',
-          id: '1',
-          description: 'desc',
-        ),
+        CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
       ];
 
-      when(mockViewModel.state).thenReturn(
-        MealsState().copyWith(categoriesState: BaseState(data: testCategories)),
+      when(mockHomeViewModel.state).thenReturn(
+        HomeState(isLoading: false, foodCategories: testCategories),
       );
 
       await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
       expect(find.text('Breakfast'), findsOneWidget);
     });
 
-    testWidgets('3. Should Navigate when a Category Card is tapped', (
-      tester,
-    ) async {
+    testWidgets('3. Should Navigate when a Category Card is tapped', (tester) async {
       final testCategories = [
-        CategoryEntity(
-          name: 'Breakfast',
-          image: 'url1',
-          id: '1',
-          description: 'desc',
-        ),
+        CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
       ];
 
-      when(mockViewModel.state).thenReturn(
-        MealsState().copyWith(categoriesState: BaseState(data: testCategories)),
+      when(mockHomeViewModel.state).thenReturn(
+        HomeState(isLoading: false, foodCategories: testCategories),
       );
 
       await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
       await tester.tap(find.text('Breakfast'));
       await tester.pump();
@@ -118,23 +101,17 @@ void main() {
 
     testWidgets('4. TextButton (See All) - Success Case', (tester) async {
       final testCategories = [
-        CategoryEntity(
-          name: 'Breakfast',
-          image: 'url1',
-          id: '1',
-          description: 'desc',
-        ),
+        CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
       ];
 
-      when(mockViewModel.state).thenReturn(
-        MealsState().copyWith(categoriesState: BaseState(data: testCategories)),
+      when(mockHomeViewModel.state).thenReturn(
+        HomeState(isLoading: false, foodCategories: testCategories),
       );
 
       await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump();
 
-      final btn = find.byType(TextButton);
-      await tester.tap(btn);
+      await tester.tap(find.byType(TextButton));
       await tester.pump();
 
       verify(
@@ -142,11 +119,9 @@ void main() {
       ).called(1);
     });
 
-    testWidgets('5. TextButton (See All) - Return early when Empty', (
-      tester,
-    ) async {
-      when(mockViewModel.state).thenReturn(
-        MealsState().copyWith(categoriesState: const BaseState(data: [])),
+    testWidgets('5. TextButton (See All) - Return early when Empty', (tester) async {
+      when(mockHomeViewModel.state).thenReturn(
+        HomeState(isLoading: false, foodCategories: []),
       );
 
       await tester.pumpWidget(createWidgetUnderTest());

@@ -26,8 +26,7 @@ class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
   @override
   void initState() {
     super.initState();
-    // لو في initialGroupId خده مباشرة
-    selectedGroupId = widget.initialGroupId;
+     selectedGroupId = widget.initialGroupId;
   }
 
   @override
@@ -55,8 +54,8 @@ class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
 
                   if (selectedGroupId != null &&
                       groupsData.any((g) => g.id == selectedGroupId)) {
-                    // ✅ لو في initialGroupId موجود في الداتا، طبّقه
-                    context.read<WorkoutsViewModel>().doIntent(
+
+                     context.read<WorkoutsViewModel>().doIntent(
                           FetchMusclesByGroupEvent(selectedGroupId!),
                         );
                   } else if (selectedGroupId == null) {

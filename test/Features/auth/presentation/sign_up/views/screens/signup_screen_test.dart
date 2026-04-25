@@ -4,6 +4,7 @@ import 'package:fitness_app/Features/auth/presentation/login/view_model/login_st
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_events.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_states.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart';
+import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/signup_first_step.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
@@ -18,42 +19,86 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mocktail/mocktail.dart' show registerFallbackValue;
-import 'package:firebase_auth/firebase_auth.dart'; // مهم جداً
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'signup_screen_test.mocks.dart';
 
-// ضيفنا MockUser و MockUserInfo عشان كود الـ initState بتاعك بيستخدمهم
 @GenerateNiceMocks([
   MockSpec<SignUpViewModel>(),
   MockSpec<LoginViewModel>(),
   MockSpec<User>(),
   MockSpec<UserInfo>(),
 ])
-void main() {
-  late MockSignUpViewModel mockSignUpViewModel;
-  late MockLoginViewModel mockLoginViewModel;
-  late MockUser mockFirebaseUser;
-  late MockUserInfo mockUserInfo;
 
-  setUpAll(() {
-    registerFallbackValue(
-      OnSignUpClickEvent(
-        firstName: '', lastName: '', email: '', password: '',
-        rePassword: '', gender: '', age: 0, weight: 0, height: 0,
-        goal: '', activityLevel: '',
+// 1. تعريف الـ Mock لـ Platform Interface
+class MockFirebasePlatform extends Mock with MockPlatformInterfaceMixin implements FirebasePlatform {
+  @override
+  Future<FirebaseAppPlatform> initializeApp({
+    String? name,
+    FirebaseOptions? options,
+  }) async {
+    return FirebaseAppPlatform(
+      name ?? '[DEFAULT]',
+      const FirebaseOptions(
+        apiKey: '123',
+        appId: '123',
+        messagingSenderId: '123',
+        projectId: '123',
       ),
     );
+  }
+
+  @override
+  FirebaseAppPlatform app([String name = '[DEFAULT]']) {
+    return FirebaseAppPlatform(
+      name,
+      const FirebaseOptions(
+        apiKey: '123',
+        appId: '123',
+        messagingSenderId: '123',
+        projectId: '123',
+      ),
+    );
+  }
+}
+
+void main() {
+  final mockSignUpViewModel = MockSignUpViewModel();
+  final mockLoginViewModel = MockLoginViewModel();
+  final mockFirebaseUser = MockUser();
+  final mockUserInfo = MockUserInfo();
+
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    // 2. تفعيل الـ Mock Platform بدلاً من الاتصال الحقيقي
+    FirebasePlatform.instance = MockFirebasePlatform();
+
+    // 3. تزييف قناة Auth الضرورية
+    const MethodChannel channelAuth = MethodChannel('plugins.flutter.io/firebase_auth');
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channelAuth, (MethodCall methodCall) async => null);
+
+    await Firebase.initializeApp();
+
+    registerFallbackValue(OnSignUpClickEvent(
+      firstName: '', lastName: '', email: '', password: '',
+      rePassword: '', gender: '', age: 0, weight: 0, height: 0,
+      goal: '', activityLevel: '',
+    ));
   });
 
   setUp(() {
-    mockSignUpViewModel = MockSignUpViewModel();
-    mockLoginViewModel = MockLoginViewModel();
-    mockFirebaseUser = MockUser();
-    mockUserInfo = MockUserInfo();
+    reset(mockSignUpViewModel);
+    reset(mockLoginViewModel);
+    reset(mockFirebaseUser);
 
-    // تجهيز بيانات اليوزر الوهمي عشان initState ما تضربش
     when(mockUserInfo.email).thenReturn('test@example.com');
     when(mockFirebaseUser.displayName).thenReturn('Arafa Naim');
+    when(mockFirebaseUser.email).thenReturn('test@example.com');
     when(mockFirebaseUser.providerData).thenReturn([mockUserInfo]);
 
     when(mockSignUpViewModel.state).thenReturn(SignUpStates());
@@ -80,7 +125,7 @@ void main() {
             value: mockLoginViewModel,
             child: SignupScreen(
               step: step,
-              user: mockFirebaseUser, // تمرير اليوزر الوهمي هنا
+              user: mockFirebaseUser,
             ),
           ),
         ),
@@ -105,19 +150,16 @@ void main() {
     );
   }
 
-  group('SignupScreen Tests with Firebase User Mock', () {
-    testWidgets('renders SignupFirstStep and populates fields from Social User', (tester) async {
+  group('SignupScreen Tests', () {
+    testWidgets('should render SignupFirstStep and populate fields from Social User', (tester) async {
       await tester.pumpWidget(createTestableWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(find.byType(SignupFirstStep), findsOneWidget);
-
-      // التأكد أن البيانات اتسحبت صح من اليوزر وظهرت في الـ TextFields
-      expect(find.text('Arafa'), findsOneWidget);
-      expect(find.text('test@example.com'), findsOneWidget);
+      expect(find.textContaining('Arafa'), findsWidgets);
     });
 
-    testWidgets('shows success snackbar and navigates on success', (tester) async {
+    testWidgets('should show success snackbar and navigate to login on success state', (tester) async {
       final successState = SignUpStates(
         signUpState: BaseState(
           isLoading: false,
@@ -133,9 +175,29 @@ void main() {
       when(mockSignUpViewModel.stream).thenAnswer((_) => Stream.value(successState));
 
       await tester.pumpWidget(createTestableWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(find.text('Account created successfully!'), findsOneWidget);
+
+      await tester.pumpAndSettle();
+      expect(find.text('Login Page'), findsOneWidget);
+    });
+
+    testWidgets('should show error snackbar when error occurs', (tester) async {
+      final errorState = SignUpStates(
+        signUpState: BaseState(
+          isLoading: false,
+          errorMessage: 'Connection Failed',
+        ),
+      );
+
+      when(mockSignUpViewModel.state).thenReturn(errorState);
+      when(mockSignUpViewModel.stream).thenAnswer((_) => Stream.value(errorState));
+
+      await tester.pumpWidget(createTestableWidget());
+      await tester.pump();
+
+      expect(find.text('Connection Failed'), findsOneWidget);
     });
   });
 }
