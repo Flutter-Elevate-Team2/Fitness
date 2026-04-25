@@ -17,14 +17,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  String? _selectedWorkoutGroupId;
+
+  void _switchToWorkoutsTab({String? selectedGroupId}) {
+    setState(() {
+      _currentIndex = 2;
+      if (selectedGroupId != null) {
+        _selectedWorkoutGroupId = selectedGroupId;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    /// Placeholder pages for each tab
     final List<Widget> pages = [
-      const ExploreScreen(),
+      ExploreScreen(onSeeAllWorkoutsTapped: _switchToWorkoutsTab),
       _PlaceholderTab(title: context.l10n.chatAi),
-      const WorkoutsScreen(),
+      WorkoutsScreen(initialGroupId: _selectedWorkoutGroupId),
       _PlaceholderTab(title: context.l10n.profile),
     ];
 
@@ -33,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
       showBackButton: false,
       body: Stack(
         children: [
-
           /// ── Page content ──
           Positioned.fill(child: pages[_currentIndex]),
 
@@ -66,7 +74,7 @@ class _PlaceholderTab extends StatelessWidget {
       child: Column(
         children: [
           HomeHeader(),
-          SizedBox(height: 24,),
+          SizedBox(height: 24),
           CategorySection(),
         ],
       ),

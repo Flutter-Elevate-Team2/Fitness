@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WorkoutsScreenBody extends StatefulWidget {
-  const WorkoutsScreenBody({super.key});
+  final String? initialGroupId;
+
+  const WorkoutsScreenBody({super.key, this.initialGroupId});
 
   @override
   State<WorkoutsScreenBody> createState() => WorkoutsScreenBodyState();
@@ -20,6 +22,13 @@ class WorkoutsScreenBody extends StatefulWidget {
 
 class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
   String? selectedGroupId;
+
+  @override
+  void initState() {
+    super.initState();
+    // لو في initialGroupId خده مباشرة
+    selectedGroupId = widget.initialGroupId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +51,16 @@ class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
                     previous.muscleGroupsState != current.muscleGroupsState,
                 listener: (context, state) {
                   final groupsData = state.muscleGroupsState.data;
-                  if (groupsData != null &&
-                      groupsData.isNotEmpty &&
-                      selectedGroupId == null) {
+                  if (groupsData == null || groupsData.isEmpty) return;
+
+                  if (selectedGroupId != null &&
+                      groupsData.any((g) => g.id == selectedGroupId)) {
+                    // ✅ لو في initialGroupId موجود في الداتا، طبّقه
+                    context.read<WorkoutsViewModel>().doIntent(
+                          FetchMusclesByGroupEvent(selectedGroupId!),
+                        );
+                  } else if (selectedGroupId == null) {
+                    // ✅ لو مفيش initialGroupId، خد الأول
                     final firstGroup = groupsData.first;
                     setState(() {
                       selectedGroupId = firstGroup.id;
@@ -103,7 +119,8 @@ class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
                         padding: EdgeInsets.only(
                           left: 20.0,
                           right: 20.0,
-                          bottom: 100.0 + MediaQuery.of(context).padding.bottom, // Floating nav bar padding
+                          bottom: 100.0 +
+                              MediaQuery.of(context).padding.bottom,
                         ),
                         sliver: WorkoutsGrid(
                           musclesState: state.musclesState,

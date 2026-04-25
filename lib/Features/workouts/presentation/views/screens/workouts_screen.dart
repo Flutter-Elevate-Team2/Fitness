@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WorkoutsScreen extends StatelessWidget {
-  const WorkoutsScreen({super.key});
+  final String? initialGroupId;
+
+  const WorkoutsScreen({super.key, this.initialGroupId});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
           getIt<WorkoutsViewModel>()..doIntent(FetchMuscleGroupsEvent()),
-      child: const WorkoutsScreenBody(),
+      child: WorkoutsScreenBody(initialGroupId: initialGroupId),
     );
   }
 }

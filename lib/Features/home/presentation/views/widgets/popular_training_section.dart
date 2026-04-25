@@ -6,6 +6,7 @@ import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PopularTrainingSection extends StatelessWidget {
   const PopularTrainingSection({super.key});
@@ -39,12 +40,9 @@ class PopularTrainingSection extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            /// Loading state
+            /// Loading state — Shimmer
             if (popularState.isLoading && workouts.isEmpty)
-              const SizedBox(
-                height: 150,
-                child: Center(child: CircularProgressIndicator()),
-              )
+              _buildShimmer()
 
             /// Error state
             else if (popularState.errorMessage != null && workouts.isEmpty)
@@ -76,6 +74,31 @@ class PopularTrainingSection extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildShimmer() {
+    return SizedBox(
+      height: 150,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: AppColors.grayMid,
+            highlightColor: AppColors.grayLight,
+            child: Container(
+              width: 200,
+              height: 150,
+              margin: const EdgeInsets.only(right: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

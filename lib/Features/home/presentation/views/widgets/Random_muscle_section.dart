@@ -1,10 +1,12 @@
 import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
+import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 class RandomMusclesSection extends StatelessWidget {
   const RandomMusclesSection({super.key});
@@ -38,10 +40,7 @@ class RandomMusclesSection extends StatelessWidget {
             const SizedBox(height: 10),
 
             if (state.isLoading && muscles.isEmpty)
-              const SizedBox(
-                height: 120,
-                child: Center(child: CircularProgressIndicator()),
-              )
+              _buildShimmer()
             else
               SizedBox(
                 height: 150,
@@ -74,6 +73,31 @@ class RandomMusclesSection extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildShimmer() {
+    return SizedBox(
+      height: 150,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: AppColors.grayMid,
+            highlightColor: AppColors.grayLight,
+            child: Container(
+              width: 130,
+              height: 150,
+              margin: const EdgeInsets.only(right: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

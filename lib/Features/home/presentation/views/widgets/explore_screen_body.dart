@@ -14,7 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExploreScreenBody extends StatefulWidget {
-  const ExploreScreenBody({super.key});
+  /// Callback to switch to the Workouts tab from "See All".
+  final void Function({String? selectedGroupId})? onSeeAllWorkoutsTapped;
+
+  const ExploreScreenBody({super.key, this.onSeeAllWorkoutsTapped});
 
   @override
   State<ExploreScreenBody> createState() => _ExploreScreenBodyState();
@@ -44,26 +47,28 @@ class _ExploreScreenBodyState extends State<ExploreScreenBody> {
             SafeArea(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.only(bottom: 100),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      HomeHeader(),
-                      SizedBox(height: 20),
+                      const HomeHeader(),
+                      const SizedBox(height: 20),
 
-                      CategorySection(),
-                      SizedBox(height: 20),
+                      const CategorySection(),
+                      const SizedBox(height: 20),
 
-                      RandomMusclesSection(),
-                      SizedBox(height: 20),
+                      const RandomMusclesSection(),
+                      const SizedBox(height: 20),
 
-                      UpcomingWorkoutsSection(),
-                      SizedBox(height: 20),
+                      UpcomingWorkoutsSection(
+                        onSeeAllTapped: widget.onSeeAllWorkoutsTapped,
+                      ),
+                      const SizedBox(height: 20),
 
-                      RecommendationForYouSection(),
-                      SizedBox(height: 20),
+                      const RecommendationForYouSection(),
+                      const SizedBox(height: 20),
 
-                      PopularTrainingSection(),
+                      const PopularTrainingSection(),
                     ],
                   ),
                 ),

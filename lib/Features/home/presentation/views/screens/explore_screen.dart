@@ -5,14 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({super.key});
+  /// Callback to switch to the Workouts tab from "See All".
+  final void Function({String? selectedGroupId})? onSeeAllWorkoutsTapped;
+
+  const ExploreScreen({super.key, this.onSeeAllWorkoutsTapped});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-      getIt<HomeViewModel>(),
-      child: const ExploreScreenBody(),
+      create: (context) => getIt<HomeViewModel>(),
+      child: ExploreScreenBody(
+        onSeeAllWorkoutsTapped: onSeeAllWorkoutsTapped,
+      ),
     );
   }
 }

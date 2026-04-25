@@ -5,17 +5,24 @@ import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:fitness_app/core/app_router/app_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 class UpcomingWorkoutsSection extends StatelessWidget {
-  const UpcomingWorkoutsSection({super.key});
+  /// Callback to switch to the Workouts tab with the currently selected group.
+  final void Function({String? selectedGroupId})? onSeeAllTapped;
+
+  const UpcomingWorkoutsSection({super.key, this.onSeeAllTapped});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeViewModel, HomeState>(
       buildWhen: (previous, current) =>
-      previous.muscleGroups != current.muscleGroups ||
-      previous.currentGroupMuscles != current.currentGroupMuscles ||
-      previous.selectedGroupId != current.selectedGroupId,
+          previous.muscleGroups != current.muscleGroups ||
+          previous.currentGroupMuscles != current.currentGroupMuscles ||
+          previous.selectedGroupId != current.selectedGroupId ||
+          previous.isLoading != current.isLoading,
       builder: (context, state) {
         return Column(
           children: [
@@ -32,7 +39,13 @@ class UpcomingWorkoutsSection extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (onSeeAllTapped != null) {
+                      onSeeAllTapped!(
+                        selectedGroupId: state.selectedGroupId,
+                      );
+                    }
+                  },
                   child: Text(
                     context.l10n.seeAll,
                     style: const TextStyle(color: AppColors.primary),
@@ -41,75 +54,141 @@ class UpcomingWorkoutsSection extends StatelessWidget {
               ],
             ),
 
-            /// Tabs (Muscle Groups)
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: state.muscleGroups.map((group) {
-                  bool isSelected = state.selectedGroupId == group.id;
-                  return GestureDetector(
-                    onTap: () => context
-                        .read<HomeViewModel>()
-                        .changeMuscleGroup(group.id),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.primary
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(20),
-                        border: isSelected
-                            ? null
-                            : Border.all(
-                                color: Colors.white.withValues(alpha: 0.3),
-                                width: 1,
-                              ),
-                      ),
-                      child: Text(
-                        group.name,
-                        style: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+            /// Shimmer for tabs while loading
+            if (state.isLoading && state.muscleGroups.isEmpty)
+              _buildTabsShimmer()
+            else
+              /// Tabs (Muscle Groups)
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: state.muscleGroups.map((group) {
+                    bool isSelected = state.selectedGroupId == group.id;
+                    return GestureDetector(
+                      onTap: () => context
+                          .read<HomeViewModel>()
+                          .changeMuscleGroup(group.id),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.only(right: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? AppColors.primary
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          border: isSelected
+                              ? null
+                              : Border.all(
+                                  color: Colors.white.withValues(alpha: 0.3),
+                                  width: 1,
+                                ),
+                        ),
+                        child: Text(
+                          group.name,
+                          style: const TextStyle(
+                            color: AppColors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
 
             const SizedBox(height: 12),
 
-            /// Muscles List
-            SizedBox(
-              height: 160,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: state.currentGroupMuscles.length,
-                itemBuilder: (context, index) {
-                  final muscle = state.currentGroupMuscles[index];
-                  return SharedCard(
-                    title: muscle.name,
-                    imageUrl: muscle.image ?? "",
-                    onTap: () {
-                      /* Navigate to Details */
-                    },
-                    width: 130,
-                    height: 160,
-                    margin: const EdgeInsets.only(right: 12),
-                  );
-                },
+            /// Shimmer for cards while loading
+            if (state.isLoading && state.currentGroupMuscles.isEmpty)
+              _buildCardsShimmer()
+            else if (state.currentGroupMuscles.isEmpty)
+              const SizedBox(height: 160)
+            else
+              /// Muscles List
+              SizedBox(
+                height: 160,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.currentGroupMuscles.length,
+                  itemBuilder: (context, index) {
+                    final muscle = state.currentGroupMuscles[index];
+                    return SharedCard(
+                      title: muscle.name,
+                      imageUrl: muscle.image ?? "",
+                      onTap: () {
+                        context.pushNamed(
+                          Routes.exercisesName,
+                          extra: {
+                            'primeMoverMuscleId': muscle.id,
+                            'title': muscle.name,
+                            'image': muscle.image,
+                          },
+                        );
+                      },
+                      width: 130,
+                      height: 160,
+                      margin: const EdgeInsets.only(right: 12),
+                    );
+                  },
+                ),
               ),
-            ),
           ],
         );
       },
+    );
+  }
+
+  Widget _buildTabsShimmer() {
+    return SizedBox(
+      height: 40,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: AppColors.grayMid,
+            highlightColor: AppColors.grayLight,
+            child: Container(
+              margin: const EdgeInsets.only(right: 12),
+              width: 90,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildCardsShimmer() {
+    return SizedBox(
+      height: 160,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: AppColors.grayMid,
+            highlightColor: AppColors.grayLight,
+            child: Container(
+              width: 130,
+              height: 160,
+              margin: const EdgeInsets.only(right: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
