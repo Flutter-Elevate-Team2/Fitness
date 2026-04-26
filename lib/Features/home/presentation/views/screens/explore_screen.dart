@@ -13,7 +13,7 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<HomeViewModel>(),
+      create: (context) => getIt<HomeViewModel>()..initHome(),
       child: ExploreScreenBody(
         onSeeAllWorkoutsTapped: onSeeAllWorkoutsTapped,
       ),

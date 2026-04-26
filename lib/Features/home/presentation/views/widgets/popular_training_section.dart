@@ -1,79 +1,83 @@
+import 'package:fitness_app/Features/home/domain/entities/home_section.dart';
 import 'package:fitness_app/Features/home/domain/entities/popular_tranning_entity.dart';
-import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
-import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
+import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PopularTrainingSection extends StatelessWidget {
-  const PopularTrainingSection({super.key});
+  // بنستقبل الـ BaseResponse اللي شايل الـ Section بتاعنا
+  final BaseResponse<HomeSection>? response;
+
+  const PopularTrainingSection({super.key, this.response});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeViewModel, HomeState>(
-      buildWhen: (previous, current) =>
-          previous.popularWorkoutsState != current.popularWorkoutsState,
-      builder: (context, state) {
-        final popularState = state.popularWorkoutsState;
-        final workouts = popularState.data ?? [];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        /// 1. الـ Header ثابت في كل الحالات
+        const Text(
+          "Popular Training",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 10),
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Popular Training",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-               
-              ],
-            ),
-            const SizedBox(height: 10),
+        /// 2. التحكم في محتوى السكشن بناءً على حالة الـ Response
+        _buildContent(),
+      ],
+    );
+  }
 
-            /// Loading state — Shimmer
-            if (popularState.isLoading && workouts.isEmpty)
-              _buildShimmer()
+  Widget _buildContent() {
+    // استخدام الـ Switch المريح بتاع دارك 3
+    return switch (response) {
+    // حالة التحميل (لو الـ Response لسه بـ null)
+      null => _buildShimmer(),
 
-            /// Error state
-            else if (popularState.errorMessage != null && workouts.isEmpty)
-              SizedBox(
-                height: 150,
-                child: Center(
-                  child: Text(
-                    popularState.errorMessage!,
-                    style: const TextStyle(color: Colors.white54, fontSize: 13),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )
+    // حالة النجاح
+      SuccessResponse(data: var section) => _buildList((section as PopularWorkoutsSection).workouts),
 
-            /// Success state
-            else
-              SizedBox(
-                height: 150,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: workouts.length,
-                  itemBuilder: (context, index) {
-                    return _PopularWorkoutCard(
-                      workout: workouts[index],
-                    );
-                  },
-                ),
-              ),
-          ],
-        );
-      },
+    // حالة الفشل
+      ErrorResponse(errorMessage: var msg) => _buildError(msg),
+    };
+  }
+
+  Widget _buildList(List<PopularWorkoutEntity> workouts) {
+    if (workouts.isEmpty) {
+      return const SizedBox(
+        height: 150,
+        child: Center(child: Text("No workouts found", style: TextStyle(color: Colors.white54))),
+      );
+    }
+    return SizedBox(
+      height: 150,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: workouts.length,
+        itemBuilder: (context, index) {
+          return _PopularWorkoutCard(workout: workouts[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildError(String message) {
+    return SizedBox(
+      height: 150,
+      child: Center(
+        child: Text(
+          message,
+          style: const TextStyle(color: Colors.redAccent, fontSize: 13),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 
@@ -103,9 +107,9 @@ class PopularTrainingSection extends StatelessWidget {
   }
 }
 
+/// الـ Card الصغير (مفيش فيه تغيير في الـ Design)
 class _PopularWorkoutCard extends StatelessWidget {
   final PopularWorkoutEntity workout;
-
   const _PopularWorkoutCard({required this.workout});
 
   @override
@@ -134,7 +138,6 @@ class _PopularWorkoutCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            /// Dark gradient overlay bottom
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
@@ -147,8 +150,6 @@ class _PopularWorkoutCard extends StatelessWidget {
                 ),
               ),
             ),
-
-            /// Text info
             Positioned(
               bottom: 12,
               left: 12,
@@ -165,34 +166,23 @@ class _PopularWorkoutCard extends StatelessWidget {
                   ),
                   Text(
                     "${workout.totalExercises} Tasks",
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 11,
-                    ),
+                    style: const TextStyle(color: Colors.white54, fontSize: 11),
                   ),
                 ],
               ),
             ),
-
-            /// Badge
             Positioned(
               bottom: 12,
               right: 12,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   workout.levelName,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(fontSize: 10, color: Colors.white),
                 ),
               ),
             ),
