@@ -62,11 +62,18 @@ void main() {
 
         expect(states.length, 2);
         expect(states[0].changePasswordState?.isLoading, true);
+        expect(states[0].changePasswordState?.data, isNull);
+        expect(states[0].changePasswordState?.errorMessage, isNull);
+
         expect(states[1].changePasswordState?.isLoading, false);
         expect(
           states[1].changePasswordState?.data?.message,
           'Password changed successfully',
         );
+        expect(states[1].changePasswordState?.data, entity);
+        expect(states[1].changePasswordState?.errorMessage, isNull);
+
+        verify(mockSessionController.updateSessionAuth('new_token_abc')).called(1);
 
         await subscription.cancel();
       },
