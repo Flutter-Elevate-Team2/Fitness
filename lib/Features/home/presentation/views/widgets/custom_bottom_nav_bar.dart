@@ -53,8 +53,6 @@ class CustomBottomNavBar extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 class NavItem {

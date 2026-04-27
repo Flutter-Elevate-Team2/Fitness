@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-    "appTitle": "Super Fitness",
+  "appTitle": "Super Fitness",
   "skip": "تخطي",
   "back": "رجوع",
   "next": "التالي",
@@ -72,42 +72,77 @@
   "sessionExpiredMessage": "لقد انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى.",
   "loginTitle": "تسجيل الدخول",
   "forgotPasswordTitle": "نسيت كلمة المرور",
-  "@forgotPasswordTitle": { "description": "عنوان شاشة استعادة كلمة المرور" },
+  "@forgotPasswordTitle": {
+    "description": "عنوان شاشة استعادة كلمة المرور"
+  },
   "forgotPasswordSubTitle": "يرجى إدخال بريدك الإلكتروني المرتبط بحسابك",
-  "@forgotPasswordSubTitle": { "description": "تعليمات فرعية لشاشة استعادة كلمة المرور" },
+  "@forgotPasswordSubTitle": {
+    "description": "تعليمات فرعية لشاشة استعادة كلمة المرور"
+  },
   "confirmButton": "تأكيد",
-  "@confirmButton": { "description": "تسمية أزرار التأكيد" },
+  "@confirmButton": {
+    "description": "تسمية أزرار التأكيد"
+  },
   "verificationTitle": "التحقق من البريد الإلكتروني",
-  "@verificationTitle": { "description": "عنوان شاشة التحقق من البريد الإلكتروني" },
+  "@verificationTitle": {
+    "description": "عنوان شاشة التحقق من البريد الإلكتروني"
+  },
   "validationEnterCompleteCode": "يرجى إدخال رمز من 6 أرقام كامل",
-  "@validationEnterCompleteCode": { "description": "رسالة تحقق لرمز OTP غير مكتمل" },
+  "@validationEnterCompleteCode": {
+    "description": "رسالة تحقق لرمز OTP غير مكتمل"
+  },
   "weakPasswordError": "يجب أن لا تكون كلمة المرور فارغة ويجب أن تحتوي على 6 أحرف على الأقل مع حرف كبير ورقم واحد على الأقل",
-  "@weakPasswordError": { "description": "رسالة خطأ لكلمة مرور ضعيفة" },
+  "@weakPasswordError": {
+    "description": "رسالة خطأ لكلمة مرور ضعيفة"
+  },
   "invalidCodeError": "رمز غير صالح",
-  "@invalidCodeError": { "description": "رسالة خطأ لرمز التحقق غير صالح" },
+  "@invalidCodeError": {
+    "description": "رسالة خطأ لرمز التحقق غير صالح"
+  },
   "verificationSubTitle": "يرجى إدخال الرمز الذي تم إرساله إلى بريدك الإلكتروني",
-  "@verificationSubTitle": { "description": "تعليمات فرعية للتحقق من البريد الإلكتروني" },
-   "@resendCode": { "description": "زر لإعادة إرسال رمز التحقق" },
+  "@verificationSubTitle": {
+    "description": "تعليمات فرعية للتحقق من البريد الإلكتروني"
+  },
   "resend": "إعادة إرسال",
-  "@resend": { "description": "زر لإعادة إرسال رمز التحقق" },
+  "@resend": {
+    "description": "زر لإعادة إرسال رمز التحقق"
+  },
   "resetPasswordTitle": "إعادة تعيين كلمة المرور",
-  "@resetPasswordTitle": { "description": "عنوان شاشة إعادة تعيين كلمة المرور" },
+  "@resetPasswordTitle": {
+    "description": "عنوان شاشة إعادة تعيين كلمة المرور"
+  },
   "resetPasswordSubTitle": "يجب ألا تكون كلمة المرور فارغة ويجب أن تحتوي على 6 أحرف على الأقل مع حرف كبير ورقم واحد على الأقل",
-  "@resetPasswordSubTitle": { "description": "تعليمات فرعية لإعادة تعيين كلمة المرور" },
+  "@resetPasswordSubTitle": {
+    "description": "تعليمات فرعية لإعادة تعيين كلمة المرور"
+  },
   "resetSuccessfully": "تم إعادة تعيين كلمة المرور بنجاح! يرجى تسجيل الدخول بكلمة المرور الجديدة.",
-  "@resetSuccessfully": { "description": "محتوى نافذة إعادة تعيين كلمة المرور" },
+  "@resetSuccessfully": {
+    "description": "محتوى نافذة إعادة تعيين كلمة المرور"
+  },
   "registerSuccessfully": "تم إنشاء حسابك بنجاح! يرجى تسجيل الدخول للمتابعة",
-  "@registerSuccessfully": { "description": "محتوى نافذة تسجيل الحساب بنجاح" },
+  "@registerSuccessfully": {
+    "description": "محتوى نافذة تسجيل الحساب بنجاح"
+  },
   "success": "نجاح",
-  "@success": { "description": "نجاح" },
+  "@success": {
+    "description": "نجاح"
+  },
   "newPasswordLabel": "كلمة المرور الجديدة",
-  "@newPasswordLabel": { "description": "تسمية لحقل كلمة المرور الجديدة" },
+  "@newPasswordLabel": {
+    "description": "تسمية لحقل كلمة المرور الجديدة"
+  },
   "cancelDialog": "إلغاء",
-  "@cancelDialog": { "description": "تسمية زر الإلغاء في نافذة الحوار" },
+  "@cancelDialog": {
+    "description": "تسمية زر الإلغاء في نافذة الحوار"
+  },
   "confirmPasswordLabel": "تأكيد كلمة المرور",
-  "@confirmPasswordLabel": { "description": "تسمية لحقل تأكيد كلمة المرور" },
+  "@confirmPasswordLabel": {
+    "description": "تسمية لحقل تأكيد كلمة المرور"
+  },
   "confirmPasswordHint": "أكد كلمة المرور",
-  "@confirmPasswordHint": { "description": "نص تلميحي لحقل تأكيد كلمة المرور" },
+  "@confirmPasswordHint": {
+    "description": "نص تلميحي لحقل تأكيد كلمة المرور"
+  },
   "sentOtp": "إرسل رمز التحقق",
   "enterYourOtp": "تفقد بريدك الإلكتروني وأدخل رمز التحقق",
   "explore": "استكشاف",
@@ -138,11 +173,24 @@
   "bicepsAndTriceps": "عضلات البايسبس والترايسبس",
   "tricepsWorkout": "تمرين عضلات الترايسبس",
   "hi": "مرحبًا",
-  "lets_start": "لنبدأ يومك",
+  "letsStart": "لنبدأ يومك",
   "category": "الفئات",
   "gym": "جيم",
   "fitness": "لياقة",
   "yoga": "يوجا",
   "aerobics": "أيروبيكس",
-  "trainer": "مدرب"
+  "trainer": "مدرب",
+  "featureComingSoon": "الميزة قريباً",
+  "recommendationToday": "مقترحات اليوم",
+  "popularTraining": "تمارين شائعة",
+  "upcomingWorkouts": "تمارين قادمة",
+  "tasks": "مهام",
+  "completeRegister": "يرجى إكمال تسجيلك",
+  "@completeRegister": {
+    "description": "يرجى إكمال تسجيلك"
+  },
+  "googleLoginFailed": "فشل تسجيل الدخول بجوجل",
+  "@googleLoginFailed": {
+    "description": "فشل تسجيل الدخول بجوجل"
+  }
 }

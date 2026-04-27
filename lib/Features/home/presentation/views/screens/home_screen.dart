@@ -1,7 +1,6 @@
 import 'package:fitness_app/Features/home/presentation/views/screens/explore_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_category.dart';
-import 'package:fitness_app/Features/home/presentation/views/widgets/home_header.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/workouts_screen.dart';
@@ -73,7 +72,6 @@ class _PlaceholderTab extends StatelessWidget {
       padding: EdgeInsetsGeometry.all(15),
       child: Column(
         children: [
-          HomeHeader(),
           SizedBox(height: 24),
           CategorySection(),
         ],

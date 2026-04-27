@@ -53,7 +53,7 @@ class SharedCard extends StatelessWidget {
                   child: Container(color: Colors.white),
                 ),
                 errorWidget: (context, url, error) =>
-                const Icon(Icons.fastfood,
+                const Icon(Icons.error_outlined,
                     color: AppColors.grayLight),
               )
                   : Image.network(
