@@ -4,23 +4,24 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d054dc9f-3498-4962-8e2c-0bf41be2b408" name="Changes" comment="chore: improve test structure for various models and data sources">
+    <list default="true" id="d054dc9f-3498-4962-8e2c-0bf41be2b408" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Features/profile/api/api_client/api_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/api/api_client/api_client.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Features/profile/api/remot_data_source_imple/profile_remote_data_source_imple.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/api/remot_data_source_imple/profile_remote_data_source_imple.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Features/profile/data/remote_data_source_contract/profile_remote_data_source_contract.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/data/remote_data_source_contract/profile_remote_data_source_contract.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Features/profile/data/repo/profile_repo_imple.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/data/repo/profile_repo_imple.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Features/profile/domain/repo/profile_repo_contract.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/domain/repo/profile_repo_contract.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/constants/api_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/constants/api_constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Features/profile/presentation/view_model/profile_events.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/presentation/view_model/profile/profile_events.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Features/profile/presentation/view_model/profile_states.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/presentation/view_model/profile/profile_states.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Features/profile/presentation/view_model/profile_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/presentation/view_model/profile/profile_view_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/l10n/app_localizations.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/l10n/app_localizations_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/l10n/app_localizations_ar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gen/assets.gen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gen/assets.gen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/popular_training_section_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/popular_training_section_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Features/profile/presentation/view_model/profile_view_model_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/Features/profile/presentation/view_model/profile/profile_view_model_test.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +60,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/TEAM-2-demo2-test" />
+        <entry key="$PROJECT_DIR$" value="feature/TEAM2-115-profile-data" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -141,10 +142,10 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "feature/TEAM2-115-profile-data",
+    "git-widget-placeholder": "feature/TEAM2-115-profile-presentation",
     "io.flutter.project.isFirstOpen": "true",
     "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "D:/elevate/Fitness/lib/Features/profile/domain/use_cases",
+    "last_opened_file_path": "D:/elevate/Fitness/test/Features/profile/presentation/view_model",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -153,45 +154,50 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\elevate\Fitness\test\Features\profile\presentation\view_model" />
+      <recent name="D:\elevate\Fitness\lib\Features\profile\presentation\view_model" />
       <recent name="D:\elevate\Fitness\lib\Features\profile\domain\use_cases" />
       <recent name="D:\elevate\Fitness\lib\Features\profile\domain\entities" />
       <recent name="D:\elevate\Fitness\lib\Features\profile\data\mapper" />
-      <recent name="D:\elevate\Fitness\lib\Features\profile\data\models" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\elevate\Fitness\test\Features\profile\presentation\view_model\profile" />
+      <recent name="D:\elevate\Fitness\lib\Features\profile\presentation\view_model\profile" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart">
-    <configuration name="tests in custom_nav_item_widget_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/custom_nav_item_widget_test.dart" />
+  <component name="RunManager" selected="Flutter Test.tests in test/Features/profile/presentation/view_model">
+    <configuration name="tests in edit_profile_view_model_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/Features/profile/presentation/view_model/edit_profile/edit_profile_view_model_test.dart" />
       <option name="useRegexp" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in explore_screen_body_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/explore_screen_body_test.dart" />
+    <configuration name="tests in logout_response_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/Features/profile/data/models/logout_response_test.dart" />
       <option name="useRegexp" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in home_category_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/home_category_test.dart" />
+    <configuration name="tests in profile_view_model_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/Features/profile/presentation/view_model/profile/profile_view_model_test.dart" />
       <option name="useRegexp" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in popular_training_section_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/popular_training_section_test.dart" />
+    <configuration name="tests in test" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testDir" value="$PROJECT_DIR$/test" />
       <option name="useRegexp" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in video_player_screen_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/Features/workouts/presentation/views/screens/video_player_screen_test.dart" />
+    <configuration name="tests in test/Features/profile/presentation/view_model" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testDir" value="$PROJECT_DIR$/test/Features/profile/presentation/view_model" />
       <option name="useRegexp" value="false" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Flutter Test.tests in popular_training_section_test.dart" />
-        <item itemvalue="Flutter Test.tests in home_category_test.dart" />
-        <item itemvalue="Flutter Test.tests in explore_screen_body_test.dart" />
-        <item itemvalue="Flutter Test.tests in custom_nav_item_widget_test.dart" />
-        <item itemvalue="Flutter Test.tests in video_player_screen_test.dart" />
+        <item itemvalue="Flutter Test.tests in test/Features/profile/presentation/view_model" />
+        <item itemvalue="Flutter Test.tests in edit_profile_view_model_test.dart" />
+        <item itemvalue="Flutter Test.tests in profile_view_model_test.dart" />
+        <item itemvalue="Flutter Test.tests in test" />
+        <item itemvalue="Flutter Test.tests in logout_response_test.dart" />
       </list>
     </recent_temporary>
   </component>

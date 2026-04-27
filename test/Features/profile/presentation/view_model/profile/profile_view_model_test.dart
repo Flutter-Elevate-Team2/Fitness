@@ -1,25 +1,29 @@
 import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/profile/domain/use_cases/get_user_profile_use_case.dart';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_events.dart';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_states.dart';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:fitness_app/Features/profile/domain/use_cases/logout_use_case.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_events.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_states.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_view_model.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import 'profile_view_model_test.mocks.dart';
 
 @GenerateMocks([
   GetUserProfileUseCase,
   SessionController,
+  LogoutUseCase
 ])
 void main() {
   // ignore: unused_local_variable
   late ProfileViewModel viewModel;
   late MockGetUserProfileUseCase mockGetUserProfileUseCase;
   late MockSessionController mockSessionController;
+  late MockLogoutUseCase mockLogoutUseCase;
 
   setUp(() {
     provideDummy<BaseResponse<String>>(ErrorResponse(errorMessage: 'dummy'));
@@ -30,10 +34,12 @@ void main() {
     mockGetUserProfileUseCase = MockGetUserProfileUseCase();
     mockSessionController = MockSessionController();
     when(mockSessionController.onLogin).thenAnswer((_) => const Stream.empty());
+    mockLogoutUseCase = MockLogoutUseCase();
 
     viewModel = ProfileViewModel(
       mockGetUserProfileUseCase,
       mockSessionController,
+      mockLogoutUseCase,
     );
   });
 
@@ -170,6 +176,59 @@ void main() {
         expect(result.profileState?.isLoading, false);
         expect(result.profileState?.errorMessage, 'Server Error');
         expect(result.profileState?.data, isNull);
+      });
+    });
+    group('Logout Tests', () {
+      test(
+        'should emit loading then success and notify logout when LogoutUseCase succeeds',
+            () async {
+          when(
+            mockLogoutUseCase.call(),
+          ).thenAnswer((_) async => SuccessResponse(data: 'Logout successful'));
+
+          final expectation = expectLater(
+            viewModel.stream,
+            emitsInOrder([
+              predicate<ProfileStates>(
+                    (state) => state.logoutState?.isLoading == true,
+              ),
+              predicate<ProfileStates>(
+                    (state) => state.logoutState?.isLoading == false,
+              ),
+            ]),
+          );
+
+          viewModel.doIntent(LogoutEvent());
+          await expectation;
+
+          verify(
+            mockSessionController.notifyLogout(SessionEndReason.logout),
+          ).called(1);
+        },
+      );
+
+      test('should emit loading then error when LogoutUseCase fails', () async {
+        const errorMessage = 'Logout failed';
+        when(
+          mockLogoutUseCase.call(),
+        ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
+
+        final expectation = expectLater(
+          viewModel.stream,
+          emitsInOrder([
+            predicate<ProfileStates>(
+                  (state) => state.logoutState?.isLoading == true,
+            ),
+            predicate<ProfileStates>(
+                  (state) =>
+              state.logoutState?.isLoading == false &&
+                  state.logoutState?.errorMessage == errorMessage,
+            ),
+          ]),
+        );
+
+        viewModel.doIntent(LogoutEvent());
+        await expectation;
       });
     });
 

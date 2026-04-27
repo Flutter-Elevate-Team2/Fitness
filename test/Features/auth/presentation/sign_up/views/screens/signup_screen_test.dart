@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:fitness_app/Features/auth/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_state.dart';

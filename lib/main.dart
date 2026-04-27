@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile_events.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_events.dart';
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
@@ -26,7 +26,7 @@ import 'package:hive_ce/hive.dart';
 import 'Features/food/data/models/meals_models/category_model.dart';
 import 'Features/food/data/models/meals_models/meal_details_model.dart';
 import 'Features/food/data/models/meals_models/meal_model.dart';
-import 'Features/profile/presentation/view_model/profile_view_model.dart';
+import 'Features/profile/presentation/view_model/profile/profile_view_model.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
