@@ -2,6 +2,7 @@ import 'package:fitness_app/Features/food/presentation/views/widgets/home_meals/
 import 'package:fitness_app/Features/home/domain/entities/home_section.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
+import 'package:fitness_app/Features/home/presentation/views/widgets/home_category.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/random_muscle_section.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_header.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/popular_training_section.dart';
@@ -23,34 +24,49 @@ class ExploreScreenBody extends StatelessWidget {
       showBackButton: false,
       body: BlocBuilder<HomeViewModel, HomeState>(
         builder: (context, state) {
-          if (state.isLoading && state.homeData.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: 5,
-            separatorBuilder: (_, _) => const SizedBox(height: 24),
-            itemBuilder: (context, index) {
-              final response = state.homeData.where((e) {
-                if (e is SuccessResponse<HomeSection>) {
-                  return e.data.index == index;
+          return SafeArea(
+            child: ListView.separated(
+              padding: const EdgeInsets.only(
+                bottom: 116,
+                left: 16,
+                right: 16,
+                top: 16,
+              ),
+              itemCount: 6,
+              separatorBuilder: (_, _) => const SizedBox(height: 24),
+              itemBuilder: (context, index) {
+                if (index == 1) {
+                  return CategorySection(onTapGym: onSeeAllWorkoutsTapped);
                 }
-                return false;
-              }).firstOrNull;
 
-              return switch (index) {
-                0 => HomeHeader(response: response),
-                1 => RecommendationForYouSection(response: response),
-                2 => UpcomingWorkoutsSection(
-                  response: response,
-                  onSeeAllTapped: onSeeAllWorkoutsTapped,
-                ),
-                3 => RandomMusclesSection(response: response),
-                4 => PopularTrainingSection(response: response),
-                _ => const SizedBox.shrink(),
-              };
-            },
+                int serverIndex = index > 1 ? index - 1 : index;
+
+                final response = state.homeData.where((e) {
+                  if (e is SuccessResponse<HomeSection>) {
+                    return e.data.index == serverIndex;
+                  }
+                  return false;
+                }).firstOrNull;
+
+                return switch (index) {
+                  0 => HomeHeader(response: response), // Server Index 0
+                  2 => RandomMusclesSection(
+                    response: response,
+                  ), // Server Index 1
+                  3 => UpcomingWorkoutsSection(
+                    response: response,
+                    onSeeAllTapped: onSeeAllWorkoutsTapped,
+                  ), // Server Index 2
+                  4 => RecommendationForYouSection(
+                    response: response,
+                  ), // Server Index 3
+                  5 => PopularTrainingSection(
+                    response: response,
+                  ), // Server Index 4
+                  _ => const SizedBox.shrink(),
+                };
+              },
+            ),
           );
         },
       ),

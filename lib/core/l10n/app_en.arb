@@ -209,7 +209,11 @@
   "yoga": "Yoga",
   "aerobics": "Aerobics",
   "trainer": "Trainer",
-    "description": "Profile",
+  "featureComingSoon": "Feature coming soon",
+  "recommendationToday": "Recommendation Today",
+  "popularTraining": "Popular Training",
+  "upcomingWorkouts": "Upcoming Workouts",
+  "tasks": "Tasks",
   "completeRegister": "Please complete your registration",
   "@completeRegister": {
     "description": "Please complete your registration"},
@@ -217,4 +221,3 @@
   "@googleLoginFailed": {
     "description": "Google login failed"}
 }
-

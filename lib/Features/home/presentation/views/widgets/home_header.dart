@@ -8,7 +8,6 @@ import 'package:shimmer/shimmer.dart';
 import '../../../../profile/domain/entities/user_entity.dart';
 
 class HomeHeader extends StatelessWidget {
-  // بنستقبل الـ Response كامل (ممكن يكون Success أو Error أو null للتحميل)
   final BaseResponse<HomeSection>? response;
 
   const HomeHeader({super.key, this.response});
@@ -16,20 +15,19 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (response) {
-    // 1. حالة التحميل (لو الـ Response لسه مظهرش)
       null => _buildShimmer(context),
 
-    // 2. حالة النجاح (بنطلع الـ UserEntity ونرسمها)
-      SuccessResponse(data: var section) => _buildContent(context, (section as UserProfileSection).user),
+      SuccessResponse(data: var section) => _buildContent(
+        context,
+        (section as UserProfileSection).user,
+      ),
 
-    // 3. حالة الفشل (ممكن نعرض اسم افتراضي "User" لو الداتا مجتش)
       ErrorResponse() => _buildContent(context, null),
     };
   }
 
-  // الـ UI الحقيقي اللي بيرسم البيانات
   Widget _buildContent(BuildContext context, UserEntity? user) {
-    final userName = user?.firstName ?? "User";
+    final userName = user?.firstName ?? context.l10n.profile;
     final imageUrl = user?.photo ?? "";
 
     return SizedBox(
@@ -66,9 +64,11 @@ class HomeHeader extends StatelessWidget {
           CircleAvatar(
             radius: 24,
             backgroundColor: AppColors.grayMid,
-            backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+            backgroundImage: imageUrl.isNotEmpty
+                ? NetworkImage(imageUrl)
+                : null,
             child: imageUrl.isEmpty
-                ? const Icon(Icons.person, color: Colors.white)
+                ? const Icon(Icons.person, color: AppColors.white)
                 : null,
           ),
         ],
@@ -76,7 +76,6 @@ class HomeHeader extends StatelessWidget {
     );
   }
 
-  // الشيمر الخاص بالهيدر (مستطيلين ودائرة)
   Widget _buildShimmer(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: AppColors.grayMid,
@@ -87,13 +86,13 @@ class HomeHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(width: 80, height: 14, color: Colors.white),
+                Container(width: 80, height: 14, color: AppColors.white),
                 const SizedBox(height: 10),
-                Container(width: 150, height: 20, color: Colors.white),
+                Container(width: 150, height: 20, color: AppColors.white),
               ],
             ),
           ),
-          const CircleAvatar(radius: 24, backgroundColor: Colors.white),
+          const CircleAvatar(radius: 24, backgroundColor: AppColors.white),
         ],
       ),
     );

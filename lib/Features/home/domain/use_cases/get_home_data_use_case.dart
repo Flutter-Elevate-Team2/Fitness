@@ -38,10 +38,15 @@ class GetHomeDataUseCase {
 
     final controller = StreamController<List<BaseResponse<HomeSection>>>();
 
+    // جوه updateAndEmit في الـ UseCase
     void updateAndEmit(int index, BaseResponse<HomeSection> response) {
       results[index] = response;
       if (!controller.isClosed) {
-        controller.add(results.whereType<BaseResponse<HomeSection>>().toList());
+        // ابعتي الـ list كاملة بالـ nulls عشان الترتيب يفضل ثابت
+        controller.add(List<BaseResponse<HomeSection>>.from(
+            results.map((e) => e ?? ErrorResponse(errorMessage: "loading"))
+          // أو ابعتيها كـ List<BaseResponse<HomeSection>?>
+        ));
       }
     }
 
@@ -54,11 +59,11 @@ class GetHomeDataUseCase {
       );
     });
 
-    _categoriesUC().then((res) {
+    _randomUC().then((res) {
       updateAndEmit(
         1,
-        res is SuccessResponse<List<CategoryEntity>>
-            ? SuccessResponse(data: FoodCategoriesSection(res.data))
+        res is SuccessResponse<List<RandomMusclesEntity>>
+            ? SuccessResponse(data: RandomMuscleSection(res.data))
             : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),
       );
     });
@@ -86,11 +91,11 @@ class GetHomeDataUseCase {
       }
     });
 
-    _randomUC().then((res) {
+    _categoriesUC().then((res) {
       updateAndEmit(
         3,
-        res is SuccessResponse<List<RandomMusclesEntity>>
-            ? SuccessResponse(data: RandomMuscleSection(res.data))
+        res is SuccessResponse<List<CategoryEntity>>
+            ? SuccessResponse(data: FoodCategoriesSection(res.data))
             : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),
       );
     });

@@ -11,49 +11,46 @@ import 'package:go_router/go_router.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 
 class UpcomingWorkoutsSection extends StatelessWidget {
-  /// بنستقبل الـ Response اللي جاي من الـ ExploreScreenBody
   final BaseResponse<HomeSection>? response;
 
-  /// Callback للتحويل لصفحة التمارين كاملة
   final void Function({String? selectedGroupId})? onSeeAllTapped;
 
   const UpcomingWorkoutsSection({
     super.key,
     required this.response,
-    this.onSeeAllTapped
+    this.onSeeAllTapped,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        /// 1. الـ Header (ثابت في كل الحالات)
         _buildHeader(context),
-
         const SizedBox(height: 12),
-
-        /// 2. المحتوى المتغير بناءً على الـ Response
         _buildContent(context),
       ],
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    // محاولة استخراج الـ selectedGroupId لو الـ response ناجح عشان زرار See All
     String? currentId;
     if (response is SuccessResponse<HomeSection>) {
-      currentId = (response as SuccessResponse<HomeSection>).data is UpcomingWorkoutsSectionData
-          ? ((response as SuccessResponse<HomeSection>).data as UpcomingWorkoutsSectionData).selectedGroupId
+      currentId =
+          (response as SuccessResponse<HomeSection>).data
+              is UpcomingWorkoutsSectionData
+          ? ((response as SuccessResponse<HomeSection>).data
+                    as UpcomingWorkoutsSectionData)
+                .selectedGroupId
           : null;
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          "Upcoming Workouts",
-          style: TextStyle(
-            color: Colors.white,
+        Text(
+          context.l10n.upcomingWorkouts,
+          style: const TextStyle(
+            color: AppColors.white,
             fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
@@ -75,7 +72,6 @@ class UpcomingWorkoutsSection extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return switch (response) {
-    // حالة التحميل (لسه مفيش داتا في الـ Stream للإندكس ده)
       null => Column(
         children: [
           _buildTabsShimmer(),
@@ -84,22 +80,23 @@ class UpcomingWorkoutsSection extends StatelessWidget {
         ],
       ),
 
-    // حالة النجاح (بنعمل Casting للداتا الخاصة بالسكشن ده)
       SuccessResponse(data: var section) => _buildSuccessUI(
-          context,
-          section as UpcomingWorkoutsSectionData
+        context,
+        section as UpcomingWorkoutsSectionData,
       ),
 
-    // حالة الفشل
       ErrorResponse(errorMessage: var msg) => Container(
-        height: 160,
-        alignment: Alignment.center,
-        child: Text(msg, style: const TextStyle(color: Colors.redAccent)),
-      ),
+          height: 160,
+          alignment: Alignment.center,
+          child: Text(msg, style: const TextStyle(color: AppColors.red)),
+        ),
     };
   }
 
-  Widget _buildSuccessUI(BuildContext context, UpcomingWorkoutsSectionData data) {
+  Widget _buildSuccessUI(
+    BuildContext context,
+    UpcomingWorkoutsSectionData data,
+  ) {
     return Column(
       children: [
         /// Tabs (Muscle Groups)
@@ -110,7 +107,6 @@ class UpcomingWorkoutsSection extends StatelessWidget {
               bool isSelected = data.selectedGroupId == group.id;
               return GestureDetector(
                 onTap: () {
-                  // هنا بنكلم الـ ViewModel عشان يغير المجموعة
                   context.read<HomeViewModel>().changeMuscleGroup(group.id);
                 },
                 child: AnimatedContainer(
@@ -123,12 +119,6 @@ class UpcomingWorkoutsSection extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: isSelected ? AppColors.primary : Colors.transparent,
                     borderRadius: BorderRadius.circular(20),
-                    border: isSelected
-                        ? null
-                        : Border.all(
-                      color: Colors.white.withOpacity(0.3),
-                      width: 1,
-                    ),
                   ),
                   child: Text(
                     group.name,
@@ -150,36 +140,32 @@ class UpcomingWorkoutsSection extends StatelessWidget {
         SizedBox(
           height: 160,
           child: data.currentGroupMuscles.isEmpty
-              ? const Center(
-            child: Text(
-              "No muscles found",
-              style: TextStyle(color: Colors.white54),
-            ),
-          )
+              ? _buildCardsShimmer()
               : ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: data.currentGroupMuscles.length,
-            itemBuilder: (context, index) {
-              final muscle = data.currentGroupMuscles[index];
-              return SharedCard(
-                title: muscle.name,
-                imageUrl: muscle.image ?? "",
-                onTap: () {
-                  context.pushNamed(
-                    Routes.exercisesName,
-                    extra: {
-                      'primeMoverMuscleId': muscle.id,
-                      'title': muscle.name,
-                      'image': muscle.image,
-                    },
-                  );
-                },
-                width: 130,
-                height: 160,
-                margin: const EdgeInsets.only(right: 12),
-              );
-            },
-          ),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: data.currentGroupMuscles.length,
+                  itemBuilder: (context, index) {
+                    final muscle = data.currentGroupMuscles[index];
+                    return SharedCard(
+                      useCachedImage: true,
+                      title: muscle.name,
+                      imageUrl: muscle.image ?? "",
+                      onTap: () {
+                        context.pushNamed(
+                          Routes.exercisesName,
+                          extra: {
+                            'primeMoverMuscleId': muscle.id,
+                            'title': muscle.name,
+                            'image': muscle.image,
+                          },
+                        );
+                      },
+                      width: 130,
+                      height: 160,
+                      margin: const EdgeInsets.only(right: 12),
+                    );
+                  },
+                ),
         ),
       ],
     );
@@ -201,7 +187,7 @@ class UpcomingWorkoutsSection extends StatelessWidget {
               margin: const EdgeInsets.only(right: 12),
               width: 90,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
@@ -226,7 +212,7 @@ class UpcomingWorkoutsSection extends StatelessWidget {
               height: 160,
               margin: const EdgeInsets.only(right: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
             ),

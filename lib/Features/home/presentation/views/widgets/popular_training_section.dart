@@ -2,13 +2,13 @@ import 'package:fitness_app/Features/home/domain/entities/home_section.dart';
 import 'package:fitness_app/Features/home/domain/entities/popular_tranning_entity.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
+import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PopularTrainingSection extends StatelessWidget {
-  // بنستقبل الـ BaseResponse اللي شايل الـ Section بتاعنا
   final BaseResponse<HomeSection>? response;
 
   const PopularTrainingSection({super.key, this.response});
@@ -18,42 +18,41 @@ class PopularTrainingSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// 1. الـ Header ثابت في كل الحالات
-        const Text(
-          "Popular Training",
-          style: TextStyle(
-            color: Colors.white,
+        Text(
+          context.l10n.popularTraining,
+          style: const TextStyle(
+            color: AppColors.white,
             fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
         ),
         const SizedBox(height: 10),
-
-        /// 2. التحكم في محتوى السكشن بناءً على حالة الـ Response
-        _buildContent(),
+        _buildContent(context),
       ],
     );
   }
 
-  Widget _buildContent() {
-    // استخدام الـ Switch المريح بتاع دارك 3
+  Widget _buildContent(BuildContext context) {
     return switch (response) {
-    // حالة التحميل (لو الـ Response لسه بـ null)
       null => _buildShimmer(),
-
-    // حالة النجاح
-      SuccessResponse(data: var section) => _buildList((section as PopularWorkoutsSection).workouts),
-
-    // حالة الفشل
+      SuccessResponse(data: var section) => _buildList(
+        context,
+        (section as PopularWorkoutsSection).workouts,
+      ),
       ErrorResponse(errorMessage: var msg) => _buildError(msg),
     };
   }
 
-  Widget _buildList(List<PopularWorkoutEntity> workouts) {
+  Widget _buildList(BuildContext context, List<PopularWorkoutEntity> workouts) {
     if (workouts.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 150,
-        child: Center(child: Text("No workouts found", style: TextStyle(color: Colors.white54))),
+        child: Center(
+          child: Text(
+            "No workouts found",
+            style: const TextStyle(color: AppColors.light600),
+          ),
+        ),
       );
     }
     return SizedBox(
@@ -74,7 +73,7 @@ class PopularTrainingSection extends StatelessWidget {
       child: Center(
         child: Text(
           message,
-          style: const TextStyle(color: Colors.redAccent, fontSize: 13),
+          style: const TextStyle(color: AppColors.red, fontSize: 13),
           textAlign: TextAlign.center,
         ),
       ),
@@ -96,7 +95,7 @@ class PopularTrainingSection extends StatelessWidget {
               height: 150,
               margin: const EdgeInsets.only(right: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
@@ -107,7 +106,6 @@ class PopularTrainingSection extends StatelessWidget {
   }
 }
 
-/// الـ Card الصغير (مفيش فيه تغيير في الـ Design)
 class _PopularWorkoutCard extends StatelessWidget {
   final PopularWorkoutEntity workout;
   const _PopularWorkoutCard({required this.workout});
@@ -145,7 +143,7 @@ class _PopularWorkoutCard extends StatelessWidget {
                   gradient: const LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
-                    colors: [Colors.black87, Colors.transparent],
+                    colors: [AppColors.blackSoft, Colors.transparent],
                   ),
                 ),
               ),
@@ -159,14 +157,17 @@ class _PopularWorkoutCard extends StatelessWidget {
                   Text(
                     workout.muscleName,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
                   ),
                   Text(
-                    "${workout.totalExercises} Tasks",
-                    style: const TextStyle(color: Colors.white54, fontSize: 11),
+                    "${workout.totalExercises} ${context.l10n.tasks}",
+                    style: const TextStyle(
+                      color: AppColors.light600,
+                      fontSize: 11,
+                    ),
                   ),
                 ],
               ),
@@ -175,14 +176,17 @@ class _PopularWorkoutCard extends StatelessWidget {
               bottom: 12,
               right: 12,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   workout.levelName,
-                  style: const TextStyle(fontSize: 10, color: Colors.white),
+                  style: const TextStyle(fontSize: 10, color: AppColors.white),
                 ),
               ),
             ),

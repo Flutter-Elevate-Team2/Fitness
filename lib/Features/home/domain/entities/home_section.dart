@@ -16,9 +16,9 @@ class UserProfileSection extends HomeSection {
   UserProfileSection(this.user) : super(0);
 }
 
-class FoodCategoriesSection extends HomeSection {
-  final List<CategoryEntity> categories;
-  FoodCategoriesSection(this.categories) : super(1);
+class RandomMuscleSection extends HomeSection {
+  final List<RandomMusclesEntity> muscles;
+  RandomMuscleSection(this.muscles) : super(1);
 }
 
 class UpcomingWorkoutsSectionData extends HomeSection {
@@ -33,13 +33,12 @@ class UpcomingWorkoutsSectionData extends HomeSection {
   }) : super(2);
 }
 
-class RandomMuscleSection extends HomeSection {
-  final List<RandomMusclesEntity> muscles;
-  RandomMuscleSection(this.muscles) : super(3);
+class FoodCategoriesSection extends HomeSection {
+  final List<CategoryEntity> categories;
+  FoodCategoriesSection(this.categories) : super(3);
 }
 
 class PopularWorkoutsSection extends HomeSection {
   final List<PopularWorkoutEntity> workouts;
   PopularWorkoutsSection(this.workouts) : super(4);
 }
-
