@@ -1,10 +1,10 @@
 import 'package:fitness_app/Features/home/domain/entities/home_section.dart';
-import 'package:fitness_app/Features/home/domain/entities/popular_tranning_entity.dart';
-import 'package:fitness_app/Features/home/presentation/views/widgets/popular_training_section.dart';
-import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
+import 'package:fitness_app/Features/home/presentation/views/widgets/random_muscle_section.dart';
+import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
+import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -31,23 +31,16 @@ void main() {
     ).thenAnswer((_) async => null);
   });
 
-  final mockWorkouts = [
-    PopularWorkoutEntity(
-      muscleId: 'm1',
-      muscleName: 'Biceps',
-      muscleImage: 'https://example.com/biceps.jpg',
-      levelId: 'l1',
-      levelName: 'Beginner',
-      exercises: const [
-        ExerciseEntity(
-          id: 'e1',
-          title: 'Curl',
-          description: '',
-          sets: 3,
-          reps: 12,
-          thumbnailUrl: '',
-        ),
-      ],
+  final mockMuscles = [
+    RandomMusclesEntity(
+      id: 'r1',
+      name: 'Triceps',
+      image: 'https://test.com/tricep.png',
+    ),
+    RandomMusclesEntity(
+      id: 'r2',
+      name: 'Back',
+      image: 'https://test.com/back.png',
     ),
   ];
 
@@ -58,12 +51,12 @@ void main() {
       locale: const Locale('en'),
       home: InheritedGoRouter(
         goRouter: mockRouter,
-        child: Scaffold(body: PopularTrainingSection(response: response)),
+        child: Scaffold(body: RandomMusclesSection(response: response)),
       ),
     );
   }
 
-  group('PopularTrainingSection Coverage Tests', () {
+  group('RandomMusclesSection Coverage Tests', () {
     testWidgets('1. Should show Shimmer when response is null (Loading)', (
       tester,
     ) async {
@@ -74,7 +67,7 @@ void main() {
     testWidgets('2. Should show error message when response is ErrorResponse', (
       tester,
     ) async {
-      const errorMsg = 'Failed to load workouts';
+      const errorMsg = 'Error loading muscles';
       await tester.pumpWidget(
         createWidgetUnderTest(ErrorResponse(errorMessage: errorMsg)),
       );
@@ -83,48 +76,35 @@ void main() {
       expect(find.text(errorMsg), findsOneWidget);
     });
 
-    testWidgets('3. Should show "No workouts found" when list is empty', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        createWidgetUnderTest(
-          SuccessResponse(data: PopularWorkoutsSection([])),
-        ),
-      );
-      await tester.pump();
-
-      expect(find.text("No workouts found"), findsOneWidget);
-    });
-
-    testWidgets('4. Should render workout cards correctly on Success', (
+    testWidgets('3. Should render SharedCards when data is successful', (
       tester,
     ) async {
       await mockNetworkImages(() async {
         await tester.pumpWidget(
           createWidgetUnderTest(
-            SuccessResponse(data: PopularWorkoutsSection(mockWorkouts)),
+            SuccessResponse(data: RandomMuscleSection(mockMuscles)),
           ),
         );
         await tester.pump();
 
-        expect(find.text('Biceps'), findsOneWidget);
-        expect(find.text('Beginner'), findsOneWidget);
-        expect(find.textContaining('Tasks'), findsOneWidget);
+        expect(find.text('Triceps'), findsOneWidget);
+        expect(find.text('Back'), findsOneWidget);
+        expect(find.byType(SharedCard), findsNWidgets(2));
       });
     });
 
-    testWidgets('5. Should Navigate to exercises when a card is tapped', (
+    testWidgets('4. Should Navigate when a muscle card is tapped', (
       tester,
     ) async {
       await mockNetworkImages(() async {
         await tester.pumpWidget(
           createWidgetUnderTest(
-            SuccessResponse(data: PopularWorkoutsSection(mockWorkouts)),
+            SuccessResponse(data: RandomMuscleSection(mockMuscles)),
           ),
         );
         await tester.pump();
 
-        await tester.tap(find.text('Biceps'));
+        await tester.tap(find.text('Triceps'));
         await tester.pump();
 
         verify(
@@ -134,6 +114,18 @@ void main() {
           ),
         ).called(1);
       });
+    });
+
+    testWidgets('5. Should return empty SizedBox when list is empty', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createWidgetUnderTest(SuccessResponse(data: RandomMuscleSection([]))),
+      );
+      await tester.pump();
+
+      expect(find.byType(SharedCard), findsNothing);
+      expect(find.byType(ListView), findsNothing);
     });
   });
 }
