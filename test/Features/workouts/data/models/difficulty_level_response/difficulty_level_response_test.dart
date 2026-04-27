@@ -7,17 +7,6 @@ void main() {
     const tMessage = 'Success';
     const tTotalLevels = 2;
 
-    final tDifficultyLevelList = [
-      DifficultyLevel(id: '1', name: 'Beginner'),
-      DifficultyLevel(id: '2', name: 'Expert'),
-    ];
-
-    final tDifficultyLevelResponse = DifficultyLevelResponse(
-      message: tMessage,
-      totalLevels: tTotalLevels,
-      difficultyLevels: tDifficultyLevelList,
-    );
-
     final tJson = {
       'message': tMessage,
       'totalLevels': tTotalLevels,

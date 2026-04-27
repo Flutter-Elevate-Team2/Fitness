@@ -38,14 +38,11 @@ class GetHomeDataUseCase {
 
     final controller = StreamController<List<BaseResponse<HomeSection>>>();
 
-    // جوه updateAndEmit في الـ UseCase
     void updateAndEmit(int index, BaseResponse<HomeSection> response) {
       results[index] = response;
       if (!controller.isClosed) {
-        // ابعتي الـ list كاملة بالـ nulls عشان الترتيب يفضل ثابت
         controller.add(List<BaseResponse<HomeSection>>.from(
             results.map((e) => e ?? ErrorResponse(errorMessage: "loading"))
-          // أو ابعتيها كـ List<BaseResponse<HomeSection>?>
         ));
       }
     }
