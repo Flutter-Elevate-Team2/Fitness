@@ -11,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 class RecommendationForYouSection extends StatelessWidget {
-  // بنستقبل الـ Response اللي شايل سكشن الأكل
   final BaseResponse<HomeSection>? response;
 
   const RecommendationForYouSection({super.key, this.response});
@@ -26,14 +25,13 @@ class RecommendationForYouSection extends StatelessWidget {
 
         const SizedBox(height: 10),
 
-        /// المحتوى (Loading, Success, or Error)
+        /// (Loading, Success, or Error)
         _buildContent(),
       ],
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    // بنطلع الـ Categories لو هي موجودة ونجحت عشان زرار الـ See All يشتغل
     List<CategoryEntity> categories = [];
     if (response is SuccessResponse<HomeSection>) {
       categories =
@@ -51,7 +49,7 @@ class RecommendationForYouSection extends StatelessWidget {
         Text(
           context.l10n.recommendationForYou,
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -78,21 +76,18 @@ class RecommendationForYouSection extends StatelessWidget {
 
   Widget _buildContent() {
     return switch (response) {
-      // 1. حالة التحميل
       null => _buildShimmer(),
 
-      // 2. حالة النجاح
       SuccessResponse(data: var section) => _buildList(
         (section as FoodCategoriesSection).categories,
       ),
 
-      // 3. حالة الفشل
       ErrorResponse(errorMessage: var msg) => SizedBox(
         height: 120,
         child: Center(
           child: Text(
             msg,
-            style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+            style: const TextStyle(color: AppColors.red, fontSize: 12),
           ),
         ),
       ),
@@ -146,7 +141,7 @@ class RecommendationForYouSection extends StatelessWidget {
               height: 120,
               margin: const EdgeInsets.only(right: 15),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(16),
               ),
             ),

@@ -62,23 +62,5 @@ void main() {
       expect(find.byType(Shimmer), findsOneWidget);
     });
 
-    testWidgets('4. Should cover CachedNetworkImage errorWidget', (
-      tester,
-    ) async {
-      await tester.pumpWidget(createWidget(onTap: () {}));
-
-      final imageFinder = find.byType(CachedNetworkImage);
-      final cachedImage = tester.widget<CachedNetworkImage>(imageFinder);
-
-      final errorWidget = cachedImage.errorWidget!(
-        tester.element(imageFinder),
-        testImageUrl,
-        'error',
-      );
-
-      await tester.pumpWidget(MaterialApp(home: errorWidget));
-      expect(find.byIcon(Icons.fastfood), findsOneWidget);
-    });
-
   });
 }

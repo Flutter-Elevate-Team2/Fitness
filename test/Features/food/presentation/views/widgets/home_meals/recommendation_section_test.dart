@@ -1,134 +1,134 @@
 import 'package:fitness_app/Features/food/domain/entities/category_entity.dart';
-import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
-import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/Features/food/presentation/views/widgets/home_meals/recommendation_section.dart';
+import 'package:fitness_app/Features/home/domain/entities/home_section.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
+import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
+import 'package:fitness_app/core/widget/shared_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
-@GenerateNiceMocks([MockSpec<HomeViewModel>(), MockSpec<GoRouter>()])
-import 'recommendation_section_test.mocks.dart';
+class MockGoRouter extends Mock implements GoRouter {}
 
 void main() {
-  late MockHomeViewModel mockViewModel;
   late MockGoRouter mockRouter;
 
   setUp(() {
-    mockViewModel = MockHomeViewModel();
     mockRouter = MockGoRouter();
+    registerFallbackValue(const Object());
 
-    // Standard stream stub for BLoCs
-    when(mockViewModel.stream).thenAnswer((_) => const Stream.empty());
+    when(() => mockRouter.pushNamed(
+      any(),
+      pathParameters: any(named: 'pathParameters'),
+      queryParameters: any(named: 'queryParameters'),
+      extra: any(named: 'extra'),
+    )).thenAnswer((_) async => null);
   });
 
-  Widget createWidgetUnderTest() {
+  Widget createWidgetUnderTest(BaseResponse<HomeSection>? response) {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      // Wrap with InheritedGoRouter so context.pushNamed works
       home: InheritedGoRouter(
         goRouter: mockRouter,
-        child: Scaffold(
-          body: BlocProvider<HomeViewModel>.value(
-            value: mockViewModel,
-            child: const RecommendationForYouSection(),
-          ),
-        ),
+        child: Scaffold(body: RecommendationForYouSection(response: response)),
       ),
     );
   }
 
-  group('RecommendationForYouSection Logic Coverage', () {
-    testWidgets('1. Should show Loading Indicator when isLoading is true', (tester) async {
-      when(mockViewModel.state).thenReturn(
-        const HomeState(isLoading: true, foodCategories: []),
-      );
+  final testCategories = [
+    CategoryEntity(
+      id: '1',
+      name: 'Breakfast',
+      image: 'url',
+      description: 'desc',
+    ),
+    CategoryEntity(id: '2', name: 'Lunch', image: 'url', description: 'desc'),
+  ];
 
-      await tester.pumpWidget(createWidgetUnderTest());
+  final successSection = FoodCategoriesSection(testCategories);
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  group('RecommendationForYouSection Tests', () {
+    testWidgets('1. Should show Shimmer when response is null (Loading)', (
+      tester,
+    ) async {
+      await tester.pumpWidget(createWidgetUnderTest(null));
+
+      expect(find.byType(Shimmer), findsWidgets);
     });
 
-    testWidgets('2. Should render list of categories when data is available', (tester) async {
-      final testCategories = [
-        CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
-      ];
-
-      when(mockViewModel.state).thenReturn(
-        HomeState(isLoading: false, foodCategories: testCategories),
+    testWidgets('2. Should show Error message when response is ErrorResponse', (
+      tester,
+    ) async {
+      const errorMsg = 'Check your internet connection';
+      await tester.pumpWidget(
+        createWidgetUnderTest(ErrorResponse(errorMessage: errorMsg)),
       );
 
-      await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump();
+      expect(find.text(errorMsg), findsOneWidget);
+    });
+
+    testWidgets('3. Should render list of Category cards on Success', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createWidgetUnderTest(SuccessResponse(data: successSection)),
+      );
 
       expect(find.text('Breakfast'), findsOneWidget);
+      expect(find.byType(SharedCard), findsNWidgets(2));
     });
 
-    testWidgets('3. Should Navigate when a Category Card is tapped', (tester) async {
-      final testCategories = [
-        CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
-      ];
-
-      when(mockViewModel.state).thenReturn(
-        HomeState(isLoading: false, foodCategories: testCategories),
+    testWidgets('4. Should Navigate when "See All" is tapped', (tester) async {
+      await tester.pumpWidget(
+        createWidgetUnderTest(SuccessResponse(data: successSection)),
       );
 
-      await tester.pumpWidget(createWidgetUnderTest());
+      final seeAllButton = find.byType(TextButton);
+      await tester.tap(seeAllButton);
       await tester.pump();
+
+      verify(
+        () =>
+            mockRouter.pushNamed(Routes.mealsName, extra: any(named: 'extra')),
+      ).called(1);
+    });
+
+    testWidgets('5. Should Navigate when a specific Category Card is tapped', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createWidgetUnderTest(SuccessResponse(data: successSection)),
+      );
 
       await tester.tap(find.text('Breakfast'));
-      // Changed pumpAndSettle to pump
       await tester.pump();
 
       verify(
-        mockRouter.pushNamed(
-          Routes.mealsName,
-          extra: anyNamed('extra'),
-        ),
+        () =>
+            mockRouter.pushNamed(Routes.mealsName, extra: any(named: 'extra')),
       ).called(1);
     });
 
-    testWidgets('4. TextButton (See All) - Success Case', (tester) async {
-      final testCategories = [
-        CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
-      ];
+    testWidgets(
+      '6. Should NOT navigate when "See All" is tapped and list is empty',
+      (tester) async {
+        await tester.pumpWidget(
+          createWidgetUnderTest(
+            SuccessResponse(data: FoodCategoriesSection([])),
+          ),
+        );
 
-      when(mockViewModel.state).thenReturn(
-        HomeState(isLoading: false, foodCategories: testCategories),
-      );
+        await tester.tap(find.byType(TextButton));
+        await tester.pump();
 
-      await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump();
-
-      final btn = find.byType(TextButton);
-      await tester.tap(btn);
-      // Changed pumpAndSettle to pump
-      await tester.pump();
-
-      verify(
-        mockRouter.pushNamed(
-          Routes.mealsName,
-          extra: anyNamed('extra'),
-        ),
-      ).called(1);
-    });
-    testWidgets('5. TextButton (See All) - Return early when Empty', (tester) async {
-      when(mockViewModel.state).thenReturn(
-        const HomeState(isLoading: false, foodCategories: []),
-      );
-
-      await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump();
-
-      await tester.tap(find.byType(TextButton));
-      await tester.pump();
-
-      verifyNever(mockRouter.pushNamed(any, extra: anyNamed('extra')));
-    });
+        verifyNever(
+          () => mockRouter.pushNamed(any(), extra: any(named: 'extra')),
+        );
+      },
+    );
   });
 }
