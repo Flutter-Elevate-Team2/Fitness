@@ -1,6 +1,6 @@
 import 'package:fitness_app/Features/food/domain/entities/category_entity.dart';
-import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart'; // الحالة الصحيحة
-import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart'; // الـ ViewModel الصحيح
+import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
+import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/Features/food/presentation/views/widgets/home_meals/recommendation_section.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
@@ -11,40 +11,31 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:go_router/go_router.dart';
 
- @GenerateNiceMocks([MockSpec<HomeViewModel>(), MockSpec<GoRouter>()])
+@GenerateNiceMocks([MockSpec<HomeViewModel>(), MockSpec<GoRouter>()])
 import 'recommendation_section_test.mocks.dart';
 
 void main() {
-  late MockHomeViewModel mockHomeViewModel;
+  late MockHomeViewModel mockViewModel;
   late MockGoRouter mockRouter;
 
   setUp(() {
-    mockHomeViewModel = MockHomeViewModel();
+    mockViewModel = MockHomeViewModel();
     mockRouter = MockGoRouter();
 
-    // إعداد الـ Stream الافتراضي لمنع أخطاء الـ Bloc
-    when(mockHomeViewModel.stream).thenAnswer((_) => const Stream.empty());
-
-    // إعداد تزييف الملاحة (Navigation)
-    when(
-      mockRouter.pushNamed(
-        any,
-        pathParameters: anyNamed('pathParameters'),
-        queryParameters: anyNamed('queryParameters'),
-        extra: anyNamed('extra'),
-      ),
-    ).thenAnswer((_) async => null);
+    // Standard stream stub for BLoCs
+    when(mockViewModel.stream).thenAnswer((_) => const Stream.empty());
   });
 
   Widget createWidgetUnderTest() {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      // Wrap with InheritedGoRouter so context.pushNamed works
       home: InheritedGoRouter(
         goRouter: mockRouter,
         child: Scaffold(
-          body: BlocProvider<HomeViewModel>.value( // استخدام HomeViewModel هنا
-            value: mockHomeViewModel,
+          body: BlocProvider<HomeViewModel>.value(
+            value: mockViewModel,
             child: const RecommendationForYouSection(),
           ),
         ),
@@ -52,14 +43,13 @@ void main() {
     );
   }
 
-  group('RecommendationForYouSection Absolute Coverage', () {
+  group('RecommendationForYouSection Logic Coverage', () {
     testWidgets('1. Should show Loading Indicator when isLoading is true', (tester) async {
-      when(mockHomeViewModel.state).thenReturn(
-        HomeState(isLoading: true, foodCategories: []), // الحالة المطابقة لكود الـ UI
+      when(mockViewModel.state).thenReturn(
+        const HomeState(isLoading: true, foodCategories: []),
       );
 
       await tester.pumpWidget(createWidgetUnderTest());
-      await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
@@ -69,7 +59,7 @@ void main() {
         CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
       ];
 
-      when(mockHomeViewModel.state).thenReturn(
+      when(mockViewModel.state).thenReturn(
         HomeState(isLoading: false, foodCategories: testCategories),
       );
 
@@ -84,7 +74,7 @@ void main() {
         CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
       ];
 
-      when(mockHomeViewModel.state).thenReturn(
+      when(mockViewModel.state).thenReturn(
         HomeState(isLoading: false, foodCategories: testCategories),
       );
 
@@ -92,10 +82,14 @@ void main() {
       await tester.pump();
 
       await tester.tap(find.text('Breakfast'));
+      // Changed pumpAndSettle to pump
       await tester.pump();
 
       verify(
-        mockRouter.pushNamed(Routes.mealsName, extra: anyNamed('extra')),
+        mockRouter.pushNamed(
+          Routes.mealsName,
+          extra: anyNamed('extra'),
+        ),
       ).called(1);
     });
 
@@ -104,24 +98,28 @@ void main() {
         CategoryEntity(name: 'Breakfast', image: 'url1', id: '1', description: 'desc'),
       ];
 
-      when(mockHomeViewModel.state).thenReturn(
+      when(mockViewModel.state).thenReturn(
         HomeState(isLoading: false, foodCategories: testCategories),
       );
 
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump();
 
-      await tester.tap(find.byType(TextButton));
+      final btn = find.byType(TextButton);
+      await tester.tap(btn);
+      // Changed pumpAndSettle to pump
       await tester.pump();
 
       verify(
-        mockRouter.pushNamed(Routes.mealsName, extra: anyNamed('extra')),
+        mockRouter.pushNamed(
+          Routes.mealsName,
+          extra: anyNamed('extra'),
+        ),
       ).called(1);
     });
-
     testWidgets('5. TextButton (See All) - Return early when Empty', (tester) async {
-      when(mockHomeViewModel.state).thenReturn(
-        HomeState(isLoading: false, foodCategories: []),
+      when(mockViewModel.state).thenReturn(
+        const HomeState(isLoading: false, foodCategories: []),
       );
 
       await tester.pumpWidget(createWidgetUnderTest());

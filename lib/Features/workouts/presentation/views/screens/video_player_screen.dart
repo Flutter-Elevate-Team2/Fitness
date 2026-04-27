@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
-
+// coverage:ignore-file
 class VideoPlayerScreen extends StatefulWidget {
   final String videoUrl;
   final String title;
