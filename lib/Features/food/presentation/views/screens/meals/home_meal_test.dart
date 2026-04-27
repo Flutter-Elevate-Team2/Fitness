@@ -5,6 +5,7 @@ import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// coverage:ignore-file
 
 class HomeMealTest extends StatefulWidget {
   const HomeMealTest({super.key});
