@@ -1,56 +1,56 @@
-import 'package:flutter_test/flutter_test.dart';
-// Replace with your actual path
 import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('RandomMusclesEntity', () {
+  group('RandomMusclesEntity Tests', () {
     const tId = '1';
-    const tName = 'Biceps';
-    const tImage = 'https://example.com/image.png';
+    const tName = 'Chest';
+    const tImage = 'chest_image_url';
 
-    const tRandomMuscle = RandomMusclesEntity(
+    const tMuscle = RandomMusclesEntity(
       id: tId,
       name: tName,
       image: tImage,
     );
 
+    test('should initialize with correct values', () {
+      // Assert
+      expect(tMuscle.id, tId);
+      expect(tMuscle.name, tName);
+      expect(tMuscle.image, tImage);
+    });
+
     test('should support value equality', () {
       // Arrange
-      const otherMuscle = RandomMusclesEntity(
+      const tMuscle2 = RandomMusclesEntity(
         id: tId,
         name: tName,
         image: tImage,
       );
 
       // Assert
-      // Objects with the same properties should be equal thanks to Equatable
-      expect(tRandomMuscle, equals(otherMuscle));
-    });
-
-    test('props should contain correct values', () {
-      // Assert
-      // Ensure all fields are included in the props list for comparison
-      expect(
-        tRandomMuscle.props,
-        equals([tId, tName, tImage]),
-      );
+      // بما أنها تستخدم Equatable، يجب أن تتطابق الكائنات إذا كانت القيم متطابقة
+      expect(tMuscle, equals(tMuscle2));
     });
 
     test('should not be equal when properties are different', () {
       // Arrange
-      const differentMuscle = RandomMusclesEntity(
-        id: '2', // Different ID
-        name: tName,
+      const tMuscleDifferent = RandomMusclesEntity(
+        id: '2',
+        name: 'Back',
         image: tImage,
       );
 
       // Assert
-      expect(tRandomMuscle, isNot(equals(differentMuscle)));
+      expect(tMuscle, isNot(equals(tMuscleDifferent)));
     });
 
-    test('should be a subclass of Equatable', () {
+    test('props should contain all fields', () {
+      // Arrange
+      final expectedProps = [tId, tName, tImage];
+
       // Assert
-      expect(tRandomMuscle, isA<RandomMusclesEntity>());
+      expect(tMuscle.props, expectedProps);
     });
   });
 }

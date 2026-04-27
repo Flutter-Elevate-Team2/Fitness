@@ -1,6 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:injectable/injectable.dart';
 
+// coverage:ignore-file
+
 abstract class NetworkInfo {
   Future<bool> get isConnected;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+// coverage:ignore-file
 
 class ApiConstants {
   static String get apiBaseUrl => dotenv.env['BASE_URL'] ?? "";

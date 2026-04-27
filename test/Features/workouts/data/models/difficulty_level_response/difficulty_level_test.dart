@@ -1,6 +1,5 @@
 import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level.dart';
 import 'package:flutter_test/flutter_test.dart';
-// Replace with the actual path to your model
 
 void main() {
   group('DifficultyLevel Model Tests', () {
