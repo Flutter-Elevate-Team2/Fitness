@@ -37,4 +37,7 @@ class ApiConstants {
 
   //================ Profile Endpoints ===========================
   static const String getUserProfile = "auth/profile-data";
+  static const String editProfile = "/auth/editProfile";
+  static const String logout = "/drivers/logout";
+
 }

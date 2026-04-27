@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d054dc9f-3498-4962-8e2c-0bf41be2b408" name="Changes" comment="chore: improve test structure for various models and data sources">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Features/profile/api/api_client/api_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/api/api_client/api_client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Features/profile/api/remot_data_source_imple/profile_remote_data_source_imple.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/api/remot_data_source_imple/profile_remote_data_source_imple.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Features/profile/data/remote_data_source_contract/profile_remote_data_source_contract.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/data/remote_data_source_contract/profile_remote_data_source_contract.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Features/profile/data/repo/profile_repo_imple.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/data/repo/profile_repo_imple.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Features/profile/domain/repo/profile_repo_contract.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Features/profile/domain/repo/profile_repo_contract.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/constants/api_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/constants/api_constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/l10n/app_localizations_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/l10n/app_localizations_ar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/l10n/app_localizations_en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/popular_training_section_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/popular_training_section_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_D:/elevate/Fitness" value="3CqqJvZBzqQh3EIWSOu8yBRcrgJ" />
+    </persistenceIdMap>
+  </component>
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
@@ -13,24 +49,222 @@
       </file>
     </leaf>
   </component>
-  <component name="ToolWindowManager">
-    <editor active="true" />
-    <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-    </layout>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/TEAM-2-demo2-test" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;NaghamArafa&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Flutter-Elevate-Team2/Fitness.git&quot;,
+    &quot;accountId&quot;: &quot;205c2689-044a-4c05-a6cc-1a24ccd450ec&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="3CqqJvZBzqQh3EIWSOu8yBRcrgJ" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-    </navigator>
+    <navigator currentView="ProjectPane" proportions="" version="1" />
     <panes>
       <pane id="ProjectPane">
         <option name="show-excluded-files" value="false" />
       </pane>
     </panes>
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="dart.analysis.tool.window.force.activate" value="true" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Flutter Test.tests in custom_nav_item_widget_test.dart.executor": "Run",
+    "Flutter Test.tests in difficulty_level_response_test.dart.executor": "Run",
+    "Flutter Test.tests in difficulty_level_test.dart.executor": "Run",
+    "Flutter Test.tests in dio_module_test.dart.executor": "Run",
+    "Flutter Test.tests in exercise_test.dart.executor": "Run",
+    "Flutter Test.tests in exercises_response_test.dart.executor": "Run",
+    "Flutter Test.tests in exercises_screen_test.dart.executor": "Run",
+    "Flutter Test.tests in exercises_shimmer_test.dart.executor": "Run",
+    "Flutter Test.tests in explore_screen_body_test.dart.executor": "Run",
+    "Flutter Test.tests in get_random_muscles_use_case_test.dart.executor": "Run",
+    "Flutter Test.tests in home_category_test.dart.executor": "Run",
+    "Flutter Test.tests in home_header_test.dart.executor": "Run",
+    "Flutter Test.tests in muscle_entity_test.dart.executor": "Run",
+    "Flutter Test.tests in muscle_group_entity_test.dart.executor": "Run",
+    "Flutter Test.tests in muscle_group_model_test.dart.executor": "Run",
+    "Flutter Test.tests in muscle_groups_response_test.dart.executor": "Run",
+    "Flutter Test.tests in muscle_model_test.dart.executor": "Run",
+    "Flutter Test.tests in muscles_by_group_response_test.dart.executor": "Run",
+    "Flutter Test.tests in popular_training_section_test.dart.executor": "Run",
+    "Flutter Test.tests in random_muscle_model_test.dart.executor": "Run",
+    "Flutter Test.tests in random_muscles_entity_test.dart.executor": "Run",
+    "Flutter Test.tests in random_muscles_mapper_test.dart.executor": "Run",
+    "Flutter Test.tests in random_muscles_test.dart.executor": "Run",
+    "Flutter Test.tests in recommendation_section_test.dart.executor": "Run",
+    "Flutter Test.tests in signup_screen_test.dart.executor": "Run",
+    "Flutter Test.tests in social_auth_handler_test.dart.executor": "Run",
+    "Flutter Test.tests in test.executor": "Run",
+    "Flutter Test.tests in test/Features/auth.executor": "Run",
+    "Flutter Test.tests in test/Features/food.executor": "Run",
+    "Flutter Test.tests in test/Features/profile.executor": "Run",
+    "Flutter Test.tests in test/Features/workouts.executor": "Run",
+    "Flutter Test.tests in thumbanil_widget_test.dart.executor": "Run",
+    "Flutter Test.tests in video_player_screen_test.dart.executor": "Run",
+    "Flutter Test.tests in workouts_grid_data_test.dart.executor": "Run",
+    "Flutter Test.tests in workouts_local_data_source_imple_test.dart.executor": "Run",
+    "Flutter Test.tests in workouts_remote_data_source_imple_test.dart.executor": "Run",
+    "Flutter Test.tests in workouts_repo_imple_test.dart.executor": "Run",
+    "Flutter Test.tests in workouts_screen_body_test.dart.executor": "Run",
+    "Flutter Test.tests in workouts_screen_test.dart.executor": "Run",
+    "Flutter.main.dart.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "feature/TEAM2-115-profile-data",
+    "io.flutter.project.isFirstOpen": "true",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "D:/elevate/Fitness/lib/Features/profile/domain/use_cases",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\elevate\Fitness\lib\Features\profile\domain\use_cases" />
+      <recent name="D:\elevate\Fitness\lib\Features\profile\domain\entities" />
+      <recent name="D:\elevate\Fitness\lib\Features\profile\data\mapper" />
+      <recent name="D:\elevate\Fitness\lib\Features\profile\data\models" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Flutter.main.dart">
+    <configuration name="tests in custom_nav_item_widget_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/custom_nav_item_widget_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tests in explore_screen_body_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/explore_screen_body_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tests in home_category_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/home_category_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tests in popular_training_section_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/Features/home/presentation/views/widgets/popular_training_section_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tests in video_player_screen_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/Features/workouts/presentation/views/screens/video_player_screen_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter Test.tests in popular_training_section_test.dart" />
+        <item itemvalue="Flutter Test.tests in home_category_test.dart" />
+        <item itemvalue="Flutter Test.tests in explore_screen_body_test.dart" />
+        <item itemvalue="Flutter Test.tests in custom_nav_item_widget_test.dart" />
+        <item itemvalue="Flutter Test.tests in video_player_screen_test.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task id="LOCAL؜-٠٠٠٠١" summary="fix: clean up commented code and update Firebase authentication handling">
+      <option name="closed" value="true" />
+      <created>1777102778018</created>
+      <option name="number" value="٠٠٠٠١" />
+      <option name="presentableId" value="LOCAL؜-٠٠٠٠١" />
+      <option name="project" value="LOCAL؜" />
+      <updated>1777102778019</updated>
+    </task>
+    <task id="LOCAL؜-٠٠٠٠٢" summary="fix: update AndroidManifest.xml for intent queries and clean up imports">
+      <option name="closed" value="true" />
+      <created>1777106494476</created>
+      <option name="number" value="٠٠٠٠٢" />
+      <option name="presentableId" value="LOCAL؜-٠٠٠٠٢" />
+      <option name="project" value="LOCAL؜" />
+      <updated>1777106494476</updated>
+    </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d054dc9f-3498-4962-8e2c-0bf41be2b408" name="Changes" comment="fix: update AndroidManifest.xml for intent queries and clean up imports" />
+      <created>1777123383928</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1777123383928</updated>
+    </task>
+    <task id="LOCAL؜-٠٠٠٠٣" summary="fix: update tests to use HomeViewModel and improve Firebase mock setup">
+      <option name="closed" value="true" />
+      <created>1777126047163</created>
+      <option name="number" value="٠٠٠٠٣" />
+      <option name="presentableId" value="LOCAL؜-٠٠٠٠٣" />
+      <option name="project" value="LOCAL؜" />
+      <updated>1777126047163</updated>
+    </task>
+    <task id="LOCAL؜-٠٠٠٠٤" summary="fix: update tests to use HomeViewModel and improve Firebase mock setup">
+      <option name="closed" value="true" />
+      <created>1777128055160</created>
+      <option name="number" value="٠٠٠٠٤" />
+      <option name="presentableId" value="LOCAL؜-٠٠٠٠٤" />
+      <option name="project" value="LOCAL؜" />
+      <updated>1777128055161</updated>
+    </task>
+    <task id="LOCAL؜-٠٠٠٠٥" summary="chore: improve test structure for various models and data sources">
+      <option name="closed" value="true" />
+      <created>1777253445715</created>
+      <option name="number" value="٠٠٠٠٥" />
+      <option name="presentableId" value="LOCAL؜-٠٠٠٠٥" />
+      <option name="project" value="LOCAL؜" />
+      <updated>1777253445715</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+    </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix: clean up commented code and update Firebase authentication handling" />
+    <MESSAGE value="fix: update AndroidManifest.xml for intent queries and clean up imports" />
+    <MESSAGE value="fix: update tests to use HomeViewModel and improve Firebase mock setup" />
+    <MESSAGE value="chore: improve test structure for various models and data sources" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: improve test structure for various models and data sources" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>
