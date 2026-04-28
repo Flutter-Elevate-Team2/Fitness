@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 
 /// A single row inside the [ChatHistoryPanel].
 ///
-/// Layout: [primary chevron icon] — [conversation preview text]
+/// Layout: [primary chevron icon] — [conversation title] — [delete icon]
 class ChatHistoryItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
+  final VoidCallback? onDelete;
 
   const ChatHistoryItem({
     super.key,
     required this.title,
     required this.onTap,
+    this.onDelete,
   });
 
   @override
@@ -42,6 +44,20 @@ class ChatHistoryItem extends StatelessWidget {
                 ),
               ),
             ),
+
+            /// ── Delete button ──
+            if (onDelete != null)
+              GestureDetector(
+                onTap: onDelete,
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Icon(
+                    Icons.delete_outline,
+                    color: AppColors.red,
+                    size: 20,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

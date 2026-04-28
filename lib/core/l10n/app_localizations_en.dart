@@ -411,4 +411,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get googleLoginFailed => 'Google login failed';
+
+  @override
+  String get smartCoachDefaultSessionTitle => 'New Conversation';
+
+  @override
+  String get smartCoachSafetyBlockMessage =>
+      'Sorry, I can\'t help with this topic. Let\'s focus on your fitness goals!';
+
+  @override
+  String get smartCoachEmptyChat =>
+      'Start your conversation with the Smart Coach 💪';
+
+  @override
+  String get smartCoachRetryButton => 'Retry';
+
+  @override
+  String get smartCoachPartialMessage => '⚠ Incomplete message';
+
+  @override
+  String get smartCoachPreviousConversations => 'Previous Conversations';
+
+  @override
+  String get smartCoachNoConversations => 'No previous conversations';
+
+  @override
+  String get smartCoachTypeMessage => 'Type your message...';
 }

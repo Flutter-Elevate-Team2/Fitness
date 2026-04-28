@@ -1,4 +1,6 @@
+import 'package:fitness_app/Features/smart_coach/domain/entities/chat_session_entity.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/chat_history_item.dart';
+import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:fitness_app/core/widget/shared_container.dart';
@@ -12,21 +14,26 @@ import 'package:flutter/material.dart';
 class ChatHistoryPanel extends StatelessWidget {
   final bool isOpen;
   final VoidCallback onClose;
-  final List<String> historyItems;
+
+  /// FIX #6: Strong typing — no more List<dynamic>.
+  final List<ChatSessionEntity> sessions;
+
+  final void Function(ChatSessionEntity session)? onSessionTap;
+  final void Function(String sessionId)? onSessionDelete;
+  final VoidCallback? onNewChat;
 
   const ChatHistoryPanel({
     super.key,
     required this.isOpen,
     required this.onClose,
-    required this.historyItems,
+    required this.sessions,
+    this.onSessionTap,
+    this.onSessionDelete,
+    this.onNewChat,
   });
 
   @override
   Widget build(BuildContext context) {
-    final panelTitle =
-        'Previous Conversations'; // TODO: context.l10n.previousConversations
-
-    /// Panel width = ~85 % of screen
     final panelWidth = MediaQuery.of(context).size.width * 0.85;
 
     return Stack(
@@ -77,10 +84,29 @@ class ChatHistoryPanel extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Text(
-                              panelTitle,
-                              style: AppTypography.titleLarge.copyWith(
-                                color: AppColors.white,
+                            Expanded(
+                              child: Text(
+                                context.l10n.smartCoachPreviousConversations,
+                                style: AppTypography.titleLarge.copyWith(
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            ),
+
+                            /// ── New chat button ──
+                            GestureDetector(
+                              onTap: onNewChat,
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: AppColors.white,
+                                  size: 18,
+                                ),
                               ),
                             ),
                           ],
@@ -94,27 +120,40 @@ class ChatHistoryPanel extends StatelessWidget {
                         thickness: 0.5,
                       ),
 
-                      /// ── History list ──
+                      /// ── Session list ──
                       Expanded(
-                        child: ListView.separated(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          itemCount: historyItems.length,
-                          separatorBuilder: (_, _) => const Divider(
-                            color: AppColors.grayMid,
-                            height: 1,
-                            thickness: 0.5,
-                            indent: 16,
-                            endIndent: 16,
-                          ),
-                          itemBuilder: (context, index) {
-                            return ChatHistoryItem(
-                              title: historyItems[index],
-                              onTap: () {
-                                // TODO: context.read<SmartCoachCubit>().loadConversation(index)
-                              },
-                            );
-                          },
-                        ),
+                        child: sessions.isEmpty
+                            ? Center(
+                                child: Text(
+                                  context.l10n.smartCoachNoConversations,
+                                  style: AppTypography.labelLarge.copyWith(
+                                    color: AppColors.light600,
+                                  ),
+                                ),
+                              )
+                            : ListView.separated(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                itemCount: sessions.length,
+                                separatorBuilder: (_, __) => const Divider(
+                                  color: AppColors.grayMid,
+                                  height: 1,
+                                  thickness: 0.5,
+                                  indent: 16,
+                                  endIndent: 16,
+                                ),
+                                itemBuilder: (context, index) {
+                                  final session = sessions[index];
+
+                                  return ChatHistoryItem(
+                                    title: session.title,
+                                    onTap: () =>
+                                        onSessionTap?.call(session),
+                                    onDelete: () =>
+                                        onSessionDelete?.call(session.id),
+                                  );
+                                },
+                              ),
                       ),
                     ],
                   ),

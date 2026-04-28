@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:fitness_app/Features/smart_coach/presentation/view_model/smart_coach_view_model.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/coach_avatar_image.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/smart_coach_intro_card.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/smart_coach_intro_header.dart';
@@ -8,28 +8,20 @@ import 'package:fitness_app/core/widget/shared_container.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-class SmartCoachIntroScreen extends StatelessWidget {
-  /// Callback when the user taps "Get Started".
-  /// TODO: wire to Cubit navigation event.
-  final VoidCallback? onGetStarted;
-
-  /// Callback when the hamburger menu is tapped.
-  /// TODO: wire to Cubit or parent navigation.
-  final VoidCallback? onMenuTap;
-
-  /// Callback when the back button is tapped (returns to Explore tab).
-  final VoidCallback? onBack;
-
-  const SmartCoachIntroScreen({
-    super.key,
-    this.onGetStarted,
-    this.onMenuTap,
-    this.onBack,
-  });
+/// Welcome / intro screen shown when the user has no active chat session.
+///
+/// Displays the coach avatar, greeting, and a "Get Started" CTA.
+/// Tapping CTA creates a new session and transitions to the chat screen.
+class SmartCoachWelcomeScreen extends StatelessWidget {
+  const SmartCoachWelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final vm = context.read<SmartCoachViewModel>();
+
     return SharedScaffold(
       backgroundImage: Assets.images.chatAiBackground.path,
       showBackButton: false,
@@ -54,8 +46,14 @@ class SmartCoachIntroScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: SmartCoachIntroHeader(
-                      userName: 'Ahmed', // TODO: context.l10n.hiName(userName)
-                      onMenuTap: onMenuTap ?? () {},
+                      userName: 'Ahmed',
+                      onMenuTap: () {
+                        // Open history panel if sessions exist
+                        if (vm.historySessions.isNotEmpty) {
+                          // TODO: Navigate to chat screen and open history panel
+                          // context.pushNamed(Routes.smartCoachChatName);
+                        }
+                      },
                     ),
                   ),
 
@@ -70,7 +68,9 @@ class SmartCoachIntroScreen extends StatelessWidget {
                     blur: 20,
                     opacity: 0.15,
                     child: SmartCoachIntroCard(
-                      onGetStarted: onGetStarted,
+                      onGetStarted: () async {
+                        await vm.createSession();
+                      },
                     ),
                   ),
                 ],
@@ -78,12 +78,12 @@ class SmartCoachIntroScreen extends StatelessWidget {
             ),
           ),
 
-          /// ── Back button (same style as ExerciseHeaderWidget) ──
+          /// ── Back button ──
           Positioned(
             top: MediaQuery.of(context).padding.top + 16,
             left: 16,
             child: GestureDetector(
-              onTap: onBack,
+              onTap: () => context.pop(),
               child: Container(
                 width: 28,
                 height: 28,

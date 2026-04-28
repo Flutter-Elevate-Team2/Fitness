@@ -192,5 +192,13 @@
   "googleLoginFailed": "فشل تسجيل الدخول بجوجل",
   "@googleLoginFailed": {
     "description": "فشل تسجيل الدخول بجوجل"
-  }
+  },
+  "smartCoachDefaultSessionTitle": "محادثة جديدة",
+  "smartCoachSafetyBlockMessage": "عذراً، لا يمكنني المساعدة في هذا الموضوع، دعنا نركز على أهدافك الرياضية!",
+  "smartCoachEmptyChat": "ابدأ محادثتك مع المدرب الذكي 💪",
+  "smartCoachRetryButton": "إعادة المحاولة",
+  "smartCoachPartialMessage": "⚠ رسالة غير مكتملة",
+  "smartCoachPreviousConversations": "المحادثات السابقة",
+  "smartCoachNoConversations": "لا توجد محادثات سابقة",
+  "smartCoachTypeMessage": "اكتب رسالتك..."
 }

@@ -1,64 +1,186 @@
+import 'package:fitness_app/Features/smart_coach/domain/entities/message_entity.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/coach_message_bubble.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/user_message_bubble.dart';
+import 'package:fitness_app/core/extension/context_extention.dart';
+import 'package:fitness_app/core/theming/app_colors.dart';
+import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:flutter/material.dart';
-
-/// Simple data class representing a single chat message.
-class ChatMessage {
-  final String text;
-  final bool isUser;
-
-  const ChatMessage({required this.text, required this.isUser});
-}
 
 /// Scrollable list of chat message bubbles.
 ///
 /// Uses `reverse: true` so the newest messages appear at the bottom
 /// and the list auto-scrolls to the latest entry.
 class ChatMessageList extends StatelessWidget {
-  const ChatMessageList({super.key});
+  final List<MessageEntity> messages;
+  final ScrollController scrollController;
+  final bool isStreaming;
+  final VoidCallback? onRetry;
+  final bool showRetry;
+
+  const ChatMessageList({
+    super.key,
+    required this.messages,
+    required this.scrollController,
+    this.isStreaming = false,
+    this.onRetry,
+    this.showRetry = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    /// Dummy messages for static layout.
-    /// TODO: replace with Cubit state messages.
-    final messages = <ChatMessage>[
-      const ChatMessage(
-        text: 'Hello How Can I Assist You Today ?',
-        isUser: false,
-      ),
-      const ChatMessage(
-        text: 'Lorem Ipsum Dolor Sit Amet Consectetur.',
-        isUser: true,
-      ),
-      const ChatMessage(
-        text: 'Hello How Can I Assist You Today ?',
-        isUser: false,
-      ),
-      const ChatMessage(
-        text: 'Lorem Ipsum Dolor Sit Amet Consectetur.',
-        isUser: true,
-      ),
-    ];
+    if (messages.isEmpty) {
+      return Center(
+        child: Text(
+          context.l10n.smartCoachEmptyChat,
+          style: AppTypography.bodyMedium.copyWith(
+            color: AppColors.light500,
+          ),
+        ),
+      );
+    }
 
-    return ListView.builder(
-      reverse: true,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      itemCount: messages.length,
-      itemBuilder: (context, index) {
-        /// Because reverse is true, index 0 = last message in the list.
-        final message = messages[messages.length - 1 - index];
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            controller: scrollController,
+            reverse: true,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              final message = messages[index];
 
-        if (message.isUser) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: UserMessageBubble(message: message.text),
-          );
-        }
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: CoachMessageBubble(message: message.text),
-        );
-      },
+              // Streaming indicator: empty AI message being filled
+              if (!message.isUser && message.content.isEmpty && isStreaming) {
+                return const Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: _TypingIndicator(),
+                );
+              }
+
+              if (message.isUser) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: UserMessageBubble(message: message.content),
+                );
+              }
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: CoachMessageBubble(
+                  message: message.content,
+                  isPartial: message.isPartial,
+                ),
+              );
+            },
+          ),
+        ),
+
+        /// ── Retry button (shown on error) ──
+        if (showRetry)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: TextButton.icon(
+              onPressed: onRetry,
+              icon: const Icon(Icons.refresh, color: AppColors.primary),
+              label: Text(
+                context.l10n.smartCoachRetryButton,
+                style: AppTypography.labelLarge.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
+  }
+}
+
+/// FIX #5: Three-dot typing animation using [AnimationController] with
+/// explicit repeat so the dots loop continuously.
+class _TypingIndicator extends StatefulWidget {
+  const _TypingIndicator();
+
+  @override
+  State<_TypingIndicator> createState() => _TypingIndicatorState();
+}
+
+class _TypingIndicatorState extends State<_TypingIndicator>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        /// Spacer for coach avatar alignment
+        const SizedBox(width: 44),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: AppColors.grayMid.withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, _) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(3, (i) {
+                  // Each dot has a phase offset so they pulse sequentially.
+                  final phase = (_controller.value + (i * 0.33)) % 1.0;
+                  final opacity = (0.3 + 0.7 * _pulse(phase)).clamp(0.0, 1.0);
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    child: Opacity(
+                      opacity: opacity,
+                      child: Container(
+                        width: 8,
+                        height: 8,
+                        decoration: const BoxDecoration(
+                          color: AppColors.light500,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Sine-based pulse: 0→1→0 over one cycle.
+  static double _pulse(double t) {
+    return (1 + _sin(t * 2 * 3.14159265)) / 2;
+  }
+
+  static double _sin(double x) {
+    // Taylor approximation sufficient for animation smoothness.
+    x = x % (2 * 3.14159265);
+    if (x > 3.14159265) x -= 2 * 3.14159265;
+    final x3 = x * x * x;
+    final x5 = x3 * x * x;
+    return x - x3 / 6 + x5 / 120;
   }
 }

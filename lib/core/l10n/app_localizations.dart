@@ -871,6 +871,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Google login failed'**
   String get googleLoginFailed;
+
+  /// No description provided for @smartCoachDefaultSessionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Conversation'**
+  String get smartCoachDefaultSessionTitle;
+
+  /// No description provided for @smartCoachSafetyBlockMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry, I can\'t help with this topic. Let\'s focus on your fitness goals!'**
+  String get smartCoachSafetyBlockMessage;
+
+  /// No description provided for @smartCoachEmptyChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your conversation with the Smart Coach 💪'**
+  String get smartCoachEmptyChat;
+
+  /// No description provided for @smartCoachRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get smartCoachRetryButton;
+
+  /// No description provided for @smartCoachPartialMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'⚠ Incomplete message'**
+  String get smartCoachPartialMessage;
+
+  /// No description provided for @smartCoachPreviousConversations.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous Conversations'**
+  String get smartCoachPreviousConversations;
+
+  /// No description provided for @smartCoachNoConversations.
+  ///
+  /// In en, this message translates to:
+  /// **'No previous conversations'**
+  String get smartCoachNoConversations;
+
+  /// No description provided for @smartCoachTypeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your message...'**
+  String get smartCoachTypeMessage;
 }
 
 class _AppLocalizationsDelegate

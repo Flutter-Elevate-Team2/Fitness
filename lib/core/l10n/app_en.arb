@@ -219,5 +219,14 @@
     "description": "Please complete your registration"},
   "googleLoginFailed": "Google login failed",
   "@googleLoginFailed": {
-    "description": "Google login failed"}
+    "description": "Google login failed"
+  },
+  "smartCoachDefaultSessionTitle": "New Conversation",
+  "smartCoachSafetyBlockMessage": "Sorry, I can't help with this topic. Let's focus on your fitness goals!",
+  "smartCoachEmptyChat": "Start your conversation with the Smart Coach 💪",
+  "smartCoachRetryButton": "Retry",
+  "smartCoachPartialMessage": "⚠ Incomplete message",
+  "smartCoachPreviousConversations": "Previous Conversations",
+  "smartCoachNoConversations": "No previous conversations",
+  "smartCoachTypeMessage": "Type your message..."
 }

@@ -1,15 +1,15 @@
-import 'package:fitness_app/Features/smart_coach/domain/entities/smart_coach_entity.dart';
 import 'package:fitness_app/Features/smart_coach/domain/repo/smart_coach_repo_contract.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:injectable/injectable.dart';
 
+/// Permanently deletes a chat session by its [sessionId].
 @injectable
-class GetSmartCoachDataUseCase {
+class DeleteChatSessionUseCase {
   final SmartCoachRepoContract _repo;
 
-  GetSmartCoachDataUseCase(this._repo);
+  DeleteChatSessionUseCase(this._repo);
 
-  Future<BaseResponse<SmartCoachEntity>> call() async {
-    return await _repo.getSmartCoachData();
+  Future<BaseResponse<void>> call(String sessionId) {
+    return _repo.deleteSession(sessionId);
   }
 }

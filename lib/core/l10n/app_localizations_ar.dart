@@ -409,4 +409,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get googleLoginFailed => 'فشل تسجيل الدخول بجوجل';
+
+  @override
+  String get smartCoachDefaultSessionTitle => 'محادثة جديدة';
+
+  @override
+  String get smartCoachSafetyBlockMessage =>
+      'عذراً، لا يمكنني المساعدة في هذا الموضوع، دعنا نركز على أهدافك الرياضية!';
+
+  @override
+  String get smartCoachEmptyChat => 'ابدأ محادثتك مع المدرب الذكي 💪';
+
+  @override
+  String get smartCoachRetryButton => 'إعادة المحاولة';
+
+  @override
+  String get smartCoachPartialMessage => '⚠ رسالة غير مكتملة';
+
+  @override
+  String get smartCoachPreviousConversations => 'المحادثات السابقة';
+
+  @override
+  String get smartCoachNoConversations => 'لا توجد محادثات سابقة';
+
+  @override
+  String get smartCoachTypeMessage => 'اكتب رسالتك...';
 }
