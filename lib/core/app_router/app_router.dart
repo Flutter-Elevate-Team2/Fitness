@@ -1,4 +1,5 @@
 import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
+import 'package:fitness_app/Features/smart_coach/presentation/views/screens/smart_coach_chat_screen.dart';
  import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
@@ -54,6 +55,9 @@ class Routes {
 
   static const String homeMealTestPath = '/homeMealTest';
   static const String homeMealTestName = 'homeMealTest';
+
+  static const String smartCoachChatPath = '/smart-coach-chat';
+  static const String smartCoachChatName = 'smartCoachChat';
 }
 
 class AppRouter {
@@ -203,11 +207,11 @@ class AppRouter {
           );
         },
       ),
-      // GoRoute(
-      //   path: Routes.homePath,
-      //   name: Routes.homeName,
-      //   builder: (context, state) => const HomeScreen(),
-      // ),
+      GoRoute(
+        path: Routes.smartCoachChatPath,
+        name: Routes.smartCoachChatName,
+        builder: (context, state) => const SmartCoachChatScreen(),
+      ),
     ],
   );
 }

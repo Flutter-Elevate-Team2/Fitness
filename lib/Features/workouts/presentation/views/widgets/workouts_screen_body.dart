@@ -34,6 +34,7 @@ class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
     return SharedScaffold(
       backgroundImage: Assets.images.homeBackground.path,
       showBackButton: false,
+      
       body: Stack(
         children: [
           Positioned.fill(
