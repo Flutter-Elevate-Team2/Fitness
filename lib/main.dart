@@ -121,12 +121,12 @@ class _MyAppState extends State<MyApp> {
             create: (_) => getIt<LoginViewModel>(),
           ),
           BlocProvider(
-            create: (_) => LocaleCubit(),
-          ),
+            create: (_) => getIt<LocaleCubit>(),          ),
         ],
         child: BlocBuilder<LocaleCubit, Locale>(
           builder: (context, locale) {
             return MaterialApp.router(
+              key: ValueKey(locale.languageCode),
               routerConfig: AppRouter.router,
               title: 'Super Fitness',
               debugShowCheckedModeBanner: false,

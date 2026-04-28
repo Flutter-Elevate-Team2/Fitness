@@ -53,7 +53,7 @@ class MealDetailsScreenBodyState extends State<MealDetailsScreenBody> {
                      Stack(
                        alignment: AlignmentGeometry.bottomCenter,
                        children: [
-                         MealImage(videoUrl: meal.youtubeUrl),
+                         MealImage(videoUrl: meal.youtubeUrl , title: meal.name,),
 
                          /// Title
                          OutlinedText(
