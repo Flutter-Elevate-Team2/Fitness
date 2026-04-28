@@ -192,5 +192,29 @@
   "googleLoginFailed": "فشل تسجيل الدخول بجوجل",
   "@googleLoginFailed": {
     "description": "فشل تسجيل الدخول بجوجل"
-  }
+  },
+  "language": "اللغة",
+  "@language": {
+    "description": "اللغة"
+  },
+  "logout": "تسجيل الخروج",
+  "@logout": {
+    "description": "تسجيل الخروج"
+  },
+  "english": "الإنجليزية",
+  "@english": {
+    "description": "الإنجليزية"
+  },
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "العربية"
+  },
+  "editProfile": "تعديل الملف الشخصي",
+  "changePassword": "تغيير كلمة المرور",
+  "security": "الأمان",
+  "privacyPolicy": "سياسة الخصوصية",
+  "selectLanguage": "اختيار اللغة",
+  "help": "المساعدة",
+  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+
 }

@@ -10,6 +10,7 @@ import 'package:fitness_app/Features/food/presentation/views/screens/meals/home_
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/meals_screen.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
+import 'package:fitness_app/Features/profile/presentation/views/screens/profile_screen.dart';
  import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';
@@ -54,6 +55,9 @@ class Routes {
 
   static const String homeMealTestPath = '/homeMealTest';
   static const String homeMealTestName = 'homeMealTest';
+
+  static const String profilePath = '/profile';
+  static const String profileName = 'profile';
 }
 
 class AppRouter {
@@ -202,6 +206,11 @@ class AppRouter {
             child: MealDetailsScreen(mealId),
           );
         },
+      ),
+      GoRoute(
+        path: Routes.profilePath,
+        name: Routes.profileName,
+        builder: (context, state) => const ProfileScreen(),
       ),
       // GoRoute(
       //   path: Routes.homePath,

@@ -219,5 +219,25 @@
     "description": "Please complete your registration"},
   "googleLoginFailed": "Google login failed",
   "@googleLoginFailed": {
-    "description": "Google login failed"}
+    "description": "Google login failed"},
+  "language": "Language",
+  "@language": {
+    "description": "Language"},
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout"},
+  "english": "English",
+  "@english": {
+    "description": "English"},
+  "arabic": "Arabic",
+  "@arabic": {
+    "description": "Arabic"},
+  "editProfile": "Edit Profile",
+  "changePassword": "Change Password",
+  "security": "Security",
+  "privacyPolicy": "Privacy Policy",
+  "selectLanguage": "Select Language",
+  "help": "Help",
+  "logoutConfirmation": "Are you sure you want to logout?"
+
 }
