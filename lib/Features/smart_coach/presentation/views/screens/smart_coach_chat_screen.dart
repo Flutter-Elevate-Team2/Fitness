@@ -93,8 +93,7 @@ class _SmartCoachChatScreenState extends State<SmartCoachChatScreen> {
                   /// Custom app bar
                   SmartCoachChatAppBar(
                     onBack: () {
-                      vm.loadHistory();
-                      context.pop();
+                      vm.clearCurrentSession();
                     },
                     onMenuTap: () {
                       vm.loadHistory();
@@ -106,8 +105,21 @@ class _SmartCoachChatScreenState extends State<SmartCoachChatScreen> {
                   Expanded(
                     child: BlocConsumer<SmartCoachViewModel, SmartCoachState>(
                       listenWhen: (prev, curr) =>
-                          curr is SmartCoachStreaming && !_userHasScrolledUp,
-                      listener: (context, state) => _scrollToBottom(),
+                          (curr is SmartCoachStreaming && !_userHasScrolledUp) ||
+                          curr is SmartCoachError,
+                      listener: (context, state) {
+                        if (state is SmartCoachStreaming) {
+                          _scrollToBottom();
+                        } else if (state is SmartCoachError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(state.errorMessage),
+                              backgroundColor: Colors.redAccent,
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
+                      },
                       buildWhen: (prev, curr) =>
                           curr is SmartCoachStreaming ||
                           curr is SmartCoachStreamDone ||

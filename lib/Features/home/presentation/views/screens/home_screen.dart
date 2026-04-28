@@ -34,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       ExploreScreen(onSeeAllWorkoutsTapped: _switchToWorkoutsTab),
-      const SmartCoachScreen(),
+      SmartCoachScreen(
+        onBack: () => setState(() => _currentIndex = 0),
+      ),
       WorkoutsScreen(initialGroupId: _selectedWorkoutGroupId),
       _PlaceholderTab(title: context.l10n.profile),
     ];

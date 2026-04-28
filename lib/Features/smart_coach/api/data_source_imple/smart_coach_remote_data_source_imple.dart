@@ -22,7 +22,7 @@ class SmartCoachRemoteDataSourceImpl
     required String systemInstruction,
   }) async* {
     final model = GenerativeModel(
-      model: 'gemini-2.0-flash',
+      model: 'gemini-2.5-flash',
       apiKey: apiKey,
       systemInstruction: Content.system(systemInstruction),
     );

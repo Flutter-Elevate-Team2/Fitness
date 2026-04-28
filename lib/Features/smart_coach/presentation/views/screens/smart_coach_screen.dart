@@ -13,7 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// and decides whether to show the welcome or chat screen
 /// based on the current state.
 class SmartCoachScreen extends StatelessWidget {
-  const SmartCoachScreen({super.key});
+  final VoidCallback? onBack;
+  
+  const SmartCoachScreen({super.key, this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +33,11 @@ class SmartCoachScreen extends StatelessWidget {
       child: BlocBuilder<SmartCoachViewModel, SmartCoachState>(
         builder: (context, state) {
           // Fix #4: Proper routing logic.
-          return switch (state) {
+         return switch (state) {
             SmartCoachInitial() => const _LoadingIndicator(),
             SmartCoachLoading() => const _LoadingIndicator(),
-            SmartCoachSessionLoaded() => const SmartCoachWelcomeScreen(),
-            SmartCoachStreamDone(:final messages) =>
-              messages.isEmpty
-                  ? const SmartCoachWelcomeScreen()
-                  : const SmartCoachChatScreen(),
+            SmartCoachSessionLoaded() => SmartCoachWelcomeScreen(onBack: onBack),
+            SmartCoachStreamDone() => const SmartCoachChatScreen(),
             SmartCoachStreaming() => const SmartCoachChatScreen(),
             SmartCoachError() => const SmartCoachChatScreen(),
             SmartCoachSafetyBlocked() => const SmartCoachChatScreen(),

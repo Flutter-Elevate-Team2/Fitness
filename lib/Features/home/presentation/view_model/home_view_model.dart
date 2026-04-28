@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:fitness_app/Features/workouts/domain/use_cases/get_muscles_by_group_id_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -15,17 +16,29 @@ class HomeViewModel extends Cubit<HomeState> {
   HomeViewModel(this._getHomeDataUseCase, this._getMusclesByGroupUC)
     : super(HomeState());
 
+  StreamSubscription<List<BaseResponse<HomeSection>>>? _subscription;
+
   void initHome() {
     emit(state.copyWith(isLoading: true));
 
-    _getHomeDataUseCase.execute().listen(
+    _subscription = _getHomeDataUseCase.execute().listen(
       (sections) {
-        emit(state.copyWith(homeData: sections, isLoading: false));
+        if (!isClosed) {
+          emit(state.copyWith(homeData: sections, isLoading: false));
+        }
       },
       onError: (error) {
-        emit(state.copyWith(isLoading: false, errorMessage: error.toString()));
+        if (!isClosed) {
+          emit(state.copyWith(isLoading: false, errorMessage: error.toString()));
+        }
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
   }
 
   void changeMuscleGroup(String groupId) async {

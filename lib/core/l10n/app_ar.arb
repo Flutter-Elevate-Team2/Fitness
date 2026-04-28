@@ -200,5 +200,6 @@
   "smartCoachPartialMessage": "⚠ رسالة غير مكتملة",
   "smartCoachPreviousConversations": "المحادثات السابقة",
   "smartCoachNoConversations": "لا توجد محادثات سابقة",
-  "smartCoachTypeMessage": "اكتب رسالتك..."
+  "smartCoachTypeMessage": "اكتب رسالتك...",
+  "smartCoachEmptyChatSubtitle": "اسألني عن أي شيء يخص التمارين، التغذية، أو العادات الصحية."
 }

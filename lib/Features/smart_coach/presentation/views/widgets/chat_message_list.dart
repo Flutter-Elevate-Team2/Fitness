@@ -4,6 +4,7 @@ import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/user
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/theming/app_typography.dart';
+import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 /// Scrollable list of chat message bubbles.
@@ -30,11 +31,40 @@ class ChatMessageList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (messages.isEmpty) {
       return Center(
-        child: Text(
-          context.l10n.smartCoachEmptyChat,
-          style: AppTypography.bodyMedium.copyWith(
-            color: AppColors.light500,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Image.asset(
+                Assets.images.robot.path,
+                width: 80,
+                height: 80,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              context.l10n.smartCoachEmptyChat,
+              style: AppTypography.titleLarge.copyWith(
+                color: AppColors.white,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              context.l10n.smartCoachEmptyChatSubtitle,
+              style: AppTypography.bodyMedium.copyWith(
+                color: AppColors.light400,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       );
     }

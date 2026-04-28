@@ -434,4 +434,8 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get smartCoachTypeMessage => 'اكتب رسالتك...';
+
+  @override
+  String get smartCoachEmptyChatSubtitle =>
+      'اسألني عن أي شيء يخص التمارين، التغذية، أو العادات الصحية.';
 }

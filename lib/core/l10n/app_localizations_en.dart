@@ -437,4 +437,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get smartCoachTypeMessage => 'Type your message...';
+
+  @override
+  String get smartCoachEmptyChatSubtitle =>
+      'Ask me anything about workouts, diet, or healthy habits.';
 }

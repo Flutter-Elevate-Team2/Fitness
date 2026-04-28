@@ -919,6 +919,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Type your message...'**
   String get smartCoachTypeMessage;
+
+  /// No description provided for @smartCoachEmptyChatSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me anything about workouts, diet, or healthy habits.'**
+  String get smartCoachEmptyChatSubtitle;
 }
 
 class _AppLocalizationsDelegate

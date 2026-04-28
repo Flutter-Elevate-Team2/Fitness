@@ -6,5 +6,5 @@ class AppConfig {
   AppConfig._();
 
   /// Gemini API key — NEVER hard-code this value.
-  static const String geminiApiKey = String.fromEnvironment('AIzaSyAO477c4ZaakaohTBZzutSURJhXn6hdKqM');
+  static const String geminiApiKey = 'AIzaSyDtx48LyBZdZacZFI5IkP23VLywvbiplU0';
 }

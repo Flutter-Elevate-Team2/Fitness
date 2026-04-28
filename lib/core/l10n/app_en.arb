@@ -228,5 +228,6 @@
   "smartCoachPartialMessage": "⚠ Incomplete message",
   "smartCoachPreviousConversations": "Previous Conversations",
   "smartCoachNoConversations": "No previous conversations",
-  "smartCoachTypeMessage": "Type your message..."
+  "smartCoachTypeMessage": "Type your message...",
+  "smartCoachEmptyChatSubtitle": "Ask me anything about workouts, diet, or healthy habits."
 }

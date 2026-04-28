@@ -140,6 +140,15 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     }
   }
 
+  // ─── Clear Current Session ──────────────────────────────────────────────────
+
+  /// Clears the active session and returns to the Welcome screen.
+  void clearCurrentSession() {
+    _currentSessionId = null;
+    _messages.clear();
+    loadHistory();
+  }
+
   // ─── Load Existing Session ─────────────────────────────────────────────────
 
   /// Opens a session from history — populates messages and jumps to bottom.
