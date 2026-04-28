@@ -829,6 +829,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Trainer'**
   String get trainer;
+
+  /// No description provided for @featureComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature coming soon'**
+  String get featureComingSoon;
+
+  /// No description provided for @recommendationToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendation Today'**
+  String get recommendationToday;
+
+  /// No description provided for @popularTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Training'**
+  String get popularTraining;
+
+  /// No description provided for @upcomingWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Workouts'**
+  String get upcomingWorkouts;
+
+  /// No description provided for @tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasks;
+
+  /// Please complete your registration
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete your registration'**
+  String get completeRegister;
+
+  /// Google login failed
+  ///
+  /// In en, this message translates to:
+  /// **'Google login failed'**
+  String get googleLoginFailed;
 }
 
 class _AppLocalizationsDelegate

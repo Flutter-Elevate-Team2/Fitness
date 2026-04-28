@@ -369,7 +369,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hi => 'مرحبًا';
 
   @override
-  String get letsStart => 'Let’s Start Your Day';
+  String get letsStart => 'لنبدأ يومك';
 
   @override
   String get category => 'الفئات';
@@ -388,4 +388,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get trainer => 'مدرب';
+
+  @override
+  String get featureComingSoon => 'الميزة قريباً';
+
+  @override
+  String get recommendationToday => 'مقترحات اليوم';
+
+  @override
+  String get popularTraining => 'تمارين شائعة';
+
+  @override
+  String get upcomingWorkouts => 'تمارين قادمة';
+
+  @override
+  String get tasks => 'مهام';
+
+  @override
+  String get completeRegister => 'يرجى إكمال تسجيلك';
+
+  @override
+  String get googleLoginFailed => 'فشل تسجيل الدخول بجوجل';
 }

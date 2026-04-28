@@ -390,4 +390,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trainer => 'Trainer';
+
+  @override
+  String get featureComingSoon => 'Feature coming soon';
+
+  @override
+  String get recommendationToday => 'Recommendation Today';
+
+  @override
+  String get popularTraining => 'Popular Training';
+
+  @override
+  String get upcomingWorkouts => 'Upcoming Workouts';
+
+  @override
+  String get tasks => 'Tasks';
+
+  @override
+  String get completeRegister => 'Please complete your registration';
+
+  @override
+  String get googleLoginFailed => 'Google login failed';
 }

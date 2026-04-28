@@ -4,6 +4,7 @@ import 'package:fitness_app/Features/home/presentation/views/widgets/home_catego
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/workouts_screen.dart';
+import 'package:fitness_app/Features/smart_coach/presentation/views/screens/smart_coach_screen.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       ExploreScreen(onSeeAllWorkoutsTapped: _switchToWorkoutsTab),
-      _PlaceholderTab(title: context.l10n.chatAi),
+      const SmartCoachScreen(),
       WorkoutsScreen(initialGroupId: _selectedWorkoutGroupId),
       _PlaceholderTab(title: context.l10n.profile),
     ];
