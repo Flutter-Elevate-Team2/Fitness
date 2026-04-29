@@ -23,6 +23,7 @@ migrate_working_dir/
 *.swift
 *CLAUDE.md
 
+
 # IntelliJ related
 *.iml
 *.ipr
