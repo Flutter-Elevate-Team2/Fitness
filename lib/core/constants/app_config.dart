@@ -1,10 +1,11 @@
-/// Application-level configuration sourced from compile-time defines.
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+/// Application-level configuration.
 ///
-/// Values are injected via `--dart-define` or `--dart-define-from-file`.
-/// Example: `flutter run --dart-define=GEMINI_API_KEY=<your-key>`
+/// Values are injected via the .env file.
 class AppConfig {
   AppConfig._();
 
   /// Gemini API key — NEVER hard-code this value.
-  static const String geminiApiKey = 'AIzaSyDtx48LyBZdZacZFI5IkP23VLywvbiplU0';
+  static String get geminiApiKey => dotenv.env['GEMINI_API_KEY'] ?? '';
 }
