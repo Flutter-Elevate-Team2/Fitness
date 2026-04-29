@@ -925,6 +925,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ask me anything about workouts, diet, or healthy habits.'**
   String get smartCoachEmptyChatSubtitle;
+
+  /// No description provided for @smartCoachConnectionTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection timed out. Please check your internet and try again.'**
+  String get smartCoachConnectionTimeout;
+
+  /// No description provided for @smartCoachServerIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Our servers are currently experiencing issues. Please try again later.'**
+  String get smartCoachServerIssue;
+
+  /// No description provided for @smartCoachSecureConnectionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure connection failed. Please try again.'**
+  String get smartCoachSecureConnectionFailed;
+
+  /// No description provided for @smartCoachDataIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'An issue occurred while processing your data. Please try again.'**
+  String get smartCoachDataIssue;
+
+  /// No description provided for @smartCoachGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get smartCoachGenericError;
 }
 
 class _AppLocalizationsDelegate

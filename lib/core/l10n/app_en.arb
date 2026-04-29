@@ -229,5 +229,10 @@
   "smartCoachPreviousConversations": "Previous Conversations",
   "smartCoachNoConversations": "No previous conversations",
   "smartCoachTypeMessage": "Type your message...",
-  "smartCoachEmptyChatSubtitle": "Ask me anything about workouts, diet, or healthy habits."
+  "smartCoachEmptyChatSubtitle": "Ask me anything about workouts, diet, or healthy habits.",
+  "smartCoachConnectionTimeout": "Connection timed out. Please check your internet and try again.",
+  "smartCoachServerIssue": "Our servers are currently experiencing issues. Please try again later.",
+  "smartCoachSecureConnectionFailed": "Secure connection failed. Please try again.",
+  "smartCoachDataIssue": "An issue occurred while processing your data. Please try again.",
+  "smartCoachGenericError": "Something went wrong. Please try again."
 }

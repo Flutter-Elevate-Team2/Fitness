@@ -6,6 +6,7 @@ import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/chat
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/chat_input_field.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/chat_message_list.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/smart_coach_chat_app_bar.dart';
+import 'package:fitness_app/Features/smart_coach/presentation/utils/smart_coach_error_translator.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class _SmartCoachChatScreenState extends State<SmartCoachChatScreen> {
                         } else if (state is SmartCoachError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(state.errorMessage),
+                              content: Text(SmartCoachErrorTranslator.translate(context, state.errorMessage)),
                               backgroundColor: Colors.redAccent,
                               behavior: SnackBarBehavior.floating,
                             ),

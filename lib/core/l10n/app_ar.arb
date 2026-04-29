@@ -201,5 +201,10 @@
   "smartCoachPreviousConversations": "المحادثات السابقة",
   "smartCoachNoConversations": "لا توجد محادثات سابقة",
   "smartCoachTypeMessage": "اكتب رسالتك...",
-  "smartCoachEmptyChatSubtitle": "اسألني عن أي شيء يخص التمارين، التغذية، أو العادات الصحية."
+  "smartCoachEmptyChatSubtitle": "اسألني عن أي شيء يخص التمارين، التغذية، أو العادات الصحية.",
+  "smartCoachConnectionTimeout": "انتهت مهلة الاتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى.",
+  "smartCoachServerIssue": "تواجه خوادمنا حالياً بعض المشاكل. يرجى المحاولة لاحقاً.",
+  "smartCoachSecureConnectionFailed": "فشل الاتصال الآمن. يرجى المحاولة مرة أخرى.",
+  "smartCoachDataIssue": "حدثت مشكلة أثناء معالجة بياناتك. يرجى المحاولة مرة أخرى.",
+  "smartCoachGenericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
 }

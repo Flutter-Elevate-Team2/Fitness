@@ -441,4 +441,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get smartCoachEmptyChatSubtitle =>
       'Ask me anything about workouts, diet, or healthy habits.';
+
+  @override
+  String get smartCoachConnectionTimeout =>
+      'Connection timed out. Please check your internet and try again.';
+
+  @override
+  String get smartCoachServerIssue =>
+      'Our servers are currently experiencing issues. Please try again later.';
+
+  @override
+  String get smartCoachSecureConnectionFailed =>
+      'Secure connection failed. Please try again.';
+
+  @override
+  String get smartCoachDataIssue =>
+      'An issue occurred while processing your data. Please try again.';
+
+  @override
+  String get smartCoachGenericError =>
+      'Something went wrong. Please try again.';
 }
