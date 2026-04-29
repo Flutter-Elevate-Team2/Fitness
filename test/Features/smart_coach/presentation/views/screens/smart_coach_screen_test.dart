@@ -26,6 +26,11 @@ void main() {
         )).thenReturn(null);
     when(() => mockViewModel.loadHistory()).thenReturn(null);
 
+    // Stub concrete getters that the UI reads directly from the ViewModel.
+    when(() => mockViewModel.historySessions).thenReturn(const []);
+    when(() => mockViewModel.isStreaming).thenReturn(false);
+    when(() => mockViewModel.currentSessionId).thenReturn(null);
+
     // Provide the mock ViewModel to the DI container
     getIt.allowReassignment = true;
     if (getIt.isRegistered<SmartCoachViewModel>()) {
