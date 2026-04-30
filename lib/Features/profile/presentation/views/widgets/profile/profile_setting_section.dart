@@ -72,6 +72,7 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
               icon: Assets.icons.lockSetting.path,
               title: context.l10n.security,
               onTap: () {},
+              webView: 'security',
             ),
 
             // Policy
@@ -79,6 +80,7 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
               icon: Assets.icons.securityWarning.path,
               title: context.l10n.privacyPolicy,
               onTap: () {},
+              webView: 'privacy-policy',
             ),
 
             // Help
@@ -86,6 +88,7 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
               icon: Assets.icons.help.path,
               title: context.l10n.help,
               onTap: () {},
+              webView: 'help',
             ),
 
             // Logout

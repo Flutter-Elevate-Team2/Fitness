@@ -1,3 +1,4 @@
+import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/web_view_screen.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class ProfileSettingsTile extends StatelessWidget {
   final bool isLanguage;
   final bool switchValue;
   final Function(bool)? onSwitchChanged;
+  final String? webView;
 
 
 
@@ -22,17 +24,32 @@ class ProfileSettingsTile extends StatelessWidget {
     this.isLanguage = false,
     this.switchValue = false,
     this.onSwitchChanged,
+    this.webView
   });
 
   @override
   Widget build(BuildContext context) {
+    VoidCallback onPressed = (){};
     final isArabic = Localizations.localeOf(context).languageCode == 'ar';
     String language = isArabic ? context.l10n.arabic : context.l10n.english;
+    if (webView != null) {
+      onPressed = () {
+         Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) =>   WebViewScreen(
+              url: 'https://elevate-flutter-team.github.io/fitness-app-webviews/$webView.html',
+              title: title,
+            ),
+          ),
+        );
+      };
+    }
 
     return Column(
       children: [
         InkWell(
-          onTap: onTap,
+          onTap: webView != null ? onPressed : onTap,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Row(

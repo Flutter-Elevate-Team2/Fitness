@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_events.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_states.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_view_model.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/logout_dialog.dart';
 import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/profile_setting_section.dart';
 import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/profile_settings_tile.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
@@ -8,11 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:bloc_test/bloc_test.dart';
 
- class MockLocaleCubit extends MockCubit<Locale> implements LocaleCubit {}
-class MockProfileViewModel extends Mock implements ProfileViewModel {}
+ class MockProfileViewModel extends MockBloc<ProfileEvents, ProfileStates>
+    implements ProfileViewModel {}
+
+class MockLocaleCubit extends MockCubit<Locale> implements LocaleCubit {}
+class MockGoRouter extends Mock implements GoRouter {}
 
 void main() {
   late MockLocaleCubit mockLocaleCubit;
@@ -30,6 +37,9 @@ void main() {
   setUp(() {
     mockLocaleCubit = MockLocaleCubit();
     mockProfileViewModel = MockProfileViewModel();
+
+    when(() => mockLocaleCubit.state).thenReturn(const Locale('en'));
+    when(() => mockProfileViewModel.state).thenReturn(const ProfileStates());
 
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMessageHandler('flutter/assets', (message) async {
@@ -58,6 +68,12 @@ void main() {
   }
 
   group('ProfileSettingSection Tests', () {
+    testWidgets('renders exactly 7 ProfileSettingsTile items', (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ProfileSettingsTile), findsNWidgets(7));
+    });
 
     testWidgets('toggling language switch calls toggleLanguage in Cubit', (tester) async {
        when(() => mockLocaleCubit.state).thenReturn(const Locale('en'));
@@ -80,6 +96,34 @@ void main() {
       await tester.pumpWidget(createWidgetUnderTest());
 
        expect(find.byType(ProfileSettingsTile), findsNWidgets(7));
+    });
+    testWidgets('shows logout dialog when logout tile is tapped', (tester) async {
+       await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pumpAndSettle();
+
+    final logoutTile = find.text('Logout');
+
+      expect(logoutTile, findsOneWidget);
+
+       await tester.tap(logoutTile);
+
+       await tester.pumpAndSettle();
+
+       expect(find.byType(LogoutDialog), findsOneWidget);
+    });
+    testWidgets('verify specific tiles properties (Security, Policy, Help)', (tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pumpAndSettle();
+
+     final tiles = tester.widgetList<ProfileSettingsTile>(find.byType(ProfileSettingsTile));
+
+      bool hasSecurity = tiles.any((t) => t.webView == 'security');
+      bool hasPrivacy = tiles.any((t) => t.webView == 'privacy-policy');
+      bool hasHelp = tiles.any((t) => t.webView == 'help');
+
+      expect(hasSecurity, isTrue);
+      expect(hasPrivacy, isTrue);
+      expect(hasHelp, isTrue);
     });
   });
 }
