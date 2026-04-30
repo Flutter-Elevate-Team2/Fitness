@@ -45,7 +45,6 @@ class ChangePasswordScreen extends StatelessWidget {
          if (changePassState?.isLoading == true) {
           return const ChangePasswordShimmer();
          }
-
       return ChangePasswordBody();
       },
     );

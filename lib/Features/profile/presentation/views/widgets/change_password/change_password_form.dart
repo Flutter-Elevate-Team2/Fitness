@@ -31,7 +31,8 @@ class ChangePasswordForm extends StatelessWidget {
         const SizedBox(height: 16),
 
         /// confirm Password Field
-        PasswordField(controller: confirmPasswordController, onChanged: () {} , title: context.l10n.confirmPassword,),
+        PasswordField(controller: confirmPasswordController, onChanged: () {} , title: context.l10n.confirmPassword,
+        password: newPasswordController.text),
 
       ],
     );

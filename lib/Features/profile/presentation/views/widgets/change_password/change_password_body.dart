@@ -66,13 +66,14 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
       buttonTitle: context.l10n.done,
       onButtonPressed: _isButtonEnabled
           ? () {
-        if (_formKey.currentState!.validate()) {
+        if (_formKey.currentState!.validate() ) {
+
           viewModel.doIntent(
             ChangePasswordEvent(
-             request: ChangePasswordRequest(
-               password: _oldPasswordController.text,
-               newPassword: _newPasswordController.text,
-              )
+                request: ChangePasswordRequest(
+                  password: _oldPasswordController.text,
+                  newPassword: _newPasswordController.text,
+                )
             ),
           );
         } else {
