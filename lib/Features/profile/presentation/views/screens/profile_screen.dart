@@ -2,6 +2,7 @@ import 'package:fitness_app/Features/profile/presentation/view_model/profile/pro
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_states.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_view_model.dart';
 import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/profile_screen_body.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/profile_shimmer.dart';
  import 'package:fitness_app/core/theming/app_colors.dart';
  import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
             final profileState = state.profileState;
     
             if (profileState?.isLoading == true) {
-              return   Container();
+              return   ProfilePageShimmer();
             }
     
             if (profileState?.errorMessage != null) {
@@ -40,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
     
             if (profileState?.data != null) {
               final user = profileState!.data!;
-              return ProfileScreenBody(user : user);
+               return ProfileScreenBody(user : user);
             }
     
             return const SizedBox.shrink();

@@ -5,6 +5,7 @@ import 'package:fitness_app/Features/profile/presentation/view_model/profile/pro
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_view_model.dart';
 import 'package:fitness_app/Features/profile/presentation/views/screens/profile_screen.dart';
 import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/profile_screen_body.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/profile_shimmer.dart';
 import 'package:fitness_app/core/base_state/base_state.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -46,17 +47,18 @@ void main() {
     );
   }
 
-  testWidgets('renders empty Container when profileState is loading', (
-    WidgetTester tester,
-  ) async {
-    when(
-      () => mockViewModel.state,
+  testWidgets('renders ProfilePageShimmer when profileState is loading', (
+      WidgetTester tester,
+      ) async {
+     when(
+          () => mockViewModel.state,
     ).thenReturn(const ProfileStates(profileState: BaseState(isLoading: true)));
 
     await tester.pumpWidget(createWidgetUnderTest());
 
-    expect(find.byType(Container), findsOneWidget);
-    expect(find.byType(ProfileScreenBody), findsNothing);
+     expect(find.byType(ProfilePageShimmer), findsOneWidget);
+
+     expect(find.byType(ProfileScreenBody), findsNothing);
   });
 
   testWidgets('renders ErrorStateWidget and matches error text', (
