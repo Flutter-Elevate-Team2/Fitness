@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 class PasswordField extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback onChanged;
+  final String? title;
   const PasswordField({
     super.key,
     required this.controller,
     required this.onChanged,
+    this.title
   });
 
   @override
@@ -36,7 +38,7 @@ class _PasswordFieldState extends State<PasswordField> {
         fontWeight: FontWeight.normal,
       ),
       decoration: InputDecoration(
-        hintText: context.l10n.password,
+        hintText: widget.title ?? context.l10n.password,
         hintStyle: const TextStyle(
           color: AppColors.white,
           fontSize: 12,

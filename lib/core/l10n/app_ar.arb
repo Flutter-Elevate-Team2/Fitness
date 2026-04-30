@@ -215,6 +215,10 @@
   "privacyPolicy": "سياسة الخصوصية",
   "selectLanguage": "اختيار اللغة",
   "help": "المساعدة",
-  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
-
+  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
+   "passwordMinLength": "تأكد أن كلمة المرور لا تقل عن 8 أحرف",
+  "oldPassword": "كلمة المرور القديمة",
+  "newPassword": "كلمة المرور الجديدة",
+  "confirmPassword": "تأكيد كلمة المرور"
 }

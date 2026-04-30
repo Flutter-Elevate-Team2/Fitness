@@ -1,6 +1,7 @@
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_view_model.dart';
 import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/logout_dialog.dart';
 import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/profile_settings_tile.dart';
+import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/l10n/locale_cubit.dart';
 import 'package:fitness_app/core/widget/shared_container.dart';
@@ -48,7 +49,7 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
               icon: Assets.icons.change.path,
               title: context.l10n.changePassword,
               onTap: () {
-                context.pushNamed("/changepassword");
+                context.pushNamed(Routes.changePasswordName);
               },
             ),
 

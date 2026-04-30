@@ -238,6 +238,10 @@
   "privacyPolicy": "Privacy Policy",
   "selectLanguage": "Select Language",
   "help": "Help",
-  "logoutConfirmation": "Are you sure you want to logout?"
-
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "passwordMinLength": "Make sure it's 8 characters or more",
+  "passwordChangedSuccess": "Password changed successfully",
+  "oldPassword": "Old Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password"
 }
