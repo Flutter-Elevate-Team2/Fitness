@@ -8,13 +8,19 @@ import 'package:flutter/material.dart';
 
 class ProfileScreenBody extends StatelessWidget {
   final UserEntity user;
+  final VoidCallback onProfileUpdated;
 
-  const ProfileScreenBody({super.key, required this.user});
+  const ProfileScreenBody({
+    super.key,
+    required this.user,
+    required this.onProfileUpdated,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SharedScaffold(
-       backgroundImage: Assets.images.food.path,
+      backgroundImage: Assets.images.food.path,
+      showBackButton: false,
       title: Text(context.l10n.profile),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -23,7 +29,10 @@ class ProfileScreenBody extends StatelessWidget {
           children: [
             ProfileUserCard(user: user),
             const SizedBox(height: 16),
-            ProfileSettingSection()
+            ProfileSettingSection(
+              currentUser: user,
+              onProfileUpdated: onProfileUpdated,
+            ),
           ],
         ),
       ),
