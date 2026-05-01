@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/profile/data/models/user_profile_response.dart';
 import 'package:fitness_app/Features/profile/data/remote_data_source_contract/profile_remote_data_source_contract.dart';
@@ -8,14 +9,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateMocks([ProfileRemoteDataSourceContract])
 import 'profile_repo_imple_test.mocks.dart';
 import 'package:fitness_app/Features/profile/data/models/change_password_request/change_password_request.dart';
 import 'package:fitness_app/Features/profile/data/models/edit_profile_request.dart';
 import 'package:fitness_app/Features/profile/data/models/change_password_response/change_password_response.dart';
 import 'package:fitness_app/Features/profile/data/models/logout_response.dart';
 import 'package:fitness_app/Features/profile/domain/entities/change_password_entity.dart';
+import 'package:fitness_app/Features/profile/data/models/upload_photo/upload_photo_response.dart';
 
+@GenerateMocks([ProfileRemoteDataSourceContract])
 void main() {
   late ProfileRepoImple repo;
   late MockProfileRemoteDataSourceContract mockRemoteDataSource;
@@ -78,7 +80,6 @@ void main() {
       firstName: 'Jane',
       lastName: 'Doe',
       email: 'jane@test.com',
-      phone: '+201234567890',
     );
 
     final userModel = User(
@@ -102,7 +103,7 @@ void main() {
 
     test(
       'returns SuccessResponse<UserEntity> when data source succeeds',
-      () async {
+          () async {
         when(
           mockRemoteDataSource.editProfile(request),
         ).thenAnswer((_) async => response);
@@ -145,7 +146,7 @@ void main() {
 
     test(
       'returns SuccessResponse<ChangePasswordEntity> when succeeds',
-      () async {
+          () async {
         when(
           mockRemoteDataSource.changePassword(request),
         ).thenAnswer((_) async => response);
@@ -172,6 +173,41 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // uploadPhoto
+  // ---------------------------------------------------------------------------
+  group('uploadPhoto', () {
+    final File testFile = File('dummy_path.jpg');
+    final response = UploadPhotoResponse(
+      message: 'Photo uploaded successfully',
+    );
+
+    test('returns SuccessResponse<String> with message when succeeds', () async {
+      when(
+        mockRemoteDataSource.uploadPhoto(testFile),
+      ).thenAnswer((_) async => response);
+
+      final result = await repo.uploadPhoto(testFile);
+
+      expect(result, isA<SuccessResponse<String>>());
+      expect(
+        (result as SuccessResponse<String>).data,
+        'Photo uploaded successfully',
+      );
+      verify(mockRemoteDataSource.uploadPhoto(testFile)).called(1);
+    });
+
+    test('returns ErrorResponse when data source throws', () async {
+      when(
+        mockRemoteDataSource.uploadPhoto(testFile),
+      ).thenThrow(Exception('Upload failed'));
+
+      final result = await repo.uploadPhoto(testFile);
+
+      expect(result, isA<ErrorResponse<String>>());
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // logout
   // ---------------------------------------------------------------------------
   group('logout', () {
@@ -179,7 +215,7 @@ void main() {
 
     test(
       'returns SuccessResponse<String> with message when succeeds',
-      () async {
+          () async {
         when(mockRemoteDataSource.logout()).thenAnswer((_) async => response);
 
         final result = await repo.logout();

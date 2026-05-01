@@ -7,9 +7,18 @@ class EditProfileRequest {
   final String? firstName;
   final String? lastName;
   final String? email;
-  final String? phone;
+  final double? weight;
+  final String? goal;
+  final String? activityLevel;
 
-  EditProfileRequest({this.firstName, this.lastName, this.email, this.phone});
+  EditProfileRequest({
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.weight,
+    this.goal,
+    this.activityLevel,
+  });
 
   Map<String, dynamic> toJson() => _$EditProfileRequestToJson(this);
 }
