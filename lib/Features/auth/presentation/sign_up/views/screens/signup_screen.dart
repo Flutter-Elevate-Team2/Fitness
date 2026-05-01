@@ -21,8 +21,8 @@ import 'package:go_router/go_router.dart';
 class SignupScreen extends StatefulWidget {
   final int step;
   // ignore: prefer_typing_uninitialized_variables, strict_top_level_inference
-  final  user;
-  const SignupScreen({super.key , this.step = 0 , this.user});
+  final user;
+  const SignupScreen({super.key, this.step = 0, this.user});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -55,22 +55,40 @@ class _SignupScreenState extends State<SignupScreen> {
     super.initState();
     _currentStep = widget.step;
     _pageController = PageController(initialPage: widget.step);
-    final displayName = widget.user?.displayName ?? "";
+
+    final user = widget.user;
+    final displayName = user?.displayName ?? "";
 
     final parts = displayName.split(" ");
-    _firstNameController = TextEditingController(text: parts.isNotEmpty ? parts.first : "");
-    _lastNameController = TextEditingController( text: parts.length > 1 ? parts.last : "");
-    _emailController = TextEditingController(text: widget.user.providerData.first.email);
-    _passwordController = TextEditingController( text:widget.user != null ? ApiConstants.defaultPassword:"");
+    _firstNameController = TextEditingController(
+      text: parts.isNotEmpty ? parts.first : "",
+    );
+    _lastNameController = TextEditingController(
+      text: parts.length > 1 ? parts.last : "",
+    );
+
+    if (user != null &&
+        user.providerData != null &&
+        user.providerData.isNotEmpty) {
+      _emailController = TextEditingController(
+        text: user.providerData.first.email ?? "",
+      );
+    } else {
+      _emailController = TextEditingController(text: "");
+    }
+
+    _passwordController = TextEditingController(
+      text: user != null ? ApiConstants.defaultPassword : "",
+    );
     _cleanupFirebaseSocialAuth();
-   }
+  }
 
   Future<void> _cleanupFirebaseSocialAuth() async {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-         await user.delete();
-        await FirebaseAuth.instance.signOut();
-      }
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await user.delete();
+      await FirebaseAuth.instance.signOut();
+    }
   }
 
   @override
@@ -117,9 +135,7 @@ class _SignupScreenState extends State<SignupScreen> {
             showDialog(
               context: context,
               barrierDismissible: false,
-              builder: (_) => const Center(
-                child: CircularProgressIndicator(),
-              ),
+              builder: (_) => const Center(child: CircularProgressIndicator()),
             );
           } else {
             // Dismiss loading dialog if showing
@@ -227,20 +243,20 @@ class _SignupScreenState extends State<SignupScreen> {
                     currentStep: _currentStep,
                     onNextStep: (activityLevel) {
                       context.read<SignUpViewModel>().doIntent(
-                            OnSignUpClickEvent(
-                              firstName: _firstNameController.text,
-                              lastName: _lastNameController.text,
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                              rePassword: _passwordController.text,
-                              gender: _selectedGender ?? '',
-                              age: _selectedAge,
-                              weight: _selectedWeight,
-                              height: _selectedHeight,
-                              goal: _selectedGoal ?? '',
-                              activityLevel: activityLevel,
-                            ),
-                          );
+                        OnSignUpClickEvent(
+                          firstName: _firstNameController.text,
+                          lastName: _lastNameController.text,
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          rePassword: _passwordController.text,
+                          gender: _selectedGender ?? '',
+                          age: _selectedAge,
+                          weight: _selectedWeight,
+                          height: _selectedHeight,
+                          goal: _selectedGoal ?? '',
+                          activityLevel: activityLevel,
+                        ),
+                      );
                     },
                     onBackButtonPressed: _goToPreviousPage,
                     useScaffold: false,

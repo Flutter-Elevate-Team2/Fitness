@@ -1,8 +1,6 @@
 import 'package:fitness_app/Features/smart_coach/data/mapper/message_mapper.dart';
 import 'package:fitness_app/Features/smart_coach/data/models/chat_session_hive_model.dart';
-import 'package:fitness_app/Features/smart_coach/data/models/message_hive_model.dart';
 import 'package:fitness_app/Features/smart_coach/domain/entities/chat_session_entity.dart';
-import 'package:fitness_app/Features/smart_coach/domain/entities/message_entity.dart';
 
 /// Maps between [ChatSessionHiveModel] and [ChatSessionEntity].
 extension ChatSessionHiveModelMapper on ChatSessionHiveModel {

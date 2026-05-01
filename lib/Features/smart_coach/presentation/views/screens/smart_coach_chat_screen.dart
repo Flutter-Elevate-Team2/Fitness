@@ -11,7 +11,6 @@ import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 /// The main chat screen for the Smart Coach feature.
 ///

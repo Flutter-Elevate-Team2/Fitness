@@ -1,15 +1,11 @@
 import 'package:fitness_app/Features/home/presentation/views/screens/explore_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
-import 'package:fitness_app/Features/home/presentation/views/widgets/home_category.dart';
 import 'package:fitness_app/Features/profile/presentation/views/screens/profile_screen.dart';
-import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/workouts_screen.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/screens/smart_coach_screen.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:fitness_app/core/app_router/app_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -62,26 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: (index) => setState(() => _currentIndex = index),
               ),
             ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Temporary placeholder for tabs until real content is built
-class _PlaceholderTab extends StatelessWidget {
-  final String title;
-
-  const _PlaceholderTab({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsGeometry.all(15),
-      child: Column(
-        children: [
-          SizedBox(height: 24),
-          CategorySection(),
         ],
       ),
     );

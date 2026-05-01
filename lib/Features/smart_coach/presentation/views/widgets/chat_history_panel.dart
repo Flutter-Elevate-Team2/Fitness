@@ -15,6 +15,7 @@ class ChatHistoryPanel extends StatelessWidget {
   final bool isOpen;
   final VoidCallback onClose;
 
+  // ignore: unintended_html_in_doc_comment
   /// FIX #6: Strong typing — no more List<dynamic>.
   final List<ChatSessionEntity> sessions;
 
@@ -135,7 +136,7 @@ class ChatHistoryPanel extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8),
                                 itemCount: sessions.length,
-                                separatorBuilder: (_, __) => const Divider(
+                                separatorBuilder: (_, _) => const Divider(
                                   color: AppColors.grayMid,
                                   height: 1,
                                   thickness: 0.5,
