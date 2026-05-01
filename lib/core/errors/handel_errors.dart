@@ -56,6 +56,11 @@ class ErrorHandler {
     } else if (error is PlatformException) {
       return _handlePlatformError(error);
     }
+    else if (error.toString().contains('SocketException') || 
+             error.toString().contains('ClientException') ||
+             error.toString().contains('Failed host lookup')) {
+      return ErrorStrings.noInternet;
+    }
     // -------------------------------------------------------------------------
     // SECTION 5: UNKNOWN / FALLBACK
     // -------------------------------------------------------------------------

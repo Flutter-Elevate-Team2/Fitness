@@ -111,6 +111,10 @@ class $AssetsImagesGen {
   AssetGenImage get authLogo =>
       const AssetGenImage('assets/images/auth_logo.png');
 
+  /// File path: assets/images/chat_ai_background.jpg
+  AssetGenImage get chatAiBackground =>
+      const AssetGenImage('assets/images/chat_ai_background.jpg');
+
   /// File path: assets/images/exercies.png
   AssetGenImage get exercies =>
       const AssetGenImage('assets/images/exercies.png');
@@ -154,6 +158,9 @@ class $AssetsImagesGen {
   AssetGenImage get onboardingBackground =>
       const AssetGenImage('assets/images/onboarding_background.png');
 
+  /// File path: assets/images/robot.png
+  AssetGenImage get robot => const AssetGenImage('assets/images/robot.png');
+
   /// File path: assets/images/splash_logo.png
   AssetGenImage get splashLogo =>
       const AssetGenImage('assets/images/splash_logo.png');
@@ -172,6 +179,7 @@ class $AssetsImagesGen {
     appIcon1,
     authBackground,
     authLogo,
+    chatAiBackground,
     exercies,
     exercisesBackground,
     fitness,
@@ -184,6 +192,7 @@ class $AssetsImagesGen {
     onboarding2,
     onboarding3,
     onboardingBackground,
+    robot,
     splashLogo,
     trainer,
     yoga,

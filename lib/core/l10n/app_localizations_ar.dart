@@ -369,7 +369,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hi => 'مرحبًا';
 
   @override
-  String get letsStart => 'Let’s Start Your Day';
+  String get letsStart => 'لنبدأ يومك';
 
   @override
   String get category => 'الفئات';
@@ -388,4 +388,73 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get trainer => 'مدرب';
+
+  @override
+  String get featureComingSoon => 'الميزة قريباً';
+
+  @override
+  String get recommendationToday => 'مقترحات اليوم';
+
+  @override
+  String get popularTraining => 'تمارين شائعة';
+
+  @override
+  String get upcomingWorkouts => 'تمارين قادمة';
+
+  @override
+  String get tasks => 'مهام';
+
+  @override
+  String get completeRegister => 'يرجى إكمال تسجيلك';
+
+  @override
+  String get googleLoginFailed => 'فشل تسجيل الدخول بجوجل';
+
+  @override
+  String get smartCoachDefaultSessionTitle => 'محادثة جديدة';
+
+  @override
+  String get smartCoachSafetyBlockMessage =>
+      'عذراً، لا يمكنني المساعدة في هذا الموضوع، دعنا نركز على أهدافك الرياضية!';
+
+  @override
+  String get smartCoachEmptyChat => 'ابدأ محادثتك مع المدرب الذكي 💪';
+
+  @override
+  String get smartCoachRetryButton => 'إعادة المحاولة';
+
+  @override
+  String get smartCoachPartialMessage => '⚠ رسالة غير مكتملة';
+
+  @override
+  String get smartCoachPreviousConversations => 'المحادثات السابقة';
+
+  @override
+  String get smartCoachNoConversations => 'لا توجد محادثات سابقة';
+
+  @override
+  String get smartCoachTypeMessage => 'اكتب رسالتك...';
+
+  @override
+  String get smartCoachEmptyChatSubtitle =>
+      'اسألني عن أي شيء يخص التمارين، التغذية، أو العادات الصحية.';
+
+  @override
+  String get smartCoachConnectionTimeout =>
+      'انتهت مهلة الاتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى.';
+
+  @override
+  String get smartCoachServerIssue =>
+      'تواجه خوادمنا حالياً بعض المشاكل. يرجى المحاولة لاحقاً.';
+
+  @override
+  String get smartCoachSecureConnectionFailed =>
+      'فشل الاتصال الآمن. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get smartCoachDataIssue =>
+      'حدثت مشكلة أثناء معالجة بياناتك. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get smartCoachGenericError => 'حدث خطأ ما. يرجى المحاولة مرة أخرى.';
 }

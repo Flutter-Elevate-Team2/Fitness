@@ -34,7 +34,8 @@ class AppColors {
   static const Color dark700 = Color(0xFF4D0000);
   static const Color dark800 = Color(0xFF330000);
   static const Color dark900 = Color(0xFF1A0000);
-
+  static const Color darkRed = Color(0xFFFF4100);
+  static const Color userBubbleColor = Color(0xFFFF6A00);
   //  Neutral Blacks
   static const Color black = Color(0xFF000000);
   static const Color blackSoft = Color(0xFF0B0B0B);

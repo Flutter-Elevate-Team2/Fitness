@@ -311,5 +311,19 @@
   "tabToEdit": " (tap To Edit)",
   "yourWeight": "Your Weight",
   "yourGoal": "Your Goal",
-  "yourActivityLevel": "Your Activity Level"
+  "yourActivityLevel": "Your Activity Level",
+  "smartCoachDefaultSessionTitle": "New Conversation",
+  "smartCoachSafetyBlockMessage": "Sorry, I can't help with this topic. Let's focus on your fitness goals!",
+  "smartCoachEmptyChat": "Start your conversation with the Smart Coach 💪",
+  "smartCoachRetryButton": "Retry",
+  "smartCoachPartialMessage": "⚠ Incomplete message",
+  "smartCoachPreviousConversations": "Previous Conversations",
+  "smartCoachNoConversations": "No previous conversations",
+  "smartCoachTypeMessage": "Type your message...",
+  "smartCoachEmptyChatSubtitle": "Ask me anything about workouts, diet, or healthy habits.",
+  "smartCoachConnectionTimeout": "Connection timed out. Please check your internet and try again.",
+  "smartCoachServerIssue": "Our servers are currently experiencing issues. Please try again later.",
+  "smartCoachSecureConnectionFailed": "Secure connection failed. Please try again.",
+  "smartCoachDataIssue": "An issue occurred while processing your data. Please try again.",
+  "smartCoachGenericError": "Something went wrong. Please try again."
 }

@@ -829,6 +829,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Trainer'**
   String get trainer;
+
+  /// No description provided for @featureComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature coming soon'**
+  String get featureComingSoon;
+
+  /// No description provided for @recommendationToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendation Today'**
+  String get recommendationToday;
+
+  /// No description provided for @popularTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Training'**
+  String get popularTraining;
+
+  /// No description provided for @upcomingWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Workouts'**
+  String get upcomingWorkouts;
+
+  /// No description provided for @tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasks;
+
+  /// Please complete your registration
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete your registration'**
+  String get completeRegister;
+
+  /// Google login failed
+  ///
+  /// In en, this message translates to:
+  /// **'Google login failed'**
+  String get googleLoginFailed;
+
+  /// No description provided for @smartCoachDefaultSessionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Conversation'**
+  String get smartCoachDefaultSessionTitle;
+
+  /// No description provided for @smartCoachSafetyBlockMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry, I can\'t help with this topic. Let\'s focus on your fitness goals!'**
+  String get smartCoachSafetyBlockMessage;
+
+  /// No description provided for @smartCoachEmptyChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your conversation with the Smart Coach 💪'**
+  String get smartCoachEmptyChat;
+
+  /// No description provided for @smartCoachRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get smartCoachRetryButton;
+
+  /// No description provided for @smartCoachPartialMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'⚠ Incomplete message'**
+  String get smartCoachPartialMessage;
+
+  /// No description provided for @smartCoachPreviousConversations.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous Conversations'**
+  String get smartCoachPreviousConversations;
+
+  /// No description provided for @smartCoachNoConversations.
+  ///
+  /// In en, this message translates to:
+  /// **'No previous conversations'**
+  String get smartCoachNoConversations;
+
+  /// No description provided for @smartCoachTypeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your message...'**
+  String get smartCoachTypeMessage;
+
+  /// No description provided for @smartCoachEmptyChatSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me anything about workouts, diet, or healthy habits.'**
+  String get smartCoachEmptyChatSubtitle;
+
+  /// No description provided for @smartCoachConnectionTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection timed out. Please check your internet and try again.'**
+  String get smartCoachConnectionTimeout;
+
+  /// No description provided for @smartCoachServerIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Our servers are currently experiencing issues. Please try again later.'**
+  String get smartCoachServerIssue;
+
+  /// No description provided for @smartCoachSecureConnectionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure connection failed. Please try again.'**
+  String get smartCoachSecureConnectionFailed;
+
+  /// No description provided for @smartCoachDataIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'An issue occurred while processing your data. Please try again.'**
+  String get smartCoachDataIssue;
+
+  /// No description provided for @smartCoachGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get smartCoachGenericError;
 }
 
 class _AppLocalizationsDelegate

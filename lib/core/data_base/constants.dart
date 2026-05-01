@@ -18,6 +18,10 @@ class HiveTypes {
   // Feature: Auth
   static const int userProfile = 5;
 
+  // Feature: Smart Coach
+  static const int chatMessage = 10;
+  static const int chatSession = 11;
+
 }
 
 

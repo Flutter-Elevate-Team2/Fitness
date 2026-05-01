@@ -6,6 +6,8 @@ import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dar
 import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/random_muscle_model.dart';
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/profile_events.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/controller/session_expired.dart';
@@ -15,6 +17,7 @@ import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:fitness_app/core/l10n/locale_cubit.dart';
 import 'package:fitness_app/core/theming/app_theming.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
+import 'package:fitness_app/hive_registrar.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +31,7 @@ import 'Features/food/data/models/meals_models/category_model.dart';
 import 'Features/food/data/models/meals_models/meal_details_model.dart';
 import 'Features/food/data/models/meals_models/meal_model.dart';
 import 'Features/profile/presentation/view_model/profile/profile_view_model.dart';
+import 'Features/profile/presentation/view_model/profile_view_model.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -39,16 +43,7 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   await HiveDatabaseService.init(
-    registerAdapters: () {
-      Hive.registerAdapter(DifficultyLevelHiveModelAdapter()); // typeId: 1
-      Hive.registerAdapter(ExerciseHiveModelAdapter()); // typeId: 2
-      Hive.registerAdapter(CategoryModelAdapter());
-      Hive.registerAdapter(MealModelAdapter());
-      Hive.registerAdapter(MealDetailsModelAdapter());
-      Hive.registerAdapter(MuscleGroupModelAdapter());
-      Hive.registerAdapter(MuscleModelAdapter());
-      Hive.registerAdapter(RandomMuscleModelAdapter());
-    },
+    registerAdapters: () => Hive.registerAdapters(),
   );
   await configureDependencies();
   runApp(const MyApp());

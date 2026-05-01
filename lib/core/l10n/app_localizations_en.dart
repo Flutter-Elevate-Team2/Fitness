@@ -390,4 +390,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trainer => 'Trainer';
+
+  @override
+  String get featureComingSoon => 'Feature coming soon';
+
+  @override
+  String get recommendationToday => 'Recommendation Today';
+
+  @override
+  String get popularTraining => 'Popular Training';
+
+  @override
+  String get upcomingWorkouts => 'Upcoming Workouts';
+
+  @override
+  String get tasks => 'Tasks';
+
+  @override
+  String get completeRegister => 'Please complete your registration';
+
+  @override
+  String get googleLoginFailed => 'Google login failed';
+
+  @override
+  String get smartCoachDefaultSessionTitle => 'New Conversation';
+
+  @override
+  String get smartCoachSafetyBlockMessage =>
+      'Sorry, I can\'t help with this topic. Let\'s focus on your fitness goals!';
+
+  @override
+  String get smartCoachEmptyChat =>
+      'Start your conversation with the Smart Coach 💪';
+
+  @override
+  String get smartCoachRetryButton => 'Retry';
+
+  @override
+  String get smartCoachPartialMessage => '⚠ Incomplete message';
+
+  @override
+  String get smartCoachPreviousConversations => 'Previous Conversations';
+
+  @override
+  String get smartCoachNoConversations => 'No previous conversations';
+
+  @override
+  String get smartCoachTypeMessage => 'Type your message...';
+
+  @override
+  String get smartCoachEmptyChatSubtitle =>
+      'Ask me anything about workouts, diet, or healthy habits.';
+
+  @override
+  String get smartCoachConnectionTimeout =>
+      'Connection timed out. Please check your internet and try again.';
+
+  @override
+  String get smartCoachServerIssue =>
+      'Our servers are currently experiencing issues. Please try again later.';
+
+  @override
+  String get smartCoachSecureConnectionFailed =>
+      'Secure connection failed. Please try again.';
+
+  @override
+  String get smartCoachDataIssue =>
+      'An issue occurred while processing your data. Please try again.';
+
+  @override
+  String get smartCoachGenericError =>
+      'Something went wrong. Please try again.';
 }

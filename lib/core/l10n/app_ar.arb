@@ -96,7 +96,7 @@
     "description": "رسالة خطأ لكلمة مرور ضعيفة"
   },
   "invalidCodeError": "رمز غير صالح",
-  "@CodeError": {
+  "@invalidCodeError": {
     "description": "رسالة خطأ لرمز التحقق غير صالح"
   },
   "verificationSubTitle": "يرجى إدخال الرمز الذي تم إرساله إلى بريدك الإلكتروني",
@@ -254,5 +254,19 @@
   "tabToEdit": " (اضغط للتعديل)",
   "yourWeight": "وزنك",
   "yourGoal": "هدفك",
-  "yourActivityLevel": "مستوى نشاطك"
+  "yourActivityLevel": "مستوى نشاطك",
+  "smartCoachDefaultSessionTitle": "محادثة جديدة",
+  "smartCoachSafetyBlockMessage": "عذراً، لا يمكنني المساعدة في هذا الموضوع، دعنا نركز على أهدافك الرياضية!",
+  "smartCoachEmptyChat": "ابدأ محادثتك مع المدرب الذكي 💪",
+  "smartCoachRetryButton": "إعادة المحاولة",
+  "smartCoachPartialMessage": "⚠ رسالة غير مكتملة",
+  "smartCoachPreviousConversations": "المحادثات السابقة",
+  "smartCoachNoConversations": "لا توجد محادثات سابقة",
+  "smartCoachTypeMessage": "اكتب رسالتك...",
+  "smartCoachEmptyChatSubtitle": "اسألني عن أي شيء يخص التمارين، التغذية، أو العادات الصحية.",
+  "smartCoachConnectionTimeout": "انتهت مهلة الاتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى.",
+  "smartCoachServerIssue": "تواجه خوادمنا حالياً بعض المشاكل. يرجى المحاولة لاحقاً.",
+  "smartCoachSecureConnectionFailed": "فشل الاتصال الآمن. يرجى المحاولة مرة أخرى.",
+  "smartCoachDataIssue": "حدثت مشكلة أثناء معالجة بياناتك. يرجى المحاولة مرة أخرى.",
+  "smartCoachGenericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
 }

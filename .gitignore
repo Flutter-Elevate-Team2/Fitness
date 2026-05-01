@@ -21,6 +21,8 @@ migrate_working_dir/
 *.cc
 *.cmake
 *.swift
+*CLAUDE.md
+
 
 # IntelliJ related
 *.iml

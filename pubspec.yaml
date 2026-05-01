@@ -30,6 +30,7 @@ dependencies:
   hive_ce: ^2.5.2
   youtube_player_flutter: ^9.1.3
   mocktail_image_network: ^1.3.0
+  google_generative_ai: ^0.4.7
 
   # ── Hive Database ───────────────────────────────
   hive_ce_flutter: ^2.1.0
