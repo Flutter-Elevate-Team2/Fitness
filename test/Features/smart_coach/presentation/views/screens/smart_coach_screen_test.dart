@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/view_model/smart_coach_state.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/view_model/smart_coach_view_model.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/screens/smart_coach_chat_screen.dart';
@@ -6,18 +7,36 @@ import 'package:fitness_app/Features/smart_coach/presentation/views/screens/smar
 import 'package:fitness_app/Features/smart_coach/presentation/views/screens/smart_coach_welcome_screen.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
+import 'package:fitness_app/core/user_cubit/user_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 // --- Mock Cubit ---
 class MockSmartCoachViewModel extends MockCubit<SmartCoachState> implements SmartCoachViewModel {}
 
+class MockUserCubit extends Mock implements UserCubit {
+  @override
+  UserEntity? get state => null;
+
+  @override
+  Stream<UserEntity?> get stream => const Stream.empty();
+
+  @override
+  bool get isClosed => false;
+
+  @override
+  Future<void> close() async {}
+}
+
 void main() {
   late MockSmartCoachViewModel mockViewModel;
+  late MockUserCubit mockUserCubit;
 
   setUp(() {
     mockViewModel = MockSmartCoachViewModel();
+    mockUserCubit = MockUserCubit();
 
     // Stub setup methods called during SmartCoachScreen construction
     when(() => mockViewModel.setLocalizedStrings(
@@ -43,7 +62,10 @@ void main() {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const SmartCoachScreen(),
+      home: BlocProvider<UserCubit>.value(
+        value: mockUserCubit,
+        child: const SmartCoachScreen(),
+      ),
     );
   }
 

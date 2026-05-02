@@ -3,8 +3,6 @@ import 'package:fitness_app/Features/home/domain/entities/home_section.dart';
 import 'package:fitness_app/Features/home/domain/entities/popular_tranning_entity.dart';
 import 'package:fitness_app/Features/home/domain/use_cases/get_home_data_use_case.dart';
 import 'package:fitness_app/Features/home/domain/use_cases/get_popular_workouts_use_case.dart';
-import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
-import 'package:fitness_app/Features/profile/domain/use_cases/get_user_profile_use_case.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/use_cases/get_muscle_groups_use_case.dart';
 import 'package:fitness_app/Features/workouts/domain/use_cases/get_muscles_by_group_id_use_case.dart';
@@ -14,8 +12,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 // Mocks
-class MockGetUserProfileUseCase extends Mock implements GetUserProfileUseCase {}
-
 class MockGetCategoriesUseCase extends Mock implements GetCategoriesUseCase {}
 
 class MockGetPopularWorkoutsUseCase extends Mock
@@ -32,7 +28,6 @@ class MockGetMusclesByGroupIdUseCase extends Mock
 
 void main() {
   late GetHomeDataUseCase useCase;
-  late MockGetUserProfileUseCase mockUserUC;
   late MockGetCategoriesUseCase mockCategoriesUC;
   late MockGetPopularWorkoutsUseCase mockWorkoutsUC;
   late MockGetRandomMusclesUseCase mockRandomUC;
@@ -40,7 +35,6 @@ void main() {
   late MockGetMusclesByGroupIdUseCase mockMusclesByGroupUC;
 
   setUp(() {
-    mockUserUC = MockGetUserProfileUseCase();
     mockCategoriesUC = MockGetCategoriesUseCase();
     mockWorkoutsUC = MockGetPopularWorkoutsUseCase();
     mockRandomUC = MockGetRandomMusclesUseCase();
@@ -48,7 +42,6 @@ void main() {
     mockMusclesByGroupUC = MockGetMusclesByGroupIdUseCase();
 
     useCase = GetHomeDataUseCase(
-      mockUserUC,
       mockCategoriesUC,
       mockWorkoutsUC,
       mockRandomUC,
@@ -62,30 +55,12 @@ void main() {
       'should emit multiple updates as different use cases complete',
       () async {
         // Arrange
-        // 1. User Profile
-        final mockUser = UserEntity(
-          id: '1',
-          email: '',
-          photo: '',
-          firstName: '',
-          lastName: '',
-          gender: '',
-          age: 0,
-          weight: 0,
-          height: 0,
-          activityLevel: '',
-          goal: '',
-        );
-        when(
-          () => mockUserUC(),
-        ).thenAnswer((_) async => SuccessResponse(data: mockUser));
-
-        // 2. Random Muscles
+        // 1. Random Muscles
         when(
           () => mockRandomUC(),
         ).thenAnswer((_) async => const SuccessResponse(data: []));
 
-        // 3. Muscle Groups & Muscles
+        // 2. Muscle Groups & Muscles
         final mockGroups = [const MuscleGroupEntity(id: 'g1', name: 'Group 1')];
         when(
           () => mockMuscleGroupsUC(),
@@ -94,12 +69,12 @@ void main() {
           () => mockMusclesByGroupUC(any()),
         ).thenAnswer((_) async => const SuccessResponse(data: []));
 
-        // 4. Categories
+        // 3. Categories
         when(
           () => mockCategoriesUC(),
         ).thenAnswer((_) async => const SuccessResponse(data: []));
 
-        // 5. Popular Workouts (Stream)
+        // 4. Popular Workouts (Stream)
         final mockPopular = <PopularWorkoutEntity>[];
         when(
           () => mockWorkoutsUC(),
@@ -108,20 +83,18 @@ void main() {
         // Act
         final stream = useCase.execute();
 
-        // Assert
+        // Assert — now 4 sections (user profile was removed)
         await expectLater(
           stream,
           emitsThrough(
             predicate((List<BaseResponse<HomeSection>> list) {
-              final hasUser = list[0] is SuccessResponse;
-              final hasPopular = list[4] is SuccessResponse;
-              return list.length == 5 && (hasUser || hasPopular);
+              return list.length == 4 &&
+                  list.every((e) => e is SuccessResponse);
             }),
           ),
         );
 
         // Verify all calls
-        verify(() => mockUserUC()).called(1);
         verify(() => mockRandomUC()).called(1);
         verify(() => mockMuscleGroupsUC()).called(1);
         verify(() => mockCategoriesUC()).called(1);
@@ -132,14 +105,12 @@ void main() {
     test(
       'should handle failures from individual use cases correctly',
       () async {
-        when(() => mockUserUC()).thenAnswer(
-          (_) async => const ErrorResponse(errorMessage: 'User Error'),
-        );
-
-        // 1. Random Muscles
+        // 1. Random Muscles — error
         when(
           () => mockRandomUC(),
-        ).thenAnswer((_) async => const SuccessResponse(data: []));
+        ).thenAnswer(
+          (_) async => const ErrorResponse(errorMessage: 'Random Muscles Error'),
+        );
 
         // 2. Muscle Groups
         final mockGroups = [const MuscleGroupEntity(id: 'g1', name: 'Group 1')];
@@ -163,13 +134,14 @@ void main() {
         // Act
         final stream = useCase.execute();
 
-        // Assert
+        // Assert — index 0 is RandomMuscles, should be ErrorResponse
         await expectLater(
           stream,
           emitsThrough(
             predicate((List<BaseResponse<HomeSection>> list) {
               return list[0] is ErrorResponse &&
-                  (list[0] as ErrorResponse).errorMessage == 'User Error';
+                  (list[0] as ErrorResponse).errorMessage ==
+                      'Random Muscles Error';
             }),
           ),
         );

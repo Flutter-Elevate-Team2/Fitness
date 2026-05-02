@@ -2,15 +2,35 @@ import 'package:fitness_app/Features/smart_coach/domain/entities/message_entity.
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/chat_message_list.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/coach_message_bubble.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/user_message_bubble.dart';
+import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
+import 'package:fitness_app/core/user_cubit/user_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+
+class MockUserCubit extends Mock implements UserCubit {
+  @override
+  UserEntity? get state => null;
+
+  @override
+  Stream<UserEntity?> get stream => const Stream.empty();
+
+  @override
+  bool get isClosed => false;
+
+  @override
+  Future<void> close() async {}
+}
 
 void main() {
   late ScrollController scrollController;
+  late MockUserCubit mockUserCubit;
 
   setUp(() {
     scrollController = ScrollController();
+    mockUserCubit = MockUserCubit();
   });
 
   tearDown(() {
@@ -26,13 +46,16 @@ void main() {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(
-        body: ChatMessageList(
-          messages: messages,
-          scrollController: scrollController,
-          isStreaming: isStreaming,
-          showRetry: showRetry,
-          onRetry: onRetry,
+      home: BlocProvider<UserCubit>.value(
+        value: mockUserCubit,
+        child: Scaffold(
+          body: ChatMessageList(
+            messages: messages,
+            scrollController: scrollController,
+            isStreaming: isStreaming,
+            showRetry: showRetry,
+            onRetry: onRetry,
+          ),
         ),
       ),
     );
@@ -89,7 +112,9 @@ void main() {
       expect(retryButton, findsOneWidget);
       
       await tester.tap(retryButton);
-      await tester.pumpAndSettle();
+      // Use pump() instead of pumpAndSettle() because _TypingIndicator
+      // may have an AnimationController.repeat() that never settles.
+      await tester.pump();
       
       expect(retryPressed, isTrue);
     });
