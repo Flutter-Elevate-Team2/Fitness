@@ -32,14 +32,16 @@ class ExploreScreenBody extends StatelessWidget {
                 right: 16,
                 top: 16,
               ),
-              itemCount: 6,
+              itemCount: 6, // 6 ويدجت في الشاشة
               separatorBuilder: (_, _) => const SizedBox(height: 24),
               itemBuilder: (context, index) {
-                if (index == 1) {
-                  return CategorySection(onTapGym: onSeeAllWorkoutsTapped);
-                }
 
-                int serverIndex = index > 1 ? index - 1 : index;
+                // Static Widgets
+                if (index == 0) return const HomeHeader(); // شيلنا الـ response من هنا خلاص!
+                if (index == 1) return CategorySection(onTapGym: onSeeAllWorkoutsTapped);
+
+                // Dynamic Widgets (من السيرفر)
+                int serverIndex = index - 2; // عشان يبدأ من 0 للويدجتس الجاية
 
                 final response = state.homeData.where((e) {
                   if (e is SuccessResponse<HomeSection>) {
@@ -48,21 +50,14 @@ class ExploreScreenBody extends StatelessWidget {
                   return false;
                 }).firstOrNull;
 
-                return switch (index) {
-                  0 => HomeHeader(response: response), // Server Index 0
-                  2 => RandomMusclesSection(
-                    response: response,
-                  ), // Server Index 1
-                  3 => UpcomingWorkoutsSection(
+                return switch (serverIndex) {
+                  0 => RandomMusclesSection(response: response),
+                  1 => UpcomingWorkoutsSection(
                     response: response,
                     onSeeAllTapped: onSeeAllWorkoutsTapped,
-                  ), // Server Index 2
-                  4 => RecommendationForYouSection(
-                    response: response,
-                  ), // Server Index 3
-                  5 => PopularTrainingSection(
-                    response: response,
-                  ), // Server Index 4
+                  ),
+                  2 => RecommendationForYouSection(response: response),
+                  3 => PopularTrainingSection(response: response),
                   _ => const SizedBox.shrink(),
                 };
               },

@@ -1,11 +1,11 @@
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/theming/app_typography.dart';
+import 'package:fitness_app/core/user_cubit/user_view_model.dart';
 import 'package:fitness_app/core/widget/shared_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 
-/// Right-aligned user message bubble.
-///
-/// Layout: [primary-colored bubble with text] — [user avatar circle]
 class UserMessageBubble extends StatelessWidget {
   final String message;
 
@@ -37,10 +37,20 @@ class UserMessageBubble extends StatelessWidget {
         const SizedBox(width: 8),
 
         /// ── User avatar ──
-        const CircleAvatar(
-          radius: 18,
-          backgroundColor: AppColors.grayMid,
-          child: Icon(Icons.person, color: AppColors.white, size: 18),
+        // استخدمنا BlocBuilder عشان نقرأ صورة اليوزر فوراً
+        BlocBuilder<UserCubit, UserEntity?>(
+          builder: (context, user) {
+            final imageUrl = user?.photo ?? "";
+
+            return CircleAvatar(
+              radius: 18,
+              backgroundColor: AppColors.grayMid,
+              backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+              child: imageUrl.isEmpty
+                  ? const Icon(Icons.person, color: AppColors.white, size: 18)
+                  : null,
+            );
+          },
         ),
       ],
     );

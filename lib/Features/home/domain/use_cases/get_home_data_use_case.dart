@@ -4,7 +4,6 @@ import 'package:fitness_app/Features/food/domain/use_cases/categories_use_case.d
 import 'package:fitness_app/Features/home/domain/entities/home_section.dart';
 import 'package:fitness_app/Features/home/domain/entities/popular_tranning_entity.dart';
 import 'package:fitness_app/Features/home/domain/use_cases/get_popular_workouts_use_case.dart';
-import 'package:fitness_app/Features/profile/domain/use_cases/get_user_profile_use_case.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
@@ -13,11 +12,9 @@ import 'package:fitness_app/Features/workouts/domain/use_cases/get_muscles_by_gr
 import 'package:fitness_app/Features/workouts/domain/use_cases/get_random_muscles_use_case.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:injectable/injectable.dart';
-import '../../../profile/domain/entities/user_entity.dart';
 
 @injectable
 class GetHomeDataUseCase {
-  final GetUserProfileUseCase _userUC;
   final GetCategoriesUseCase _categoriesUC;
   final GetPopularWorkoutsUseCase _workoutsUC;
   final GetRandomMusclesUseCase _randomUC;
@@ -25,7 +22,6 @@ class GetHomeDataUseCase {
   final GetMusclesByGroupIdUseCase _musclesByGroupUC;
 
   GetHomeDataUseCase(
-    this._userUC,
     this._categoriesUC,
     this._workoutsUC,
     this._randomUC,
@@ -34,7 +30,8 @@ class GetHomeDataUseCase {
   );
 
   Stream<List<BaseResponse<HomeSection>>> execute() async* {
-    final List<BaseResponse<HomeSection>?> results = List.filled(5, null);
+    // List بقت 4 عناصر بس بعد ما شيلنا اليوزر
+    final List<BaseResponse<HomeSection>?> results = List.filled(4, null);
 
     final controller = StreamController<List<BaseResponse<HomeSection>>>();
 
@@ -42,23 +39,14 @@ class GetHomeDataUseCase {
       results[index] = response;
       if (!controller.isClosed) {
         controller.add(List<BaseResponse<HomeSection>>.from(
-            results.map((e) => e ?? ErrorResponse(errorMessage: "loading"))
+            results.map((e) => e ?? const ErrorResponse(errorMessage: "loading"))
         ));
       }
     }
 
-    _userUC().then((res) {
-      updateAndEmit(
-        0,
-        res is SuccessResponse<UserEntity>
-            ? SuccessResponse(data: UserProfileSection(res.data))
-            : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),
-      );
-    });
-
     _randomUC().then((res) {
       updateAndEmit(
-        1,
+        0, // Index 0 بدلاً من 1
         res is SuccessResponse<List<RandomMusclesEntity>>
             ? SuccessResponse(data: RandomMuscleSection(res.data))
             : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),
@@ -71,7 +59,7 @@ class GetHomeDataUseCase {
         final musclesRes = await _musclesByGroupUC(firstId);
 
         updateAndEmit(
-          2,
+          1, // Index 1 بدلاً من 2
           SuccessResponse(
             data: UpcomingWorkoutsSectionData(
               muscleGroups: res.data,
@@ -84,13 +72,13 @@ class GetHomeDataUseCase {
           ),
         );
       } else {
-        updateAndEmit(2, ErrorResponse(errorMessage: "Failed to load muscles"));
+        updateAndEmit(1, const ErrorResponse(errorMessage: "Failed to load muscles"));
       }
     });
 
     _categoriesUC().then((res) {
       updateAndEmit(
-        3,
+        2, // Index 2 بدلاً من 3
         res is SuccessResponse<List<CategoryEntity>>
             ? SuccessResponse(data: FoodCategoriesSection(res.data))
             : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),
@@ -99,7 +87,7 @@ class GetHomeDataUseCase {
 
     _workoutsUC().first.then((res) {
       updateAndEmit(
-        4,
+        3, // Index 3 بدلاً من 4
         res is SuccessResponse<List<PopularWorkoutEntity>>
             ? SuccessResponse(data: PopularWorkoutsSection(res.data))
             : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),

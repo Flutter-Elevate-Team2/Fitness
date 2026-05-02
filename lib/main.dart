@@ -9,6 +9,7 @@ import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 import 'package:fitness_app/core/l10n/locale_cubit.dart';
 import 'package:fitness_app/core/theming/app_theming.dart';
+import 'package:fitness_app/core/user_cubit/user_view_model.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:fitness_app/hive_registrar.g.dart';
 import 'package:flutter/material.dart';
@@ -87,16 +88,21 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          lazy: false,
           create: (_) =>
-              getIt<ProfileViewModel>()..doIntent(GetUserProfileEvent()),
+             getIt<ProfileViewModel>()..doIntent(GetUserProfileEvent()),
         ),
         BlocProvider(create: (_) => getIt<LoginViewModel>()),
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
+        BlocProvider(
+          lazy: false,
+          create: (_) => getIt<UserCubit>(),
+        ),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {

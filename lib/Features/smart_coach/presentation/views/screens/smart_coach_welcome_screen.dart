@@ -6,12 +6,14 @@ import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/coac
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/smart_coach_intro_card.dart';
 import 'package:fitness_app/Features/smart_coach/presentation/views/widgets/smart_coach_intro_header.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
+import 'package:fitness_app/core/user_cubit/user_view_model.dart';
 import 'package:fitness_app/core/widget/shared_container.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 
 /// Welcome / intro screen shown when the user has no active chat session.
 ///
@@ -19,7 +21,7 @@ import 'package:go_router/go_router.dart';
 /// Tapping CTA creates a new session and transitions to the chat screen.
 class SmartCoachWelcomeScreen extends StatefulWidget {
   final VoidCallback? onBack;
-  
+
   const SmartCoachWelcomeScreen({super.key, this.onBack});
 
   @override
@@ -59,10 +61,18 @@ class _SmartCoachWelcomeScreenState extends State<SmartCoachWelcomeScreen> {
                   /// ── Top: greeting + menu icon ──
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: SmartCoachIntroHeader(
-                      userName: 'Ahmed',
-                      onMenuTap: () {
-                        _openHistory();
+                    // استخدمنا الـ BlocBuilder هنا عشان نقرأ اليوزر من الـ Global State
+                    child: BlocBuilder<UserCubit, UserEntity?>(
+                      builder: (context, user) {
+                        // لو اليوزر موجود هات الـ firstName، لو لأ سيبه فاضي
+                        final userName = user?.firstName ?? '';
+
+                        return SmartCoachIntroHeader(
+                          userName: userName,
+                          onMenuTap: () {
+                            _openHistory();
+                          },
+                        );
                       },
                     ),
                   ),
@@ -115,7 +125,7 @@ class _SmartCoachWelcomeScreenState extends State<SmartCoachWelcomeScreen> {
               ),
             ),
           ),
-          
+
           /// ── Layer 2: Sliding history panel ──
           BlocBuilder<SmartCoachViewModel, SmartCoachState>(
             builder: (context, state) {

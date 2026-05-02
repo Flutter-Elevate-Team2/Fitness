@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
-
 import '../../Features/profile/domain/entities/user_entity.dart';
 
 enum SessionEndReason { logout, guest, passwordChanged }
@@ -27,9 +26,15 @@ class SessionController {
   final StreamController<void> _loginController = StreamController<void>.broadcast();
   final StreamController<SessionEndReason> _logoutController = StreamController<SessionEndReason>.broadcast();
 
+  // ضفنا StreamController للـ User عشان الـ Cubit يسمع منه
+  final StreamController<UserEntity?> _userController = StreamController<UserEntity?>.broadcast();
+
   Stream<void> get onSessionExpired => _sessionExpiredController.stream;
   Stream<void> get onLogin => _loginController.stream;
   Stream<SessionEndReason> get onLogout => _logoutController.stream;
+
+  // ضفنا الـ Stream هنا
+  Stream<UserEntity?> get onUserChanged => _userController.stream;
 
   Future<void> initSession() async {
     _token = await _secureStorage.read(key: ApiConstants.tokenKey);
@@ -37,10 +42,18 @@ class SessionController {
 
   void saveUser(UserEntity user) {
     _user = user;
+    // ابعت اليوزر للـ Stream عشان الـ UI يتحدث
+    if (!_userController.isClosed) {
+      _userController.add(_user);
+    }
   }
 
   void updateUser(UserEntity updatedUser) {
     _user = updatedUser;
+     // ابعت اليوزر للـ Stream عشان الـ UI يتحدث
+    if (!_userController.isClosed) {
+      _userController.add(_user);
+    }
   }
 
   Future<void> updateSessionAuth(String newToken) async {
@@ -52,6 +65,7 @@ class SessionController {
   Future<void> expireSession() async {
     await _secureStorage.delete(key: ApiConstants.tokenKey);
     _user = null;
+    if (!_userController.isClosed) _userController.add(null);
     if (!_sessionExpiredController.isClosed) {
       _sessionExpiredController.add(null);
     }
@@ -66,6 +80,7 @@ class SessionController {
   Future<void> notifyLogout(SessionEndReason reason) async {
     _token = null;
     _user = null;
+    if (!_userController.isClosed) _userController.add(null);
     await _secureStorage.delete(key: ApiConstants.tokenKey);
     if (!_logoutController.isClosed) {
       _logoutController.add(reason);
@@ -77,5 +92,6 @@ class SessionController {
     _sessionExpiredController.close();
     _loginController.close();
     _logoutController.close();
+    _userController.close();
   }
 }

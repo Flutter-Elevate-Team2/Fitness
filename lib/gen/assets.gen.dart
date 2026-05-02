@@ -45,8 +45,26 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Apple.png
   AssetGenImage get apple => const AssetGenImage('assets/icons/Apple.png');
 
+  /// File path: assets/icons/Change.png
+  AssetGenImage get change => const AssetGenImage('assets/icons/Change.png');
+
   /// File path: assets/icons/Google.png
   AssetGenImage get google => const AssetGenImage('assets/icons/Google.png');
+
+  /// File path: assets/icons/Help.png
+  AssetGenImage get help => const AssetGenImage('assets/icons/Help.png');
+
+  /// File path: assets/icons/Language.png
+  AssetGenImage get language =>
+      const AssetGenImage('assets/icons/Language.png');
+
+  /// File path: assets/icons/Lock Setting.png
+  AssetGenImage get lockSetting =>
+      const AssetGenImage('assets/icons/Lock Setting.png');
+
+  /// File path: assets/icons/Security Warning.png
+  AssetGenImage get securityWarning =>
+      const AssetGenImage('assets/icons/Security Warning.png');
 
   /// File path: assets/icons/chat ai.png
   AssetGenImage get chatAi => const AssetGenImage('assets/icons/chat ai.png');
@@ -61,11 +79,18 @@ class $AssetsIconsGen {
   /// File path: assets/icons/female.png
   AssetGenImage get female => const AssetGenImage('assets/icons/female.png');
 
+  /// File path: assets/icons/logout.png
+  AssetGenImage get logout => const AssetGenImage('assets/icons/logout.png');
+
   /// File path: assets/icons/male.png
   AssetGenImage get male => const AssetGenImage('assets/icons/male.png');
 
   /// File path: assets/icons/profile.png
   AssetGenImage get profile => const AssetGenImage('assets/icons/profile.png');
+
+  /// File path: assets/icons/profile2.png
+  AssetGenImage get profile2 =>
+      const AssetGenImage('assets/icons/profile2.png');
 
   /// File path: assets/icons/workouts.png
   AssetGenImage get workouts =>
@@ -74,13 +99,20 @@ class $AssetsIconsGen {
   /// List of all assets
   List<AssetGenImage> get values => [
     apple,
+    change,
     google,
+    help,
+    language,
+    lockSetting,
+    securityWarning,
     chatAi,
     explore,
     facebook,
     female,
+    logout,
     male,
     profile,
+    profile2,
     workouts,
   ];
 }

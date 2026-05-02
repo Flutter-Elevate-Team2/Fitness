@@ -4,21 +4,14 @@ import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/random_muscles_entity.dart';
 
-import '../../../profile/domain/entities/user_entity.dart';
-
 sealed class HomeSection {
   final int index;
   HomeSection(this.index);
 }
 
-class UserProfileSection extends HomeSection {
-  final UserEntity user;
-  UserProfileSection(this.user) : super(0);
-}
-
 class RandomMuscleSection extends HomeSection {
   final List<RandomMusclesEntity> muscles;
-  RandomMuscleSection(this.muscles) : super(1);
+  RandomMuscleSection(this.muscles) : super(0); // Index 0
 }
 
 class UpcomingWorkoutsSectionData extends HomeSection {
@@ -30,15 +23,15 @@ class UpcomingWorkoutsSectionData extends HomeSection {
     required this.muscleGroups,
     required this.currentGroupMuscles,
     this.selectedGroupId,
-  }) : super(2);
+  }) : super(1); // Index 1
 }
 
 class FoodCategoriesSection extends HomeSection {
   final List<CategoryEntity> categories;
-  FoodCategoriesSection(this.categories) : super(3);
+  FoodCategoriesSection(this.categories) : super(2); // Index 2
 }
 
 class PopularWorkoutsSection extends HomeSection {
   final List<PopularWorkoutEntity> workouts;
-  PopularWorkoutsSection(this.workouts) : super(4);
+  PopularWorkoutsSection(this.workouts) : super(3); // Index 3
 }

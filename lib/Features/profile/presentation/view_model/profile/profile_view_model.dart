@@ -36,13 +36,14 @@ class ProfileViewModel extends Cubit<ProfileStates> {
   }
 
 
-  Future<void> _getProfile() async {
+Future<void> _getProfile() async {
     emit(state.copyWith(profileState: BaseState(isLoading: true)));
 
     final result = await _getUserProfileUseCase.call();
 
     switch (result) {
       case SuccessResponse():
+        _sessionController.saveUser(result.data);
 
         emit(
           state.copyWith(

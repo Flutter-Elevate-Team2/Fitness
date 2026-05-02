@@ -413,6 +413,96 @@ class AppLocalizationsEn extends AppLocalizations {
   String get googleLoginFailed => 'Google login failed';
 
   @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get profileUpdatedSuccess => 'Profile updated successfully!';
+
+  @override
+  String get photoUploadedSuccessfully => 'Photo uploaded successfully!';
+
+  @override
+  String get passwordChangedSuccess => 'Password changed successfully';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get firstNameLabel => 'First Name';
+
+  @override
+  String get lastNameLabel => 'Last Name';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get chooseImageSource => 'Choose Image Source';
+
+  @override
+  String get failedToPickImage => 'Failed to pick image: ';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get security => 'Security';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get selectLanguage => 'Select Language';
+
+  @override
+  String get help => 'Help';
+
+  @override
+  String get logoutConfirmation => 'Are you sure you want to logout?';
+
+  @override
+  String get passwordMinLength => 'Make sure it\'s 8 characters or more';
+
+  @override
+  String get oldPassword => 'Old Password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get tabToEdit => ' (tap To Edit)';
+
+  @override
+  String get yourWeight => 'Your Weight';
+
+  @override
+  String get yourGoal => 'Your Goal';
+
+  @override
+  String get yourActivityLevel => 'Your Activity Level';
+
+  @override
   String get smartCoachDefaultSessionTitle => 'New Conversation';
 
   @override

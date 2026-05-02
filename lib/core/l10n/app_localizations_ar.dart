@@ -411,6 +411,96 @@ class AppLocalizationsAr extends AppLocalizations {
   String get googleLoginFailed => 'فشل تسجيل الدخول بجوجل';
 
   @override
+  String get editProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get profileUpdatedSuccess => 'تم تحديث الملف الشخصي بنجاح!';
+
+  @override
+  String get photoUploadedSuccessfully => 'تم رفع الصورة بنجاح!';
+
+  @override
+  String get passwordChangedSuccess => 'تم تغيير كلمة المرور بنجاح';
+
+  @override
+  String get update => 'تحديث';
+
+  @override
+  String get firstNameLabel => 'الاسم الأول';
+
+  @override
+  String get lastNameLabel => 'اسم العائلة';
+
+  @override
+  String get emailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get gallery => 'معرض الصور';
+
+  @override
+  String get camera => 'الكاميرا';
+
+  @override
+  String get chooseImageSource => 'اختر مصدر الصورة';
+
+  @override
+  String get failedToPickImage => 'فشل اختيار الصورة: ';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get changePassword => 'تغيير كلمة المرور';
+
+  @override
+  String get security => 'الأمان';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get selectLanguage => 'اختيار اللغة';
+
+  @override
+  String get help => 'المساعدة';
+
+  @override
+  String get logoutConfirmation => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get passwordMinLength => 'تأكد أن كلمة المرور لا تقل عن 8 أحرف';
+
+  @override
+  String get oldPassword => 'كلمة المرور القديمة';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get tabToEdit => ' (اضغط للتعديل)';
+
+  @override
+  String get yourWeight => 'وزنك';
+
+  @override
+  String get yourGoal => 'هدفك';
+
+  @override
+  String get yourActivityLevel => 'مستوى نشاطك';
+
+  @override
   String get smartCoachDefaultSessionTitle => 'محادثة جديدة';
 
   @override
