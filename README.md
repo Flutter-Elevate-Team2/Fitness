@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/images/app_logo.png" alt="Super Fitness Logo" width="150" height="150" style="border-radius: 30px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);" />
+  <img src="assets/images/app_icon.png" alt="Super Fitness Logo" width="150" height="150" style="border-radius: 30px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);" />
 </p>
 
 <h1 align="center">🔥 Super Fitness : Your Ultimate AI-Powered Gym Companion</h1>
@@ -49,7 +49,7 @@
     <tr>
       <td align="center"><strong>Home</strong></td>
       <td align="center"><strong>Workouts</strong></td>
-      <td align="center"><strong>Nutrition Details</strong></td>
+      <td align="center"><strong>Exercies</strong></td>
     </tr>
     <tr>
       <td><img src="LINK_TO_HOME" width="250" alt="Home"/></td>
@@ -117,9 +117,13 @@ The "Smart Coach" feature uses a reactive BLoC-based messaging system:
 <hr>
 
 ## 🤝 The Team
-**Built by a dedicated team of engineers.**
+**This project was built collaboratively by a dedicated team of engineers.**
 
-**Mohamed Ibrahim** [![Linkedin](...)]() | [![GitHub](...)]()
-**Ahmed Hussien** [![Linkedin](...)]() | [![GitHub](...)]()
-**Malak Hussien** [![Linkedin](...)]() | [![GitHub](...)]()
-**Nagham Arafa** [![Linkedin](...)]() | [![GitHub](...)]()
+**Mohamed Ibrahim** [![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/mohamed-ibrahim39/) | [![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/MoHa270xX)
+
+**Ahmed Hussien** [![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/ahmed-hussien-02b499186/) | [![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/AhmedHussien249)
+
+**Malak Hussien** [![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/malak-hussein-b69418249/) | [![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/MALAK0244)
+
+**Nagham Arafa** [![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/nagham-arafa-5558942bb/) | [![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/NaghamArafa)
+
