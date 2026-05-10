@@ -187,7 +187,7 @@ The Smart Coach acts as a **Personalized Agent**:
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/Flutter-Elevate-Team2/Fitness.git](https://github.com/Flutter-Elevate-Team2/Fitness.git)
-   cd Flowers-App
+   cd Fitness
    
    
 ## 🤝 The Team
