@@ -1,6 +1,7 @@
 import 'package:fitness_app/Features/home/presentation/views/screens/explore_screen.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:fitness_app/Features/home/presentation/views/widgets/home_category.dart';
+import 'package:fitness_app/Features/profile/presentation/views/screens/profile_screen.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/widget/shared_scaffold.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/workouts_screen.dart';
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ExploreScreen(onSeeAllWorkoutsTapped: _switchToWorkoutsTab),
       _PlaceholderTab(title: context.l10n.chatAi),
       WorkoutsScreen(initialGroupId: _selectedWorkoutGroupId),
-      _PlaceholderTab(title: context.l10n.profile),
+      ProfileScreen(),
     ];
 
     return SharedScaffold(

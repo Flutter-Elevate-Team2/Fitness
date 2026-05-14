@@ -58,6 +58,7 @@ dependencies:
   flutter_facebook_auth: ^7.1.6
   package_info_plus: ^9.0.1
   url_launcher: ^6.3.2
+  webview_flutter: ^4.13.1
 
 dev_dependencies:
   bloc_test: ^10.0.0

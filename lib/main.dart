@@ -5,13 +5,14 @@ import 'package:fitness_app/Features/workouts/data/models/exercises_response/exe
 import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/muscle_model.dart';
 import 'package:fitness_app/Features/workouts/data/models/random_muscle_model.dart';
- import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
+import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/controller/session_expired.dart';
 import 'package:fitness_app/core/data_base/hive_database_service.dart';
 import 'package:fitness_app/core/di/di.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
+import 'package:fitness_app/core/l10n/locale_cubit.dart';
 import 'package:fitness_app/core/theming/app_theming.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
   final _sessionController = getIt<SessionController>();
   final List<StreamSubscription> _subscriptions = [];
   bool _isSplashRemoved = false;
+
   @override
   void initState() {
     super.initState();
@@ -110,23 +112,32 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-           BlocProvider(
+          BlocProvider(
             create: (_) =>
-            getIt<ProfileViewModel>()..doIntent(GetUserProfileEvent()),
+            getIt<ProfileViewModel>()
+              ..doIntent(GetUserProfileEvent()),
           ),
           BlocProvider(
             create: (_) => getIt<LoginViewModel>(),
-          )
+          ),
+          BlocProvider(
+            create: (_) => getIt<LocaleCubit>(),          ),
         ],
-        child:  MaterialApp.router(
-       routerConfig: AppRouter.router,
-      title: 'Super Fitness',
-      debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      theme: AppTheme.darkTheme,
-    )
-    );
+        child: BlocBuilder<LocaleCubit, Locale>(
+          builder: (context, locale) {
+            return MaterialApp.router(
+              key: ValueKey(locale.languageCode),
+              routerConfig: AppRouter.router,
+              title: 'Super Fitness',
+              debugShowCheckedModeBanner: false,
+              onGenerateTitle: (context) =>
+              AppLocalizations.of(context)!.appTitle,
+              supportedLocales: AppLocalizations.supportedLocales,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              theme: AppTheme.darkTheme,
+              locale: locale,
+            );
+          },
+        ));
   }
 }

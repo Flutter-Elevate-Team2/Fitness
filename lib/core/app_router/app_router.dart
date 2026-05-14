@@ -1,26 +1,36 @@
 import 'package:fitness_app/Features/auth/domain/use_cases/login_use_cases/valid_token_use_case.dart';
- import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/screens/signup_screen.dart';
 import 'package:fitness_app/Features/auth/presentation/forget_password/views/screens/forget_password_screen.dart';
- import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
+import 'package:fitness_app/Features/auth/presentation/login/views/screens/login_screen.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_event.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_view_model.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/home_meal_test.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/meals_screen.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
- import 'package:fitness_app/core/constants/api_constants.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/edit_profile/edit_profile_view_model.dart';
+import 'package:fitness_app/Features/profile/presentation/views/screens/edit_profile/edit_profile_screen.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/edit_profile/edit_activity.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/edit_profile/edit_goal.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/edit_profile/edit_weight.dart';
+import 'package:fitness_app/core/constants/api_constants.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/change_password/change_password_view_model.dart';
+import 'package:fitness_app/Features/profile/presentation/views/screens/change_password_screen.dart';
+import 'package:fitness_app/Features/profile/presentation/views/screens/profile_screen.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/exercises_screen.dart';
 import 'package:fitness_app/Features/workouts/presentation/views/screens/video_player_screen.dart';
- import 'package:fitness_app/core/di/di.dart';
+import 'package:fitness_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Features/profile/domain/entities/user_entity.dart';
 
 // coverage:ignore-file
 
@@ -54,6 +64,24 @@ class Routes {
 
   static const String homeMealTestPath = '/homeMealTest';
   static const String homeMealTestName = 'homeMealTest';
+
+  static const String profilePath = '/profile';
+  static const String profileName = 'profile';
+
+  static const String changePasswordPath = '/changepassword';
+  static const String changePasswordName = 'changepassword';
+
+  static const String editProfilePath = '/editProfile';
+  static const String editProfileName = 'editProfile';
+
+  static const String editWeightPath = '/editweight';
+  static const String editWeightName = 'editweight';
+
+  static const String editGoalPath = '/editgoal';
+  static const String editGoalName = 'editgoal';
+
+  static const String editActivityPath = '/editactivity';
+  static const String editActivityName = 'editactivity';
 }
 
 class AppRouter {
@@ -71,9 +99,8 @@ class AppRouter {
       final bool firebaseLoggedIn = firebaseUser != null;
 
       final bool isLoggedIn = await hasValidTokenUseCase.call();
-       final bool hasVisitedOnboarding =
+      final bool hasVisitedOnboarding =
           prefs.getBool(ApiConstants.onboardingKey) ?? false;
-
 
       final isAuthRoute =
           state.matchedLocation == Routes.loginPath ||
@@ -92,7 +119,7 @@ class AppRouter {
 
       if (!isLoggedIn &&
           !isAuthRoute &&
-           state.matchedLocation != Routes.onBoardingPath) {
+          state.matchedLocation != Routes.onBoardingPath) {
         return Routes.loginPath;
       }
 
@@ -148,7 +175,8 @@ class AppRouter {
               primeMoverMuscleId: extra['primeMoverMuscleId'] as String,
               muscleTitle: extra['title'] as String,
               muscleImage: extra['image'] as String?,
-              preloadedExercises: extra['preloadedExercises'] as List<ExerciseEntity>?,
+              preloadedExercises:
+                  extra['preloadedExercises'] as List<ExerciseEntity>?,
               fixedLevelId: extra['fixedLevelId'] as String?,
             ),
           );
@@ -200,6 +228,71 @@ class AppRouter {
           return BlocProvider(
             create: (context) => getIt<MealsViewModel>(),
             child: MealDetailsScreen(mealId),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.profilePath,
+        name: Routes.profileName,
+        builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: Routes.changePasswordPath,
+        name: Routes.changePasswordName,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => getIt<ChangePasswordViewModel>(),
+            child: ChangePasswordScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.editProfilePath,
+        name: Routes.editProfileName,
+        builder: (context, state) {
+          final user = state.extra as UserEntity;
+
+          return BlocProvider(
+            create: (context) => getIt<EditProfileViewModel>(),
+            child: EditProfileScreen(user: user),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.editWeightPath,
+        name: Routes.editWeightName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+
+          return EditWeightScreen(
+            initialWeight: extra['initialWeight'],
+            onWeightChanged: extra['onWeightChanged'],
+            onStepComplete: extra['onStepComplete'],
+            onBackButtonPressed: extra['onBackButtonPressed'],
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.editGoalPath,
+        name: Routes.editGoalName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return EditGoal(
+            initialGoal: extra['initialGoal'],
+            onGoalSelected: extra['onGoalSelected'],
+            onBackButtonPressed: extra['onBackButtonPressed'],
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.editActivityPath,
+        name: Routes.editActivityName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return EditActivity(
+            initialActivity: extra['initialActivity'],
+            onActivitySelected: extra['onActivitySelected'],
+            onBackButtonPressed: extra['onBackButtonPressed'],
           );
         },
       ),

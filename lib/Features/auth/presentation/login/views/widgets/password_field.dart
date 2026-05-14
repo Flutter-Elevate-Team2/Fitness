@@ -7,10 +7,15 @@ import 'package:flutter/material.dart';
 class PasswordField extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback onChanged;
+  final String? title;
+  final String? password;
+
   const PasswordField({
     super.key,
     required this.controller,
     required this.onChanged,
+    this.title,
+    this.password ,
   });
 
   @override
@@ -28,15 +33,23 @@ class _PasswordFieldState extends State<PasswordField> {
       obscureText: !_isVisible,
       textInputAction: TextInputAction.done,
       keyboardType: TextInputType.visiblePassword,
-      validator: (value) =>
-          FormValidators.validateLoginPassword(context, value),
+        validator: (value) {
+          if (widget.password != null) {
+            return FormValidators.validateConfirmPassword(
+              context,
+              value,
+              widget.password!,
+            );
+          }
+          return FormValidators.validateLoginPassword(context, value);
+      },
       style: const TextStyle(
         color: AppColors.white,
         fontSize: 12,
         fontWeight: FontWeight.normal,
       ),
       decoration: InputDecoration(
-        hintText: context.l10n.password,
+        hintText: widget.title ?? context.l10n.password,
         hintStyle: const TextStyle(
           color: AppColors.white,
           fontSize: 12,
