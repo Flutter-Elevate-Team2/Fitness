@@ -113,5 +113,14 @@
   "explore": "استكشاف",
   "chatAi": "الدردشة",
   "workouts": "التمارين",
-  "profile": "الملف الشخصي"
+  "profile": "الملف الشخصي",
+  "showMore": "عرض المزيد",
+  "showLess": "عرض أقل",
+  "ingredients": "المكونات",
+  "instructions": "طريقة التحضير",
+  "foodRecommendation": "اقتراحات الطعام",
+  "view": "عرض",
+  "couldNotOpenVideo": "تعذر فتح الفيديو، حاول مرة أخرى",
+  "recommendationForYou": "مقترحات لك",
+  "seeAll": "عرض الكل"
 }
