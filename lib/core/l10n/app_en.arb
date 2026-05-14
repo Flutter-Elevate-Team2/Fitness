@@ -162,5 +162,32 @@
     "description": "Workouts"},
   "profile": "Profile",
   "@profile": {
-    "description": "Profile"}
+    "description": "Profile"},
+  "foodRecommendation": "Food Recommendation",
+  "@foodRecommendation": {
+    "description": "Food Recommendation"},
+  "recommendationForYou": "Recommendation For You",
+  "@recommendationForYou": {
+    "description": "Recommendation For You"},
+  "seeAll": "See All",
+  "@seeAll": {
+    "description": "See All"},
+  "showMore": "Show more",
+  "@showMore": {
+    "description": "Show more"},
+  "showLess": "Show less",
+  "@showLess": {
+    "description": "Show less"},
+  "ingredients": "Ingredients",
+  "@ingredients": {
+    "description": "Ingredients"},
+  "instructions": "Instructions",
+  "@instructions": {
+    "description": "Instructions"},
+  "view": "View",
+  "@view": {
+    "description": "View"},
+  "couldNotOpenVideo": "Could not open video, please try again",
+  "@couldNotOpenVideo": {
+    "description": "Could not open video, please try again"}
 }
