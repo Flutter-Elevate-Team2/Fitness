@@ -68,7 +68,7 @@ void main() {
           BlocProvider<LocaleCubit>.value(value: mockLocaleCubit),
           BlocProvider<ProfileViewModel>.value(value: mockProfileViewModel),
         ],
-        child: ProfileScreenBody(user: testUser),
+        child: ProfileScreenBody(user: testUser, onProfileUpdated: () {  },),
       ),
     );
   }

@@ -10,10 +10,15 @@ import 'package:fitness_app/Features/food/presentation/views/screens/meals/home_
 import 'package:fitness_app/Features/food/presentation/views/screens/meals/meals_screen.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
 import 'package:fitness_app/Features/onboarding/presentation/views/screens/onboarding_screen.dart';
+import 'package:fitness_app/Features/profile/presentation/view_model/edit_profile/edit_profile_view_model.dart';
+import 'package:fitness_app/Features/profile/presentation/views/screens/edit_profile/edit_profile_screen.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/edit_profile/edit_activity.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/edit_profile/edit_goal.dart';
+import 'package:fitness_app/Features/profile/presentation/views/widgets/edit_profile/edit_weight.dart';
+import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/change_password/change_password_view_model.dart';
 import 'package:fitness_app/Features/profile/presentation/views/screens/change_password_screen.dart';
 import 'package:fitness_app/Features/profile/presentation/views/screens/profile_screen.dart';
-import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/Features/food/presentation/views/screens/meal_details_screen.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_view_model.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
@@ -24,6 +29,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Features/profile/domain/entities/user_entity.dart';
 
 // coverage:ignore-file
 
@@ -63,6 +70,18 @@ class Routes {
 
   static const String changePasswordPath = '/changepassword';
   static const String changePasswordName = 'changepassword';
+
+  static const String editProfilePath = '/editProfile';
+  static const String editProfileName = 'editProfile';
+
+  static const String editWeightPath = '/editweight';
+  static const String editWeightName = 'editweight';
+
+  static const String editGoalPath = '/editgoal';
+  static const String editGoalName = 'editgoal';
+
+  static const String editActivityPath = '/editactivity';
+  static const String editActivityName = 'editactivity';
 }
 
 class AppRouter {
@@ -224,6 +243,56 @@ class AppRouter {
           return BlocProvider(
             create: (context) => getIt<ChangePasswordViewModel>(),
             child: ChangePasswordScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.editProfilePath,
+        name: Routes.editProfileName,
+        builder: (context, state) {
+          final user = state.extra as UserEntity;
+
+          return BlocProvider(
+            create: (context) => getIt<EditProfileViewModel>(),
+            child: EditProfileScreen(user: user),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.editWeightPath,
+        name: Routes.editWeightName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+
+          return EditWeightScreen(
+            initialWeight: extra['initialWeight'],
+            onWeightChanged: extra['onWeightChanged'],
+            onStepComplete: extra['onStepComplete'],
+            onBackButtonPressed: extra['onBackButtonPressed'],
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.editGoalPath,
+        name: Routes.editGoalName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return EditGoal(
+            initialGoal: extra['initialGoal'],
+            onGoalSelected: extra['onGoalSelected'],
+            onBackButtonPressed: extra['onBackButtonPressed'],
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.editActivityPath,
+        name: Routes.editActivityName,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return EditActivity(
+            initialActivity: extra['initialActivity'],
+            onActivitySelected: extra['onActivitySelected'],
+            onBackButtonPressed: extra['onBackButtonPressed'],
           );
         },
       ),

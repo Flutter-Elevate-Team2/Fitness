@@ -10,21 +10,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class ProfileSettingSection extends StatefulWidget {
-  const ProfileSettingSection({super.key});
+import '../../../../domain/entities/user_entity.dart';
 
+class ProfileSettingSection extends StatefulWidget {
+  final UserEntity currentUser;
+  final VoidCallback onProfileUpdated;
+
+  const ProfileSettingSection({
+    super.key,
+    required this.currentUser,
+    required this.onProfileUpdated,
+  });
   @override
   State<ProfileSettingSection> createState() => _ProfileSettingSectionState();
 }
 
 class _ProfileSettingSectionState extends State<ProfileSettingSection> {
-
   late bool isEnglish;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-     isEnglish = Localizations.localeOf(context).languageCode == 'en';
+    isEnglish = Localizations.localeOf(context).languageCode == 'en';
   }
 
   @override
@@ -39,8 +46,12 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
             ProfileSettingsTile(
               icon: Assets.icons.profile2.path,
               title: context.l10n.editProfile,
-              onTap: () {
-                context.pushNamed("/editprofile");
+              onTap: () async {
+                await context.pushNamed(
+                  Routes.editProfileName,
+                  extra: widget.currentUser,
+                );
+                widget.onProfileUpdated();
               },
             ),
 
@@ -64,7 +75,7 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
                   isEnglish = value;
                 });
                 context.read<LocaleCubit>().toggleLanguage(value);
-               },
+              },
               onTap: () {},
             ),
 
