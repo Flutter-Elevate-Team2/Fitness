@@ -32,8 +32,7 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
 
   @override
   Future<BaseResponse<LoginEntity>> login(
-    LoginRequest request,
-    bool isRememberMe,
+    LoginRequest request
   ) async {
     final result = await execute<LoginResponse, LoginEntity>(
       action: () async => await _remoteDataSource.login(request),
@@ -45,7 +44,6 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
       if (token != null && token.isNotEmpty) {
         _isCurrentSessionActive = true;
         await _localDataSource.saveToken(token);
-        await _localDataSource.saveRememberMe(isRememberMe);
       }
     }
     return result;
@@ -56,15 +54,10 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
     if (_isCurrentSessionActive) return true;
 
     final token = await _localDataSource.getToken();
-    final isRememberMe = await _localDataSource.getRememberMe();
 
     if (token != null && token.isNotEmpty) {
-      if (isRememberMe) {
-        _isCurrentSessionActive = true;
-        return true;
-      } else {
-        return false;
-      }
+      _isCurrentSessionActive = true;
+      return true;
     }
     return false;
   }

@@ -10,8 +10,7 @@ import 'package:fitness_app/Features/auth/data/models/forget_password_models/req
 
 abstract class AuthRepoContract {
   Future<BaseResponse<LoginEntity>> login(
-    LoginRequest request,
-    bool isRememberMe,
+    LoginRequest request
   );
   Future<bool> isLoggedIn();
   void clearSession();
