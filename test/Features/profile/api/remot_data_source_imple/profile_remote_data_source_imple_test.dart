@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:fitness_app/Features/profile/api/api_client/api_client.dart';
 import 'package:fitness_app/Features/profile/api/remot_data_source_imple/profile_remote_data_source_imple.dart';
 import 'package:fitness_app/Features/profile/data/models/user_profile_response.dart';
 import 'package:fitness_app/Features/profile/data/models/change_password_request/change_password_request.dart';
- import 'package:fitness_app/Features/profile/data/models/edit_profile_request.dart';
+import 'package:fitness_app/Features/profile/data/models/edit_profile_request.dart';
 import 'package:fitness_app/Features/profile/data/models/change_password_response/change_password_response.dart';
 import 'package:fitness_app/Features/profile/data/models/logout_response.dart';
+import 'package:fitness_app/Features/profile/data/models/upload_photo/upload_photo_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -20,7 +23,6 @@ void main() {
     mockApi = MockProfileApi();
     dataSource = ProfileRemoteDataSourceImple(mockApi);
   });
-
 
   // ---------------------------------------------------------------------------
   // getUserProfile
@@ -58,7 +60,9 @@ void main() {
       firstName: 'Jane',
       lastName: 'Doe',
       email: 'jane@test.com',
-      phone: '+201234567890',
+      weight: 60.0,
+      goal: 'lose_weight',
+      activityLevel: 'level2',
     );
 
     final response = UserProfileResponse(
@@ -68,7 +72,7 @@ void main() {
 
     test(
       'delegates to ProfileApi.editProfile and returns the response',
-          () async {
+      () async {
         when(mockApi.editProfile(request)).thenAnswer((_) async => response);
 
         final result = await dataSource.editProfile(request);
@@ -101,7 +105,7 @@ void main() {
 
     test(
       'delegates to ProfileApi.changePassword and returns the response',
-          () async {
+      () async {
         when(mockApi.changePassword(request)).thenAnswer((_) async => response);
 
         final result = await dataSource.changePassword(request);
@@ -115,6 +119,34 @@ void main() {
       when(mockApi.changePassword(request)).thenThrow(Exception('API error'));
 
       expect(() => dataSource.changePassword(request), throwsException);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // uploadPhoto
+  // ---------------------------------------------------------------------------
+  group('uploadPhoto', () {
+    final File testFile = File('dummy_path.jpg');
+    final response = UploadPhotoResponse(
+      message: 'Photo uploaded successfully',
+    );
+
+    test(
+      'delegates to ProfileApi.uploadPhoto and returns the response',
+      () async {
+        when(mockApi.uploadPhoto(testFile)).thenAnswer((_) async => response);
+
+        final result = await dataSource.uploadPhoto(testFile);
+
+        expect(result, response);
+        verify(mockApi.uploadPhoto(testFile)).called(1);
+      },
+    );
+
+    test('throws when ProfileApi.uploadPhoto throws', () async {
+      when(mockApi.uploadPhoto(testFile)).thenThrow(Exception('Upload failed'));
+
+      expect(() => dataSource.uploadPhoto(testFile), throwsException);
     });
   });
 
@@ -139,5 +171,4 @@ void main() {
       expect(() => dataSource.logout(), throwsException);
     });
   });
-
 }

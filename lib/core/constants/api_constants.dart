@@ -39,5 +39,6 @@ class ApiConstants {
   static const String getUserProfile = "auth/profile-data";
   static const String editProfile = "/auth/editProfile";
   static const String logout = "/auth/logout";
+  static const String uploadPhoto = "/auth/upload-photo";
 
 }

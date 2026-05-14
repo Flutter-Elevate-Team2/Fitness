@@ -9,6 +9,7 @@ class ActivityScreen extends StatefulWidget {
   final ValueChanged<String> onNextStep;
   final VoidCallback onBackButtonPressed;
   final bool useScaffold;
+  final String? initialActivity;
 
   const ActivityScreen({
     super.key,
@@ -16,6 +17,7 @@ class ActivityScreen extends StatefulWidget {
     required this.onNextStep,
     required this.onBackButtonPressed,
     this.useScaffold = true,
+    this.initialActivity,
   });
 
   @override
@@ -25,7 +27,6 @@ class ActivityScreen extends StatefulWidget {
 class _ActivityScreenState extends State<ActivityScreen> {
   int? selectedIndex;
 
-  /// Maps to API values: level1, level2, level3, level4, level5
   static const List<String> _activityKeys = [
     'level1',
     'level2',
@@ -33,6 +34,15 @@ class _ActivityScreenState extends State<ActivityScreen> {
     'level4',
     'level5',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialActivity != null &&
+        _activityKeys.contains(widget.initialActivity)) {
+      selectedIndex = _activityKeys.indexOf(widget.initialActivity!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +64,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
       onButtonPressed: selectedIndex != null
           ? () => widget.onNextStep(_activityKeys[selectedIndex!])
           : null,
-      stepIndicator: CustomStepProgress(currentStep: widget.currentStep),
+      stepIndicator: widget.currentStep > 0
+          ? CustomStepProgress(currentStep: widget.currentStep)
+          : null,
       formBody: Column(
         mainAxisSize: MainAxisSize.min,
         children: List.generate(activities.length, (index) {
