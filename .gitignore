@@ -16,6 +16,10 @@ migrate_working_dir/
 *.lock
 *.config.dart
 *.env
+*.xml
+*.cc
+*.cmake
+*.swift
 
 # IntelliJ related
 *.iml

@@ -3,9 +3,5 @@ abstract class AuthLocalDataSourceContract {
 
   Future<String?> getToken();
 
-  Future<void> saveRememberMe(bool value);
-
-  Future<bool> getRememberMe();
-
   Future<void> clearUserData();
 }
