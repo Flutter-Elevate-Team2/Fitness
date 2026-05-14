@@ -29,9 +29,23 @@ class $AssetsImagesGen {
   AssetGenImage get authBackground =>
       const AssetGenImage('assets/images/auth_background.png');
 
+  /// File path: assets/images/lock.png
+  AssetGenImage get lock => const AssetGenImage('assets/images/lock.png');
+
+  /// File path: assets/images/mail.png
+  AssetGenImage get mail => const AssetGenImage('assets/images/mail.png');
+
   /// File path: assets/images/onboarding1.png
   AssetGenImage get onboarding1 =>
       const AssetGenImage('assets/images/onboarding1.png');
+
+  /// File path: assets/images/onboarding2.png
+  AssetGenImage get onboarding2 =>
+      const AssetGenImage('assets/images/onboarding2.png');
+
+  /// File path: assets/images/onboarding3.png
+  AssetGenImage get onboarding3 =>
+      const AssetGenImage('assets/images/onboarding3.png');
 
   /// File path: assets/images/onboarding_background.png
   AssetGenImage get onboardingBackground =>
@@ -47,7 +61,11 @@ class $AssetsImagesGen {
     appIcon,
     appIcon1,
     authBackground,
+    lock,
+    mail,
     onboarding1,
+    onboarding2,
+    onboarding3,
     onboardingBackground,
     splashLogo,
   ];

@@ -128,16 +128,22 @@ abstract class AppLocalizations {
   /// **'Done'**
   String get done;
 
+  /// No description provided for @doIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Do IT'**
+  String get doIt;
+
   /// No description provided for @onboarding1Title.
   ///
   /// In en, this message translates to:
-  /// **'The Price Of Excellence Is Discipline'**
+  /// **'The Price Of Excellence\nIs Discipline'**
   String get onboarding1Title;
 
   /// No description provided for @onboarding2Title.
   ///
   /// In en, this message translates to:
-  /// **'Fitness Has Never Been So Much Fun'**
+  /// **'Fitness Has Never Been So\nMuch Fun'**
   String get onboarding2Title;
 
   /// No description provided for @onboarding3Title.
@@ -145,6 +151,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'NO MORE EXCUSES\nDo It Now'**
   String get onboarding3Title;
+
+  /// No description provided for @onboarding1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your journey today. Success isn\'t owned, it\'s leased, and rent is due every single day.'**
+  String get onboarding1Desc;
+
+  /// No description provided for @onboarding2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover exciting workouts that keep you moving. We make reaching your goals the best part of your day.'**
+  String get onboarding2Desc;
+
+  /// No description provided for @onboarding3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your goals are within reach. Stop waiting for the right moment; create it and transform your life now.'**
+  String get onboarding3Desc;
 
   /// No description provided for @loremIpsum.
   ///
@@ -499,6 +523,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get loginTitle;
+
+  /// Title for the forgot password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Forget password'**
+  String get forgotPasswordTitle;
+
+  /// Subtitle instructions for forgot password
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email associated to your account'**
+  String get forgotPasswordSubTitle;
+
+  /// Label for confirm buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmButton;
+
+  /// Title for the email verification screen
+  ///
+  /// In en, this message translates to:
+  /// **'Email verification'**
+  String get verificationTitle;
+
+  /// Validation message for incomplete OTP code
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter complete 6-digit code'**
+  String get validationEnterCompleteCode;
+
+  /// Generic error message for weak password validation
+  ///
+  /// In en, this message translates to:
+  /// **'Password must not be empty and must contain 6 characters with upper case letter and one number at least'**
+  String get weakPasswordError;
+
+  /// Generic error message for invalid verification code
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code'**
+  String get invalidCodeError;
+
+  /// Subtitle instructions for email verification
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your code that sent to your email address'**
+  String get verificationSubTitle;
+
+  /// Button text to resend verification code
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get resend;
+
+  /// Title for the reset password screen
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get resetPasswordTitle;
+
+  /// Subtitle instructions for reset password
+  ///
+  /// In en, this message translates to:
+  /// **'Password must not be empty and must contain 6 characters with upper case letter and one number at least '**
+  String get resetPasswordSubTitle;
+
+  /// content of dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset successfully! Please login with your new password.'**
+  String get resetSuccessfully;
+
+  /// content of dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been created successfully! Please login to continue '**
+  String get registerSuccessfully;
+
+  /// success
+  ///
+  /// In en, this message translates to:
+  /// **'success'**
+  String get success;
+
+  /// Label for the new password input field
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPasswordLabel;
+
+  /// Label for the cancel button in a dialog
+  ///
+  /// In en, this message translates to:
+  /// **'cancel'**
+  String get cancelDialog;
+
+  /// Label for the confirm password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get confirmPasswordLabel;
+
+  /// Hint text for the confirm password input field
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get confirmPasswordHint;
+
+  /// Sent OTP
+  ///
+  /// In en, this message translates to:
+  /// **'Sent OTP'**
+  String get sentOtp;
+
+  /// Enter Your OTP Check your email
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Your OTP Check your email'**
+  String get enterYourOtp;
 }
 
 class _AppLocalizationsDelegate
