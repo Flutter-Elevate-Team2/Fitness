@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/views/widgets/social_login_row.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
@@ -6,7 +7,7 @@ import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/widget/pill_text_form_field.dart';
 import 'package:fitness_app/core/widget/shared_auth_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+ import 'package:go_router/go_router.dart';
 
 class SignupFirstStep extends StatefulWidget {
   final TextEditingController firstNameController;
@@ -44,9 +45,29 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
       showBackButton: false,
       isGreeting: true,
       buttonTitle: context.l10n.registerNow,
-      onButtonPressed: () {
+      onButtonPressed: () async {
         if (_formKey.currentState!.validate()) {
-          widget.onNextStep();
+
+          final email = widget.emailController.text.trim();
+          final password = widget.passwordController.text.trim();
+          try {
+            final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: email,
+              password: password,
+            );
+
+            final user = credential.user;
+
+            if (user == null) return;
+
+             await user.updateDisplayName("incomplete");
+
+            widget.onNextStep();
+
+          } catch (e) {
+            debugPrint("Signup error: $e");
+          }
         }
       },
       formBody: Column(
@@ -55,9 +76,9 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
           /// ── "Register" Heading ──
           Text(
             context.l10n.registerNow,
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  color: AppColors.white,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineLarge?.copyWith(color: AppColors.white),
           ),
           const SizedBox(height: 20),
 
@@ -133,7 +154,15 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
           const SizedBox(height: 20),
 
           /// ── Social Login ──
-          const SocialLoginRow(),
+          SocialLoginRow(
+            onGoogleSuccess: (email, firstName, lastName, password) {
+              widget.emailController.text = email;
+              widget.firstNameController.text = firstName;
+              widget.lastNameController.text = lastName;
+              widget.passwordController.text = password;
+              widget.onNextStep();
+            },
+          ),
         ],
       ),
 
@@ -143,9 +172,9 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
         children: [
           Text(
             context.l10n.alreadyHaveAccount,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppColors.light600,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.labelLarge?.copyWith(color: AppColors.light600),
           ),
           const SizedBox(width: 4),
           GestureDetector(
@@ -153,9 +182,9 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
             child: Text(
               context.l10n.login,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: AppColors.primary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

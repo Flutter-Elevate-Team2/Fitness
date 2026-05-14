@@ -189,5 +189,11 @@
     "description": "View"},
   "couldNotOpenVideo": "Could not open video, please try again",
   "@couldNotOpenVideo": {
-    "description": "Could not open video, please try again"}
+    "description": "Could not open video, please try again"},
+  "completeRegister": "Please complete your registration",
+  "@completeRegister": {
+    "description": "Please complete your registration"},
+  "googleLoginFailed": "Google login failed",
+  "@googleLoginFailed": {
+    "description": "Google login failed"}
 }
