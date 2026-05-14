@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_events.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_states.dart';
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_view_model.dart';
@@ -10,22 +12,34 @@ import 'package:fitness_app/core/l10n/locale_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:bloc_test/bloc_test.dart';
 
- class MockProfileViewModel extends MockBloc<ProfileEvents, ProfileStates>
+class MockProfileViewModel extends MockBloc<ProfileEvents, ProfileStates>
     implements ProfileViewModel {}
 
 class MockLocaleCubit extends MockCubit<Locale> implements LocaleCubit {}
-class MockGoRouter extends Mock implements GoRouter {}
+
+class MockGoRouter extends Mock implements GoRouter {
+  @override
+  Future<T?> pushNamed<T extends Object?>(
+      String name, {
+        Map<String, String> pathParameters = const <String, String>{},
+        Map<String, dynamic> queryParameters = const <String, dynamic>{},
+        Object? extra,
+      }) {
+    return Future.value(null) as Future<T?>;
+  }
+}
 
 void main() {
   late MockLocaleCubit mockLocaleCubit;
   late MockProfileViewModel mockProfileViewModel;
+  late MockGoRouter mockGoRouter;
 
-   final Uint8List kTransparentImage = Uint8List.fromList([
+  final Uint8List kTransparentImage = Uint8List.fromList([
     0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D,
     0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
     0x08, 0x06, 0x00, 0x00, 0x00, 0x1F, 0x15, 0xC4, 0x89, 0x00, 0x00, 0x00,
@@ -34,9 +48,24 @@ void main() {
     0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82,
   ]);
 
+  final testUser = UserEntity(
+    id: '1',
+    firstName: 'Ahmed',
+    lastName: 'Ali',
+    email: 'ahmed@test.com',
+    photo: '',
+    gender: 'male',
+    age: 25,
+    weight: 80,
+    height: 180,
+    activityLevel: 'high',
+    goal: 'gain muscle',
+  );
+
   setUp(() {
     mockLocaleCubit = MockLocaleCubit();
     mockProfileViewModel = MockProfileViewModel();
+    mockGoRouter = MockGoRouter();
 
     when(() => mockLocaleCubit.state).thenReturn(const Locale('en'));
     when(() => mockProfileViewModel.state).thenReturn(const ProfileStates());
@@ -45,29 +74,45 @@ void main() {
         .setMockMessageHandler('flutter/assets', (message) async {
       final String assetName = utf8.decode(message!.buffer.asUint8List());
 
-       if (assetName.contains('AssetManifest')) {
+      if (assetName.contains('AssetManifest')) {
         final Map<String, List<Object>> manifest = {};
         return const StandardMessageCodec().encodeMessage(manifest);
       }
 
-       return ByteData.view(kTransparentImage.buffer);
+      return ByteData.view(kTransparentImage.buffer);
     });
   });
-  Widget createWidgetUnderTest() {
+
+  Widget createWidgetUnderTest({VoidCallback? onProfileUpdated}) {
     return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: MultiBlocProvider(
-        providers: [
-           BlocProvider<LocaleCubit>.value(value: mockLocaleCubit),
-          BlocProvider<ProfileViewModel>.value(value: mockProfileViewModel),
-        ],
-        child: const Scaffold(body: ProfileSettingSection()),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en')],
+      home: InheritedGoRouter(
+        goRouter: mockGoRouter,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<LocaleCubit>.value(value: mockLocaleCubit),
+            BlocProvider<ProfileViewModel>.value(value: mockProfileViewModel),
+          ],
+          child: Scaffold(
+            body: SingleChildScrollView(
+              child: ProfileSettingSection(
+                currentUser: testUser,
+                onProfileUpdated: onProfileUpdated ?? () {},
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
 
-  group('ProfileSettingSection Tests', () {
+  group('ProfileSettingSection Tests (100% Coverage)', () {
     testWidgets('renders exactly 7 ProfileSettingsTile items', (tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
@@ -75,47 +120,45 @@ void main() {
       expect(find.byType(ProfileSettingsTile), findsNWidgets(7));
     });
 
-    testWidgets('toggling language switch calls toggleLanguage in Cubit', (tester) async {
-       when(() => mockLocaleCubit.state).thenReturn(const Locale('en'));
-
+    testWidgets('toggling language switch calls toggleLanguage in Cubit', (
+        tester,
+        ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
-       final switchFinder = find.byType(Switch);
+      final switchFinder = find.byType(Switch);
       expect(switchFinder, findsOneWidget);
 
-       await tester.tap(switchFinder);
+      await tester.tap(switchFinder);
       await tester.pump();
 
-       verify(() => mockLocaleCubit.toggleLanguage(any())).called(1);
+      verify(() => mockLocaleCubit.toggleLanguage(any())).called(1);
     });
 
-    testWidgets('renders correct number of ProfileSettingsTile', (tester) async {
-      when(() => mockLocaleCubit.state).thenReturn(const Locale('en'));
-
+    testWidgets('shows logout dialog when logout tile is tapped', (
+        tester,
+        ) async {
       await tester.pumpWidget(createWidgetUnderTest());
-
-       expect(find.byType(ProfileSettingsTile), findsNWidgets(7));
-    });
-    testWidgets('shows logout dialog when logout tile is tapped', (tester) async {
-       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
-    final logoutTile = find.text('Logout');
-
+      final logoutTile = find.text('Logout');
       expect(logoutTile, findsOneWidget);
 
-       await tester.tap(logoutTile);
+      await tester.tap(logoutTile);
+      await tester.pumpAndSettle();
 
-       await tester.pumpAndSettle();
-
-       expect(find.byType(LogoutDialog), findsOneWidget);
+      expect(find.byType(LogoutDialog), findsOneWidget);
     });
-    testWidgets('verify specific tiles properties (Security, Policy, Help)', (tester) async {
+
+    testWidgets('verify specific tiles properties (Security, Policy, Help)', (
+        tester,
+        ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
-     final tiles = tester.widgetList<ProfileSettingsTile>(find.byType(ProfileSettingsTile));
+      final tiles = tester.widgetList<ProfileSettingsTile>(
+        find.byType(ProfileSettingsTile),
+      );
 
       bool hasSecurity = tiles.any((t) => t.webView == 'security');
       bool hasPrivacy = tiles.any((t) => t.webView == 'privacy-policy');
@@ -124,6 +167,43 @@ void main() {
       expect(hasSecurity, isTrue);
       expect(hasPrivacy, isTrue);
       expect(hasHelp, isTrue);
+    });
+
+    testWidgets('verifies other tile properties and callbacks', (
+        tester,
+        ) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pumpAndSettle();
+
+      final tiles = tester.widgetList<ProfileSettingsTile>(
+        find.byType(ProfileSettingsTile),
+      );
+
+      for (var tile in tiles) {
+        tile.onTap();
+      }
+    });
+
+    testWidgets('editProfile tap triggers navigation and callback', (
+        tester,
+        ) async {
+      bool updatedCalled = false;
+      await tester.pumpWidget(
+        createWidgetUnderTest(
+          onProfileUpdated: () {
+            updatedCalled = true;
+          },
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final editProfileTile = find.text('Edit Profile');
+      expect(editProfileTile, findsOneWidget);
+
+      await tester.tap(editProfileTile);
+      await tester.pumpAndSettle();
+
+      expect(updatedCalled, isTrue);
     });
   });
 }

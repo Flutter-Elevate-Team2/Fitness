@@ -1,6 +1,7 @@
 import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_view_model.dart';
 import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/logout_dialog.dart';
 import 'package:fitness_app/Features/profile/presentation/views/widgets/profile/profile_settings_tile.dart';
+import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
 import 'package:fitness_app/core/l10n/locale_cubit.dart';
 import 'package:fitness_app/core/widget/shared_container.dart';
@@ -9,21 +10,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class ProfileSettingSection extends StatefulWidget {
-  const ProfileSettingSection({super.key});
+import '../../../../domain/entities/user_entity.dart';
 
+class ProfileSettingSection extends StatefulWidget {
+  final UserEntity currentUser;
+  final VoidCallback onProfileUpdated;
+
+  const ProfileSettingSection({
+    super.key,
+    required this.currentUser,
+    required this.onProfileUpdated,
+  });
   @override
   State<ProfileSettingSection> createState() => _ProfileSettingSectionState();
 }
 
 class _ProfileSettingSectionState extends State<ProfileSettingSection> {
-
   late bool isEnglish;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-     isEnglish = Localizations.localeOf(context).languageCode == 'en';
+    isEnglish = Localizations.localeOf(context).languageCode == 'en';
   }
 
   @override
@@ -38,8 +46,12 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
             ProfileSettingsTile(
               icon: Assets.icons.profile2.path,
               title: context.l10n.editProfile,
-              onTap: () {
-                context.pushNamed("/editprofile");
+              onTap: () async {
+                await context.pushNamed(
+                  Routes.editProfileName,
+                  extra: widget.currentUser,
+                );
+                widget.onProfileUpdated();
               },
             ),
 
@@ -48,7 +60,7 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
               icon: Assets.icons.change.path,
               title: context.l10n.changePassword,
               onTap: () {
-                context.pushNamed("/changepassword");
+                context.pushNamed(Routes.changePasswordName);
               },
             ),
 
@@ -63,7 +75,7 @@ class _ProfileSettingSectionState extends State<ProfileSettingSection> {
                   isEnglish = value;
                 });
                 context.read<LocaleCubit>().toggleLanguage(value);
-               },
+              },
               onTap: () {},
             ),
 

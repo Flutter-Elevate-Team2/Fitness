@@ -96,7 +96,7 @@
     "description": "رسالة خطأ لكلمة مرور ضعيفة"
   },
   "invalidCodeError": "رمز غير صالح",
-  "@invalidCodeError": {
+  "@CodeError": {
     "description": "رسالة خطأ لرمز التحقق غير صالح"
   },
   "verificationSubTitle": "يرجى إدخال الرمز الذي تم إرساله إلى بريدك الإلكتروني",
@@ -193,28 +193,66 @@
   "@googleLoginFailed": {
     "description": "فشل تسجيل الدخول بجوجل"
   },
-  "language": "اللغة",
-  "@language": {
-    "description": "اللغة"
-  },
-  "logout": "تسجيل الخروج",
-  "@logout": {
-    "description": "تسجيل الخروج"
-  },
-  "english": "الإنجليزية",
-  "@english": {
-    "description": "الإنجليزية"
-  },
-  "arabic": "العربية",
-  "@arabic": {
-    "description": "العربية"
-  },
   "editProfile": "تعديل الملف الشخصي",
+  "@editProfile": {
+    "description": "تعديل الملف الشخصي"
+  },
   "changePassword": "تغيير كلمة المرور",
   "security": "الأمان",
   "privacyPolicy": "سياسة الخصوصية",
   "selectLanguage": "اختيار اللغة",
   "help": "المساعدة",
-  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
-
+  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
+  "@passwordChangedSuccess": {
+    "description": "رسالة نجاح بعد تغيير كلمة المرور"
+  },
+  "passwordMinLength": "تأكد أن كلمة المرور لا تقل عن 8 أحرف",
+  "oldPassword": "كلمة المرور القديمة",
+  "newPassword": "كلمة المرور الجديدة",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "profileUpdatedSuccess": "تم تحديث الملف الشخصي بنجاح!",
+  "@profileUpdatedSuccess": {
+    "description": "رسالة نجاح بعد تحديث الملف الشخصي"
+  },
+  "photoUploadedSuccessfully": "تم رفع الصورة بنجاح!",
+  "@photoUploadedSuccessfully": {
+    "description": "رسالة نجاح بعد رفع صورة الملف الشخصي"
+  },
+  "update": "تحديث",
+  "@update": {
+    "description": "نص زر التحديث"
+  },
+  "firstNameLabel": "الاسم الأول",
+  "@firstNameLabel": {
+    "description": "تسمية الاسم الأول"
+  },
+  "lastNameLabel": "اسم العائلة",
+  "@lastNameLabel": {
+    "description": "تسمية اسم العائلة"
+  },
+  "emailLabel": "البريد الإلكتروني",
+  "@emailLabel": {
+    "description": "تسمية البريد الإلكتروني"
+  },
+  "gallery": "معرض الصور",
+  "@gallery": {
+    "description": "تسمية معرض الصور"
+  },
+  "camera": "الكاميرا",
+  "@camera": {
+    "description": "تسمية الكاميرا"
+  },
+  "chooseImageSource": "اختر مصدر الصورة",
+  "@chooseImageSource": {
+    "description": "تسمية اختيار مصدر الصورة"
+  },
+  "failedToPickImage": "فشل اختيار الصورة: ",
+  "@failedPickImage": {
+    "description": "رسالة فشل اختيار الصورة"
+  },
+  "tabToEdit": " (اضغط للتعديل)",
+  "yourWeight": "وزنك",
+  "yourGoal": "هدفك",
+  "yourActivityLevel": "مستوى نشاطك"
 }

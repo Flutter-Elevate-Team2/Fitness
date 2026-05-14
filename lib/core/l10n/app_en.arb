@@ -153,13 +153,16 @@
   },
   "explore": "Explore",
   "@explore": {
-    "description": "Explore"},
+    "description": "Explore"
+  },
   "chatAi": "Chat AI",
   "@chatAi": {
-    "description": "Chat AI"},
+    "description": "Chat AI"
+  },
   "workouts": "Workouts",
   "@workouts": {
-    "description": "Workouts"},
+    "description": "Workouts"
+  },
   "profile": "Profile",
   "@profile": {
     "description": "Profile"
@@ -176,33 +179,42 @@
   "times": "Times",
   "foodRecommendation": "Food Recommendation",
   "@foodRecommendation": {
-    "description": "Food Recommendation"},
+    "description": "Food Recommendation"
+  },
   "recommendationForYou": "Recommendation For You",
   "@recommendationForYou": {
-    "description": "Recommendation For You"},
+    "description": "Recommendation For You"
+  },
   "seeAll": "See All",
   "@seeAll": {
-    "description": "See All"},
+    "description": "See All"
+  },
   "showMore": "Show more",
   "@showMore": {
-    "description": "Show more"},
+    "description": "Show more"
+  },
   "showLess": "Show less",
   "@showLess": {
-    "description": "Show less"},
+    "description": "Show less"
+  },
   "ingredients": "Ingredients",
   "@ingredients": {
-    "description": "Ingredients"},
+    "description": "Ingredients"
+  },
   "instructions": "Instructions",
   "@instructions": {
-    "description": "Instructions"},
+    "description": "Instructions"
+  },
   "view": "View",
   "@view": {
-    "description": "View"},
+    "description": "View"
+  },
   "couldNotOpenVideo": "Could not open video, please try again",
   "@couldNotOpenVideo": {
-    "description": "Could not open video, please try again"},
-  "hi":"Hi",
-  "letsStart":"Let’s Start Your Day",
+    "description": "Could not open video, please try again"
+  },
+  "hi": "Hi",
+  "letsStart": "Let’s Start Your Day",
   "category": "Category",
   "gym": "Gym",
   "fitness": "Fitness",
@@ -216,28 +228,88 @@
   "tasks": "Tasks",
   "completeRegister": "Please complete your registration",
   "@completeRegister": {
-    "description": "Please complete your registration"},
+    "description": "Please complete your registration"
+  },
   "googleLoginFailed": "Google login failed",
   "@googleLoginFailed": {
-    "description": "Google login failed"},
+    "description": "Google login failed"
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit Profile"
+  },
+  "profileUpdatedSuccess": "Profile updated successfully!",
+  "@profileUpdatedSuccess": {
+    "description": "Success message after profile update"
+  },
+  "photoUploadedSuccessfully": "Photo uploaded successfully!",
+  "@photoUploadedSuccessfully": {
+    "description": "Success message after uploading profile photo"
+  },
+  "passwordChangedSuccess": "Password changed successfully",
+  "@passwordChangedSuccess": {
+    "description": "Success message after password change"
+  },
+  "update": "Update",
+  "@update": {
+    "description": "Update button label"
+  },
+  "firstNameLabel": "First Name",
+  "@firstNameLabel": {
+    "description": "First Name label"
+  },
+  "lastNameLabel": "Last Name",
+  "@lastNameLabel": {
+    "description": "Last Name label"
+  },
+  "emailLabel": "Email",
+  "@emailLabel": {
+    "description": "Email label"
+  },
+  "gallery": "Gallery",
+  "@gallery": {
+    "description": "Gallery label"
+  },
+  "camera": "Camera",
+  "@camera": {
+    "description": "Camera label"
+  },
+  "chooseImageSource": "Choose Image Source",
+  "@chooseImageSource": {
+    "description": "Choose Image Source label"
+  },
+  "failedToPickImage": "Failed to pick image: ",
+  "@failedToPickImage": {
+    "description": "Failed to pick image message"
+  },
   "language": "Language",
   "@language": {
-    "description": "Language"},
+    "description": "Language"
+  },
   "logout": "Logout",
   "@logout": {
-    "description": "Logout"},
+    "description": "Logout"
+  },
   "english": "English",
   "@english": {
-    "description": "English"},
+    "description": "English"
+  },
   "arabic": "Arabic",
   "@arabic": {
-    "description": "Arabic"},
-  "editProfile": "Edit Profile",
+    "description": "Arabic"
+  },
   "changePassword": "Change Password",
   "security": "Security",
   "privacyPolicy": "Privacy Policy",
   "selectLanguage": "Select Language",
   "help": "Help",
-  "logoutConfirmation": "Are you sure you want to logout?"
-
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "passwordMinLength": "Make sure it's 8 characters or more",
+  "oldPassword": "Old Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password",
+  "tabToEdit": " (tap To Edit)",
+  "yourWeight": "Your Weight",
+  "yourGoal": "Your Goal",
+  "yourActivityLevel": "Your Activity Level"
 }

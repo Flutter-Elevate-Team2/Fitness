@@ -9,6 +9,7 @@ class GoalScreen extends StatefulWidget {
   final ValueChanged<String> onNextStep;
   final VoidCallback onBackButtonPressed;
   final bool useScaffold;
+  final String? initialGoal;
 
   const GoalScreen({
     super.key,
@@ -16,6 +17,7 @@ class GoalScreen extends StatefulWidget {
     required this.onNextStep,
     required this.onBackButtonPressed,
     this.useScaffold = true,
+    this.initialGoal,
   });
 
   @override
@@ -25,7 +27,6 @@ class GoalScreen extends StatefulWidget {
 class _GoalScreenState extends State<GoalScreen> {
   int? selectedIndex;
 
-  /// API-friendly goal keys (locale-independent)
   static const List<String> _goalKeys = [
     'gain_weight',
     'lose_weight',
@@ -33,6 +34,32 @@ class _GoalScreenState extends State<GoalScreen> {
     'gain_more_flexible',
     'learn_the_basic',
   ];
+
+  @override
+  void didUpdateWidget(covariant GoalScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialGoal != widget.initialGoal) {
+      _updateSelectedIndex();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _updateSelectedIndex();
+  }
+
+  void _updateSelectedIndex() {
+    if (widget.initialGoal != null && _goalKeys.contains(widget.initialGoal)) {
+      setState(() {
+        selectedIndex = _goalKeys.indexOf(widget.initialGoal!);
+      });
+    } else {
+      setState(() {
+        selectedIndex = null;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +81,9 @@ class _GoalScreenState extends State<GoalScreen> {
       onButtonPressed: selectedIndex != null
           ? () => widget.onNextStep(_goalKeys[selectedIndex!])
           : null,
-      stepIndicator: CustomStepProgress(currentStep: widget.currentStep),
+      stepIndicator: widget.currentStep > 0
+          ? CustomStepProgress(currentStep: widget.currentStep)
+          : null,
       formBody: Column(
         mainAxisSize: MainAxisSize.min,
         children: List.generate(goals.length, (index) {
