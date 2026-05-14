@@ -163,6 +163,15 @@
   "profile": "Profile",
   "@profile": {
     "description": "Profile"},
+  "foodRecommendation": "Food Recommendation",
+  "@foodRecommendation": {
+    "description": "Food Recommendation"},
+  "recommendationForYou": "Recommendation For You",
+  "@recommendationForYou": {
+    "description": "Recommendation For You"},
+  "seeAll": "See All",
+  "@seeAll": {
+    "description": "See All"},
   "showMore": "Show more",
   "@showMore": {
     "description": "Show more"},
@@ -175,9 +184,6 @@
   "instructions": "Instructions",
   "@instructions": {
     "description": "Instructions"},
-  "foodRecommendation": "Food Recommendation",
-  "@foodRecommendation": {
-    "description": "Food Recommendation"},
   "view": "View",
   "@view": {
     "description": "View"},

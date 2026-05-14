@@ -28,10 +28,6 @@ import 'meal_details_screen_body_test.mocks.dart';
 
 @GenerateMocks([
   MealsViewModel,
-  HttpClient,
-  HttpClientRequest,
-  HttpClientResponse,
-  HttpHeaders,
 ])
 void main() {
   late MockMealsViewModel mockViewModel;

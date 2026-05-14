@@ -120,5 +120,7 @@
   "instructions": "طريقة التحضير",
   "foodRecommendation": "اقتراحات الطعام",
   "view": "عرض",
-  "couldNotOpenVideo": "تعذر فتح الفيديو، حاول مرة أخرى"
+  "couldNotOpenVideo": "تعذر فتح الفيديو، حاول مرة أخرى",
+  "recommendationForYou": "مقترحات لك",
+  "seeAll": "عرض الكل"
 }
