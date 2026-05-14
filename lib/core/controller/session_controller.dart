@@ -3,6 +3,8 @@ import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../Features/profile/domain/entities/user_entity.dart';
+
 enum SessionEndReason { logout, guest, passwordChanged }
 
 @singleton
@@ -14,6 +16,10 @@ class SessionController {
   String? _token;
 
   String? get token => _token;
+
+  UserEntity? _user;
+
+  UserEntity? get user => _user;
 
   bool get isLoggedIn => _token != null && _token!.isNotEmpty;
 
@@ -29,6 +35,14 @@ class SessionController {
     _token = await _secureStorage.read(key: ApiConstants.tokenKey);
   }
 
+  void saveUser(UserEntity user) {
+    _user = user;
+  }
+
+  void updateUser(UserEntity updatedUser) {
+    _user = updatedUser;
+  }
+
   Future<void> updateSessionAuth(String newToken) async {
     _token = newToken;
     await _secureStorage.write(key: ApiConstants.tokenKey, value: newToken);
@@ -37,6 +51,7 @@ class SessionController {
 
   Future<void> expireSession() async {
     await _secureStorage.delete(key: ApiConstants.tokenKey);
+    _user = null;
     if (!_sessionExpiredController.isClosed) {
       _sessionExpiredController.add(null);
     }
@@ -50,6 +65,7 @@ class SessionController {
 
   Future<void> notifyLogout(SessionEndReason reason) async {
     _token = null;
+    _user = null;
     await _secureStorage.delete(key: ApiConstants.tokenKey);
     if (!_logoutController.isClosed) {
       _logoutController.add(reason);

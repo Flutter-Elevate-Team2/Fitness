@@ -36,10 +36,7 @@ void main() {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('ar'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('ar')],
       home: BlocProvider<ProfileViewModel>.value(
         value: mockViewModel,
         child: const Scaffold(body: ProfileScreen()),
@@ -48,17 +45,16 @@ void main() {
   }
 
   testWidgets('renders ProfilePageShimmer when profileState is loading', (
-      WidgetTester tester,
-      ) async {
-     when(
-          () => mockViewModel.state,
+    WidgetTester tester,
+  ) async {
+    when(
+      () => mockViewModel.state,
     ).thenReturn(const ProfileStates(profileState: BaseState(isLoading: true)));
 
     await tester.pumpWidget(createWidgetUnderTest());
 
-     expect(find.byType(ProfilePageShimmer), findsOneWidget);
-
-     expect(find.byType(ProfileScreenBody), findsNothing);
+    expect(find.byType(ProfilePageShimmer), findsOneWidget);
+    expect(find.byType(ProfileScreenBody), findsNothing);
   });
 
   testWidgets('renders ErrorStateWidget and matches error text', (
@@ -118,6 +114,41 @@ void main() {
     await tester.pumpWidget(createWidgetUnderTest());
 
     expect(find.byType(ProfileScreenBody), findsOneWidget);
+  });
+
+  testWidgets('triggers GetUserProfileEvent when profile is updated', (
+    WidgetTester tester,
+  ) async {
+    final user = UserEntity(
+      id: '1',
+      email: 'test@test.com',
+      firstName: '',
+      lastName: '',
+      photo: '',
+      gender: '',
+      age: 20,
+      weight: 70,
+      height: 70,
+      activityLevel: '',
+      goal: '',
+    );
+
+    when(() => mockViewModel.state).thenReturn(
+      ProfileStates(profileState: BaseState(isLoading: false, data: user)),
+    );
+
+    await tester.pumpWidget(createWidgetUnderTest());
+
+    expect(find.byType(ProfileScreenBody), findsOneWidget);
+
+    final profileScreenBody = tester.widget<ProfileScreenBody>(
+      find.byType(ProfileScreenBody),
+    );
+    profileScreenBody.onProfileUpdated();
+
+    verify(
+      () => mockViewModel.doIntent(any(that: isA<GetUserProfileEvent>())),
+    ).called(1);
   });
 
   testWidgets('shows loading dialog during logout process', (
