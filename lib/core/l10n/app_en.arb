@@ -162,5 +162,11 @@
     "description": "Workouts"},
   "profile": "Profile",
   "@profile": {
-    "description": "Profile"}
+    "description": "Profile"},
+  "completeRegister": "Please complete your registration",
+  "@completeRegister": {
+    "description": "Please complete your registration"},
+  "googleLoginFailed": "Google login failed",
+  "@googleLoginFailed": {
+    "description": "Google login failed"}
 }

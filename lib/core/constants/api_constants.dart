@@ -14,6 +14,7 @@ static String get apiBaseUrl => dotenv.env['BASE_URL'] ?? "";
    static const String tokenKey = "token";
   static const String rememberMeKey = "is_remember_me";
   static const String onboardingKey = "onboarding_visited";
+  static const String defaultPassword = "Test@123";
 
 
 }

@@ -1,6 +1,7 @@
 import 'package:fitness_app/Features/auth/domain/entities/register_params.dart';
 import 'package:fitness_app/Features/auth/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/auth/domain/use_cases/register_use_case.dart';
+import 'package:fitness_app/Features/auth/presentation/login/views/widgets/social_login_auth/auth_services.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_events.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_states.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
@@ -45,6 +46,8 @@ class SignUpViewModel extends Cubit<SignUpStates> {
 
     switch (response) {
       case SuccessResponse<UserEntity>():
+        AuthServices.signInWithGoogle();
+
         emit(
           state.copyWith(
             signUpState: BaseState<UserEntity>(
