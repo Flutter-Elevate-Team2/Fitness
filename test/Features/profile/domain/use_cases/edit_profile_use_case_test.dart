@@ -26,7 +26,6 @@ void main() {
       firstName: 'John',
       lastName: 'Doe',
       email: 'john@test.com',
-      phone: '+201234567890',
     );
 
     final userEntity = UserEntity(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// coverage:ignore-file
 
 class AppTypography {
   AppTypography._(); // Private Constructor

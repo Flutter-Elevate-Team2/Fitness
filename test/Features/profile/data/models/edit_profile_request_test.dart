@@ -8,7 +8,9 @@ void main() {
         firstName: 'Ziad',
         lastName: 'Ahmed',
         email: 'ziad@example.com',
-        phone: '0123456789',
+        weight: 70,
+        goal: 'Lose Weight',
+        activityLevel: 'Intermediate',
       );
 
       final json = request.toJson();
@@ -16,7 +18,9 @@ void main() {
       expect(json['firstName'], 'Ziad');
       expect(json['lastName'], 'Ahmed');
       expect(json['email'], 'ziad@example.com');
-      expect(json['phone'], '0123456789');
+      expect(json['weight'], 70);
+      expect(json['goal'], 'Lose Weight');
+      expect(json['activityLevel'], 'Intermediate');
     });
 
     test('should handle null fields in toJson', () {
@@ -30,7 +34,9 @@ void main() {
       expect(json['firstName'], 'Ziad');
       expect(json['lastName'], isNull);
       expect(json['email'], isNull);
-      expect(json['phone'], isNull);
+      expect(json['weight'], isNull);
+      expect(json['goal'], isNull);
+      expect(json['activityLevel'], isNull);
     });
 
     test('should create instance with all null values', () {
@@ -41,7 +47,9 @@ void main() {
       expect(json['firstName'], isNull);
       expect(json['lastName'], isNull);
       expect(json['email'], isNull);
-      expect(json['phone'], isNull);
+      expect(json['weight'], isNull);
+      expect(json['goal'], isNull);
+      expect(json['activityLevel'], isNull);
     });
   });
 }

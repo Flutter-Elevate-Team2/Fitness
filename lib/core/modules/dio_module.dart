@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/interceptors/auth_interceptors.dart';
+import 'package:fitness_app/core/l10n/locale_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -29,13 +30,14 @@ abstract class DioModule {
 
   @Named("PrimaryDio")
   @singleton
-  Dio dio(AuthInterceptor authInterceptor, PrettyDioLogger dioLogger) {
+  Dio dio(AuthInterceptor authInterceptor, PrettyDioLogger dioLogger, LocaleCubit localeCubit) {
     final dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.apiBaseUrl,
-        headers: const {
+        headers:   {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'Accept-Language': localeCubit.state.languageCode,
         },
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
@@ -44,6 +46,16 @@ abstract class DioModule {
     );
 
     dio.interceptors.add(authInterceptor);
+
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          options.headers['Accept-Language'] =
+              localeCubit.state.languageCode;
+          handler.next(options);
+        },
+      ),
+    );
 
     if (kDebugMode) {
       dio.interceptors.add(dioLogger);
@@ -54,11 +66,14 @@ abstract class DioModule {
 
   @Named("MealsDio")
   @singleton
-  Dio dioMeals(PrettyDioLogger dioLogger) {
+  Dio dioMeals(PrettyDioLogger dioLogger , LocaleCubit localeCubit) {
     final dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.mealsBaseUrl,
         connectTimeout: const Duration(seconds: 30),
+        headers: {
+          'Accept-Language': localeCubit.state.languageCode,
+        },
       ),
     );
 

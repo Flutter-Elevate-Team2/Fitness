@@ -1,12 +1,12 @@
-import 'package:fitness_app/core/extension/context_extention.dart';
+import 'package:fitness_app/Features/workouts/presentation/views/screens/video_player_screen.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'helper/youtube_extension.dart';
 
 class MealImage extends StatelessWidget {
   final String? videoUrl;
-  const MealImage({super.key , required this.videoUrl});
+  final String? title;
+  const MealImage({super.key, required this.videoUrl , required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class MealImage extends StatelessWidget {
                   ),
                 ),
 
-                 Positioned(
+                Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
@@ -38,7 +38,7 @@ class MealImage extends StatelessWidget {
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
-                        stops: [0.0, 0.3, 0.6,0.8, 1.0],
+                        stops: [0.0, 0.3, 0.6, 0.8, 1.0],
                         colors: [
                           AppColors.black.withAlpha(200),
                           AppColors.black.withAlpha(100),
@@ -50,53 +50,46 @@ class MealImage extends StatelessWidget {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
         ),
         Positioned.fill(
-            child: Center(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(50),
+          child: Center(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(50),
 
-                    onTap: () async {
-
-                      final url = Uri.parse(videoUrl ?? "");
-
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(
-                          url,
-                          mode: LaunchMode.externalApplication,
-                        );
-                      } else {
-                        // ignore: use_build_context_synchronously
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            // ignore: use_build_context_synchronously
-                            content: Text(context.l10n.couldNotOpenVideo),
-                            backgroundColor: AppColors.primary,
-                          ),
-                        );
-                      }
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.black.withAlpha(60),
-                          shape: BoxShape.circle,
-                        ),
-                        padding: const EdgeInsets.all(14),
-                        child: const Icon(
-                          Icons.play_arrow,
-                          color: AppColors.primary,
-                          size: 45,
-                        )
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VideoPlayerScreen(
+                        videoUrl: videoUrl!,
+                        title: title ?? " ",
+                      ),
                     ),
-                  ),
-                )))],
+                  );
+                },
 
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.black.withAlpha(60),
+                    shape: BoxShape.circle,
+                  ),
+                  padding: const EdgeInsets.all(14),
+                  child: const Icon(
+                    Icons.play_arrow,
+                    color: AppColors.primary,
+                    size: 45,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
