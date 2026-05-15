@@ -24,13 +24,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get done => 'Done';
 
   @override
-  String get onboarding1Title => 'The Price Of Excellence Is Discipline';
+  String get doIt => 'Do IT';
 
   @override
-  String get onboarding2Title => 'Fitness Has Never Been So Much Fun';
+  String get onboarding1Title => 'The Price Of Excellence\nIs Discipline';
+
+  @override
+  String get onboarding2Title => 'Fitness Has Never Been So\nMuch Fun';
 
   @override
   String get onboarding3Title => 'NO MORE EXCUSES\nDo It Now';
+
+  @override
+  String get onboarding1Desc =>
+      'Start your journey today. Success isn\'t owned, it\'s leased, and rent is due every single day.';
+
+  @override
+  String get onboarding2Desc =>
+      'Discover exciting workouts that keep you moving. We make reaching your goals the best part of your day.';
+
+  @override
+  String get onboarding3Desc =>
+      'Your goals are within reach. Stop waiting for the right moment; create it and transform your life now.';
 
   @override
   String get loremIpsum =>
@@ -213,4 +228,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginTitle => 'Login';
+
+  @override
+  String get forgotPasswordTitle => 'Forget password';
+
+  @override
+  String get forgotPasswordSubTitle =>
+      'Please enter your email associated to your account';
+
+  @override
+  String get confirmButton => 'Confirm';
+
+  @override
+  String get verificationTitle => 'Email verification';
+
+  @override
+  String get validationEnterCompleteCode =>
+      'Please enter complete 6-digit code';
+
+  @override
+  String get weakPasswordError =>
+      'Password must not be empty and must contain 6 characters with upper case letter and one number at least';
+
+  @override
+  String get invalidCodeError => 'Invalid code';
+
+  @override
+  String get verificationSubTitle =>
+      'Please enter your code that sent to your email address';
+
+  @override
+  String get resend => 'Resend';
+
+  @override
+  String get resetPasswordTitle => 'Reset password';
+
+  @override
+  String get resetPasswordSubTitle =>
+      'Password must not be empty and must contain 6 characters with upper case letter and one number at least ';
+
+  @override
+  String get resetSuccessfully =>
+      'Password reset successfully! Please login with your new password.';
+
+  @override
+  String get registerSuccessfully =>
+      'Your account has been created successfully! Please login to continue ';
+
+  @override
+  String get success => 'success';
+
+  @override
+  String get newPasswordLabel => 'New password';
+
+  @override
+  String get cancelDialog => 'cancel';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get confirmPasswordHint => 'Confirm password';
+
+  @override
+  String get sentOtp => 'Sent OTP';
+
+  @override
+  String get enterYourOtp => 'Enter Your OTP Check your email';
 }

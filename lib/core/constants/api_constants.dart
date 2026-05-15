@@ -13,6 +13,7 @@ static String get apiBaseUrl => dotenv.env['BASE_URL'] ?? "";
   //================ Local Data Source ===========================
    static const String tokenKey = "token";
   static const String rememberMeKey = "is_remember_me";
+  static const String onboardingKey = "onboarding_visited";
 
 
 }

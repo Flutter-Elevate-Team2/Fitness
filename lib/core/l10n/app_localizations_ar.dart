@@ -24,13 +24,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get done => 'تم';
 
   @override
-  String get onboarding1Title => 'ثمن التميز هو الانضباط';
+  String get doIt => 'هيا بنا';
 
   @override
-  String get onboarding2Title => 'اللياقة البدنية لم تكن أبداً بهذه المتعة';
+  String get onboarding1Title => 'ثمن التميز هو \nالانضباط';
+
+  @override
+  String get onboarding2Title => 'اللياقة البدنية لم تكن أبداً\nبهذه المتعة';
 
   @override
   String get onboarding3Title => 'لا لمزيد من الأعذار\nابدأ الآن';
+
+  @override
+  String get onboarding1Desc =>
+      'ابدأ رحلتك اليوم. التميز ليس حظاً، بل هو نتيجة الالتزام والانضباط اليومي في تمارينك.';
+
+  @override
+  String get onboarding2Desc =>
+      'اكتشف تمارين ممتعة تجعلك تتحرك بحب. نحن نجعل الوصول لأهدافك هو الجزء الأفضل في يومك.';
+
+  @override
+  String get onboarding3Desc =>
+      'أهدافك أصبحت قريبة جداً. توقف عن انتظار اللحظة المناسبة، اصنعها بنفسك وغير حياتك الآن.';
 
   @override
   String get loremIpsum =>
@@ -212,4 +227,70 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loginTitle => 'تسجيل الدخول';
+
+  @override
+  String get forgotPasswordTitle => 'نسيت كلمة المرور';
+
+  @override
+  String get forgotPasswordSubTitle =>
+      'يرجى إدخال بريدك الإلكتروني المرتبط بحسابك';
+
+  @override
+  String get confirmButton => 'تأكيد';
+
+  @override
+  String get verificationTitle => 'التحقق من البريد الإلكتروني';
+
+  @override
+  String get validationEnterCompleteCode => 'يرجى إدخال رمز من 6 أرقام كامل';
+
+  @override
+  String get weakPasswordError =>
+      'يجب أن لا تكون كلمة المرور فارغة ويجب أن تحتوي على 6 أحرف على الأقل مع حرف كبير ورقم واحد على الأقل';
+
+  @override
+  String get invalidCodeError => 'رمز غير صالح';
+
+  @override
+  String get verificationSubTitle =>
+      'يرجى إدخال الرمز الذي تم إرساله إلى بريدك الإلكتروني';
+
+  @override
+  String get resend => 'إعادة إرسال';
+
+  @override
+  String get resetPasswordTitle => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get resetPasswordSubTitle =>
+      'يجب ألا تكون كلمة المرور فارغة ويجب أن تحتوي على 6 أحرف على الأقل مع حرف كبير ورقم واحد على الأقل';
+
+  @override
+  String get resetSuccessfully =>
+      'تم إعادة تعيين كلمة المرور بنجاح! يرجى تسجيل الدخول بكلمة المرور الجديدة.';
+
+  @override
+  String get registerSuccessfully =>
+      'تم إنشاء حسابك بنجاح! يرجى تسجيل الدخول للمتابعة';
+
+  @override
+  String get success => 'نجاح';
+
+  @override
+  String get newPasswordLabel => 'كلمة المرور الجديدة';
+
+  @override
+  String get cancelDialog => 'إلغاء';
+
+  @override
+  String get confirmPasswordLabel => 'تأكيد كلمة المرور';
+
+  @override
+  String get confirmPasswordHint => 'أكد كلمة المرور';
+
+  @override
+  String get sentOtp => 'إرسل رمز التحقق';
+
+  @override
+  String get enterYourOtp => 'تفقد بريدك الإلكتروني وأدخل رمز التحقق';
 }

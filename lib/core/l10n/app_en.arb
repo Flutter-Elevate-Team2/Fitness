@@ -5,9 +5,13 @@
   "back": "Back",
   "next": "Next",
   "done": "Done",
-  "onboarding1Title": "The Price Of Excellence Is Discipline",
-  "onboarding2Title": "Fitness Has Never Been So Much Fun",
+  "doIt": "Do IT",
+  "onboarding1Title": "The Price Of Excellence\nIs Discipline",
+  "onboarding2Title": "Fitness Has Never Been So\nMuch Fun",
   "onboarding3Title": "NO MORE EXCUSES\nDo It Now",
+  "onboarding1Desc": "Start your journey today. Success isn't owned, it's leased, and rent is due every single day.",
+  "onboarding2Desc": "Discover exciting workouts that keep you moving. We make reaching your goals the best part of your day.",
+  "onboarding3Desc": "Your goals are within reach. Stop waiting for the right moment; create it and transform your life now.",
   "loremIpsum": "Lorem Ipsum Dolor Sit Amet Consectetur. Eu Urna Ut Gravida Quis Id Pretium Purus. Mauris Massa",
   "welcomeBack": "WELCOME BACK",
   "heyThere": "Hey There",
@@ -66,5 +70,85 @@
   "vehicleNumberInvalidChars": "Vehicle number can only contain letters and numbers",
   "sessionExpiredTitle": "Session Expired",
   "sessionExpiredMessage": "Your session has expired, please login again.",
-  "loginTitle": "Login"
+  "loginTitle": "Login",
+  "forgotPasswordTitle": "Forget password",
+  "@forgotPasswordTitle": {
+    "description": "Title for the forgot password screen"
+  },
+  "forgotPasswordSubTitle": "Please enter your email associated to your account",
+  "@forgotPasswordSubTitle": {
+    "description": "Subtitle instructions for forgot password"
+  },
+  "confirmButton": "Confirm",
+  "@confirmButton": {
+    "description": "Label for confirm buttons"
+  },
+  "verificationTitle": "Email verification",
+  "@verificationTitle": {
+    "description": "Title for the email verification screen"
+  },
+  "validationEnterCompleteCode": "Please enter complete 6-digit code",
+  "@validationEnterCompleteCode": {
+    "description": "Validation message for incomplete OTP code"
+  },
+  "weakPasswordError": "Password must not be empty and must contain 6 characters with upper case letter and one number at least",
+  "@weakPasswordError": {
+    "description": "Generic error message for weak password validation"
+  },
+  "invalidCodeError": "Invalid code",
+  "@invalidCodeError": {
+    "description": "Generic error message for invalid verification code"
+  },
+  "verificationSubTitle": "Please enter your code that sent to your email address",
+  "@verificationSubTitle": {
+    "description": "Subtitle instructions for email verification"
+  },
+  "resend": "Resend",
+  "@resend": {
+    "description": "Button text to resend verification code"
+  },
+  "resetPasswordTitle": "Reset password",
+  "@resetPasswordTitle": {
+    "description": "Title for the reset password screen"
+  },
+  "resetPasswordSubTitle": "Password must not be empty and must contain 6 characters with upper case letter and one number at least ",
+  "@resetPasswordSubTitle": {
+    "description": "Subtitle instructions for reset password"
+  },
+  "resetSuccessfully": "Password reset successfully! Please login with your new password.",
+  "@resetSuccessfully": {
+    "description": "content of dialog"
+  },
+  "registerSuccessfully": "Your account has been created successfully! Please login to continue ",
+  "@registerSuccessfully": {
+    "description": "content of dialog"
+  },
+  "success": "success",
+  "@success": {
+    "description": "success"
+  },
+  "newPasswordLabel": "New password",
+  "@newPasswordLabel": {
+    "description": "Label for the new password input field"
+  },
+  "cancelDialog": "cancel",
+  "@cancelDialog": {
+    "description": "Label for the cancel button in a dialog"
+  },
+  "confirmPasswordLabel": "Confirm password",
+  "@confirmPasswordLabel": {
+    "description": "Label for the confirm password input field"
+  },
+  "confirmPasswordHint": "Confirm password",
+  "@confirmPasswordHint": {
+    "description": "Hint text for the confirm password input field"
+  },
+  "sentOtp": "Sent OTP",
+  "@sentOtp": {
+    "description": "Sent OTP"
+  },
+  "enterYourOtp": "Enter Your OTP Check your email",
+  "@enterYourOtp": {
+    "description": "Enter Your OTP Check your email"
+  }
 }
