@@ -1,223 +1,103 @@
-import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_local_data_source_contract.dart';
-import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_remote_data_source_contract.dart';
-import 'package:fitness_app/Features/workouts/data/repo/workouts_repo_imple.dart';
-import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level.dart';
-import 'package:fitness_app/Features/workouts/data/models/difficulty_level_response/difficulty_level_response.dart';
-import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise.dart';
-import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercise_hive_model.dart';
-import 'package:fitness_app/Features/workouts/data/models/exercises_response/exercises_response.dart';
-import 'package:fitness_app/Features/workouts/domain/entities/difficulty_level_entity.dart';
-import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/network/network_info.dart';
+import 'package:fitness_app/core/errors/error_strings.dart';
+import 'package:fitness_app/Features/workouts/data/repo/workouts_repo_impl.dart';
+import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_remote_data_source_contract.dart';
+import 'package:fitness_app/Features/workouts/data/data_source_contract/workouts_local_data_source_contract.dart';
+import 'package:fitness_app/Features/workouts/data/models/responses/muscle_groups_response.dart';
+import 'package:fitness_app/Features/workouts/data/models/muscle_group_model.dart';
+import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+class MockRemoteDataSource extends Mock implements WorkoutsRemoteDataSourceContract {}
+class MockLocalDataSource extends Mock implements WorkoutsLocalDataSourceContract {}
+class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-import 'workouts_repo_impl_test.mocks.dart';
-
-@GenerateMocks([
-  WorkoutsRemoteDataSourceContract,
-  WorkoutsLocalDataSourceContract,
-  NetworkInfo,
-])
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
-  late WorkoutsRepoImple repo;
-  late MockWorkoutsRemoteDataSourceContract mockRemote;
-  late MockWorkoutsLocalDataSourceContract mockLocal;
+  late WorkoutsRepoImpl repository;
+  late MockRemoteDataSource mockRemote;
+  late MockLocalDataSource mockLocal;
   late MockNetworkInfo mockNetworkInfo;
 
   setUp(() {
-    mockRemote = MockWorkoutsRemoteDataSourceContract();
-    mockLocal = MockWorkoutsLocalDataSourceContract();
+    mockRemote = MockRemoteDataSource();
+    mockLocal = MockLocalDataSource();
     mockNetworkInfo = MockNetworkInfo();
-    repo = WorkoutsRepoImple(mockRemote, mockLocal, mockNetworkInfo);
+    repository = WorkoutsRepoImpl(mockRemote, mockLocal, mockNetworkInfo);
   });
 
-  // ================= getExercisesByMuscleDifficulty =================
-  group('getExercisesByMuscleDifficulty', () {
-    const tPrimeMoverMuscleId = 'muscle_123';
-    const tDifficultyLevelId = 'level_1';
+  group('WorkoutsRepoImpl getMuscleGroups via CacheExecutionMixin', () {
+    final tModel = MuscleGroupModel(id: '1', name: 'Chest');
+    final tModels = [tModel];
+    final tResponse = MuscleGroupsResponse(musclesGroup: tModels);
 
-    final tExercisesResponse = ExercisesResponse(
-      message: 'Success',
-      totalExercises: 1,
-      totalPages: 1,
-      currentPage: 1,
-      exercises: [
-        Exercise(
-          id: 'ex_1',
-          exercise: 'Bench Press',
-          primeMoverMuscle: 'Chest',
-          primaryEquipment: 'Barbell',
-        ),
-      ],
-    );
+    test('1. Device Online + Cache Empty: Fetches from remote, saves to local, returns remote data', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(() => mockLocal.getMuscleGroups()).thenAnswer((_) async => null); // Empty Cache
+      when(() => mockRemote.getMuscleGroups()).thenAnswer((_) async => tResponse);
+      when(() => mockLocal.saveMuscleGroups(any())).thenAnswer((_) async {});
 
-    final tCachedExercises = [
-      ExerciseHiveModel(
-        id: 'ex_cached',
-        title: 'Cached • Exercise',
-        description: 'Cached Bench Press',
-        sets: 3,
-        reps: 15,
-        thumbnailUrl: '',
-        videoUrl: null,
-      ),
-    ];
+      final result = await repository.getMuscleGroups();
 
-    group('page 1 – cache first strategy', () {
-      test(
-        'returns cached data when cache is valid and not expired',
-        () async {
-          // arrange
-          when(mockLocal.isCacheExpired(any, any))
-              .thenAnswer((_) async => false);
-          when(mockLocal.getCachedExercises(any, any))
-              .thenAnswer((_) async => tCachedExercises);
+      expect(result, isA<SuccessResponse<List<MuscleGroupEntity>>>());
+      final data = (result as SuccessResponse<List<MuscleGroupEntity>>).data;
+      expect(data.length, 1);
+      expect(data.first.id, '1');
 
-          // act
-          final result = await repo.getExercisesByMuscleDifficulty(
-            tPrimeMoverMuscleId,
-            tDifficultyLevelId,
-            1,
-          );
-
-          // assert
-          expect(result, isA<SuccessResponse<List<ExerciseEntity>>>());
-          verifyNever(mockRemote.getExercisesByMuscleDifficulty(any, any, any));
-        },
-      );
-
-      test(
-        'fetches from remote and caches when cache is expired',
-        () async {
-          // arrange
-          when(mockLocal.isCacheExpired(any, any))
-              .thenAnswer((_) async => true);
-          when(mockLocal.getCachedExercises(any, any))
-              .thenAnswer((_) async => null);
-          when(mockLocal.clearCachedExercises(any, any))
-              .thenAnswer((_) async {});
-          when(mockNetworkInfo.isConnected)
-              .thenAnswer((_) async => true);
-          when(mockRemote.getExercisesByMuscleDifficulty(any, any, any))
-              .thenAnswer((_) async => tExercisesResponse);
-          when(mockLocal.appendCachedExercises(any, any, any))
-              .thenAnswer((_) async {});
-
-          // act
-          final result = await repo.getExercisesByMuscleDifficulty(
-            tPrimeMoverMuscleId,
-            tDifficultyLevelId,
-            1,
-          );
-
-          // assert
-          expect(result, isA<SuccessResponse<List<ExerciseEntity>>>());
-          verify(mockRemote.getExercisesByMuscleDifficulty(
-            tPrimeMoverMuscleId,
-            tDifficultyLevelId,
-            1,
-          )).called(1);
-        },
-      );
+      verify(() => mockNetworkInfo.isConnected).called(1);
+      verify(() => mockLocal.getMuscleGroups()).called(1);
+      verify(() => mockRemote.getMuscleGroups()).called(1);
+      verify(() => mockLocal.saveMuscleGroups(tModels)).called(1);
     });
 
-    group('offline behavior', () {
-      test(
-        'returns cached data as fallback when offline and cache exists',
-        () async {
-          // arrange – page > 1 bypasses page-1 cache check
-          when(mockNetworkInfo.isConnected)
-              .thenAnswer((_) async => false);
-          when(mockLocal.getCachedExercises(any, any))
-              .thenAnswer((_) async => tCachedExercises);
+    test('2. Device Online + Cache Has Data: Returns cache data instantly, then fetches from remote in the background', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(() => mockLocal.getMuscleGroups()).thenAnswer((_) async => tModels); // Has Cache
+      when(() => mockRemote.getMuscleGroups()).thenAnswer((_) async => tResponse);
+      when(() => mockLocal.saveMuscleGroups(any())).thenAnswer((_) async {});
 
-          // act
-          final result = await repo.getExercisesByMuscleDifficulty(
-            tPrimeMoverMuscleId,
-            tDifficultyLevelId,
-            2,
-          );
+      final result = await repository.getMuscleGroups();
 
-          // assert
-          expect(result, isA<SuccessResponse<List<ExerciseEntity>>>());
-          verifyNever(mockRemote.getExercisesByMuscleDifficulty(any, any, any));
-        },
-      );
+      expect(result, isA<SuccessResponse<List<MuscleGroupEntity>>>());
+      final data = (result as SuccessResponse<List<MuscleGroupEntity>>).data;
+      expect(data.length, 1);
 
-      test(
-        'returns ErrorResponse when offline and cache is empty',
-        () async {
-          // arrange
-          when(mockNetworkInfo.isConnected)
-              .thenAnswer((_) async => false);
-          when(mockLocal.getCachedExercises(any, any))
-              .thenAnswer((_) async => null);
+      verify(() => mockLocal.getMuscleGroups()).called(1);
 
-          // act
-          final result = await repo.getExercisesByMuscleDifficulty(
-            tPrimeMoverMuscleId,
-            tDifficultyLevelId,
-            2,
-          );
+      // Allow the unawaited _syncWithServer to execute
+      await Future.delayed(const Duration(milliseconds: 100));
 
-          // assert
-          expect(result, isA<ErrorResponse>());
-        },
-      );
+      verify(() => mockRemote.getMuscleGroups()).called(1);
+      verify(() => mockLocal.saveMuscleGroups(tModels)).called(1);
     });
 
-    group('remote failure fallback', () {
-      test(
-        'returns stale cache when API call throws and cache exists',
-        () async {
-          // arrange
-          when(mockNetworkInfo.isConnected)
-              .thenAnswer((_) async => true);
-          when(mockRemote.getExercisesByMuscleDifficulty(any, any, any))
-              .thenThrow(Exception('API Error'));
-          when(mockLocal.getCachedExercises(any, any))
-              .thenAnswer((_) async => tCachedExercises);
+    test('3. Device Offline + Cache Has Data: Returns cache data, no remote call', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(() => mockLocal.getMuscleGroups()).thenAnswer((_) async => tModels); // Has Cache
 
-          // act
-          final result = await repo.getExercisesByMuscleDifficulty(
-            tPrimeMoverMuscleId,
-            tDifficultyLevelId,
-            2,
-          );
+      final result = await repository.getMuscleGroups();
 
-          // assert
-          expect(result, isA<SuccessResponse<List<ExerciseEntity>>>());
-        },
-      );
+      expect(result, isA<SuccessResponse<List<MuscleGroupEntity>>>());
+      final data = (result as SuccessResponse<List<MuscleGroupEntity>>).data;
+      expect(data.length, 1);
 
-      test(
-        'returns ErrorResponse when API call throws and no cache',
-        () async {
-          // arrange
-          when(mockNetworkInfo.isConnected)
-              .thenAnswer((_) async => true);
-          when(mockRemote.getExercisesByMuscleDifficulty(any, any, any))
-              .thenThrow(Exception('API Error'));
-          when(mockLocal.getCachedExercises(any, any))
-              .thenAnswer((_) async => null);
+      verify(() => mockLocal.getMuscleGroups()).called(1);
+      verifyNever(() => mockRemote.getMuscleGroups());
+      verifyNever(() => mockLocal.saveMuscleGroups(any()));
+    });
 
-          // act
-          final result = await repo.getExercisesByMuscleDifficulty(
-            tPrimeMoverMuscleId,
-            tDifficultyLevelId,
-            2,
-          );
+    test('4. Device Offline + Cache Empty: Returns ErrorResponse', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(() => mockLocal.getMuscleGroups()).thenAnswer((_) async => null); // Empty Cache
 
-          // assert
-          expect(result, isA<ErrorResponse>());
-        },
-      );
+      final result = await repository.getMuscleGroups();
+
+      expect(result, isA<ErrorResponse<List<MuscleGroupEntity>>>());
+      expect((result as ErrorResponse).errorMessage, ErrorStrings.emptyCacheError);
+
+      verify(() => mockLocal.getMuscleGroups()).called(1);
+      verifyNever(() => mockRemote.getMuscleGroups());
     });
   });
 }
