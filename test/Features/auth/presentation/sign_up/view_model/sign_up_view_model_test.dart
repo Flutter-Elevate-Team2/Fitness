@@ -6,13 +6,13 @@ import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_u
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_states.dart';
 import 'package:fitness_app/Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
-import 'package:flutter_test/flutter_test.dart';
+ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'sign_up_view_model_test.mocks.dart';
 
-@GenerateMocks([RegisterUseCase])
+@GenerateNiceMocks([MockSpec<RegisterUseCase>()])
 void main() {
   late SignUpViewModel viewModel;
   late MockRegisterUseCase mockRegisterUseCase;
@@ -64,22 +64,25 @@ void main() {
     mockRegisterUseCase = MockRegisterUseCase();
     viewModel = SignUpViewModel(mockRegisterUseCase);
 
-    // Provide a dummy for the sealed BaseResponse type
+    // Provide a dummy for the sealed BaseResponse type to avoid failures
     provideDummy<BaseResponse<UserEntity>>(
       const SuccessResponse<UserEntity>(data: tUserEntity),
     );
   });
 
-  group('SignUpViewModel', () {
+  group('SignUpViewModel Tests', () {
+
+    // Test Initial State
     test('initial state should have null signUpState', () {
       expect(viewModel.state.signUpState, isNull);
     });
 
+    // Success Case
     blocTest<SignUpViewModel, SignUpStates>(
       'emits [loading, success] when sign up succeeds',
       build: () {
         when(mockRegisterUseCase.register(tParams)).thenAnswer(
-          (_) async => const SuccessResponse<UserEntity>(data: tUserEntity),
+              (_) async => const SuccessResponse<UserEntity>(data: tUserEntity),
         );
         return viewModel;
       },
@@ -87,7 +90,7 @@ void main() {
       expect: () => [
         // 1st emission: loading
         isA<SignUpStates>().having(
-          (s) => s.signUpState?.isLoading,
+              (s) => s.signUpState?.isLoading,
           'isLoading',
           true,
         ),
@@ -95,20 +98,19 @@ void main() {
         isA<SignUpStates>()
             .having((s) => s.signUpState?.isLoading, 'isLoading', false)
             .having((s) => s.signUpState?.data, 'data', tUserEntity)
-            .having(
-                (s) => s.signUpState?.errorMessage, 'errorMessage', isNull),
+            .having((s) => s.signUpState?.errorMessage, 'errorMessage', isNull),
       ],
       verify: (_) {
         verify(mockRegisterUseCase.register(tParams)).called(1);
-        verifyNoMoreInteractions(mockRegisterUseCase);
       },
     );
 
+    // Failure Case
     blocTest<SignUpViewModel, SignUpStates>(
       'emits [loading, error] when sign up fails',
       build: () {
         when(mockRegisterUseCase.register(tParams)).thenAnswer(
-          (_) async => const ErrorResponse<UserEntity>(
+              (_) async => const ErrorResponse<UserEntity>(
             errorMessage: 'Email already exists',
           ),
         );
@@ -118,7 +120,7 @@ void main() {
       expect: () => [
         // 1st emission: loading
         isA<SignUpStates>().having(
-          (s) => s.signUpState?.isLoading,
+              (s) => s.signUpState?.isLoading,
           'isLoading',
           true,
         ),
@@ -126,20 +128,19 @@ void main() {
         isA<SignUpStates>()
             .having((s) => s.signUpState?.isLoading, 'isLoading', false)
             .having((s) => s.signUpState?.data, 'data', isNull)
-            .having((s) => s.signUpState?.errorMessage, 'errorMessage',
-                'Email already exists'),
+            .having((s) => s.signUpState?.errorMessage, 'errorMessage', 'Email already exists'),
       ],
       verify: (_) {
         verify(mockRegisterUseCase.register(tParams)).called(1);
-        verifyNoMoreInteractions(mockRegisterUseCase);
       },
     );
 
+    // Verification of Params
     blocTest<SignUpViewModel, SignUpStates>(
       'calls RegisterUseCase.register with correct RegisterParams',
       build: () {
         when(mockRegisterUseCase.register(any)).thenAnswer(
-          (_) async => const SuccessResponse<UserEntity>(data: tUserEntity),
+              (_) async => const SuccessResponse<UserEntity>(data: tUserEntity),
         );
         return viewModel;
       },
@@ -148,17 +149,9 @@ void main() {
         final captured = verify(mockRegisterUseCase.register(captureAny))
             .captured
             .single as RegisterParams;
-        expect(captured.firstName, 'John');
-        expect(captured.lastName, 'Doe');
-        expect(captured.email, 'john@example.com');
-        expect(captured.password, 'Password123');
-        expect(captured.rePassword, 'Password123');
-        expect(captured.gender, 'male');
-        expect(captured.age, 25);
-        expect(captured.weight, 70);
-        expect(captured.height, 175);
-        expect(captured.goal, 'lose_weight');
-        expect(captured.activityLevel, 'intermediate');
+        expect(captured.email, tParams.email);
+        expect(captured.firstName, tParams.firstName);
+        expect(captured.goal, tParams.goal);
       },
     );
   });

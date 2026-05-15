@@ -23,27 +23,33 @@ class CustomBottomNavBar extends StatelessWidget {
       NavItem(icon: Assets.icons.profile.path, label: context.l10n.profile),
     ];
 
-    return Container(
-      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 24),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      decoration: BoxDecoration(
-        color: AppColors.grayDark,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: AppColors.grayMid.withValues(alpha: 0.4),
-          width: 0.5,
+    return SafeArea(
+      top: false,
+      left: false,
+      right: false,
+      bottom: true,
+      child: Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        decoration: BoxDecoration(
+          color: AppColors.grayDark,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColors.grayMid.withValues(alpha: 0.4),
+            width: 0.5,
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(items.length, (index) {
-          final isSelected = currentIndex == index;
-          return CustomNavItemWidget(
-            item: items[index],
-            isSelected: isSelected,
-            onTap: () => onTap(index),
-          );
-        }),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(items.length, (index) {
+            final isSelected = currentIndex == index;
+            return CustomNavItemWidget(
+              item: items[index],
+              isSelected: isSelected,
+              onTap: () => onTap(index),
+            );
+          }),
+        ),
       ),
     );
   }
@@ -57,6 +63,3 @@ class NavItem {
 
   const NavItem({required this.icon, required this.label});
 }
-
-
-

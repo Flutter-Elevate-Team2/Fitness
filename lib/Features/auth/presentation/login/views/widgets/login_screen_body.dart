@@ -20,6 +20,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  String? userEmail;
 
   AutovalidateMode _autoValidateMode = AutovalidateMode.disabled;
   bool _isButtonEnabled = false;
@@ -48,10 +49,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final viewModel = context.read<LoginViewModel>();
-
     return SharedAuthLayout(
       showBackButton: false,
       isGreeting: true,
@@ -80,6 +81,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         child: LoginForm(
           emailController: _emailController,
           passwordController: _passwordController,
+          onEmailChanged: (email) {
+            setState(() {
+              userEmail = email;
+            });
+          },
         ),
       ),
       underButtonWidget: Row(
@@ -97,7 +103,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           GestureDetector(
             onTap: () {
               /// Navigate to Register
-              context.pushNamed(Routes.signupName);
+              context.pushNamed(Routes.signupName ,extra: {
+                "step": 0,
+              },
+              );
             },
             child: Text(
               context.l10n.registerNow,
