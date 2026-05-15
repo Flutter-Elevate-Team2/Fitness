@@ -30,8 +30,7 @@ class AuthInterceptor extends Interceptor {
       final token = await _secureStorage.read(key: ApiConstants.tokenKey);
 
       if (kDebugMode && token != null) {
-        print("🔑 AuthInterceptor: Token found, adding to headers.");
-      }
+       }
 
       if (token != null && token.isNotEmpty) {
         options.headers["Authorization"] = "Bearer $token";

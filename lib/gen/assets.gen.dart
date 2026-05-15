@@ -11,26 +11,6 @@
 
 import 'package:flutter/widgets.dart';
 
-class $AssetsIconsGen {
-  const $AssetsIconsGen();
-
-  /// File path: assets/icons/chat ai.png
-  AssetGenImage get chatAi => const AssetGenImage('assets/icons/chat ai.png');
-
-  /// File path: assets/icons/explore.png
-  AssetGenImage get explore => const AssetGenImage('assets/icons/explore.png');
-
-  /// File path: assets/icons/profile.png
-  AssetGenImage get profile => const AssetGenImage('assets/icons/profile.png');
-
-  /// File path: assets/icons/workouts.png
-  AssetGenImage get workouts =>
-      const AssetGenImage('assets/icons/workouts.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [chatAi, explore, profile, workouts];
-}
-
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -49,13 +29,23 @@ class $AssetsImagesGen {
   AssetGenImage get authBackground =>
       const AssetGenImage('assets/images/auth_background.png');
 
-  /// File path: assets/images/home_background.jpg
-  AssetGenImage get homeBackground =>
-      const AssetGenImage('assets/images/home_background.jpg');
+  /// File path: assets/images/lock.png
+  AssetGenImage get lock => const AssetGenImage('assets/images/lock.png');
+
+  /// File path: assets/images/mail.png
+  AssetGenImage get mail => const AssetGenImage('assets/images/mail.png');
 
   /// File path: assets/images/onboarding1.png
   AssetGenImage get onboarding1 =>
       const AssetGenImage('assets/images/onboarding1.png');
+
+  /// File path: assets/images/onboarding2.png
+  AssetGenImage get onboarding2 =>
+      const AssetGenImage('assets/images/onboarding2.png');
+
+  /// File path: assets/images/onboarding3.png
+  AssetGenImage get onboarding3 =>
+      const AssetGenImage('assets/images/onboarding3.png');
 
   /// File path: assets/images/onboarding_background.png
   AssetGenImage get onboardingBackground =>
@@ -71,8 +61,11 @@ class $AssetsImagesGen {
     appIcon,
     appIcon1,
     authBackground,
-    homeBackground,
+    lock,
+    mail,
     onboarding1,
+    onboarding2,
+    onboarding3,
     onboardingBackground,
     splashLogo,
   ];
@@ -82,7 +75,6 @@ class Assets {
   const Assets._();
 
   static const String aEnv = '.env';
-  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 
   /// List of all assets
