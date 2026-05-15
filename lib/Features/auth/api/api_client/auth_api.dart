@@ -19,7 +19,7 @@ part 'auth_api.g.dart';
 @injectable
 abstract class AuthApi {
   @factoryMethod
-  factory AuthApi(Dio dio) = _AuthApi;
+  factory AuthApi(@Named("PrimaryDio") Dio dio) = _AuthApi;
 
   /// === Login Endpoint ===
   @POST(ApiConstants.login)

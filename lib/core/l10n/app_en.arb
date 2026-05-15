@@ -162,16 +162,38 @@
     "description": "Workouts"},
   "profile": "Profile",
   "@profile": {
-    "description": "Profile"
-  },
-  "buildYourMusclesWorkout": "Build your muscles with this quick and effective workout.",
-  "thirtyMin": "30 MIN",
-  "oneHundredThirtyCal": "130 Cal",
-  "noExercisesFoundForThisLevel": "No exercises found for this level.",
-  "invalidVideoUrl": "Invalid Video URL",
-  "noInternetConnection": "No internet connection",
-  "pleaseCheckNetworkToWatch": "Please check your network to watch",
-  "retryButton": "Retry",
-  "groups": "Groups",
-  "times": "Times"
+    "description": "Profile"},
+  "foodRecommendation": "Food Recommendation",
+  "@foodRecommendation": {
+    "description": "Food Recommendation"},
+  "recommendationForYou": "Recommendation For You",
+  "@recommendationForYou": {
+    "description": "Recommendation For You"},
+  "seeAll": "See All",
+  "@seeAll": {
+    "description": "See All"},
+  "showMore": "Show more",
+  "@showMore": {
+    "description": "Show more"},
+  "showLess": "Show less",
+  "@showLess": {
+    "description": "Show less"},
+  "ingredients": "Ingredients",
+  "@ingredients": {
+    "description": "Ingredients"},
+  "instructions": "Instructions",
+  "@instructions": {
+    "description": "Instructions"},
+  "view": "View",
+  "@view": {
+    "description": "View"},
+  "couldNotOpenVideo": "Could not open video, please try again",
+  "@couldNotOpenVideo": {
+    "description": "Could not open video, please try again"},
+  "completeRegister": "Please complete your registration",
+  "@completeRegister": {
+    "description": "Please complete your registration"},
+  "googleLoginFailed": "Google login failed",
+  "@googleLoginFailed": {
+    "description": "Google login failed"}
 }

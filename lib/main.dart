@@ -1,4 +1,6 @@
 import 'dart:async';
+
+ import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/controller/session_expired.dart';
@@ -9,26 +11,38 @@ import 'package:fitness_app/core/theming/app_theming.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+ import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_ce/hive.dart';
+
+import 'Features/food/data/models/meals_models/category_model.dart';
+import 'Features/food/data/models/meals_models/meal_details_model.dart';
+import 'Features/food/data/models/meals_models/meal_model.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+ await Firebase.initializeApp(
+   options: DefaultFirebaseOptions.currentPlatform,
+ );
   await dotenv.load(fileName: ".env");
 
-  await HiveDatabaseService.init(
-    registerAdapters: () {
-      Hive.registerAdapter(DifficultyLevelHiveModelAdapter()); // typeId: 1
-      Hive.registerAdapter(ExerciseHiveModelAdapter()); // typeId: 2
-    },
-  );
+  await HiveDatabaseService.init(registerAdapters: () {
+    Hive.registerAdapter(CategoryModelAdapter());
+    Hive.registerAdapter(MealModelAdapter());
+    Hive.registerAdapter(MealDetailsModelAdapter());
+  },);
 
   await configureDependencies();
   runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -83,7 +97,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+     return MultiProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => getIt<LoginViewModel>(),
+        )
+      ],
+      child: MaterialApp.router(
       routerConfig: AppRouter.router,
       title: 'Super Fitness',
       debugShowCheckedModeBanner: false,
@@ -91,6 +111,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: AppTheme.darkTheme,
+    )
     );
   }
 }

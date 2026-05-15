@@ -5,6 +5,7 @@ import 'package:fitness_app/Features/auth/presentation/login/view_model/login_ev
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_state.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/base_state/base_state.dart';
+import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -15,9 +16,9 @@ class LoginViewModel extends Cubit<LoginState> {
   final SessionController _sessionController;
 
   LoginViewModel(this._loginUseCase, this._sessionController)
-    : super(const LoginState());
+      : super(const LoginState());
 
-  void doIntent(LoginEvent event) {
+  Future<void> doIntent(LoginEvent event)async {
     switch (event) {
       case LoginInitialEvent():
         _onInit();
@@ -26,8 +27,11 @@ class LoginViewModel extends Cubit<LoginState> {
         _resetErrorState();
         break;
       case LoginButtonClickedEvent():
-        _handleLogin(event);
+        await _handleLogin(event: event);
         break;
+      case SocialLoginEvent():
+       await _handleLogin(email : event.email);
+
     }
   }
 
@@ -42,16 +46,17 @@ class LoginViewModel extends Cubit<LoginState> {
     }
   }
 
-  Future<void> _handleLogin(LoginButtonClickedEvent event) async {
+  Future<void> _handleLogin( {LoginButtonClickedEvent? event , String? email}) async {
+
     emit(state.copyWith(loginState: const BaseState(isLoading: true)));
 
     final response = await _loginUseCase.call(
-      LoginRequest(email: event.email, password: event.password),
+      LoginRequest(email: event?.email ?? email , password: event?.password ?? ApiConstants.defaultPassword),
     );
 
     switch (response) {
       case SuccessResponse<LoginEntity>():
-        _sessionController.notifyLogin();
+         _sessionController.notifyLogin();
 
         emit(
           state.copyWith(

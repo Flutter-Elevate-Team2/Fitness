@@ -114,14 +114,13 @@
   "chatAi": "الدردشة",
   "workouts": "التمارين",
   "profile": "الملف الشخصي",
-  "buildYourMusclesWorkout": "قم ببناء عضلاتك من خلال هذا التمرين السريع والفعال.",
-  "thirtyMin": "30 دقيقة",
-  "oneHundredThirtyCal": "130 سعرة حرارية",
-  "noExercisesFoundForThisLevel": "لا توجد تمارين متاحة لهذا المستوى.",
-  "invalidVideoUrl": "رابط الفيديو غير صالح",
-  "noInternetConnection": "لا يوجد اتصال بالإنترنت",
-  "pleaseCheckNetworkToWatch": "يرجى التحقق من الشبكة للمشاهدة",
-  "retryButton": "إعادة المحاولة",
-  "groups": "مجموعات",
-  "times": "مرات"
+  "showMore": "عرض المزيد",
+  "showLess": "عرض أقل",
+  "ingredients": "المكونات",
+  "instructions": "طريقة التحضير",
+  "foodRecommendation": "اقتراحات الطعام",
+  "view": "عرض",
+  "couldNotOpenVideo": "تعذر فتح الفيديو، حاول مرة أخرى",
+  "recommendationForYou": "مقترحات لك",
+  "seeAll": "عرض الكل"
 }
