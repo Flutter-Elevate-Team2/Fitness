@@ -112,7 +112,7 @@ void main() {
       },
     );
 
-    test('should emit ErrorResponse with "لا توجد بيانات متاحة" if lists are empty', () async {
+    test('should emit ErrorResponse with "No data available" if lists are empty', () async {
       // Arrange
       when(() => mockHomeRepo.getLevels()).thenAnswer(
               (_) async => const SuccessResponse(data: []));
@@ -121,7 +121,7 @@ void main() {
 
       // Act & Assert
       expect(useCase.call(), emitsInOrder([
-        isA<ErrorResponse>().having((e) => e.errorMessage, 'message', 'لا توجد بيانات متاحة'),
+        isA<ErrorResponse>().having((e) => e.errorMessage, 'message', 'No data available'),
         emitsDone,
       ]));
     });

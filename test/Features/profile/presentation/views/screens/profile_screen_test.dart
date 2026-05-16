@@ -87,7 +87,7 @@ void main() {
 
     verify(
       () => mockViewModel.doIntent(any(that: isA<GetUserProfileEvent>())),
-    ).called(1);
+    ).called(2);
   });
 
   testWidgets('renders ProfileScreenBody when data is loaded successfully', (

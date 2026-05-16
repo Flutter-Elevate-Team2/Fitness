@@ -34,6 +34,7 @@ void main() {
     mockGetUserProfileUseCase = MockGetUserProfileUseCase();
     mockSessionController = MockSessionController();
     when(mockSessionController.onLogin).thenAnswer((_) => const Stream.empty());
+    when(mockSessionController.isLoggedIn).thenReturn(false);
     mockLogoutUseCase = MockLogoutUseCase();
 
     viewModel = ProfileViewModel(

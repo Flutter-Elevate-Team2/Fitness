@@ -12,15 +12,17 @@ import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:dio/dio.dart';
 
 import 'auth_repo_imple_test.mocks.dart';
 
-@GenerateMocks([AuthRemoteDataSourceContract, AuthLocalDataSourceContract])
+@GenerateMocks([AuthRemoteDataSourceContract, AuthLocalDataSourceContract, SessionController])
 void main() {
   late AuthRepoImpl authRepo;
   late MockAuthRemoteDataSourceContract mockRemote;
   late MockAuthLocalDataSourceContract mockLocal;
+  late MockSessionController mockSessionController;
 
   // --- Shared test data ---
   const tToken = 'valid_token';
@@ -49,7 +51,8 @@ void main() {
   setUp(() {
     mockRemote = MockAuthRemoteDataSourceContract();
     mockLocal = MockAuthLocalDataSourceContract();
-    authRepo = AuthRepoImpl(mockRemote, mockLocal);
+    mockSessionController = MockSessionController();
+    authRepo = AuthRepoImpl(mockRemote, mockLocal, mockSessionController);
 
     provideDummy<BaseResponse<UserEntity>>(
       SuccessResponse<UserEntity>(

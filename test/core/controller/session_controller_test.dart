@@ -26,6 +26,9 @@ void main() {
         when(
           mockStorage.read(key: ApiConstants.tokenKey),
         ).thenAnswer((_) async => 'stored_token');
+        when(
+          mockStorage.read(key: 'cached_user_data'),
+        ).thenAnswer((_) async => null);
 
         // Act
         await sessionController.initSession();

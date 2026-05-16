@@ -51,7 +51,7 @@ void main() {
     );
 
     test(
-      'should use fallback value "غير محدد" for firstName when it is null',
+      'should use fallback value "Unknown" for firstName when it is null',
       () {
         // ARRANGE
         final tUser = User(
@@ -73,7 +73,7 @@ void main() {
         final result = tRegisterResponse.toEntity();
 
         // ASSERT
-        expect(result.firstName, 'غير محدد');
+        expect(result.firstName, 'Unknown');
       },
     );
 
@@ -99,7 +99,7 @@ void main() {
         final result = tRegisterResponse.toEntity();
 
         // ASSERT
-        expect(result.firstName, 'غير محدد');
+        expect(result.firstName, 'Unknown');
         expect(result.id, '');
         expect(result.lastName, '');
         expect(result.email, '');
@@ -156,7 +156,7 @@ void main() {
 
         // ASSERT
         expect(result.id, '');
-        expect(result.firstName, 'غير محدد');
+        expect(result.firstName, 'Unknown');
         expect(result.lastName, '');
         expect(result.email, '');
         expect(result.gender, '');

@@ -1,11 +1,12 @@
- import 'package:fitness_app/Features/auth/data/data_sources/auth_local_data_source_contract.dart';
+import 'package:fitness_app/Features/auth/data/data_sources/auth_local_data_source_contract.dart';
 import 'package:fitness_app/Features/auth/data/data_sources/auth_remote_data_source_contract.dart';
 import 'package:fitness_app/Features/auth/data/repo/auth_repo_imple.dart';
+import 'package:fitness_app/core/controller/session_controller.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
- import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/forget_password_request/forget_password_request.dart';
+import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/forget_password_request/forget_password_request.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/reset_password_request/reset_password_request.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/request/verify_reset_password_request/verify_reset_password_request.dart';
 import 'package:fitness_app/Features/auth/data/models/forget_password_models/response/forget_password_response/forget_password_response.dart';
@@ -18,18 +19,20 @@ import 'package:fitness_app/core/base_response/base_response.dart';
 
 import 'auth_repo_impl_test.mocks.dart';
 
-@GenerateMocks([AuthRemoteDataSourceContract, AuthLocalDataSourceContract])
+@GenerateMocks([AuthRemoteDataSourceContract, AuthLocalDataSourceContract, SessionController])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late AuthRepoImpl authRepo;
   late MockAuthRemoteDataSourceContract mockRemote;
   late MockAuthLocalDataSourceContract mockLocal;
+  late MockSessionController mockSessionController;
 
   setUp(() {
     mockRemote = MockAuthRemoteDataSourceContract();
     mockLocal = MockAuthLocalDataSourceContract();
-    authRepo = AuthRepoImpl(mockRemote, mockLocal);
+    mockSessionController = MockSessionController();
+    authRepo = AuthRepoImpl(mockRemote, mockLocal, mockSessionController);
   });
 
 
