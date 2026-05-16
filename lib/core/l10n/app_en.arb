@@ -1,0 +1,329 @@
+{
+  "@@locale": "en",
+  "appTitle": "Super Fitness",
+  "skip": "Skip",
+  "back": "Back",
+  "next": "Next",
+  "done": "Done",
+  "doIt": "Do IT",
+  "onboarding1Title": "The Price Of Excellence\nIs Discipline",
+  "onboarding2Title": "Fitness Has Never Been So\nMuch Fun",
+  "onboarding3Title": "NO MORE EXCUSES\nDo It Now",
+  "onboarding1Desc": "Start your journey today. Success isn't owned, it's leased, and rent is due every single day.",
+  "onboarding2Desc": "Discover exciting workouts that keep you moving. We make reaching your goals the best part of your day.",
+  "onboarding3Desc": "Your goals are within reach. Stop waiting for the right moment; create it and transform your life now.",
+  "loremIpsum": "Lorem Ipsum Dolor Sit Amet Consectetur. Eu Urna Ut Gravida Quis Id Pretium Purus. Mauris Massa",
+  "welcomeBack": "WELCOME BACK",
+  "heyThere": "Hey There",
+  "email": "Email",
+  "password": "Password",
+  "forgetPassword": "Forget Password?",
+  "or": "Or",
+  "login": "Login",
+  "dontHaveAccount": "Dont Have An Account Yet?",
+  "registerNow": "Register",
+  "createAccount": "CREATE AN ACCOUNT",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "alreadyHaveAccount": "Already Have An Account?",
+  "tellUsAboutYourself": "TELL US ABOUT YOURSELF!",
+  "needToKnowGender": "We Need To Know Your Gender",
+  "male": "Male",
+  "female": "Female",
+  "howOldAreYou": "HOW OLD ARE YOU ?",
+  "whatIsYourWeight": "WHAT IS YOUR WEIGHT ?",
+  "whatIsYourHeight": "WHAT IS YOUR HEIGHT ?",
+  "whatIsYourGoal": "WHAT IS YOUR GOAL ?",
+  "personalizedPlanNote": "This Helps Us Create Your Personalized Plan",
+  "gainWeight": "Gain Weight",
+  "loseWeight": "Lose Weight",
+  "getFitter": "Get Fitter",
+  "gainMoreFlexible": "Gain More Flexible",
+  "learnTheBasic": "Learn The Basic",
+  "physicalActivityLevel": "YOUR REGULAR PHYSICAL ACTIVITY LEVEL ?",
+  "rookie": "Rookie",
+  "beginner": "Beginner",
+  "intermediate": "Intermediate",
+  "advance": "Advance",
+  "trueBeast": "True Beast",
+  "enterYourEmail": "Enter Your Email",
+  "otpCode": "OTP CODE",
+  "checkYourEmail": "Enter Your OTP Check Your Email",
+  "didntReceiveCode": "Didnt Recieve Verification Code?",
+  "resendCode": "Resend Code?",
+  "confirm": "Confirm",
+  "createNewPassword": "Create New Password",
+  "passwordLengthNote": "Make Sure Its 8 Characters Or More",
+  "emailRequired": "Email is required",
+  "emailInvalid": "Please enter a valid email address",
+  "passwordRequired": "Password is required",
+  "passwordTooShort": "Password must be at least 8 characters",
+  "passwordWeak": "Password is too weak",
+  "passwordMismatch": "Passwords do not match",
+  "phoneRequired": "Phone number is required",
+  "phoneInvalid": "Please enter a valid phone number",
+  "nationalIdRequired": "National ID is required",
+  "nationalIdInvalidLength": "National ID must be 14 digits",
+  "nationalIdInvalidChars": "National ID must contain numbers only",
+  "vehicleNumberRequired": "Vehicle number is required",
+  "vehicleNumberLength": "Vehicle number must be between 3 and 10 characters",
+  "vehicleNumberInvalidChars": "Vehicle number can only contain letters and numbers",
+  "sessionExpiredTitle": "Session Expired",
+  "sessionExpiredMessage": "Your session has expired, please login again.",
+  "loginTitle": "Login",
+  "forgotPasswordTitle": "Forget password",
+  "@forgotPasswordTitle": {
+    "description": "Title for the forgot password screen"
+  },
+  "forgotPasswordSubTitle": "Please enter your email associated to your account",
+  "@forgotPasswordSubTitle": {
+    "description": "Subtitle instructions for forgot password"
+  },
+  "confirmButton": "Confirm",
+  "@confirmButton": {
+    "description": "Label for confirm buttons"
+  },
+  "verificationTitle": "Email verification",
+  "@verificationTitle": {
+    "description": "Title for the email verification screen"
+  },
+  "validationEnterCompleteCode": "Please enter complete 6-digit code",
+  "@validationEnterCompleteCode": {
+    "description": "Validation message for incomplete OTP code"
+  },
+  "weakPasswordError": "Password must not be empty and must contain 6 characters with upper case letter and one number at least",
+  "@weakPasswordError": {
+    "description": "Generic error message for weak password validation"
+  },
+  "invalidCodeError": "Invalid code",
+  "@invalidCodeError": {
+    "description": "Generic error message for invalid verification code"
+  },
+  "verificationSubTitle": "Please enter your code that sent to your email address",
+  "@verificationSubTitle": {
+    "description": "Subtitle instructions for email verification"
+  },
+  "resend": "Resend",
+  "@resend": {
+    "description": "Button text to resend verification code"
+  },
+  "resetPasswordTitle": "Reset password",
+  "@resetPasswordTitle": {
+    "description": "Title for the reset password screen"
+  },
+  "resetPasswordSubTitle": "Password must not be empty and must contain 6 characters with upper case letter and one number at least ",
+  "@resetPasswordSubTitle": {
+    "description": "Subtitle instructions for reset password"
+  },
+  "resetSuccessfully": "Password reset successfully! Please login with your new password.",
+  "@resetSuccessfully": {
+    "description": "content of dialog"
+  },
+  "registerSuccessfully": "Your account has been created successfully! Please login to continue ",
+  "@registerSuccessfully": {
+    "description": "content of dialog"
+  },
+  "success": "success",
+  "@success": {
+    "description": "success"
+  },
+  "newPasswordLabel": "New password",
+  "@newPasswordLabel": {
+    "description": "Label for the new password input field"
+  },
+  "cancelDialog": "cancel",
+  "@cancelDialog": {
+    "description": "Label for the cancel button in a dialog"
+  },
+  "confirmPasswordLabel": "Confirm password",
+  "@confirmPasswordLabel": {
+    "description": "Label for the confirm password input field"
+  },
+  "confirmPasswordHint": "Confirm password",
+  "@confirmPasswordHint": {
+    "description": "Hint text for the confirm password input field"
+  },
+  "sentOtp": "Sent OTP",
+  "@sentOtp": {
+    "description": "Sent OTP"
+  },
+  "enterYourOtp": "Enter Your OTP Check your email",
+  "@enterYourOtp": {
+    "description": "Enter Your OTP Check your email"
+  },
+  "explore": "Explore",
+  "@explore": {
+    "description": "Explore"
+  },
+  "chatAi": "Chat AI",
+  "@chatAi": {
+    "description": "Chat AI"
+  },
+  "workouts": "Workouts",
+  "@workouts": {
+    "description": "Workouts"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile"
+  },
+  "buildYourMusclesWorkout": "Build your muscles with this quick and effective workout.",
+  "thirtyMin": "30 MIN",
+  "oneHundredThirtyCal": "130 Cal",
+  "noExercisesFoundForThisLevel": "No exercises found for this level.",
+  "invalidVideoUrl": "Invalid Video URL",
+  "noInternetConnection": "No internet connection",
+  "pleaseCheckNetworkToWatch": "Please check your network to watch",
+  "retryButton": "Retry",
+  "groups": "Groups",
+  "times": "Times",
+  "foodRecommendation": "Food Recommendation",
+  "@foodRecommendation": {
+    "description": "Food Recommendation"
+  },
+  "recommendationForYou": "Recommendation For You",
+  "@recommendationForYou": {
+    "description": "Recommendation For You"
+  },
+  "seeAll": "See All",
+  "@seeAll": {
+    "description": "See All"
+  },
+  "showMore": "Show more",
+  "@showMore": {
+    "description": "Show more"
+  },
+  "showLess": "Show less",
+  "@showLess": {
+    "description": "Show less"
+  },
+  "ingredients": "Ingredients",
+  "@ingredients": {
+    "description": "Ingredients"
+  },
+  "instructions": "Instructions",
+  "@instructions": {
+    "description": "Instructions"
+  },
+  "view": "View",
+  "@view": {
+    "description": "View"
+  },
+  "couldNotOpenVideo": "Could not open video, please try again",
+  "@couldNotOpenVideo": {
+    "description": "Could not open video, please try again"
+  },
+  "hi": "Hi",
+  "letsStart": "Let’s Start Your Day",
+  "category": "Category",
+  "gym": "Gym",
+  "fitness": "Fitness",
+  "yoga": "Yoga",
+  "aerobics": "Aerobics",
+  "trainer": "Trainer",
+  "featureComingSoon": "Feature coming soon",
+  "recommendationToday": "Recommendation Today",
+  "popularTraining": "Popular Training",
+  "upcomingWorkouts": "Upcoming Workouts",
+  "tasks": "Tasks",
+  "completeRegister": "Please complete your registration",
+  "@completeRegister": {
+    "description": "Please complete your registration"
+  },
+  "googleLoginFailed": "Google login failed",
+  "@googleLoginFailed": {
+    "description": "Google login failed"
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit Profile"
+  },
+  "profileUpdatedSuccess": "Profile updated successfully!",
+  "@profileUpdatedSuccess": {
+    "description": "Success message after profile update"
+  },
+  "photoUploadedSuccessfully": "Photo uploaded successfully!",
+  "@photoUploadedSuccessfully": {
+    "description": "Success message after uploading profile photo"
+  },
+  "passwordChangedSuccess": "Password changed successfully",
+  "@passwordChangedSuccess": {
+    "description": "Success message after password change"
+  },
+  "update": "Update",
+  "@update": {
+    "description": "Update button label"
+  },
+  "firstNameLabel": "First Name",
+  "@firstNameLabel": {
+    "description": "First Name label"
+  },
+  "lastNameLabel": "Last Name",
+  "@lastNameLabel": {
+    "description": "Last Name label"
+  },
+  "emailLabel": "Email",
+  "@emailLabel": {
+    "description": "Email label"
+  },
+  "gallery": "Gallery",
+  "@gallery": {
+    "description": "Gallery label"
+  },
+  "camera": "Camera",
+  "@camera": {
+    "description": "Camera label"
+  },
+  "chooseImageSource": "Choose Image Source",
+  "@chooseImageSource": {
+    "description": "Choose Image Source label"
+  },
+  "failedToPickImage": "Failed to pick image: ",
+  "@failedToPickImage": {
+    "description": "Failed to pick image message"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English"
+  },
+  "arabic": "Arabic",
+  "@arabic": {
+    "description": "Arabic"
+  },
+  "changePassword": "Change Password",
+  "security": "Security",
+  "privacyPolicy": "Privacy Policy",
+  "selectLanguage": "Select Language",
+  "help": "Help",
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "passwordMinLength": "Make sure it's 8 characters or more",
+  "oldPassword": "Old Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password",
+  "tabToEdit": " (tap To Edit)",
+  "yourWeight": "Your Weight",
+  "yourGoal": "Your Goal",
+  "yourActivityLevel": "Your Activity Level",
+  "smartCoachDefaultSessionTitle": "New Conversation",
+  "smartCoachSafetyBlockMessage": "Sorry, I can't help with this topic. Let's focus on your fitness goals!",
+  "smartCoachEmptyChat": "Start your conversation with the Smart Coach 💪",
+  "smartCoachRetryButton": "Retry",
+  "smartCoachPartialMessage": "⚠ Incomplete message",
+  "smartCoachPreviousConversations": "Previous Conversations",
+  "smartCoachNoConversations": "No previous conversations",
+  "smartCoachTypeMessage": "Type your message...",
+  "smartCoachEmptyChatSubtitle": "Ask me anything about workouts, diet, or healthy habits.",
+  "smartCoachConnectionTimeout": "Connection timed out. Please check your internet and try again.",
+  "smartCoachServerIssue": "Our servers are currently experiencing issues. Please try again later.",
+  "smartCoachSecureConnectionFailed": "Secure connection failed. Please try again.",
+  "smartCoachDataIssue": "An issue occurred while processing your data. Please try again.",
+  "smartCoachGenericError": "Something went wrong. Please try again."
+}

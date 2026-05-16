@@ -11,12 +11,24 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+*.g.dart
+*.mocks.dart
+*.lock
+!Gemfile.lock
+*.config.dart
+*.env
+*.xml
+*.cc
+*.cmake
+*.swift
+*CLAUDE.md
+
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
-.idea/
+tracking_app/.idea/
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -32,6 +44,11 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+assets/json/tracking-app-service.json
+firebase.json
 
 # Symbolication related
 app.*.symbols
@@ -43,3 +60,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+**/fastlane/build/
+pc-api-key.json
