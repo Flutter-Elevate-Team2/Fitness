@@ -9,7 +9,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
 
 class MockUserCubit extends Mock implements UserCubit {
-  UserEntity? _state;
+  final UserEntity? _state;
 
   MockUserCubit([this._state]);
 
