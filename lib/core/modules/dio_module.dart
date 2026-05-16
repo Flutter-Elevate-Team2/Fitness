@@ -11,7 +11,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 @module
 abstract class DioModule {
-  // ── Logger ──────────────────────────────────────────────────────────────────
+
   @singleton
   PrettyDioLogger get prettyDioLogger {
     return PrettyDioLogger(

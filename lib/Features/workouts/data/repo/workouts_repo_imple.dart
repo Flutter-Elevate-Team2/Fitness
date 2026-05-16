@@ -44,9 +44,7 @@ class WorkoutsRepoImple
     this.networkInfo,
   );
 
-  // ─────────────────────────────────────────────
-  // Difficulty Levels
-  // ─────────────────────────────────────────────
+
   @override
   Future<BaseResponse<List<DifficultyLevelEntity>>>
   getDifficultyLevelsByPrimeMover(String primeMoverMuscleId) {
@@ -84,9 +82,7 @@ class WorkoutsRepoImple
     );
   }
 
-  // ─────────────────────────────────────────────
-  // Exercises
-  // ─────────────────────────────────────────────
+
   @override
   Future<BaseResponse<List<ExerciseEntity>>> getExercisesByMuscleDifficulty(
     String primeMoverMuscleId,

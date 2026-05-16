@@ -47,7 +47,7 @@ class _HorizontalNumberPickerState extends State<HorizontalNumberPicker> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        /// ── Unit Label ──
+
         Text(
           widget.unitLabel,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -57,7 +57,7 @@ class _HorizontalNumberPickerState extends State<HorizontalNumberPicker> {
         ),
         const SizedBox(height: 16),
 
-        /// ── Number Picker ──
+
         SizedBox(
           height: 80,
           child: PageView.builder(
@@ -118,7 +118,7 @@ class _HorizontalNumberPickerState extends State<HorizontalNumberPicker> {
           ),
         ),
 
-        /// ── Triangle Indicator ──
+
         const Icon(
           Icons.arrow_drop_up,
           color: AppColors.primary,

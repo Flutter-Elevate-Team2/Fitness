@@ -21,9 +21,7 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
 
   WorkoutsLocalDataSourceImple(this._hiveDb);
 
-  // ─────────────────────────────────────────────
-  // Lazy Box Getters
-  // ─────────────────────────────────────────────
+
   Future<Box<List<dynamic>>> get _levelsBox =>
       _hiveDb.openBox<List<dynamic>>(_difficultyLevelsBoxName);
 
@@ -36,9 +34,7 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
   Future<Box<List<dynamic>>> get _randomBox =>
       _hiveDb.openBox<List<dynamic>>(_randomMusclesBoxName);
 
-  // ─────────────────────────────────────────────
-  // Difficulty Levels
-  // ─────────────────────────────────────────────
+
   @override
   Future<void> cacheDifficultyLevels(
     String primeMoverMuscleId,
@@ -60,9 +56,7 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
     return raw.whereType<DifficultyLevelHiveModel>().toList();
   }
 
-  // ─────────────────────────────────────────────
-  // Exercises
-  // ─────────────────────────────────────────────
+
   @override
   Future<void> appendCachedExercises(
     String primeMoverMuscleId,
@@ -112,9 +106,7 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
     return raw.whereType<ExerciseHiveModel>().toList();
   }
 
-  // ─────────────────────────────────────────────
-  // Cache Expiry
-  // ─────────────────────────────────────────────
+
   @override
   Future<bool> isCacheExpired(String key, Duration ttl) async {
     final meta = await _metaBox;
@@ -125,9 +117,7 @@ class WorkoutsLocalDataSourceImple implements WorkoutsLocalDataSourceContract {
     return DateTime.now().difference(lastUpdateTime) > ttl;
   }
 
-  // ─────────────────────────────────────────────
-  // Private Helpers
-  // ─────────────────────────────────────────────
+
   Future<void> _saveTimestamp(String key) async {
     final meta = await _metaBox;
     await meta.put('ts_$key', DateTime.now().millisecondsSinceEpoch);

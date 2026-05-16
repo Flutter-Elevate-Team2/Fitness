@@ -13,13 +13,7 @@ import 'package:fitness_app/core/constants/app_config.dart';
 import 'package:fitness_app/core/errors/handel_errors.dart';
 import 'package:injectable/injectable.dart';
 
-/// Repository implementation for the Smart Coach chat feature.
-///
-/// Owns:
-///  - Sliding-window slicing (last [_maxHistoryWindow] messages).
-///  - Session title generation from the first user message.
-///  - `updatedAt` timestamp management.
-///  - Mapping [MessageEntity] → [ChatMessageRecord] (layer separation).
+@Injectable(as: SmartCoachRepoContract)
 @Injectable(as: SmartCoachRepoContract)
 class SmartCoachRepoImpl implements SmartCoachRepoContract {
   final SmartCoachRemoteDataSourceContract _remoteDataSource;
@@ -34,9 +28,7 @@ class SmartCoachRepoImpl implements SmartCoachRepoContract {
 
   SmartCoachRepoImpl(this._remoteDataSource, this._localDataSource);
 
-  // ─────────────────────────────────────────────
-  // Create Session
-  // ─────────────────────────────────────────────
+
 
   @override
   Future<BaseResponse<ChatSessionEntity>> createSession({
@@ -60,9 +52,7 @@ class SmartCoachRepoImpl implements SmartCoachRepoContract {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // Send Message (Streaming)
-  // ─────────────────────────────────────────────
+
 
   @override
   Stream<String> sendMessage({
@@ -88,9 +78,7 @@ class SmartCoachRepoImpl implements SmartCoachRepoContract {
     );
   }
 
-  // ─────────────────────────────────────────────
-  // Save Message
-  // ─────────────────────────────────────────────
+
 
   @override
   Future<BaseResponse<void>> saveMessage({
@@ -120,9 +108,7 @@ class SmartCoachRepoImpl implements SmartCoachRepoContract {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // Get Chat History
-  // ─────────────────────────────────────────────
+
 
   @override
   Future<BaseResponse<List<ChatSessionEntity>>> getChatHistory() async {
@@ -138,9 +124,7 @@ class SmartCoachRepoImpl implements SmartCoachRepoContract {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // Delete Session
-  // ─────────────────────────────────────────────
+
 
   @override
   Future<BaseResponse<void>> deleteSession(String sessionId) async {
@@ -152,9 +136,7 @@ class SmartCoachRepoImpl implements SmartCoachRepoContract {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // Delete Message (Retry Support)
-  // ─────────────────────────────────────────────
+
 
   @override
   Future<BaseResponse<void>> deleteMessage({
@@ -169,9 +151,7 @@ class SmartCoachRepoImpl implements SmartCoachRepoContract {
     }
   }
 
-  // ═══════════════════════════════════════════════
-  // Private Helpers
-  // ═══════════════════════════════════════════════
+
 
   /// Generates the session title from the first user message.
   ///

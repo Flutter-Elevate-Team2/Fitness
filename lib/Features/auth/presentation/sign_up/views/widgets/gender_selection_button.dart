@@ -25,7 +25,7 @@ class GenderSelectionButton extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          /// ── Circular Icon ──
+
           AnimatedContainer(
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
@@ -42,7 +42,7 @@ class GenderSelectionButton extends StatelessWidget {
           ),
           const SizedBox(height: 10),
 
-          /// ── Label ──
+
           Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(

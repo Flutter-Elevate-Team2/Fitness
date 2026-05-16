@@ -12,12 +12,7 @@ import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// The main chat screen for the Smart Coach feature.
-///
-/// Uses a [StatefulWidget] **only** to manage:
-///  - `_isHistoryOpen` toggle for the sliding panel.
-///  - [ScrollController] for auto-scroll behaviour.
-///  - [TextEditingController] lifecycle (via [ChatInputField]).
+
 class SmartCoachChatScreen extends StatefulWidget {
   const SmartCoachChatScreen({super.key});
 
@@ -77,7 +72,7 @@ class _SmartCoachChatScreenState extends State<SmartCoachChatScreen> {
       title: null,
       body: Stack(
         children: [
-          /// ── Blur overlay ──
+
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 12.5, sigmaY: 12.5),
@@ -85,7 +80,7 @@ class _SmartCoachChatScreenState extends State<SmartCoachChatScreen> {
             ),
           ),
 
-          /// ── Layer 1: Main chat UI ──
+
           Positioned.fill(
             child: SafeArea(
               child: Column(
@@ -161,7 +156,7 @@ class _SmartCoachChatScreenState extends State<SmartCoachChatScreen> {
             ),
           ),
 
-          /// ── Layer 2: Sliding history panel ──
+
           BlocBuilder<SmartCoachViewModel, SmartCoachState>(
             builder: (context, state) {
               // Read directly from the ViewModel variable instead of the state

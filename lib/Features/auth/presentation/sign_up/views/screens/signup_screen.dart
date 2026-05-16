@@ -36,18 +36,18 @@ class _SignupScreenState extends State<SignupScreen> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
 
-  /// ── Step tracking ──
+
   int _currentStep = 0;
 
-  /// ── Step 2: Gender ──
+
   String? _selectedGender;
 
-  /// ── Steps 3–5: Age / Weight / Height ──
+
   int _selectedAge = 25;
   int _selectedWeight = 70;
   int _selectedHeight = 170;
 
-  /// ── Step 6: Goal ──
+
   String? _selectedGoal;
 
   @override
@@ -144,7 +144,7 @@ class _SignupScreenState extends State<SignupScreen> {
             }
 
             if (signUpState.data != null) {
-              // ── Success ──
+
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Account created successfully!'),
@@ -153,7 +153,7 @@ class _SignupScreenState extends State<SignupScreen> {
               );
               context.goNamed(Routes.loginName);
             } else if (signUpState.errorMessage != null) {
-              // ── Error ──
+
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(signUpState.errorMessage!),
@@ -173,7 +173,7 @@ class _SignupScreenState extends State<SignupScreen> {
             physics: const NeverScrollableScrollPhysics(),
             onPageChanged: (index) => setState(() => _currentStep = index),
             children: [
-              /// ── Step 1: Account Info ──
+
               SignupFirstStep(
                 firstNameController: _firstNameController,
                 lastNameController: _lastNameController,
@@ -183,7 +183,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 useScaffold: false,
               ),
 
-              /// ── Step 2: Gender Selection ──
+
               SignupGenderStep(
                 selectedGender: _selectedGender,
                 currentStep: _currentStep,
@@ -195,7 +195,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 useScaffold: false,
               ),
 
-              /// ── Step 3: Age ──
+
               SignupAgeStep(
                 selectedAge: _selectedAge,
                 currentStep: _currentStep,
@@ -205,7 +205,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 useScaffold: false,
               ),
 
-              /// ── Step 4: Weight ──
+
               SignupWeightStep(
                 selectedWeight: _selectedWeight,
                 currentStep: _currentStep,
@@ -215,7 +215,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 useScaffold: false,
               ),
 
-              /// ── Step 5: Height ──
+
               SignupHeightStep(
                 selectedHeight: _selectedHeight,
                 currentStep: _currentStep,

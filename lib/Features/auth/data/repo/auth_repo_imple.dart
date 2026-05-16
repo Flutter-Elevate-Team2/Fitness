@@ -23,6 +23,7 @@ import 'package:fitness_app/Features/auth/domain/entities/register_params.dart';
 import 'package:fitness_app/Features/auth/domain/entities/user_entity.dart';
 import 'package:fitness_app/Features/auth/domain/repo/auth_repo_contract.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';
+import 'package:fitness_app/core/controller/session_controller.dart';
 import 'package:fitness_app/core/helpers/api_execution_mixin.dart';
 import 'package:injectable/injectable.dart';
 
@@ -30,10 +31,11 @@ import 'package:injectable/injectable.dart';
 class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
   final AuthRemoteDataSourceContract _remoteDataSource;
   final AuthLocalDataSourceContract _localDataSource;
+  final SessionController _sessionController;
 
   bool _isCurrentSessionActive = false;
 
-  AuthRepoImpl(this._remoteDataSource, this._localDataSource);
+  AuthRepoImpl(this._remoteDataSource, this._localDataSource, this._sessionController);
 
   /// Register
   @override
@@ -77,6 +79,9 @@ class AuthRepoImpl with ApiExecutionMixin implements AuthRepoContract {
       if (token != null && token.isNotEmpty) {
         _isCurrentSessionActive = true;
         await _localDataSource.saveToken(token);
+      }
+      if (result.data.user != null) {
+        _sessionController.saveUser(result.data.user!);
       }
     }
     return result;

@@ -6,7 +6,7 @@ extension UserModelMapper on RegisterResponse {
   UserEntity toEntity() {
     return UserEntity(
       id: user?.id ?? '',
-      firstName: user?.firstName ?? 'غير محدد',
+      firstName: user?.firstName ?? 'Unknown',
       lastName: user?.lastName ?? '',
       email: user?.email ?? '',
       gender: user?.gender ?? '',

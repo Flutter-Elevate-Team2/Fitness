@@ -5,9 +5,7 @@ import 'package:fitness_app/core/widget/shared_container.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
-/// Left-aligned AI coach message bubble.
-///
-/// Layout: [avatar circle] — [frosted bubble with text]
+
 class CoachMessageBubble extends StatelessWidget {
   final String message;
   final bool isPartial;
@@ -23,7 +21,7 @@ class CoachMessageBubble extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// ── Coach avatar ──
+
         CircleAvatar(
           radius: 18,
           backgroundColor: AppColors.grayMid,
@@ -36,7 +34,7 @@ class CoachMessageBubble extends StatelessWidget {
         ),
         const SizedBox(width: 8),
 
-        /// ── Message bubble ──
+
         ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.75,

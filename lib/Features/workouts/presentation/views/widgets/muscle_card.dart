@@ -27,7 +27,7 @@ class MuscleCard extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Image
+
           if (muscle.image != null && muscle.image!.isNotEmpty)
             CachedNetworkImage(
               imageUrl: muscle.image!,
@@ -44,7 +44,7 @@ class MuscleCard extends StatelessWidget {
               child: Icon(Icons.fitness_center, color: AppColors.grayLight, size: 50),
             ),
 
-          // Gradient Overlay to ensure text readability
+
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -59,7 +59,7 @@ class MuscleCard extends StatelessWidget {
             ),
           ),
 
-          // Name Text at bottom center
+
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(

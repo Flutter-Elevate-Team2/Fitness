@@ -18,6 +18,10 @@ class ProfileViewModel extends Cubit<ProfileStates> {
     _sessionController.onLogin.listen((_) {
       _getProfile();
     });
+
+    if (_sessionController.isLoggedIn) {
+      _getProfile();
+    }
   }
 
   final GetUserProfileUseCase _getUserProfileUseCase;

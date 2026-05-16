@@ -73,7 +73,7 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
       formBody: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          /// ── "Register" Heading ──
+
           Text(
             context.l10n.registerNow,
             style: Theme.of(
@@ -82,13 +82,13 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
           ),
           const SizedBox(height: 20),
 
-          /// ── Form Fields ──
+
           Form(
             key: _formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                /// ── First Name ──
+
                 PillTextFormField(
                   controller: widget.firstNameController,
                   hintText: context.l10n.firstName,
@@ -101,7 +101,7 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
                 ),
                 const SizedBox(height: 14),
 
-                /// ── Last Name ──
+
                 PillTextFormField(
                   controller: widget.lastNameController,
                   hintText: context.l10n.lastName,
@@ -114,7 +114,7 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
                 ),
                 const SizedBox(height: 14),
 
-                /// ── Email ──
+
                 PillTextFormField(
                   controller: widget.emailController,
                   hintText: context.l10n.email,
@@ -126,7 +126,7 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
                 ),
                 const SizedBox(height: 14),
 
-                /// ── Password ──
+
                 PillTextFormField(
                   controller: widget.passwordController,
                   hintText: context.l10n.password,
@@ -153,7 +153,7 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
           ),
           const SizedBox(height: 20),
 
-          /// ── Social Login ──
+
           SocialLoginRow(
             onGoogleSuccess: (email, firstName, lastName, password) {
               widget.emailController.text = email;
@@ -166,7 +166,7 @@ class _SignupFirstStepState extends State<SignupFirstStep> {
         ],
       ),
 
-      /// ── Already Have An Account? Login ──
+
       underButtonWidget: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

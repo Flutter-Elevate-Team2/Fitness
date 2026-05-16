@@ -2,10 +2,7 @@ import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:flutter/material.dart';
 
-/// Top header row for the Smart Coach intro screen.
-///
-/// Shows a greeting ("Hi \<name\>, / I Am Your Smart Coach") on the left
-/// and a hamburger menu icon on the right.
+
 class SmartCoachIntroHeader extends StatelessWidget {
   final String userName;
   final VoidCallback onMenuTap;
@@ -18,16 +15,15 @@ class SmartCoachIntroHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: replace with context.l10n equivalents
-    final greeting = 'Hi $userName ,'; // TODO: context.l10n.hiName(userName)
-    final subtitle = 'I Am Your Smart Coach'; // TODO: context.l10n.coachSubtitle
+    final greeting = 'Hi $userName ,'; 
+    final subtitle = 'I Am Your Smart Coach'; 
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// ── Greeting texts ──
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,7 +45,7 @@ class SmartCoachIntroHeader extends StatelessWidget {
             ),
           ),
 
-          /// ── Menu icon ──
+
           GestureDetector(
             onTap: onMenuTap,
             child: const Icon(

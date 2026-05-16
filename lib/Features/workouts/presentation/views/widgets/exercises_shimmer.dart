@@ -1,12 +1,10 @@
-// ignore_for_file: deprecated_member_use
+
 
 import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-// ─────────────────────────────────────────────
-// 1. Shimmer for Difficulty Tabs
-// ─────────────────────────────────────────────
+
 class DifficultyTabsShimmer extends StatelessWidget {
   const DifficultyTabsShimmer({super.key});
 
@@ -27,7 +25,7 @@ class DifficultyTabsShimmer extends StatelessWidget {
         height: 34,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemCount: 4, // عرض 4 تابس وهميين
+          itemCount: 4, 
           padding: EdgeInsets.zero,
           separatorBuilder: (context, index) => const SizedBox(width: 24),
           itemBuilder: (context, index) {
@@ -49,9 +47,7 @@ class DifficultyTabsShimmer extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────
-// 2. Shimmer for Exercises List
-// ─────────────────────────────────────────────
+
 class ExercisesListShimmer extends StatelessWidget {
   const ExercisesListShimmer({super.key});
 
@@ -61,7 +57,7 @@ class ExercisesListShimmer extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
-      itemCount: 4, // عرض 4 تمارين وهمية
+      itemCount: 4, 
       separatorBuilder: (context, index) {
         return Divider(
           color: Colors.white.withOpacity(0.08),

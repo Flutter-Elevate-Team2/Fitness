@@ -112,7 +112,7 @@ class _CategorySectionState extends State<CategorySection> {
                             ),
                           ),
 
-                          // الـ Soon Tooltip
+
                           if (isShowingSoon)
                             Positioned(
                               top: -30,

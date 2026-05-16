@@ -26,7 +26,7 @@ class SocialLoginRow extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        /// ── "Or" Divider ──
+
         Row(
           children: [
             const Expanded(
@@ -49,7 +49,7 @@ class SocialLoginRow extends StatelessWidget {
         ),
         const SizedBox(height: 16),
 
-        /// ── Social Icons Row ──
+
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

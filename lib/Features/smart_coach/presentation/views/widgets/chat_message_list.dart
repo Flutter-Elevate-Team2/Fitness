@@ -7,10 +7,7 @@ import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:fitness_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
-/// Scrollable list of chat message bubbles.
-///
-/// Uses `reverse: true` so the newest messages appear at the bottom
-/// and the list auto-scrolls to the latest entry.
+
 class ChatMessageList extends StatelessWidget {
   final List<MessageEntity> messages;
   final ScrollController scrollController;
@@ -80,7 +77,7 @@ class ChatMessageList extends StatelessWidget {
             itemBuilder: (context, index) {
               final message = messages[index];
 
-              // Streaming indicator: empty AI message being filled
+
               if (!message.isUser && message.content.isEmpty && isStreaming) {
                 return const Padding(
                   padding: EdgeInsets.only(bottom: 16),
@@ -106,7 +103,7 @@ class ChatMessageList extends StatelessWidget {
           ),
         ),
 
-        /// ── Retry button (shown on error) ──
+
         if (showRetry)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
@@ -126,8 +123,7 @@ class ChatMessageList extends StatelessWidget {
   }
 }
 
-/// FIX #5: Three-dot typing animation using [AnimationController] with
-/// explicit repeat so the dots loop continuously.
+
 class _TypingIndicator extends StatefulWidget {
   const _TypingIndicator();
 
@@ -159,7 +155,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// Spacer for coach avatar alignment
+
         const SizedBox(width: 44),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -173,7 +169,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: List.generate(3, (i) {
-                  // Each dot has a phase offset so they pulse sequentially.
+
                   final phase = (_controller.value + (i * 0.33)) % 1.0;
                   final opacity = (0.3 + 0.7 * _pulse(phase)).clamp(0.0, 1.0);
 
@@ -200,13 +196,13 @@ class _TypingIndicatorState extends State<_TypingIndicator>
     );
   }
 
-  /// Sine-based pulse: 0→1→0 over one cycle.
+
   static double _pulse(double t) {
     return (1 + _sin(t * 2 * 3.14159265)) / 2;
   }
 
   static double _sin(double x) {
-    // Taylor approximation sufficient for animation smoothness.
+
     x = x % (2 * 3.14159265);
     if (x > 3.14159265) x -= 2 * 3.14159265;
     final x3 = x * x * x;

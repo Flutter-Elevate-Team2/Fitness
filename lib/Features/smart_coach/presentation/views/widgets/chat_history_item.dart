@@ -2,9 +2,7 @@ import 'package:fitness_app/core/theming/app_colors.dart';
 import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:flutter/material.dart';
 
-/// A single row inside the [ChatHistoryPanel].
-///
-/// Layout: [primary chevron icon] — [conversation title] — [delete icon]
+
 class ChatHistoryItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
@@ -25,7 +23,7 @@ class ChatHistoryItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
-            /// ── Chevron icon ──
+
             const Icon(
               Icons.chevron_left,
               color: AppColors.primary,
@@ -33,7 +31,7 @@ class ChatHistoryItem extends StatelessWidget {
             ),
             const SizedBox(width: 16),
 
-            /// ── Conversation title ──
+
             Expanded(
               child: Text(
                 title,
@@ -45,7 +43,7 @@ class ChatHistoryItem extends StatelessWidget {
               ),
             ),
 
-            /// ── Delete button ──
+
             if (onDelete != null)
               GestureDetector(
                 onTap: onDelete,

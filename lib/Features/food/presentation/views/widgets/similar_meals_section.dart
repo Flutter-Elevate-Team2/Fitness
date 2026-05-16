@@ -16,7 +16,7 @@ class SimilarMealsSection extends StatelessWidget {
         final rawData = state.mealsByCategoryState.data;
 
         if (rawData == null) {
-          return const Center(child: CircularProgressIndicator()); // أو أي ويدجت تحميل
+          return const Center(child: CircularProgressIndicator()); 
         }
 
         final meals = List.of(
@@ -32,7 +32,7 @@ class SimilarMealsSection extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Title
+
             Text(
               context.l10n.foodRecommendation,
               style: Theme.of(context).textTheme.titleLarge,
@@ -40,7 +40,7 @@ class SimilarMealsSection extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            /// Horizontal List
+
             SizedBox(
               height: 190,
               child: ListView.separated(

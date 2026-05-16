@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fitness_app/core/constants/api_constants.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -36,7 +35,6 @@ class AuthInterceptor extends Interceptor {
     if (!isPublicPath) {
       final token = await _secureStorage.read(key: ApiConstants.tokenKey);
 
-      if (kDebugMode && token != null) {}
 
       if (token != null && token.isNotEmpty) {
         options.headers["Authorization"] = "Bearer $token";

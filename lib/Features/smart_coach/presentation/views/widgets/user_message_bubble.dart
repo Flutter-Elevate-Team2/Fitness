@@ -17,7 +17,7 @@ class UserMessageBubble extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// ── Message bubble ──
+
         ConstrainedBox(
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.75,
@@ -36,8 +36,7 @@ class UserMessageBubble extends StatelessWidget {
         ),
         const SizedBox(width: 8),
 
-        /// ── User avatar ──
-        // استخدمنا BlocBuilder عشان نقرأ صورة اليوزر فوراً
+
         BlocBuilder<UserCubit, UserEntity?>(
           builder: (context, user) {
             final imageUrl = user?.photo ?? "";

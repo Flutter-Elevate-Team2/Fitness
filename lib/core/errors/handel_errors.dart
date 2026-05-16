@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:hive_ce/hive.dart';
 
 class ErrorHandler {
-  // === Helper Getter to access Localization Globally ===
   /// Main entry point.
   static String handleError(dynamic error) {
     debugPrint('🚨 ErrorHandler caught: ${error.runtimeType} -> $error');
@@ -15,9 +14,7 @@ class ErrorHandler {
       debugPrint('🚨 StackTrace: ${error.stackTrace}');
     }
 
-    // -------------------------------------------------------------------------
-    // SECTION 1: NETWORK & CONNECTION ERRORS
-    // -------------------------------------------------------------------------
+
     if (error is DioException) {
       return _handleDioError(error);
     } else if (error is SocketException) {
@@ -27,29 +24,18 @@ class ErrorHandler {
     } else if (error is TimeoutException) {
       return ErrorStrings.connectionTimeout;
     }
-    // -------------------------------------------------------------------------
-    // SECTION 2: DATA & LOGIC ERRORS
-    // -------------------------------------------------------------------------
+
     else if (error is TypeError) {
       return ErrorStrings.parsingError;
     } else if (error is FormatException) {
       return ErrorStrings.formatException;
     }
-    // -------------------------------------------------------------------------
-    // SECTION 3: FIREBASE ERRORS
-    // -------------------------------------------------------------------------
-    // else if (error is FirebaseAuthException) {
-    //   return _handleFirebaseAuthError(error);
-    // } else if (error is FirebaseException) {
-    //   return _handleFirebaseGeneralError(error);
-    // }
-    // -------------------------------------------------------------------------
-    // SECTION 4: LOCAL STORAGE ERRORS (Hive)
-    // -------------------------------------------------------------------------
+
+
     else if (error is HiveError) {
       return ErrorStrings.hiveError;
     }
-    // ── Empty-cache sentinel (string returned by CacheExecutionMixin) ─────────
+
     else if (error is String &&
         error == ErrorStrings.emptyCacheError) {
       return ErrorStrings.emptyCacheError;
@@ -61,17 +47,13 @@ class ErrorHandler {
              error.toString().contains('Failed host lookup')) {
       return ErrorStrings.noInternet;
     }
-    // -------------------------------------------------------------------------
-    // SECTION 5: UNKNOWN / FALLBACK
-    // -------------------------------------------------------------------------
+
     else {
       return ErrorStrings.unknownError;
     }
   }
 
-  // ===========================================================================
-  // HELPER METHODS
-  // ===========================================================================
+
 
   static String _handleDioError(DioException error) {
     return switch (error.type) {
@@ -134,41 +116,7 @@ class ErrorHandler {
     return ErrorStrings.networkError;
   }
 
-  // static String _handleFirebaseAuthError(FirebaseAuthException error) {
-  //   switch (error.code) {
-  //     case 'user-not-found':
-  //       return ErrorStrings.firebaseUserNotFound;
-  //     case 'wrong-password':
-  //       return ErrorStrings.firebaseWrongPassword;
-  //     case 'email-already-in-use':
-  //       return ErrorStrings.firebaseEmailInUse;
-  //     case 'invalid-email':
-  //       return ErrorStrings.firebaseInvalidEmail;
-  //     case 'weak-password':
-  //       return ErrorStrings.firebaseWeakPassword;
-  //     case 'user-disabled':
-  //       return ErrorStrings.firebaseAccountDisabled;
-  //     case 'too-many-requests':
-  //       return ErrorStrings.firebaseTooManyRequests;
-  //     case 'network-request-failed':
-  //       return ErrorStrings.noInternet;
-  //     default:
-  //       return error.message ?? ErrorStrings.firebaseAuthUnknown;
-  //   }
-  // }
 
-  // static String _handleFirebaseGeneralError(FirebaseException error) {
-  //   switch (error.code) {
-  //     case 'permission-denied':
-  //       return ErrorStrings.firebasePermissionDenied;
-  //     case 'unavailable':
-  //       return ErrorStrings.firebaseUnavailable;
-  //     case 'network-request-failed':
-  //       return ErrorStrings.noInternet;
-  //     default:
-  //       return ErrorStrings.unknownError;
-  //   }
-  // }
 
   static String _handlePlatformError(PlatformException error) {
     if (error.code == 'network_error') {

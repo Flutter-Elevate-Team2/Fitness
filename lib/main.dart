@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:fitness_app/Features/profile/presentation/view_model/profile/profile_events.dart';
 import 'package:fitness_app/Features/auth/presentation/login/view_model/login_view_model.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/controller/session_controller.dart';
@@ -33,6 +32,7 @@ Future<void> main() async {
     registerAdapters: () => Hive.registerAdapters(),
   );
   await configureDependencies();
+  await getIt<SessionController>().initSession();
   runApp(const MyApp());
 }
 
@@ -93,9 +93,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          lazy: false,
-          create: (_) =>
-             getIt<ProfileViewModel>()..doIntent(GetUserProfileEvent()),
+          create: (_) => getIt<ProfileViewModel>(),
         ),
         BlocProvider(create: (_) => getIt<LoginViewModel>()),
         BlocProvider(create: (_) => getIt<LocaleCubit>()),

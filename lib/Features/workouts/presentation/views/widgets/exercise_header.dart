@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitness_app/core/theming/app_colors.dart';
@@ -29,7 +29,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
       width: double.infinity,
       child: Stack(
         children: [
-          // Background Image Layer
+
           Positioned.fill(
             child: imageUrl.startsWith('http')
                 ? CachedNetworkImage(
@@ -74,7 +74,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
             ),
           ),
 
-          // Content Layer
+
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -84,7 +84,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Back Button
+
                   GestureDetector(
                     onTap: onBackTapped,
                     child: Container(
@@ -104,7 +104,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
 
                   const Spacer(),
 
-                  // Title Text (Centered - تم التوسيط هنا)
+
                   Center(
                     child: Text(
                       title,
@@ -118,7 +118,7 @@ class ExerciseHeaderWidget extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  // Description Text
+
                   Text(
                     description,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(

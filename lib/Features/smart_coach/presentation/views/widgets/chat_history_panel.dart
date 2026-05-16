@@ -6,17 +6,12 @@ import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:fitness_app/core/widget/shared_container.dart';
 import 'package:flutter/material.dart';
 
-/// Right-side sliding history panel (NOT a Flutter Drawer).
-///
-/// Implemented as an overlay using [AnimatedSlide] inside the
-/// chat screen's body [Stack]. A full-screen transparent barrier
-/// behind the panel triggers [onClose] when tapped.
+
 class ChatHistoryPanel extends StatelessWidget {
   final bool isOpen;
   final VoidCallback onClose;
 
-  // ignore: unintended_html_in_doc_comment
-  /// FIX #6: Strong typing — no more List<dynamic>.
+
   final List<ChatSessionEntity> sessions;
 
   final void Function(ChatSessionEntity session)? onSessionTap;
@@ -39,7 +34,7 @@ class ChatHistoryPanel extends StatelessWidget {
 
     return Stack(
       children: [
-        /// ── Scrim / tap-outside barrier ──
+
         if (isOpen)
           Positioned.fill(
             child: GestureDetector(
@@ -50,7 +45,7 @@ class ChatHistoryPanel extends StatelessWidget {
             ),
           ),
 
-        /// ── Sliding panel ──
+
         AnimatedSlide(
           offset: isOpen ? Offset.zero : const Offset(1, 0),
           duration: const Duration(milliseconds: 300),
@@ -68,7 +63,7 @@ class ChatHistoryPanel extends StatelessWidget {
                 child: SafeArea(
                   child: Column(
                     children: [
-                      /// ── Header ──
+
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -94,7 +89,7 @@ class ChatHistoryPanel extends StatelessWidget {
                               ),
                             ),
 
-                            /// ── New chat button ──
+
                             GestureDetector(
                               onTap: onNewChat,
                               child: Container(
@@ -114,14 +109,14 @@ class ChatHistoryPanel extends StatelessWidget {
                         ),
                       ),
 
-                      /// ── Divider ──
+
                       const Divider(
                         color: AppColors.grayMid,
                         height: 1,
                         thickness: 0.5,
                       ),
 
-                      /// ── Session list ──
+
                       Expanded(
                         child: sessions.isEmpty
                             ? Center(

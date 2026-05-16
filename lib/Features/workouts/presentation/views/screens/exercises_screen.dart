@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+
 
 import 'package:fitness_app/Features/workouts/domain/entities/exercise_entity.dart';
 import 'package:fitness_app/Features/workouts/presentation/view_models/exercises/exercises_states.dart';
@@ -102,9 +102,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
-          // ─────────────────────────────────────────────
-          // 1. Header (SliverAppBar)
-          // ─────────────────────────────────────────────
+
           SliverAppBar(
             expandedHeight: 350,
             pinned: true,
@@ -127,9 +125,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
             ),
           ),
 
-          // ─────────────────────────────────────────────
-          // 2. Difficulty Tabs Section
-          // ─────────────────────────────────────────────
+
           if (widget.showTabs)
             SliverToBoxAdapter(
               child: Padding(
@@ -179,9 +175,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
               ),
             ),
 
-          // ─────────────────────────────────────────────
-          // 3. Exercises List Section
-          // ─────────────────────────────────────────────
+
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

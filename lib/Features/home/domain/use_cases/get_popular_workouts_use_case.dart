@@ -19,7 +19,7 @@ class GetPopularWorkoutsUseCase {
   GetPopularWorkoutsUseCase(this._homeRepo, this._workoutsRepo);
 
   Stream<BaseResponse<List<PopularWorkoutEntity>>> call() async* {
-    // PHASE 1: جلب البيانات الأساسية بالتوازي
+
     final foundationResults = await Future.wait([
       _homeRepo.getLevels(),
       _workoutsRepo.getRandomMuscles(),
@@ -45,45 +45,41 @@ class GetPopularWorkoutsUseCase {
         (musclesResult as SuccessResponse<List<RandomMusclesEntity>>).data;
 
     if (levels.isEmpty || muscles.isEmpty) {
-      yield const ErrorResponse(errorMessage: 'لا توجد بيانات متاحة');
+      yield const ErrorResponse(errorMessage: 'No data available');
       return;
     }
 
-    // PHASE 2: Round-Robin Queue
-    // الترتيب: عضلة1+level1، عضلة2+level1، عضلة3+level1 ...
-    //          عضلة1+level2، عضلة2+level2 ...
-    // كده كل العضلات بتاخد فرصة في كل لفة قبل ما نجرب level تاني
+
     final queue = _buildRoundRobinQueue(muscles: muscles, levels: levels);
 
     final selected = <PopularWorkoutEntity>[];
     final usedMuscleIds = <String>{};
     int queueIndex = 0;
 
-    // PHASE 3: Batching - نبعت دفعات متوازية
+
     while (selected.length < _targetCount && queueIndex < queue.length) {
 
-      // ✅ الفرق عن Gemini: بنضمن إن كل الـ batch فيها muscles مختلفة
-      // عن بعض AND مختلفة عن اللي اتضافوا قبل كده
+
       final batchPairs = <MuscleLevelPair>[];
-      final batchMuscleIds = <String>{}; // ✅ tracking داخل الـ batch نفسه
+      final batchMuscleIds = <String>{}; 
 
       while (batchPairs.length < _batchSize && queueIndex < queue.length) {
         final pair = queue[queueIndex];
         queueIndex++;
 
-        // تجاهل لو الـ muscle اتضافت في selected قبل كده
+
         if (usedMuscleIds.contains(pair.muscleId)) continue;
 
-        // ✅ تجاهل لو الـ muscle موجودة في نفس الـ batch الحالية
+
         if (batchMuscleIds.contains(pair.muscleId)) continue;
 
         batchPairs.add(pair);
-        batchMuscleIds.add(pair.muscleId); // ✅ سجّل في الـ batch tracker
+        batchMuscleIds.add(pair.muscleId); 
       }
 
       if (batchPairs.isEmpty) break;
 
-      // بنبعت الـ batch كلها مع بعض 🚀
+
       final batchResults = await Future.wait(
         batchPairs.map(
           (pair) => _workoutsRepo.getExercisesByMuscleDifficulty(
@@ -122,14 +118,14 @@ class GetPopularWorkoutsUseCase {
         hasNewItems = true;
       }
 
-      // بنـ yield بس لو في جديد عشان ما نحرقش rebuild من غير سبب
+
       if (hasNewItems) {
         yield SuccessResponse(data: List.from(selected));
       }
     }
 
     if (selected.isEmpty) {
-      yield const ErrorResponse(errorMessage: 'لا توجد تمارين متاحة حالياً');
+      yield const ErrorResponse(errorMessage: 'No workouts available');
     }
   }
 
@@ -145,9 +141,7 @@ class GetPopularWorkoutsUseCase {
 
     final queue = <MuscleLevelPair>[];
 
-    // اللوب الخارجية على الـ Levels
-    // يعني: كل العضلات مع level1 الأول، وبعدين كل العضلات مع level2
-    // ده بيضمن إن كل عضلة تاخد فرصة مع كل الـ levels تدريجياً
+
     for (final level in shuffledLevels) {
       for (final muscle in shuffledMuscles) {
         queue.add(MuscleLevelPair(muscleId: muscle.id, levelId: level.id));

@@ -30,7 +30,7 @@ class GetHomeDataUseCase {
   );
 
   Stream<List<BaseResponse<HomeSection>>> execute() async* {
-    // List بقت 4 عناصر بس بعد ما شيلنا اليوزر
+
     final List<BaseResponse<HomeSection>?> results = List.filled(4, null);
 
     final controller = StreamController<List<BaseResponse<HomeSection>>>();
@@ -46,7 +46,7 @@ class GetHomeDataUseCase {
 
     _randomUC().then((res) {
       updateAndEmit(
-        0, // Index 0 بدلاً من 1
+        0, 
         res is SuccessResponse<List<RandomMusclesEntity>>
             ? SuccessResponse(data: RandomMuscleSection(res.data))
             : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),
@@ -59,7 +59,7 @@ class GetHomeDataUseCase {
         final musclesRes = await _musclesByGroupUC(firstId);
 
         updateAndEmit(
-          1, // Index 1 بدلاً من 2
+          1, 
           SuccessResponse(
             data: UpcomingWorkoutsSectionData(
               muscleGroups: res.data,
@@ -78,7 +78,7 @@ class GetHomeDataUseCase {
 
     _categoriesUC().then((res) {
       updateAndEmit(
-        2, // Index 2 بدلاً من 3
+        2, 
         res is SuccessResponse<List<CategoryEntity>>
             ? SuccessResponse(data: FoodCategoriesSection(res.data))
             : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),
@@ -87,7 +87,7 @@ class GetHomeDataUseCase {
 
     _workoutsUC().first.then((res) {
       updateAndEmit(
-        3, // Index 3 بدلاً من 4
+        3, 
         res is SuccessResponse<List<PopularWorkoutEntity>>
             ? SuccessResponse(data: PopularWorkoutsSection(res.data))
             : ErrorResponse(errorMessage: (res as ErrorResponse).errorMessage),

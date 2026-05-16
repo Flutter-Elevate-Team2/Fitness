@@ -305,11 +305,6 @@ class AppRouter {
           );
         },
       ),
-      // GoRoute(
-      //   path: Routes.homePath,
-      //   name: Routes.homeName,
-      //   builder: (context, state) => const HomeScreen(),
-      // ),
     ],
   );
 }

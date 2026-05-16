@@ -16,13 +16,7 @@ import 'package:fitness_app/core/errors/handel_errors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-/// ViewModel (Cubit) for the Smart Coach chat feature.
-///
-/// Depends exclusively on use cases — never on repositories or data sources
-/// (CLAUDE.md §B.1).
-///
-/// Fix #9: All user-facing strings are passed as parameters from the UI layer
-/// via [setLocalizedStrings]. The ViewModel never hard-codes display text.
+@injectable
 @injectable
 class SmartCoachViewModel extends Cubit<SmartCoachState> {
   final CreateChatSessionUseCase _createSession;
@@ -41,7 +35,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     this._deleteMessage,
   ) : super(const SmartCoachInitial());
 
-  // ─── Internal State ────────────────────────────────────────────────────────
+
 
   /// List of all chat sessions for the history panel.
   List<ChatSessionEntity> historySessions = [];
@@ -53,7 +47,6 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
   String? _currentSessionId;
   StreamSubscription<String>? _streamSubscription;
 
-  /// Last user message — kept for retry (refinement #3).
   MessageEntity? _lastUserMessage;
 
   /// Accumulated AI content during streaming.
@@ -64,11 +57,11 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
 
   bool _isStreaming = false;
 
-  // ── Localized strings (Fix #9) ──
+
   String _defaultSessionTitle = '';
   String _safetyBlockMessage = '';
 
-  // ─── Public Getters ────────────────────────────────────────────────────────
+
 
   /// `true` while the AI stream is active — UI disables input.
   bool get isStreaming => _isStreaming;
@@ -76,7 +69,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
   /// Active session ID, if any.
   String? get currentSessionId => _currentSessionId;
 
-  // ─── Localization Injection (Fix #9) ───────────────────────────────────────
+
 
   /// Must be called once from the UI layer (via `context.l10n`) before
   /// any action that needs localized strings.
@@ -88,7 +81,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     _safetyBlockMessage = safetyBlockMessage;
   }
 
-  // ─── Load Chat History ─────────────────────────────────────────────────────
+
 
   /// Fetches all sessions sorted by `updatedAt` DESC.
   ///
@@ -120,7 +113,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     }
   }
 
-  // ─── Create Session ────────────────────────────────────────────────────────
+
 
   /// Creates a new empty session and returns its ID.
   ///
@@ -140,7 +133,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     }
   }
 
-  // ─── Clear Current Session ──────────────────────────────────────────────────
+
 
   /// Clears the active session and returns to the Welcome screen.
   void clearCurrentSession() {
@@ -149,7 +142,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     loadHistory();
   }
 
-  // ─── Load Existing Session ─────────────────────────────────────────────────
+
 
   /// Opens a session from history — populates messages and jumps to bottom.
   void loadSession(String sessionId, List<MessageEntity> messages) {
@@ -160,7 +153,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     emit(SmartCoachStreamDone(messages: List.unmodifiable(_messages)));
   }
 
-  // ─── Send Message ──────────────────────────────────────────────────────────
+
 
   /// Sends a user message and starts streaming the AI response.
   ///
@@ -199,7 +192,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     _startGeminiStream(sessionId, text.trim(), chronologicalHistory);
   }
 
-  // ─── Retry Last Message (Fix #3) ───────────────────────────────────────────
+
 
   /// Retries the last failed message (refinement #3).
   ///
@@ -231,7 +224,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     );
   }
 
-  // ─── Delete Session ────────────────────────────────────────────────────────
+
 
   /// Deletes a session and reloads history (refinement #6).
   void deleteSession(String sessionId) async {
@@ -247,7 +240,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     loadHistory();
   }
 
-  // ─── Lifecycle ─────────────────────────────────────────────────────────────
+
 
   /// Cancels the active stream and saves partial content (edge case #2).
   @override
@@ -273,7 +266,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     return super.close();
   }
 
-  // ─── Private: Gemini Stream (Fix #3 — extracted) ───────────────────────────
+
 
   /// Core streaming logic shared by [sendMessage] and [retryLastMessage].
   ///
@@ -308,7 +301,7 @@ class SmartCoachViewModel extends Cubit<SmartCoachState> {
     );
   }
 
-  // ─── Private Stream Callbacks ──────────────────────────────────────────────
+
 
   void _onStreamChunk(String chunk) {
     _partialAiContent += chunk;

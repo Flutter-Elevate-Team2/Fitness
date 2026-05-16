@@ -15,10 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fitness_app/Features/profile/domain/entities/user_entity.dart';
 
-/// Welcome / intro screen shown when the user has no active chat session.
-///
-/// Displays the coach avatar, greeting, and a "Get Started" CTA.
-/// Tapping CTA creates a new session and transitions to the chat screen.
+
 class SmartCoachWelcomeScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
@@ -44,7 +41,7 @@ class _SmartCoachWelcomeScreenState extends State<SmartCoachWelcomeScreen> {
       title: null,
       body: Stack(
         children: [
-          /// ── Blur overlay ──
+
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 12.5, sigmaY: 12.5),
@@ -52,19 +49,18 @@ class _SmartCoachWelcomeScreenState extends State<SmartCoachWelcomeScreen> {
             ),
           ),
 
-          /// ── Main content ──
+
           Positioned.fill(
             child: SafeArea(
               bottom: false,
               child: Column(
                 children: [
-                  /// ── Top: greeting + menu icon ──
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    // استخدمنا الـ BlocBuilder هنا عشان نقرأ اليوزر من الـ Global State
+
                     child: BlocBuilder<UserCubit, UserEntity?>(
                       builder: (context, user) {
-                        // لو اليوزر موجود هات الـ firstName، لو لأ سيبه فاضي
+
                         final userName = user?.firstName ?? '';
 
                         return SmartCoachIntroHeader(
@@ -77,12 +73,12 @@ class _SmartCoachWelcomeScreenState extends State<SmartCoachWelcomeScreen> {
                     ),
                   ),
 
-                  /// ── Center: 3D coach image ──
+
                   const Expanded(
                     child: CoachAvatarImage(),
                   ),
 
-                  /// ── Bottom: frosted card with CTA ──
+
                   SharedContainer(
                     isTopOnly: true,
                     blur: 20,
@@ -98,7 +94,7 @@ class _SmartCoachWelcomeScreenState extends State<SmartCoachWelcomeScreen> {
             ),
           ),
 
-          /// ── Back button ──
+
           Positioned(
             top: MediaQuery.of(context).padding.top + 16,
             left: 16,
@@ -126,7 +122,7 @@ class _SmartCoachWelcomeScreenState extends State<SmartCoachWelcomeScreen> {
             ),
           ),
 
-          /// ── Layer 2: Sliding history panel ──
+
           BlocBuilder<SmartCoachViewModel, SmartCoachState>(
             builder: (context, state) {
               final sessions = vm.historySessions;

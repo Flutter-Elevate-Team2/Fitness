@@ -1,6 +1,6 @@
 import 'package:fitness_app/Features/food/domain/entities/category_entity.dart';
 import 'package:fitness_app/Features/food/presentation/view_models/meals_event.dart';
-import 'package:fitness_app/Features/home/domain/entities/home_section.dart'; // تأكدي من المسار
+import 'package:fitness_app/Features/home/domain/entities/home_section.dart'; 
 import 'package:fitness_app/core/base_response/base_response.dart';
 import 'package:fitness_app/core/app_router/app_router.dart';
 import 'package:fitness_app/core/extension/context_extention.dart';
@@ -20,12 +20,12 @@ class RecommendationForYouSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// Header (Title & See All)
+
         _buildHeader(context),
 
         const SizedBox(height: 10),
 
-        /// (Loading, Success, or Error)
+
         _buildContent(),
       ],
     );

@@ -36,9 +36,7 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // LoadPreloadedExercises
-  // ─────────────────────────────────────────────
+
   void _handleLoadPreloaded(LoadPreloadedExercises intent) {
     if (isClosed) return;
     emit(
@@ -53,9 +51,7 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
     );
   }
 
-  // ─────────────────────────────────────────────
-  // GetLevels
-  // ─────────────────────────────────────────────
+
   Future<void> _handleGetLevels(GetLevels intent) async {
     if (isClosed) return;
     emit(
@@ -113,9 +109,7 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // ChangeLevel
-  // ─────────────────────────────────────────────
+
   Future<void> _handleChangeLevel(ChangeLevel intent) async {
     if (isClosed) return;
     if (state.selectedLevelId == intent.newDifficultyLevelId) return;
@@ -137,9 +131,7 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
     );
   }
 
-  // ─────────────────────────────────────────────
-  // LoadMore (Pagination)
-  // ─────────────────────────────────────────────
+
   Future<void> _handleLoadMore(LoadMoreExercises intent) async {
     if (isClosed) return;
     if (state.selectedLevelId != intent.difficultyLevelId) return;
@@ -187,9 +179,7 @@ class ExercisesViewModel extends Cubit<ExercisesState> {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // Private: Fetch First Page
-  // ─────────────────────────────────────────────
+
   Future<void> _fetchExercises(
     String primeMoverMuscleId,
     String levelId, {

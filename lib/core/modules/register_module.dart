@@ -8,11 +8,11 @@ import '../data_base/hive_database_service.dart';
 
 @module
 abstract class RegisterModule {
-  // ── Shared Preferences ──────────────────────────────────────────────────────
+
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
-  // ── Secure Storage ─────────────────────────────────────────────────────────
+
   @lazySingleton
   FlutterSecureStorage get secureStorage => const FlutterSecureStorage(
         aOptions: AndroidOptions(),

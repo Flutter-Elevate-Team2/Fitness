@@ -43,10 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
       showBackButton: false,
       body: Stack(
         children: [
-          /// ── Page content ──
+
           Positioned.fill(child: pages[_currentIndex]),
 
-          /// ── Floating Bottom Nav Bar ──
+
           /// Hidden when the Smart Coach tab (index 1) is active.
           if (_currentIndex != 1)
             Positioned(

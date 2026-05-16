@@ -32,16 +32,15 @@ class ExploreScreenBody extends StatelessWidget {
                 right: 16,
                 top: 16,
               ),
-              itemCount: 6, // 6 ويدجت في الشاشة
+              itemCount: 6, 
               separatorBuilder: (_, _) => const SizedBox(height: 24),
               itemBuilder: (context, index) {
 
                 // Static Widgets
-                if (index == 0) return const HomeHeader(); // شيلنا الـ response من هنا خلاص!
+                if (index == 0) return const HomeHeader(); 
                 if (index == 1) return CategorySection(onTapGym: onSeeAllWorkoutsTapped);
 
-                // Dynamic Widgets (من السيرفر)
-                int serverIndex = index - 2; // عشان يبدأ من 0 للويدجتس الجاية
+                int serverIndex = index - 2; 
 
                 final response = state.homeData.where((e) {
                   if (e is SuccessResponse<HomeSection>) {

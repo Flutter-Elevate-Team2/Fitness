@@ -60,7 +60,7 @@ class WorkoutsScreenBodyState extends State<WorkoutsScreenBody> {
                           FetchMusclesByGroupEvent(selectedGroupId!),
                         );
                   } else if (selectedGroupId == null) {
-                    // ✅ لو مفيش initialGroupId، خد الأول
+
                     final firstGroup = groupsData.first;
                     setState(() {
                       selectedGroupId = firstGroup.id;

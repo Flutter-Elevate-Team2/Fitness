@@ -8,8 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fitness_app/core/l10n/app_localizations.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final viewModel = context.read<ProfileViewModel>();
+    if (viewModel.state.profileState?.data == null) {
+      viewModel.doIntent(GetUserProfileEvent());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

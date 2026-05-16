@@ -22,9 +22,7 @@ class ExerciseCardWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // ─────────────────────────────────────────────
-          // Thumbnail
-          // ─────────────────────────────────────────────
+
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: ThumbnailWidget(thumbnailUrl: exercise.thumbnailUrl),
@@ -32,9 +30,7 @@ class ExerciseCardWidget extends StatelessWidget {
 
           const SizedBox(width: 16),
 
-          // ─────────────────────────────────────────────
-          // Info
-          // ─────────────────────────────────────────────
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

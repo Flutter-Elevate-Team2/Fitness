@@ -4,10 +4,7 @@ import 'package:fitness_app/core/theming/app_typography.dart';
 import 'package:fitness_app/core/widget/shared_container.dart';
 import 'package:flutter/material.dart';
 
-/// Chat input field pinned at the bottom of the chat screen.
-///
-/// This is one of the few [StatefulWidget]s because it owns a
-/// [TextEditingController] and [FocusNode] that must be disposed.
+
 class ChatInputField extends StatefulWidget {
   /// Fires when the user taps the send button — passes the current text.
   final ValueChanged<String>? onSend;
@@ -78,7 +75,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                /// ── Text field ──
+
                 Expanded(
                   child: TextField(
                     controller: _controller,
@@ -109,7 +106,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
 
                 const SizedBox(width: 8),
 
-                /// ── Send button ──
+
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: GestureDetector(
