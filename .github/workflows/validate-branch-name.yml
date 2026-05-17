@@ -15,6 +15,13 @@ jobs:
           script: |
             const branchName = context.payload.pull_request.head.ref;
 
+            // Skip validation for protected/integration branches
+            const protectedBranches = ['development', 'main', 'master'];
+            if (protectedBranches.includes(branchName)) {
+              console.log(`✅ Skipping validation for protected branch: "${branchName}"`);
+              return;
+            }
+
             const branchRegex = /^(feature|bugfix|hotfix|release)\/[A-Z0-9]+-\d+-[A-Za-z0-9]+(?:[-][A-Za-z0-9]+)*$/;
 
             if (!branchRegex.test(branchName)) {
