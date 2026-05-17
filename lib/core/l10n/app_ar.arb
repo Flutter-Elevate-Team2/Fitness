@@ -1,0 +1,272 @@
+{
+  "@@locale": "ar",
+  "appTitle": "Super Fitness",
+  "skip": "تخطي",
+  "back": "رجوع",
+  "next": "التالي",
+  "done": "تم",
+  "doIt": "هيا بنا",
+  "onboarding1Title": "ثمن التميز هو \nالانضباط",
+  "onboarding2Title": "اللياقة البدنية لم تكن أبداً\nبهذه المتعة",
+  "onboarding3Title": "لا لمزيد من الأعذار\nابدأ الآن",
+  "onboarding1Desc": "ابدأ رحلتك اليوم. التميز ليس حظاً، بل هو نتيجة الالتزام والانضباط اليومي في تمارينك.",
+  "onboarding2Desc": "اكتشف تمارين ممتعة تجعلك تتحرك بحب. نحن نجعل الوصول لأهدافك هو الجزء الأفضل في يومك.",
+  "onboarding3Desc": "أهدافك أصبحت قريبة جداً. توقف عن انتظار اللحظة المناسبة، اصنعها بنفسك وغير حياتك الآن.",
+  "loremIpsum": "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى.",
+  "welcomeBack": "مرحباً بعودتك",
+  "heyThere": "أهلاً بك",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "forgetPassword": "نسيت كلمة المرور؟",
+  "or": "أو",
+  "login": "تسجيل الدخول",
+  "dontHaveAccount": "ليس لديك حساب بعد؟",
+  "registerNow": "سجل الآن",
+  "createAccount": "إنشاء حساب جديد",
+  "firstName": "الاسم الأول",
+  "lastName": "اسم العائلة",
+  "alreadyHaveAccount": "لديك حساب بالفعل؟",
+  "tellUsAboutYourself": "أخبرنا عن نفسك!",
+  "needToKnowGender": "نحتاج لمعرفة جنسك",
+  "male": "ذكر",
+  "female": "أنثى",
+  "howOldAreYou": "كم عمرك؟",
+  "whatIsYourWeight": "ما هو وزنك؟",
+  "whatIsYourHeight": "ما هو طولك؟",
+  "whatIsYourGoal": "ما هو هدفك؟",
+  "personalizedPlanNote": "هذا يساعدنا في إنشاء خطتك المخصصة",
+  "gainWeight": "زيادة الوزن",
+  "loseWeight": "خسارة الوزن",
+  "getFitter": "تحسين اللياقة",
+  "gainMoreFlexible": "زيادة المرونة",
+  "learnTheBasic": "تعلم الأساسيات",
+  "physicalActivityLevel": "ما هو مستوى نشاطك البدني المعتاد؟",
+  "rookie": "مبتدئ جداً",
+  "beginner": "مبتدئ",
+  "intermediate": "متوسط",
+  "advance": "متقدم",
+  "trueBeast": "محترف (وحش)",
+  "enterYourEmail": "أدخل بريدك الإلكتروني",
+  "otpCode": "رمز التحقق (OTP)",
+  "checkYourEmail": "أدخل رمز التحقق المرسل لبريدك الإلكتروني",
+  "didntReceiveCode": "لم تصلك رسالة التحقق؟",
+  "resendCode": "إعادة إرسال الرمز؟",
+  "confirm": "تأكيد",
+  "createNewPassword": "إنشاء كلمة مرور جديدة",
+  "passwordLengthNote": "تأكد من أنها تتكون من 8 أحرف أو أكثر",
+  "emailRequired": "البريد الإلكتروني مطلوب",
+  "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+  "passwordRequired": "كلمة المرور مطلوبة",
+  "passwordTooShort": "كلمة المرور يجب ألا تقل عن 8 أحرف",
+  "passwordWeak": "كلمة المرور ضعيفة جداً",
+  "passwordMismatch": "كلمات المرور غير متطابقة",
+  "phoneRequired": "رقم الهاتف مطلوب",
+  "phoneInvalid": "يرجى إدخال رقم هاتف صحيح",
+  "nationalIdRequired": "الرقم القومي مطلوب",
+  "nationalIdInvalidLength": "الرقم القومي يجب أن يكون 14 رقماً",
+  "nationalIdInvalidChars": "الرقم القومي يجب أن يحتوي على أرقام فقط",
+  "vehicleNumberRequired": "رقم المركبة مطلوب",
+  "vehicleNumberLength": "رقم المركبة يجب أن يكون بين 3 و 10 أحرف",
+  "vehicleNumberInvalidChars": "رقم المركبة يجب أن يحتوي على حروف وأرقام فقط",
+  "sessionExpiredTitle": "انتهت الجلسة",
+  "sessionExpiredMessage": "لقد انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى.",
+  "loginTitle": "تسجيل الدخول",
+  "forgotPasswordTitle": "نسيت كلمة المرور",
+  "@forgotPasswordTitle": {
+    "description": "عنوان شاشة استعادة كلمة المرور"
+  },
+  "forgotPasswordSubTitle": "يرجى إدخال بريدك الإلكتروني المرتبط بحسابك",
+  "@forgotPasswordSubTitle": {
+    "description": "تعليمات فرعية لشاشة استعادة كلمة المرور"
+  },
+  "confirmButton": "تأكيد",
+  "@confirmButton": {
+    "description": "تسمية أزرار التأكيد"
+  },
+  "verificationTitle": "التحقق من البريد الإلكتروني",
+  "@verificationTitle": {
+    "description": "عنوان شاشة التحقق من البريد الإلكتروني"
+  },
+  "validationEnterCompleteCode": "يرجى إدخال رمز من 6 أرقام كامل",
+  "@validationEnterCompleteCode": {
+    "description": "رسالة تحقق لرمز OTP غير مكتمل"
+  },
+  "weakPasswordError": "يجب أن لا تكون كلمة المرور فارغة ويجب أن تحتوي على 6 أحرف على الأقل مع حرف كبير ورقم واحد على الأقل",
+  "@weakPasswordError": {
+    "description": "رسالة خطأ لكلمة مرور ضعيفة"
+  },
+  "invalidCodeError": "رمز غير صالح",
+  "@invalidCodeError": {
+    "description": "رسالة خطأ لرمز التحقق غير صالح"
+  },
+  "verificationSubTitle": "يرجى إدخال الرمز الذي تم إرساله إلى بريدك الإلكتروني",
+  "@verificationSubTitle": {
+    "description": "تعليمات فرعية للتحقق من البريد الإلكتروني"
+  },
+  "resend": "إعادة إرسال",
+  "@resend": {
+    "description": "زر لإعادة إرسال رمز التحقق"
+  },
+  "resetPasswordTitle": "إعادة تعيين كلمة المرور",
+  "@resetPasswordTitle": {
+    "description": "عنوان شاشة إعادة تعيين كلمة المرور"
+  },
+  "resetPasswordSubTitle": "يجب ألا تكون كلمة المرور فارغة ويجب أن تحتوي على 6 أحرف على الأقل مع حرف كبير ورقم واحد على الأقل",
+  "@resetPasswordSubTitle": {
+    "description": "تعليمات فرعية لإعادة تعيين كلمة المرور"
+  },
+  "resetSuccessfully": "تم إعادة تعيين كلمة المرور بنجاح! يرجى تسجيل الدخول بكلمة المرور الجديدة.",
+  "@resetSuccessfully": {
+    "description": "محتوى نافذة إعادة تعيين كلمة المرور"
+  },
+  "registerSuccessfully": "تم إنشاء حسابك بنجاح! يرجى تسجيل الدخول للمتابعة",
+  "@registerSuccessfully": {
+    "description": "محتوى نافذة تسجيل الحساب بنجاح"
+  },
+  "success": "نجاح",
+  "@success": {
+    "description": "نجاح"
+  },
+  "newPasswordLabel": "كلمة المرور الجديدة",
+  "@newPasswordLabel": {
+    "description": "تسمية لحقل كلمة المرور الجديدة"
+  },
+  "cancelDialog": "إلغاء",
+  "@cancelDialog": {
+    "description": "تسمية زر الإلغاء في نافذة الحوار"
+  },
+  "confirmPasswordLabel": "تأكيد كلمة المرور",
+  "@confirmPasswordLabel": {
+    "description": "تسمية لحقل تأكيد كلمة المرور"
+  },
+  "confirmPasswordHint": "أكد كلمة المرور",
+  "@confirmPasswordHint": {
+    "description": "نص تلميحي لحقل تأكيد كلمة المرور"
+  },
+  "sentOtp": "إرسل رمز التحقق",
+  "enterYourOtp": "تفقد بريدك الإلكتروني وأدخل رمز التحقق",
+  "explore": "استكشاف",
+  "chatAi": "الدردشة",
+  "workouts": "التمارين",
+  "profile": "الملف الشخصي",
+  "buildYourMusclesWorkout": "قم ببناء عضلاتك من خلال هذا التمرين السريع والفعال.",
+  "thirtyMin": "30 دقيقة",
+  "oneHundredThirtyCal": "130 سعرة حرارية",
+  "noExercisesFoundForThisLevel": "لا توجد تمارين متاحة لهذا المستوى.",
+  "invalidVideoUrl": "رابط الفيديو غير صالح",
+  "noInternetConnection": "لا يوجد اتصال بالإنترنت",
+  "pleaseCheckNetworkToWatch": "يرجى التحقق من الشبكة للمشاهدة",
+  "retryButton": "إعادة المحاولة",
+  "groups": "مجموعات",
+  "times": "مرات",
+  "showMore": "عرض المزيد",
+  "showLess": "عرض أقل",
+  "ingredients": "المكونات",
+  "instructions": "طريقة التحضير",
+  "foodRecommendation": "اقتراحات الطعام",
+  "view": "عرض",
+  "couldNotOpenVideo": "تعذر فتح الفيديو، حاول مرة أخرى",
+  "recommendationForYou": "مقترحات لك",
+  "seeAll": "عرض الكل",
+  "buildYourArmWorkout": "قم ببناء عضلات ذراعيك من خلال هذا التمرين السريع والفعال.",
+  "bicepsAndTricepsWorkout": "تمرين عضلات البايسبس والترايسبس",
+  "bicepsAndTriceps": "عضلات البايسبس والترايسبس",
+  "tricepsWorkout": "تمرين عضلات الترايسبس",
+  "hi": "مرحبًا",
+  "letsStart": "لنبدأ يومك",
+  "category": "الفئات",
+  "gym": "جيم",
+  "fitness": "لياقة",
+  "yoga": "يوجا",
+  "aerobics": "أيروبيكس",
+  "trainer": "مدرب",
+  "featureComingSoon": "الميزة قريباً",
+  "recommendationToday": "مقترحات اليوم",
+  "popularTraining": "تمارين شائعة",
+  "upcomingWorkouts": "تمارين قادمة",
+  "tasks": "مهام",
+  "completeRegister": "يرجى إكمال تسجيلك",
+  "@completeRegister": {
+    "description": "يرجى إكمال تسجيلك"
+  },
+  "googleLoginFailed": "فشل تسجيل الدخول بجوجل",
+  "@googleLoginFailed": {
+    "description": "فشل تسجيل الدخول بجوجل"
+  },
+  "editProfile": "تعديل الملف الشخصي",
+  "@editProfile": {
+    "description": "تعديل الملف الشخصي"
+  },
+  "changePassword": "تغيير كلمة المرور",
+  "security": "الأمان",
+  "privacyPolicy": "سياسة الخصوصية",
+  "selectLanguage": "اختيار اللغة",
+  "help": "المساعدة",
+  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
+  "@passwordChangedSuccess": {
+    "description": "رسالة نجاح بعد تغيير كلمة المرور"
+  },
+  "passwordMinLength": "تأكد أن كلمة المرور لا تقل عن 8 أحرف",
+  "oldPassword": "كلمة المرور القديمة",
+  "newPassword": "كلمة المرور الجديدة",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "profileUpdatedSuccess": "تم تحديث الملف الشخصي بنجاح!",
+  "@profileUpdatedSuccess": {
+    "description": "رسالة نجاح بعد تحديث الملف الشخصي"
+  },
+  "photoUploadedSuccessfully": "تم رفع الصورة بنجاح!",
+  "@photoUploadedSuccessfully": {
+    "description": "رسالة نجاح بعد رفع صورة الملف الشخصي"
+  },
+  "update": "تحديث",
+  "@update": {
+    "description": "نص زر التحديث"
+  },
+  "firstNameLabel": "الاسم الأول",
+  "@firstNameLabel": {
+    "description": "تسمية الاسم الأول"
+  },
+  "lastNameLabel": "اسم العائلة",
+  "@lastNameLabel": {
+    "description": "تسمية اسم العائلة"
+  },
+  "emailLabel": "البريد الإلكتروني",
+  "@emailLabel": {
+    "description": "تسمية البريد الإلكتروني"
+  },
+  "gallery": "معرض الصور",
+  "@gallery": {
+    "description": "تسمية معرض الصور"
+  },
+  "camera": "الكاميرا",
+  "@camera": {
+    "description": "تسمية الكاميرا"
+  },
+  "chooseImageSource": "اختر مصدر الصورة",
+  "@chooseImageSource": {
+    "description": "تسمية اختيار مصدر الصورة"
+  },
+  "failedToPickImage": "فشل اختيار الصورة: ",
+  "@failedPickImage": {
+    "description": "رسالة فشل اختيار الصورة"
+  },
+  "tabToEdit": " (اضغط للتعديل)",
+  "yourWeight": "وزنك",
+  "yourGoal": "هدفك",
+  "yourActivityLevel": "مستوى نشاطك",
+  "smartCoachDefaultSessionTitle": "محادثة جديدة",
+  "smartCoachSafetyBlockMessage": "عذراً، لا يمكنني المساعدة في هذا الموضوع، دعنا نركز على أهدافك الرياضية!",
+  "smartCoachEmptyChat": "ابدأ محادثتك مع المدرب الذكي 💪",
+  "smartCoachRetryButton": "إعادة المحاولة",
+  "smartCoachPartialMessage": "⚠ رسالة غير مكتملة",
+  "smartCoachPreviousConversations": "المحادثات السابقة",
+  "smartCoachNoConversations": "لا توجد محادثات سابقة",
+  "smartCoachTypeMessage": "اكتب رسالتك...",
+  "smartCoachEmptyChatSubtitle": "اسألني عن أي شيء يخص التمارين، التغذية، أو العادات الصحية.",
+  "smartCoachConnectionTimeout": "انتهت مهلة الاتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى.",
+  "smartCoachServerIssue": "تواجه خوادمنا حالياً بعض المشاكل. يرجى المحاولة لاحقاً.",
+  "smartCoachSecureConnectionFailed": "فشل الاتصال الآمن. يرجى المحاولة مرة أخرى.",
+  "smartCoachDataIssue": "حدثت مشكلة أثناء معالجة بياناتك. يرجى المحاولة مرة أخرى.",
+  "smartCoachGenericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+}
