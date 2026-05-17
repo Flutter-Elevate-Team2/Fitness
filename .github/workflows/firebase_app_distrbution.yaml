@@ -27,7 +27,9 @@ jobs:
 
       # 1.5️⃣ Create firebase_options.dart from secret
       - name: Create firebase_options.dart from secret
-        run: echo '${{ secrets.FIREBASE_OPTIONS_DART }}' > lib/firebase_options.dart
+        env:
+          FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        run: printenv FIREBASE_OPTIONS_DART > lib/firebase_options.dart
 
       # 2️⃣ Setup Java (required for Android build)
       - name: Setup Java 17
