@@ -23,7 +23,9 @@ jobs:
 
       # 1️⃣ Create .env file from secrets (before pub get)
       - name: Create .env file from secrets
-        run: echo "${{ secrets.ENV_FILE }}" > .env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: printenv ENV_FILE > .env
 
       # 1.5️⃣ Create firebase_options.dart from secret
       - name: Create firebase_options.dart from secret
@@ -55,7 +57,9 @@ jobs:
 
       # 6️⃣ Create google-services.json from secrets
       - name: Create google-services.json
-        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > android/app/google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: printenv GOOGLE_SERVICES_JSON > android/app/google-services.json
 
       # 7️⃣ Run tests
       - name: Run Tests
