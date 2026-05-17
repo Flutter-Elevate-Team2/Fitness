@@ -250,7 +250,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                           },
                           separatorBuilder: (context, index) {
                             return Divider(
-                              color: Colors.white.withOpacity(0.08),
+                              color: Colors.white.withValues(alpha: 0.08),
                               height: 1,
                               thickness: 1,
                             );

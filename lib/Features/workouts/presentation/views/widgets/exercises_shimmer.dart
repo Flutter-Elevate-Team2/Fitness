@@ -12,7 +12,7 @@ class DifficultyTabsShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.grayDark.withOpacity(1.0),
+        color: AppColors.grayDark.withValues(alpha: 1.0),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.zero,
           topRight: Radius.zero,
@@ -60,7 +60,7 @@ class ExercisesListShimmer extends StatelessWidget {
       itemCount: 4, 
       separatorBuilder: (context, index) {
         return Divider(
-          color: Colors.white.withOpacity(0.08),
+          color: Colors.white.withValues(alpha: 0.08),
           height: 1,
           thickness: 1,
         );

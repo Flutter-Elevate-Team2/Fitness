@@ -65,8 +65,8 @@ class ExerciseHeaderWidget extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    AppColors.grayDark.withOpacity(0.7),
-                    AppColors.grayDark.withOpacity(0.5),
+                    AppColors.grayDark.withValues(alpha: 0.7),
+                    AppColors.grayDark.withValues(alpha: 0.5),
 
                   ],
                 ),
