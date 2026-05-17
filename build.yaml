@@ -1,0 +1,33 @@
+targets:
+  $default:
+    builders:
+      # Exclude firebase_options.dart from all generators since it's
+      # a FlutterFire CLI generated file that doesn't need build_runner processing.
+      retrofit_generator:
+        generate_for:
+          exclude:
+            - "lib/firebase_options.dart"
+      json_serializable:
+        generate_for:
+          exclude:
+            - "lib/firebase_options.dart"
+      hive_ce_generator|hive_type_adapter_generator:
+        generate_for:
+          exclude:
+            - "lib/firebase_options.dart"
+      hive_ce_generator|hive_adapters_generator:
+        generate_for:
+          exclude:
+            - "lib/firebase_options.dart"
+      hive_ce_generator|hive_registrar_intermediate_generator:
+        generate_for:
+          exclude:
+            - "lib/firebase_options.dart"
+      injectable_generator|injectable_builder:
+        generate_for:
+          exclude:
+            - "lib/firebase_options.dart"
+      injectable_generator|injectable_config_builder:
+        generate_for:
+          exclude:
+            - "lib/firebase_options.dart"

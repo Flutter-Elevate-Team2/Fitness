@@ -17,7 +17,9 @@ jobs:
         run: touch .env
 
       - name: Create firebase_options.dart from secret
-        run: echo '${{ secrets.FIREBASE_OPTIONS_DART }}' > lib/firebase_options.dart
+        env:
+          FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        run: printenv FIREBASE_OPTIONS_DART > lib/firebase_options.dart
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
