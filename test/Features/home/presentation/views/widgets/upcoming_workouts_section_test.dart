@@ -1,7 +1,7 @@
 import 'package:fitness_app/Features/home/domain/entities/home_section.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_state.dart';
 import 'package:fitness_app/Features/home/presentation/view_model/home_view_model.dart';
-import 'package:fitness_app/Features/home/presentation/views/widgets/Upcoming_workouts_section.dart';
+import 'package:fitness_app/Features/home/presentation/views/widgets/upcoming_workouts_section.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_entity.dart';
 import 'package:fitness_app/Features/workouts/domain/entities/muscle_group_entity.dart';
 import 'package:fitness_app/core/base_response/base_response.dart';

@@ -102,7 +102,6 @@ class SocialLoginRow extends StatelessWidget {
             SocialIconButton(
               assetPath: Assets.icons.apple.path,
               onTap: () {
-                // TODO: Apple login
               },
             ),
           ],
